@@ -1,6 +1,7 @@
+import FileManagement.FileMgr
 import FileManagement.FileDirectoryMgr
-import FileManagement.KeyFile
-import FileManagement.LineFile
+import FileManagement.KeyFileMgr
+import FileManagement.LineFileMgr
 import LibraryQuestions.LibraryQuestionMatchers
 import Logging.Log
 import Translations.Translations
@@ -62,13 +63,13 @@ class UpdateClassFactory {
 
             Log.writeLine "\r\n$it:"
 //            Log.writeLine("overwrites", "\r\n$it:")
-            def transFile = new KeyFile(fp + "Exports\\\\" + it)
+            def transFile = new KeyFileMgr(fp + "Exports\\\\" + it)
             def smallName = FileDirectoryMgr.getSmallName(it)
             def factoryFileName = smallName + "ClassFactory.groovy"
-            def factoryFile = new LineFile(fp + "LibraryFactories\\\\" + factoryFileName)
+            def factoryFile = new LineFileMgr(fp + "LibraryFactories\\\\" + factoryFileName)
             if (factoryFile.exists()) {
                 def factoryOutFileName = factoryFileName + ".translated"
-                def factoryOutFile = new LineFile(fp + "LibraryFactoriesTranslated\\\\" + factoryOutFileName, "create")
+                def factoryOutFile = new LineFileMgr(fp + "LibraryFactoriesTranslated\\\\" + factoryOutFileName, FileMgr.createFlag.CREATE)
                 def ucf = new UpdateClassFactory()
                 ucf.updateFactory(transFile, factoryFile, factoryOutFile)
             } else {

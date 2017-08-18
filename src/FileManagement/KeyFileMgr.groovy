@@ -3,13 +3,12 @@ package FileManagement
 /**
  * Created by s0041664 on 8/11/2017.
  */
-class KeyFile extends LineFile {
+class KeyFileMgr extends LineFileMgr {
 
 //    def kpp = new KeyPairParser()
     def keyMaps = []
 
-
-    def KeyFile(fileName) {
+    def KeyFileMgr(fileName) {
         super(fileName)
         this.buildKeyMapList()
     }
