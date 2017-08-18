@@ -6,15 +6,23 @@ import FileManagement.LineFile
  * Created by s0041664 on 8/16/2017.
  */
 class Log {
-    static file
+    static file = [:]
 
-    static open(fileName) {
-        file = new LineFile(fileName, "create")
+    static open(logName, fileName) {
+        file[logName] = new LineFile(fileName, "create")
     }
 
-    static writeLine(aLine) {
+    static open(fileName) {
+        open("default", fileName)
+    }
+
+    static writeLine(logName, aLine) {
         println aLine
-        if (file != null)
-            file.writeLine aLine
+        if (file[logName] != null)
+            file[logName].writeLine aLine
+    }
+
+     static writeLine(aLine) {
+        writeLine("default", aLine)
     }
 }

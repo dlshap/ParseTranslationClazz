@@ -1,5 +1,7 @@
 package LibraryQuestions
 
+import Logging.Log
+
 /**
  * Created by s0041664 on 8/14/2017.
  */
@@ -18,12 +20,16 @@ class LibraryQuestionTranslator {
         libQMap[keyname]
     }
 
-    def translate(aLine, translationValue) {
+    def translate(aLine, translationValue, bomFieldName) {
         def regex = this.getValue("regex")
+        def fieldName = this.getValue("transKeyField")
         def result = aLine =~ regex
         if (result.count ==0)
             aLine
         else {
+            if (!result[0][2].trim().length().equals(translationValue.trim().length())) {
+                Log.writeLine("$bomFieldName/$fieldName: replacing '${result[0][2]}' with '$translationValue'")
+            }
             result[0][1] + translationValue + result[0][3]
         }
     }

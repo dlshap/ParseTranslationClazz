@@ -24,7 +24,7 @@ class KeyFile extends LineFile {
     def buildKeyMapList() {
         keyMaps = []
         for (int i = 0; i < super.lines.size; i++) {
-            keyMaps << KeyPairParser.parseLineToMap(super.lines[i]);
+            keyMaps << KeyPairParser.parseToMap(super.lines[i]);
         }
     }
 

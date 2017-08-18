@@ -22,3 +22,16 @@ class Translations {
         translation
     }
 }
+
+class Translation {
+
+    def transKeyMap = [:]
+
+    def Translation(transKeyMap) {
+        this.transKeyMap = transKeyMap
+    }
+
+    def getTranslationValue(keyName) {
+        transKeyMap[keyName]
+    }
+}

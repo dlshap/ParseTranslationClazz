@@ -4,13 +4,14 @@ import FileManagement.LineFile
 import LibraryQuestions.LibraryQuestionMatchers
 import Logging.Log
 import Translations.Translations
+import Translations.Translation
 
 /**
  * Created by s0041664 on 8/14/2017.
  */
 class UpdateClassFactory {
 
-    def replaceLineWithTranslations(nextLine, translation) {
+    def replaceLineWithTranslations(nextLine, translation, bomFieldName) {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.each {
             // get field name from translator
@@ -18,27 +19,29 @@ class UpdateClassFactory {
             // get translation value from translation (keyfile)
             def translationValue = translation.getTranslationValue(translationKey)
             // translate it if there is a match...leave alone if not
-            nextLine = it.translate(nextLine, translationValue)
+            nextLine = it.translate(nextLine, translationValue, bomFieldName)
         }
         nextLine
     }
 
     def updateFactory(transFile, factoryFile, factoryOutFile) {
         def translations = new Translations(transFile)
-        def translation
+        Translation translation
         if (factoryFile.hasNext()) {
-            def currentAttrValue = null
+            def bomFieldName = null
             def translationKeyName = null
             while (factoryFile.hasNext()) {
                 def nextLine = factoryFile.nextLine()
                 if (LibraryQuestionMatchers.lineContains(nextLine, "BOM Fields")) {
-                    currentAttrValue = LibraryQuestionMatchers.getFactoryMatchingValue(nextLine, "BOM Fields")
+                    bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextLine, "BOM Fields")
                     translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
-                    translation = translations.getTranslation(translationKeyName, currentAttrValue)
-                    if (!translation) Log.writeLine "Missing translation for BOM Field: $currentAttrValue"
+                    translation = translations.getTranslation(translationKeyName, bomFieldName)
+                    if (!translation) {
+                        Log.writeLine "Missing translation for BOM Field: $bomFieldName"
+                    }
                 }
                 if (translation) {
-                    nextLine = replaceLineWithTranslations(nextLine, translation)
+                    nextLine = replaceLineWithTranslations(nextLine, translation, bomFieldName)
                 }
                 factoryOutFile.writeLine(nextLine)
             }
@@ -49,14 +52,16 @@ class UpdateClassFactory {
     static main(args) {
         def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
         Log.open(fp + "translate-library-log.txt")
+        Log.open("overwrites", fp + "overwrites-log.txt")
 
         def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
 
-        fileList.forEach {
-//        def it = "Salaried Financial Information.txt"     /* for testing */
+//        fileList.forEach {                    // comment out for testing
+        def it = "AviationExperience.txt"     /* for testing */
 
-            Log.writeLine "$it:"
+            Log.writeLine "\r\n$it:"
+//            Log.writeLine("overwrites", "\r\n$it:")
             def transFile = new KeyFile(fp + "Exports\\\\" + it)
             def smallName = FileDirectoryMgr.getSmallName(it)
             def factoryFileName = smallName + "ClassFactory.groovy"
@@ -69,6 +74,6 @@ class UpdateClassFactory {
             } else {
                 Log.writeLine "$factoryFileName doesn't exist"
             }
-        }
+//        }                                     // comment out for testing
     }
 }

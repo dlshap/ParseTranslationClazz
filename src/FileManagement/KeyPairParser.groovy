@@ -6,7 +6,7 @@ import com.google.common.base.Splitter
  */
 
 class KeyPairParser {
-    static parseLineToMap(line) {
+    static parseToMap(inText) {
 
         Map<String, String> result = Splitter.on(',')
                 .trimResults()
@@ -14,6 +14,6 @@ class KeyPairParser {
                 Splitter.on('=')
                         .limit(2)
                         .trimResults())
-                .split(line);
+                .split(inText);
     }
 }
