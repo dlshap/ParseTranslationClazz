@@ -14,17 +14,19 @@ import Translations.Translation
  */
 class UpdateClassFactory {
 
-    def replaceLineWithTranslations(nextLine, translation, bomFieldName) {
+    def replaceLineWithTranslations(nextText, translation, bomFieldName) {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
-        libraryQuestionTranslators.each {
+        libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
             def translationKey = it.getValue("transKeyField")
             // get translation value from translation (keyfile)
             def translationValue = translation.getTranslationValue(translationKey)
             // translate it if there is a match...leave alone if not
-            nextLine = it.translate(nextLine, translationValue, bomFieldName)
+            if (translationValue != "") {
+                nextText = it.translate(nextText, translationValue, bomFieldName)
+            }
         }
-        nextLine
+        nextText
     }
 
     def updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
@@ -37,18 +39,18 @@ class UpdateClassFactory {
             def translationKeyName = null
             while (factoryParser.hasNext()) {
                 def nextText = factoryParser.next()
-//                if (LibraryQuestionMatchers.lineContains(nextLine, "BOM Fields")) {
-//                    bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextLine, "BOM Fields")
-//                    translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
-//                    translation = translations.getTranslation(translationKeyName, bomFieldName)
-//                    if (!translation) {
-//                        Log.writeLine "Missing translation for BOM Field: $bomFieldName"
-//                    }
-//                }
-//                if (translation) {
-//                    nextLine = replaceLineWithTranslations(nextLine, translation, bomFieldName)
-//                }
-//                factoryOutFile.writeLine(nextLine)
+                if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
+                    bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
+                    translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
+                    translation = translations.getTranslation(translationKeyName, bomFieldName)
+                    if (!translation) {
+                        Log.writeLine "Missing translation for BOM Field: $bomFieldName"
+                    }
+                }
+                if (translation) {
+                    nextText = replaceLineWithTranslations(nextText, translation, bomFieldName)
+                }
+                factoryOutFile.writeToFile(nextText)
             }
         }
     }
@@ -62,11 +64,11 @@ class UpdateClassFactory {
         def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
 
-//        fileList.forEach {                    // comment out for testing
-        def it = "AviationExperience.txt"     /* for testing */
+        fileList.forEach {                    // comment out for testing
+//        def it = "AviationExperience.txt"     /* for testing */
 
             Log.writeLine "\r\n$it:"
-//            Log.writeLine("overwrites", "\r\n$it:")
+            Log.writeLine("overwrites", "\r\n$it:")
             def transFile = new KeyFileMgr(fp + "Exports\\\\" + it)
             def smallName = FileDirectoryMgr.getSmallName(it)
             def factoryFileName = smallName + "ClassFactory.groovy"
@@ -81,6 +83,6 @@ class UpdateClassFactory {
             } else {
                 Log.writeLine "$factoryFileName doesn't exist"
             }
-//        }                                     // comment out for testing
+        }                                     // comment out for testing
     }
 }

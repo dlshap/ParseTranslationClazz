@@ -6,11 +6,11 @@ package LibraryQuestions
 class LibraryQuestionMatchers {
 
     static LibQRegexes = [
-            [transKeyField: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],
-            [transKeyField: "Question Identifier Translated", regex: "(.*ja_JP.*title:.*?[\"'])(.*?)([\"'].*)"],
-            [transKeyField: "Questions and Answers Translated", regex: "(.*ja_JP.*txt:.*?[\"'])(.*?)([\"'].*)"],
-            [transKeyField: "Help Text Translated", regex: "(.*ja_JP.*helpText:.*?[\"'])(.*?)([\"'].*)"],
-            [transKeyField: "Description Text Translated", regex: "(.*ja_JP.*desc:.*?[\"'])(.*?)([\"'].*)"]
+            [transKeyField: "BOM Fields", regex: "(?s)(.* new ClazzAttr.*name:.*?[\"'])(.*?)([\"'].*)"],
+            [transKeyField: "Question Identifier Translated", regex: "(?s)(.*ja_JP.*title:.*?[\"'])(.*?)([\"'].*)"],
+            [transKeyField: "Questions and Answers Translated", regex: "(?s)(.*ja_JP.*txt:.*?[\"'])(.*?)([\"'].*)"],
+            [transKeyField: "Help Text Translated", regex: "(?s)(.*ja_JP.*helpText:.*?)(.*?)(\\]\\].*)"],
+            [transKeyField: "Description Text Translated", regex: "(?s)(.*ja_JP.*desc:.*?[\"'])(.*?)([\"'].*)"]
     ]
 
     static lineContains(aLine, keyField) {
@@ -27,12 +27,12 @@ class LibraryQuestionMatchers {
         }.getAt(keyField)
     }
 
-    static getFactoryMatchingValue(aLine, keyField) {
-        // line to search for regex value for factory key
+    static getFactoryMatchingValue(theText, keyField) {
+        // get value in factory text for keyField in translation file
         def regex = LibQRegexes.find { map ->
             map.transKeyField == keyField
         }.regex
-        def result = aLine =~ regex
+        def result = theText =~ regex
         if (result.count > 0)
             result[0][2]
         else

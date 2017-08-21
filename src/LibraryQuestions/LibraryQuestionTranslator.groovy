@@ -20,17 +20,17 @@ class LibraryQuestionTranslator {
         libQMap[keyname]
     }
 
-    def translate(aLine, translationValue, bomFieldName) {
+    def translate(nextText, translationValue, bomFieldName) {
+        def translatedText = nextText
         def regex = this.getValue("regex")
         def fieldName = this.getValue("transKeyField")
-        def result = aLine =~ regex
-        if (result.count ==0)
-            aLine
-        else {
-            if (!result[0][2].trim().length().equals(translationValue.trim().length())) {
+        def result = nextText =~ regex
+        if (result.count != 0) {
+            if (!result[0][2].trim().equals(translationValue.trim())) {
                 Log.writeLine("$bomFieldName/$fieldName: replacing '${result[0][2]}' with '$translationValue'")
+                translatedText = result[0][1] + translationValue + result[0][3]
             }
-            result[0][1] + translationValue + result[0][3]
         }
+        translatedText
     }
 }
