@@ -28,6 +28,7 @@ class LibraryQuestionTranslator {
         if (result.count != 0) {
             if (!result[0][2].trim().equals(translationValue.trim())) {
                 Log.writeLine("$bomFieldName/$fieldName: replacing '${result[0][2]}' with '$translationValue'")
+                translationValue = "'" + translationValue + "'"
                 translatedText = result[0][1] + translationValue + result[0][3]
             }
         }
