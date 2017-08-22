@@ -1,78 +1,95 @@
-import com.google.common.base.Splitter
-
+import FileManagement.FileMgr
+import FileManagement.FileDirectoryMgr
+import FileManagement.KeyFileMgr
+import FileManagement.LineFileMgr
+import FileManagement.TextFileMgr
+import LibraryQuestions.LibraryFileParser
+import LibraryQuestions.LibraryQuestionMatchers
+import Logging.Log
+import Translations.Translations
+import Translations.Translation
 
 /**
  * Created by s0041664 on 8/18/2017.
  */
 class TestParse {
 
+    def nextText = """
+currentAttr = new ClazzAttr([name: 'groundedInd', type: 'Boolean', localizedAttributesMap:
+            ["en_US": [desc: description],
+             "ja_JP": [desc: '申込者が航空業務の停止処分を受けたかどうか。技能証明の取消等も含む。']]] )
+        currentClazz.attrs.push(currentAttr)
+        defaultQuestion = 'Have you ever been grounded or had your license revoked?'
+        localizationMap = ["en_US": [txt: defaultQuestion, title: 'Grounded Indicator', helpText: null],
+                           "ja_JP": [txt: '業務停止もしくは技能証明の取消を受けたことはありますか。',
+                                     title: '業務停止インジケーター', helpText: null]]
+        currentAttr.quests.push ( buildRadioQuestion(currentClazz, currentAttr, localizationMap) )
 
-    static main(args) {
-        def line = """
-package com.rgatp.ng.dmt.model.util
+        description = 'FAA Medical Examination Class obtained'
+        """
 
-import com.rgatp.ng.bom.disclosures.lifestyle.AviationExperience
-import com.rgatp.ng.dmt.model.dto.Clazz
-import com.rgatp.ng.dmt.model.dto.ClazzAttr
-
-class AviationExperienceClassFactory extends LifeStyleActivityClassFactory {
-
-    AviationExperienceClassFactory() {
-        super(AviationExperience)
+    def replaceLineWithTranslations(nextText, translation, bomFieldName) {
+        def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
+        libraryQuestionTranslators.each {
+            // get field name from translator
+            def translationKey = it.getValue("transKeyField")
+            // get translation value from translation (keyfile)
+            def translationValue = translation.getTranslationValue(translationKey)
+            // translate it if there is a match...leave alone if not
+            if (translationValue) {
+                nextText = it.translate(nextText, translationValue, bomFieldName)
+            }
+        }
+        nextText
     }
 
-    Clazz createClazzLibraryModel() {
-        Clazz currentClazz
-        ClazzAttr currentAttr
-        String defaultQuestion
-        String helpText
-        String description
-        Map<String, Map<String, String>> localizationMap
+    def updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
 
-        currentClazz = new Clazz([ name: disclosureClass.simpleName, pkg: disclosureClass.package.name ])
-
-        Clazz parent = super.createClazzLibraryModel()
-        currentClazz.attrs.addAll(parent.attrs)
-
-        description = 'Commercial, Military, Private'
-        currentAttr = new ClazzAttr([name: 'aviationTypes', type: 'String[]', localizedAttributesMap:
-            ["en_US": [desc: description], "ja_JP": [desc: '商用、軍隊、プライベート等']]] )
-        currentClazz.attrs.push(currentAttr)
-        defaultQuestion = 'Which of the following best describes your flying activities?  (Please check all that apply.)'
-        localizationMap = ["en_US": [txt: defaultQuestion, title: 'Aviation Type', helpText: null],
-                           "ja_JP": [txt: 'あなたの飛行活動は以下のいずれにあてはまりますか。（該当するもの全てをお選びください）',
-                                     title: '飛行種類', helpText: null]]
-        currentAttr.quests.push ( buildReferenceTypeQuestion(currentClazz, currentAttr, 'drt_AviationType', true, localizationMap) )
-
-        description = 'Date when the applicant achieved their current qualification level'
-        currentAttr = new ClazzAttr([name: 'qualificationDate', type: 'Date', localizedAttributesMap:
-            ["en_US": [desc: description], "ja_JP": [desc: '申込者が現在の資格と同等の技術を各同した時期']]] )
-        currentClazz.attrs.push(currentAttr)
-        defaultQuestion = 'When did you get your license or achieve this qualification level?'
-        helpText = 'Please provide the date you received your license or achieved this qualification level.'
-        localizationMap = ["en_US": [txt: defaultQuestion, title: 'Qualification Date', helpText: helpText],
-                           "ja_JP": [txt: '資格を取得、または資格と同等の技術を獲得したのはいつですか。',
-                                     title: '資格取得日',
-                                     helpText: '資格取得日、またはこの資格と同等のレベルの技術を取得した時期を記入してください。']]
-        currentAttr.quests.push ( buildDateQuestion(currentClazz, currentAttr, localizationMap) )
-
-        description = 'Crop dusting, Ferrying, Instructor'"""
-
-        def result = Splitter.on('currentAttr = new ClazzAttr')
-                .split(line);
-
-        result.eachWithIndex { it, i ->
-//            println "$i: $it"
-            def findTxt = it
-            def regex = /(?s)(.*ja_JP.*txt:.*?[\"'])(.*?)([\"'].*)/
-            def forTranslation = findTxt =~ regex
-            println forTranslation.count
-            if (forTranslation.count) {
-                println forTranslation[0][1]+"XXX"+forTranslation[0][3]
+        def translations = new Translations(transFile)
+        Translations.Translation translation
+        def bomFieldName = null
+        def translationKeyName = null
+        if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
+            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
+            translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
+            translation = translations.getTranslation(translationKeyName, bomFieldName)
+            if (!translation) {
+                Log.writeLine "Missing translation for BOM Field: $bomFieldName"
             }
-
         }
+        if (translation) {
+            def newText = replaceLineWithTranslations(nextText, translation, bomFieldName)
+            nextText = newText
+//            Log.writeLine("overwrites", newText)
+        }
+        factoryOutFile.writeToFile(nextText)
+    }
 
 
+    static main(args) {
+        def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+        Log.open(fp + "translate-library-log.txt")
+        Log.open("overwrites", fp + "overwrites-log.txt")
+
+        def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
+        FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
+
+        def it = "AviationExperience.txt"     /* for testing */
+
+        Log.writeLine "\r\n$it:"
+        def transFile = new KeyFileMgr(fp + "Exports\\\\" + it)
+        def smallName = FileDirectoryMgr.getSmallName(it)
+        def factoryFileName = smallName + "ClassFactory.groovy"
+        def factoryFile = new TextFileMgr(fp + "LibraryFactories\\\\" + factoryFileName)
+        if (factoryFile.exists()) {
+            def factoryOutFileName = factoryFileName + ".translated"
+            def factoryOutFile = new TextFileMgr(fp + "LibraryFactoriesTranslated\\\\" + factoryOutFileName, FileMgr.createFlag.CREATE)
+
+            // do it
+            new TestParse().updateFactory(transFile, factoryFile, factoryOutFile)
+
+        } else {
+            Log.writeLine "$factoryFileName doesn't exist"
+        }
     }
 }

@@ -1,6 +1,8 @@
+import FileManagement.FileMgr
 import FileManagement.FileDirectoryMgr
-import FileManagement.KeyFile
-import FileManagement.LineFile
+import FileManagement.KeyFileMgr
+import FileManagement.TextFileMgr
+import LibraryQuestions.LibraryFileParser
 import LibraryQuestions.LibraryQuestionMatchers
 import Logging.Log
 import Translations.Translations
@@ -11,29 +13,33 @@ import Translations.Translation
  */
 class UpdateClassFactory {
 
-    def replaceLineWithTranslations(nextLine, translation, bomFieldName) {
+    def replaceLineWithTranslations(nextText, translation, bomFieldName) {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
-        libraryQuestionTranslators.each {
+        libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
             def translationKey = it.getValue("transKeyField")
             // get translation value from translation (keyfile)
             def translationValue = translation.getTranslationValue(translationKey)
             // translate it if there is a match...leave alone if not
-            nextLine = it.translate(nextLine, translationValue, bomFieldName)
+            if (translationValue != "") {
+                nextText = it.translate(nextText, translationValue, bomFieldName)
+            }
         }
-        nextLine
+        nextText
     }
 
-    def updateFactory(transFile, factoryFile, factoryOutFile) {
+    def updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
+
+        def factoryParser = new LibraryFileParser(factoryFile)
         def translations = new Translations(transFile)
         Translation translation
-        if (factoryFile.hasNext()) {
+        if (factoryParser.hasNext()) {
             def bomFieldName = null
             def translationKeyName = null
-            while (factoryFile.hasNext()) {
-                def nextLine = factoryFile.nextLine()
-                if (LibraryQuestionMatchers.lineContains(nextLine, "BOM Fields")) {
-                    bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextLine, "BOM Fields")
+            while (factoryParser.hasNext()) {
+                def nextText = factoryParser.next()
+                if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
+                    bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
                     translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
                     translation = translations.getTranslation(translationKeyName, bomFieldName)
                     if (!translation) {
@@ -41,9 +47,9 @@ class UpdateClassFactory {
                     }
                 }
                 if (translation) {
-                    nextLine = replaceLineWithTranslations(nextLine, translation, bomFieldName)
+                    nextText = replaceLineWithTranslations(nextText, translation, bomFieldName)
                 }
-                factoryOutFile.writeLine(nextLine)
+                factoryOutFile.writeToFile(nextText)
             }
         }
     }
@@ -57,23 +63,25 @@ class UpdateClassFactory {
         def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
 
-//        fileList.forEach {                    // comment out for testing
-        def it = "AviationExperience.txt"     /* for testing */
+        fileList.forEach {                    // comment out for testing
+//        def it = "AviationExperience.txt"     /* for testing */
 
             Log.writeLine "\r\n$it:"
-//            Log.writeLine("overwrites", "\r\n$it:")
-            def transFile = new KeyFile(fp + "Exports\\\\" + it)
+            Log.writeLine("overwrites", "\r\n$it:")
+            def transFile = new KeyFileMgr(fp + "Exports\\\\" + it)
             def smallName = FileDirectoryMgr.getSmallName(it)
             def factoryFileName = smallName + "ClassFactory.groovy"
-            def factoryFile = new LineFile(fp + "LibraryFactories\\\\" + factoryFileName)
+            def factoryFile = new TextFileMgr(fp + "LibraryFactories\\\\" + factoryFileName)
             if (factoryFile.exists()) {
                 def factoryOutFileName = factoryFileName + ".translated"
-                def factoryOutFile = new LineFile(fp + "LibraryFactoriesTranslated\\\\" + factoryOutFileName, "create")
-                def ucf = new UpdateClassFactory()
-                ucf.updateFactory(transFile, factoryFile, factoryOutFile)
+                def factoryOutFile = new TextFileMgr(fp + "LibraryFactoriesTranslated\\\\" + factoryOutFileName, FileMgr.createFlag.CREATE)
+
+                // do it
+                new UpdateClassFactory().updateFactory(transFile, factoryFile, factoryOutFile)
+
             } else {
                 Log.writeLine "$factoryFileName doesn't exist"
             }
-//        }                                     // comment out for testing
+        }                                     // comment out for testing
     }
 }

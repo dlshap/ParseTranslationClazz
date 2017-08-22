@@ -1,0 +1,41 @@
+package FileManagement
+/**
+ * Created by s0041664 on 8/11/2017.
+ */
+class LineFileMgr extends FileMgr {
+    def lines
+    Iterator lineIterator
+
+    def LineFileMgr(fileName) {
+        super(fileName)
+    }
+
+    def LineFileMgr(fileName, FileMgr.createFlag create) {
+        super(fileName, create)
+    }
+
+    def openFile(fileName) {
+        super.openFile(fileName)
+        if (theFile.length()) {
+            lines = theFile.readLines()
+            lineIterator = lines.iterator()
+        }
+        theFile
+    }
+
+    def nextLine() {
+        if (lineIterator.hasNext())
+            lineIterator.next()
+        else
+            null
+    }
+
+    def hasNext() {
+        lineIterator.hasNext()
+    }
+
+    /* output files */
+    def writeLine(aLine) {
+        theFile << aLine + "\r\n"
+    }
+}
