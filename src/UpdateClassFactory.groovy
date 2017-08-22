@@ -13,6 +13,7 @@ import Translations.Translation
  */
 class UpdateClassFactory {
 
+
     def replaceLineWithTranslations(nextText, translation, bomFieldName) {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
@@ -63,9 +64,17 @@ class UpdateClassFactory {
         def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
 
-        fileList.forEach {                    // comment out for testing
-//        def it = "AviationExperience.txt"     /* for testing */
+        /******************************************************/
+        def testFile = "ClimbingExperience.txt"
+        /******************************************************/
 
+//        fileList.forEach {                    // comment out for testing
+        for (int i = 0; i < fileList.size(); i++) {
+            /******************************************************/
+            def it
+            if (testFile != "") it = testFile       // for testing
+            else it = fileList[i]
+            /******************************************************/
             Log.writeLine "\r\n$it:"
             Log.writeLine("overwrites", "\r\n$it:")
             def transFile = new KeyFileMgr(fp + "Exports\\\\" + it)
@@ -82,6 +91,9 @@ class UpdateClassFactory {
             } else {
                 Log.writeLine "$factoryFileName doesn't exist"
             }
+            /******************************************************/
+            if (testFile != "") break;
+            /******************************************************/
         }                                     // comment out for testing
     }
 }
