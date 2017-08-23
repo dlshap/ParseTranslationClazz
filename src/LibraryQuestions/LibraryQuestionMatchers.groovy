@@ -6,11 +6,11 @@ package LibraryQuestions
 class LibraryQuestionMatchers {
 
     static LibQRegexes = [
-            [transKeyField: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name.*?:.*?)(?:["'])(.*?)(?:["'])(.*)/],
-            [transKeyField: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:.*?)(?:["'])(.*?)(?:["'])(.*)/],
-            [transKeyField: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:.*?)(?:["'])(.*?)(?:["'])(.*)/],
-            [transKeyField: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:.*?)(?:['"]{0,1})(.*)(?:['"]{0,1})(\\]\\].*)/],
-            [transKeyField: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:.*?)(?:["'])(.*?)(?:["'])(.*)/]
+        [transKeyField: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
+        [transKeyField: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:.*?)(.*?)([,\]].*)/],
+        [transKeyField: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:.*?)(.*?)([,\]].*)/],
+        [transKeyField: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\]\].*)/],
+        [transKeyField: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc\s*:)(.*?)([,\]].*)/]
     ]
 
     static lineContains(aLine, keyField) {
@@ -25,6 +25,7 @@ class LibraryQuestionMatchers {
         def value = LibQRegexes.find { map ->
             map.transKeyField == keyValue
         }.getAt(keyField)
+        value
     }
 
     static getFactoryMatchingValue(theText, keyField) {
@@ -33,16 +34,16 @@ class LibraryQuestionMatchers {
             map.transKeyField == keyField
         }.regex
         def result = theText =~ regex
+        def returnVal = null
         if (result.count > 0)
-            result[0][2]
-        else
-            null
+            returnVal = result[0][2].trim().replaceAll(/^['"]|['"]$/,"")
+        returnVal
     }
 
     static getLibraryQuestionTranslators() {
         // return list of translator objects
         def libraryQuestionTranslators = []
-        for (Map libQMap : LibQRegexes) {
+        LibQRegexes.each { libQMap ->
             libraryQuestionTranslators << new LibraryQuestionTranslator(libQMap)
         }
         libraryQuestionTranslators

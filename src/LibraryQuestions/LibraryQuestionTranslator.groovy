@@ -23,12 +23,13 @@ class LibraryQuestionTranslator {
     def translate(nextText, translationValue, bomFieldName) {
         def translatedText = nextText
         if (translationValue != null) {
+            def libraryValue = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, this.getValue("transKeyField"))
             def regex = this.getValue("regex")
             def fieldName = this.getValue("transKeyField")
             def result = nextText =~ regex
             if (result.count != 0) {
-                if (!result[0][2].trim().equals(translationValue.trim())) {
-                    Log.writeLine("overwrites", "$bomFieldName/$fieldName: replacing '${result[0][2]}' with '$translationValue'")
+                if (!libraryValue.equals(translationValue)) {
+                    Log.writeLine("overwrites", "$bomFieldName/$fieldName: replacing '$libraryValue' with '$translationValue'")
                     translationValue = "'" + translationValue + "'"
                     translatedText = result[0][1] + translationValue + result[0][3]
                 }

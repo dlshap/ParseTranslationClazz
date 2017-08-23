@@ -4,9 +4,12 @@ import FileManagement.KeyFileMgr
 import FileManagement.TextFileMgr
 import LibraryQuestions.LibraryFileParser
 import LibraryQuestions.LibraryQuestionMatchers
+import Logging.Dates
 import Logging.Log
 import Translations.Translations
 import Translations.Translation
+
+import java.text.SimpleDateFormat
 
 /**
  * Created by s0041664 on 8/14/2017.
@@ -60,21 +63,21 @@ class UpdateClassFactory {
         def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
         Log.open(fp + "translate-library-log.txt")
         Log.open("overwrites", fp + "overwrites-log.txt")
+        Log.writeLine("overwrites", "Running on: " + Dates.currentDateAndTime())
 
         def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
 
-        /******************************************************/
-        def testFile = "ClimbingExperience.txt"
-        /******************************************************/
+        /** ****************************************************/
+        def testFile = ""                                     // "" if not testing a single file
+        /** ****************************************************/
 
-//        fileList.forEach {                    // comment out for testing
         for (int i = 0; i < fileList.size(); i++) {
-            /******************************************************/
+            /** ****************************************************/
             def it
             if (testFile != "") it = testFile       // for testing
             else it = fileList[i]
-            /******************************************************/
+            /** ****************************************************/
             Log.writeLine "\r\n$it:"
             Log.writeLine("overwrites", "\r\n$it:")
             def transFile = new KeyFileMgr(fp + "Exports\\\\" + it)
@@ -91,9 +94,10 @@ class UpdateClassFactory {
             } else {
                 Log.writeLine "$factoryFileName doesn't exist"
             }
-            /******************************************************/
+            /** ****************************************************/
             if (testFile != "") break;
-            /******************************************************/
-        }                                     // comment out for testing
+            /** ****************************************************/
+        }
+        Log.writeLine("overwrites", "Done at: "+Dates.currentDateAndTime())
     }
 }
