@@ -27,8 +27,27 @@ class TextFileMgr extends FileMgr {
         fileText
     }
 
+    def setText(newText) {
+        theFile.delete()
+        theFile.text = newText
+        fileText = newText
+    }
+
+    def delete() {
+        fileText.delete()
+    }
+
     def writeToFile(text) {
         theFile << text
     }
+
+    def makeBackupFile() {
+        if (theFile.exists()) {
+            File backupFile = new File(theFile.getPath()+".backup")
+            if (backupFile.exists())
+                backupFile.delete()
+            backupFile.text = this.getText()
+        }
+     }
 
 }

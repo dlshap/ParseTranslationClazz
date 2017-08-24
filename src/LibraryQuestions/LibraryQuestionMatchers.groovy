@@ -10,7 +10,7 @@ class LibraryQuestionMatchers {
         [transKeyField: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:.*?)(.*?)([,\]].*)/],
         [transKeyField: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:.*?)(.*?)([,\]].*)/],
         [transKeyField: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
-        [transKeyField: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc\s*:)(.*?)([,\]].*)/]
+        [transKeyField: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)([,\]].*)/]
     ]
 
     static lineContains(aLine, keyField) {
@@ -35,8 +35,10 @@ class LibraryQuestionMatchers {
         }.regex
         def result = theText =~ regex
         def returnVal = null
-        if (result.count > 0)
-            returnVal = result[0][2].trim().replaceAll(/^['"]|['"]$/,"")
+        if (result.count > 0) {
+            returnVal = result[0][2].trim()
+            returnVal = returnVal.replaceAll(/^['"]|['"]$/, "")
+        }
         returnVal
     }
 
