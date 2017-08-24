@@ -25,11 +25,13 @@ class LibraryQuestionTranslator {
         if (translationValue != null) {
             def libraryValue = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, this.getValue("transKeyField"))
             def regex = this.getValue("regex")
-            def fieldName = this.getValue("transKeyField")
+            def translationFieldName = this.getValue("transKeyField")
             def result = nextText =~ regex
-            if (result.count != 0) {
+            if (result.count == 0) {
+                Log.writeLine("nocode", "No Class Factory code for: $bomFieldName/$translationFieldName:$translationValue.")
+            } else {
                 if (!libraryValue.equals(translationValue)) {
-                    Log.writeLine("overwrites", "$bomFieldName/$fieldName: replacing '$libraryValue' with '$translationValue'")
+                    Log.writeLine("overwrites", "$bomFieldName/$translationFieldName: replacing '$libraryValue' with '$translationValue'")
                     translationValue = "'" + translationValue + "'"
                     translatedText = result[0][1] + translationValue + result[0][3]
                 }

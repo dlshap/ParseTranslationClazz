@@ -30,26 +30,36 @@ class UpdateClassFactory {
         nextText
     }
 
-    static updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
+    static findBomFieldNameInText(nextText) {
+        def bomFieldName
+        if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
+            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
+        }
+        bomFieldName
+    }
 
+    static getTranslationForBomField(translations, bomFieldName) {
+        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
+        def translation = translations.getTranslation(translationKeyName, bomFieldName)
+        if (translation == null) {
+            Log.writeLine "Missing translation for BOM Field: $bomFieldName"
+        }
+        translation
+    }
+
+
+    static updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
         def factoryParser = new LibraryFileParser(factoryFile)
         def translations = new Translations(transFile)
-        Translation translation
         if (factoryParser.hasNext()) {
-            def bomFieldName = null
-            def translationKeyName = null
             while (factoryParser.hasNext()) {
                 def nextText = factoryParser.next()
-                if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
-                    bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
-                    translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
-                    translation = translations.getTranslation(translationKeyName, bomFieldName)
-                    if (!translation) {
-                        Log.writeLine "Missing translation for BOM Field: $bomFieldName"
+                def bomFieldName = findBomFieldNameInText(nextText)
+                if (bomFieldName != null) {
+                    def translation = getTranslationForBomField(translations, bomFieldName)
+                    if (translation != null) {
+                        nextText = replaceLineWithTranslations(nextText, translation, bomFieldName)
                     }
-                }
-                if (translation) {
-                    nextText = replaceLineWithTranslations(nextText, translation, bomFieldName)
                 }
                 factoryOutFile.writeToFile(nextText)
             }
@@ -96,6 +106,18 @@ class UpdateClassFactory {
         factoryTranslatedFile
     }
 
+    static addFileToLogs(fileName) {
+        Log.writeLine "\r\n$fileName:"
+        Log.writeLine("overwrites", "\r\n$fileName:")
+        Log.writeLine("nocode", "\r\n$fileName:")
+    }
+
+    static addDoneToLogs() {
+        Log.writeLine("Done at: " + Dates.currentDateAndTime())
+        Log.writeLine("overwrites", "Done at: " + Dates.currentDateAndTime())
+        Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
+    }
+
     static main(args) {
         /** ****************************************************/
         def testFile = ""   // "" if not testing a single file
@@ -109,8 +131,7 @@ class UpdateClassFactory {
             fileList = getFileList(fp)
         }
         fileList.forEach {
-            Log.writeLine "\r\n$it:"
-            Log.writeLine("overwrites", "\r\n$it:")
+            addFileToLogs(it)
             def transFile = openTranslationFile(fp, it)
             def factoryFile = openFactoryFile(fp, it)
             if (transFile.exists() && factoryFile.exists()) {
@@ -118,6 +139,6 @@ class UpdateClassFactory {
                 updateFactory(transFile, factoryFile, factoryOutFile)
             }
         }
-        Log.writeLine("overwrites", "Done at: " + Dates.currentDateAndTime())
+        addDoneToLogs()
     }
 }
