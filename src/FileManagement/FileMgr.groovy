@@ -31,7 +31,7 @@ class FileMgr {
         theFile.getParent()
     }
 
-    def getPath() {
+    def getFullPathName() {
         theFile.getPath()
     }
 

@@ -9,15 +9,13 @@ import Logging.Log
 import Translations.Translations
 import Translations.Translation
 
-import java.text.SimpleDateFormat
-
 /**
  * Created by s0041664 on 8/14/2017.
  */
 class UpdateClassFactory {
 
 
-    def replaceLineWithTranslations(nextText, translation, bomFieldName) {
+    static replaceLineWithTranslations(nextText, translation, bomFieldName) {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
@@ -32,7 +30,7 @@ class UpdateClassFactory {
         nextText
     }
 
-    def updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
+    static updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
 
         def factoryParser = new LibraryFileParser(factoryFile)
         def translations = new Translations(transFile)
@@ -58,46 +56,68 @@ class UpdateClassFactory {
         }
     }
 
-
-    static main(args) {
-        def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
-        Log.open(fp + "translate-library-log.txt")
-        Log.open("overwrites", fp + "overwrites-log.txt")
+    static openLogs(fp) {
+        Log.open(fp + "log-translate-library.txt")
+        Log.writeLine("Running on: " + Dates.currentDateAndTime())
+        Log.open("overwrites", fp + "log-overwrites.txt")
         Log.writeLine("overwrites", "Running on: " + Dates.currentDateAndTime())
+        Log.open("nocode", fp + "log-nocode.txt")
+        Log.writeLine("nocode", "Running on: " + Dates.currentDateAndTime())
+    }
 
+    static getFileList(fp) {
         def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
+        fileList
+    }
 
+    static openTranslationFile(fp, fileName) {
+        def transFile = new KeyFileMgr(fp + "Exports\\\\" + fileName)
+        if (!transFile.exists()) {
+            Log.writeLine("Translation file: $fileName doesn't exist.")
+        }
+        transFile
+    }
+
+    static openFactoryFile(fp, fileName) {
+        def smallName = FileDirectoryMgr.getSmallName(fileName)       // no file extension
+        def factoryFileName = smallName + "ClassFactory.groovy"
+        def factoryFile = new TextFileMgr(fp + "LibraryFactories\\\\" + factoryFileName)
+        if (!factoryFile.exists()) {
+            Log.writeLine "${factoryFile.getFullPathName()} doesn't exist"
+        }
+        factoryFile
+    }
+
+    static openFactoryTranslatedFile(fp, fileName) {
+        def factoryTranslatedFileName = fileName + ".translated"
+        def factoryTranslatedPath = fp + "LibraryFactoriesTranslated\\\\"
+        def factoryTranslatedFile = new TextFileMgr(factoryTranslatedPath + factoryTranslatedFileName, FileMgr.createFlag.CREATE)
+        factoryTranslatedFile
+    }
+
+    static main(args) {
         /** ****************************************************/
-        def testFile = ""                                     // "" if not testing a single file
+        def testFile = ""   // "" if not testing a single file
         /** ****************************************************/
 
-        for (int i = 0; i < fileList.size(); i++) {
-            /** ****************************************************/
-            def it
-            if (testFile != "") it = testFile       // for testing
-            else it = fileList[i]
-            /** ****************************************************/
+        def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+        openLogs(fp)
+
+        def fileList = [testFile]
+        if (testFile == "") {
+            fileList = getFileList(fp)
+        }
+        fileList.forEach {
             Log.writeLine "\r\n$it:"
             Log.writeLine("overwrites", "\r\n$it:")
-            def transFile = new KeyFileMgr(fp + "Exports\\\\" + it)
-            def smallName = FileDirectoryMgr.getSmallName(it)
-            def factoryFileName = smallName + "ClassFactory.groovy"
-            def factoryFile = new TextFileMgr(fp + "LibraryFactories\\\\" + factoryFileName)
-            if (factoryFile.exists()) {
-                def factoryOutFileName = factoryFileName + ".translated"
-                def factoryOutFile = new TextFileMgr(fp + "LibraryFactoriesTranslated\\\\" + factoryOutFileName, FileMgr.createFlag.CREATE)
-
-                // do it
-                new UpdateClassFactory().updateFactory(transFile, factoryFile, factoryOutFile)
-
-            } else {
-                Log.writeLine "$factoryFileName doesn't exist"
+            def transFile = openTranslationFile(fp, it)
+            def factoryFile = openFactoryFile(fp, it)
+            if (transFile.exists() && factoryFile.exists()) {
+                def factoryOutFile = openFactoryTranslatedFile(fp, factoryFile.getFileName())
+                updateFactory(transFile, factoryFile, factoryOutFile)
             }
-            /** ****************************************************/
-            if (testFile != "") break;
-            /** ****************************************************/
         }
-        Log.writeLine("overwrites", "Done at: "+Dates.currentDateAndTime())
+        Log.writeLine("overwrites", "Done at: " + Dates.currentDateAndTime())
     }
 }
