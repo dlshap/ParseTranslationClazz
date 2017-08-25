@@ -10,7 +10,7 @@ class LibraryQuestionMatchers {
         [transKeyField: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:.*?)(.*?)([,\]].*)/],
         [transKeyField: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:.*?)(.*?)([,\]].*)/],
         [transKeyField: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
-        [transKeyField: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*].*)/]
+        [transKeyField: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*]?.*)/]
     ]
 
     static lineContains(aLine, keyField) {

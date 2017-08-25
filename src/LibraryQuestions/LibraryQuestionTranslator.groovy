@@ -28,7 +28,7 @@ class LibraryQuestionTranslator {
             def translationFieldName = this.getValue("transKeyField")
             def result = nextText =~ regex
             if (result.count == 0) {
-                Log.writeLine("nocode", "No Class Factory code for: $bomFieldName/$translationFieldName:$translationValue.")
+                Log.writeLine("nocode", "No Class Factory code for: $bomFieldName/$translationFieldName: '$translationValue'")
             } else {
                 if (!libraryValue.equals(translationValue)) {
                     Log.writeLine("$bomFieldName/$translationFieldName: replacing '$libraryValue' with '$translationValue'")
