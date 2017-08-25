@@ -5,9 +5,11 @@ package Translations
  */
 class Translations {
     def transKeyMaps = []
+    List transKeyList
 
     def Translations(keyFile) {
         transKeyMaps = keyFile.getKeyMaps()
+        transKeyList = transKeyMaps.toList()
     }
 
     def getTranslation(keyName, keyValue) {
@@ -20,6 +22,10 @@ class Translations {
             translation = new Translation(transKeyMap)
         }
         translation
+    }
+
+    def getTransKeyListIterator() {
+        transKeyList.iterator()
     }
 }
 

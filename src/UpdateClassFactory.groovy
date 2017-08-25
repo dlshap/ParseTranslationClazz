@@ -15,11 +15,11 @@ class UpdateClassFactory {
 
 
     static openLogs(fp) {
-        Log.open(fp + "log-translations.txt")
+        Log.open(fp + "log-library-translations.txt")
         Log.writeLine("Running on: " + Dates.currentDateAndTime())
-        Log.open("exceptions", fp + "log-exceptions.txt")
+        Log.open("exceptions", fp + "log-library-exceptions.txt")
         Log.writeLine("exceptions", "Running on: " + Dates.currentDateAndTime())
-        Log.open("nocode", fp + "log-nocode.txt")
+        Log.open("nocode", fp + "log-library-nocode.txt")
         Log.writeLine("nocode", "Running on: " + Dates.currentDateAndTime())
     }
 
@@ -42,13 +42,13 @@ class UpdateClassFactory {
 
 
     static getFileList(fp) {
-        def fileList = new FileDirectoryMgr(fp + "Exports\\\\").getFileList()
+        def fileList = new FileDirectoryMgr(fp + "LibraryExports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
         fileList
     }
 
     static openTranslationFile(fp, fileName) {
-        def transFile = new KeyFileMgr(fp + "Exports\\\\" + fileName)
+        def transFile = new KeyFileMgr(fp + "LibraryExports\\\\" + fileName)
         if (!transFile.exists()) {
             Log.writeLine("exceptions", "Translation file: $fileName doesn't exist.")
         }
