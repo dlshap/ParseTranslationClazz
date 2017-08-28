@@ -10,14 +10,14 @@ class LibraryQuestionTranslator {
     Map format:
         [transKeyField: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],...
     */
-    def libQMap = [:]
+    def libQuestionMap = [:]
 
     def LibraryQuestionTranslator(libQMap) {
-        this.libQMap = libQMap
+        this.libQuestionMap = libQMap
     }
 
     def getValue(keyname) {
-        libQMap[keyname]
+        libQuestionMap[keyname]
     }
 
     def translate(nextText, translationValue, bomFieldName) {

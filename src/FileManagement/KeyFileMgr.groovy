@@ -5,24 +5,35 @@ package FileManagement
  */
 class KeyFileMgr extends LineFileMgr {
     def keyMaps = []
+    def keyMapIterator
 
     def KeyFileMgr(fileName) {
         super(fileName)
-        this.buildKeyMapList()
+        buildKeyMapList()
     }
 
-    def nextLine() {
-        if (super.hasNext())
-            KeyPairParser.parseLine(super.nextLine())
+    def next() {
+        if (keyMapIterator.hasNext())
+            keyMapIterator.next()
         else
             null
+    }
+
+    def hasNext() {
+        keyMapIterator.hasNext()
     }
 
     def buildKeyMapList() {
         keyMaps = []
         for (int i = 0; i < super.lines.size; i++) {
-            keyMaps << KeyPairParser.parseToMap(super.lines[i]);
+            def parsedLine = KeyPairParser.parseToMap(super.lines[i])
+            keyMaps << parsedLine
         }
+        keyMapIterator = keyMaps.iterator()
+    }
+
+    def getKeyMapSize() {
+        keyMaps.size()
     }
 
     def getKeyMaps() {

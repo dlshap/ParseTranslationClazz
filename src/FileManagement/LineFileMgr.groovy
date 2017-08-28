@@ -23,7 +23,7 @@ class LineFileMgr extends FileMgr {
         theFile
     }
 
-    def nextLine() {
+    def next() {
         if (lineIterator.hasNext())
             lineIterator.next()
         else
@@ -32,6 +32,10 @@ class LineFileMgr extends FileMgr {
 
     def hasNext() {
         lineIterator.hasNext()
+    }
+
+    def size() {
+        lines.size()
     }
 
     /* output files */
