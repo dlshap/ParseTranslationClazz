@@ -39,27 +39,24 @@ class UpdateJapaneseProperties {
         // loop through translationFile
         while (translationFile.hasNext()) {
             def nextTranslation = translationFile.next()
-            def nextPropertyKey = nextTranslation["Message Key"]
-            if (!(nextPropertyKey == "" || nextPropertyKey[0] == "#")) {
-                def nextPropertyValue = properties.getPropertyValue(nextPropertyKey).trim()
+            def nextTranslationKey = nextTranslation["Message Key"]
+            if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
+                def nextPropertyValue = properties.getPropertyValue(nextTranslationKey)
                 if (nextPropertyValue == null) {
-                    Log.writeLine("exceptions", "Property $nextPropertyKey not found")
+                    Log.writeLine("exceptions", "Property '$nextTranslationKey' not found in translations file")
                 } else {
                     def nextTranslationValue = nextTranslation["Japanese"].trim()
-                    if (!nextPropertyValue.equals(nextTranslationValue)) {
-                        properties.setPropertyValue(nextPropertyKey, nextTranslationValue)
-                        Log.writeLine("Property $nextPropertyKey: '$nextPropertyValue' replaced by $nextTranslationValue")
+                    if (nextTranslationValue != "") {
+                        if (!nextPropertyValue.equals(nextTranslationValue)) {
+                            properties.setPropertyValue(nextTranslationKey, nextTranslationValue)
+                            Log.writeLine("Property $nextTranslationKey: '$nextPropertyValue' replaced by '$nextTranslationValue'")
+                        }
                     }
                 }
             }
         }
-        //   if matching property
-        //      update translation value if different
-        //  else
-        //      log missing property
-        //end loop
-        //loop through property file
-        //  log missing translations
+        //loop through translation file
+        //  log any translations missing in properties file
         //end loop
 
     }
