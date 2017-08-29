@@ -10,7 +10,7 @@ class LineFileMgr extends FileMgr {
         super(fileName)
     }
 
-    def LineFileMgr(fileName, FileMgr.createFlag create) {
+    def LineFileMgr(String fileName, FileMgr.createFlag create) {
         super(fileName, create)
     }
 
@@ -40,6 +40,7 @@ class LineFileMgr extends FileMgr {
 
     /* output files */
     def writeLine(aLine) {
-        theFile << aLine + "\r\n"
+//        theFile << aLine + "\r\n"
+        theFile << aLine + "\n"
     }
 }

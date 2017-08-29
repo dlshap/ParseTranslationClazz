@@ -1,4 +1,5 @@
 import FileManagement.FileChooser
+import FileManagement.FileMgr
 import FileManagement.KeyFileMgr
 import FileManagement.LineFileMgr
 import Logging.Dates
@@ -39,7 +40,7 @@ class UpdateJapaneseProperties {
     static updatePropertyFile(KeyFileMgr translationFile, Properties properties) {
         // loop through translationFile
         while (translationFile.hasNext()) {
-            def nextTranslation = translationFile.next()
+            Translation nextTranslation = translationFile.next()
             def nextTranslationValue = nextTranslation["Japanese"].trim()
             if (nextTranslationValue != null) {
                 def nextTranslationKey = nextTranslation["Message Key"]
@@ -99,9 +100,13 @@ class UpdateJapaneseProperties {
                 propertyFile = openPropertyFile(propFileName)
             }
             if (propertyFile != null) {
+                //open property output file
+                def propertyOutFileName = fp + "PropertyFilesTranslated\\\\" + propertyFile.getFileName() + ".translated"
+                LineFileMgr propertyOutFile = new LineFileMgr(propertyOutFileName, FileMgr.createFlag.CREATE)
                 Properties properties = new Properties(propertyFile)
                 updatePropertyFile(translationFile, properties)
                 logMissingTranslations(translationFile, properties)
+                properties.writeToFile(propertyOutFile)
             }
         }
     }

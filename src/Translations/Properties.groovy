@@ -4,6 +4,8 @@ import FileManagement.KeyFileMgr
 import FileManagement.KeyPairParser
 import FileManagement.LineFileMgr
 
+import javax.sound.sampled.Line
+
 /**
  * Created by s0041664 on 8/25/2017.
  */
@@ -17,7 +19,7 @@ class Properties {
         propKeyMap = buildPropKeyMap(propFile)
     }
 
-    def buildPropKeyMap(LineFileMgr propFile) {
+    static buildPropKeyMap(LineFileMgr propFile) {
         Map<String, String> keyMap = [:]
         def lastNonProperty = 1
         def propKey
@@ -34,6 +36,18 @@ class Properties {
             }
         }
         keyMap
+    }
+
+    def writeToFile(LineFileMgr propkeyFile) {
+        if (propkeyFile != null) {
+            propKeyMap.each {propKey, propValue ->
+                if (propKey[0] == "*") {
+                    propkeyFile.writeLine(propValue)
+                } else {
+                    propkeyFile.writeLine(propKey + "=" + propValue)
+                }
+            }
+        }
     }
 
     def getPropertyValue(keyValue) {
