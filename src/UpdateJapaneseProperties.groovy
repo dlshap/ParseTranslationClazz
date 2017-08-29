@@ -40,7 +40,7 @@ class UpdateJapaneseProperties {
     static updatePropertyFile(KeyFileMgr translationFile, Properties properties) {
         // loop through translationFile
         while (translationFile.hasNext()) {
-            Translation nextTranslation = translationFile.next()
+            def nextTranslation = translationFile.next()
             def nextTranslationValue = nextTranslation["Japanese"].trim()
             if (nextTranslationValue != null) {
                 def nextTranslationKey = nextTranslation["Message Key"]
@@ -57,7 +57,6 @@ class UpdateJapaneseProperties {
                 }
             }
         }
-
     }
 
     static logMissingTranslations(KeyFileMgr translationFile, Properties properties) {
