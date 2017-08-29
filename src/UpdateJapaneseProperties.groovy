@@ -79,8 +79,8 @@ class UpdateJapaneseProperties {
         def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
         openLogs(fp)
         // open translation file
-//        def transFileName = new FileChooser().chooseFile(fp + "PropertyExports\\\\")
-        def transFileName = fp + "PropertyExports\\\\DMT-export.txt"         //testing
+        def transFileName = new FileChooser().chooseFile(fp + "PropertyExports\\\\")
+//        def transFileName = fp + "PropertyExports\\\\DMT-export.txt"         //testing
         KeyFileMgr translationFile
         if (transFileName == null) {
             Log.writeLine("exceptions", "No translation file found.")
@@ -91,8 +91,8 @@ class UpdateJapaneseProperties {
         LineFileMgr propertyFile
         if (translationFile != null) {
             // open property file
-//        def propFileName = new FileChooser().chooseFile(fp + "PropertyFiles\\\\")
-            def propFileName = fp + "PropertyFiles\\\\messages_ja.properties"
+        def propFileName = new FileChooser().chooseFile(fp + "PropertyFiles\\\\")
+//            def propFileName = fp + "PropertyFiles\\\\messages_ja.properties"
             if (propFileName == null) {
                 Log.writeLine("exceptions", "No properties file found.")
             } else {
