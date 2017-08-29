@@ -19,6 +19,10 @@ class KeyFileMgr extends LineFileMgr {
             null
     }
 
+    def rewindToStart() {
+        keyMapIterator = keyMaps.iterator()
+    }
+
     def hasNext() {
         keyMapIterator.hasNext()
     }
@@ -29,7 +33,7 @@ class KeyFileMgr extends LineFileMgr {
             def parsedLine = KeyPairParser.parseToMap(super.lines[i])
             keyMaps << parsedLine
         }
-        keyMapIterator = keyMaps.iterator()
+        rewindToStart()
     }
 
     def getKeyMapSize() {

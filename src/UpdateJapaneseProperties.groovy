@@ -5,6 +5,8 @@ import Logging.Dates
 import Logging.Log
 import Translations.Properties
 import Translations.Translations
+import Translations.Translation
+
 
 /**
  * Created by s0041664 on 8/25/2017.
@@ -34,31 +36,41 @@ class UpdateJapaneseProperties {
         propFile
     }
 
-    static updatePropertyFile(KeyFileMgr translationFile, LineFileMgr propertyFile) {
-        Properties properties = new Properties(propertyFile)
+    static updatePropertyFile(KeyFileMgr translationFile, Properties properties) {
         // loop through translationFile
         while (translationFile.hasNext()) {
             def nextTranslation = translationFile.next()
-            def nextTranslationKey = nextTranslation["Message Key"]
-            if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
-                def nextPropertyValue = properties.getPropertyValue(nextTranslationKey)
-                if (nextPropertyValue == null) {
-                    Log.writeLine("exceptions", "Property '$nextTranslationKey' not found in translations file")
-                } else {
-                    def nextTranslationValue = nextTranslation["Japanese"].trim()
-                    if (nextTranslationValue != "") {
-                        if (!nextPropertyValue.equals(nextTranslationValue)) {
+            def nextTranslationValue = nextTranslation["Japanese"].trim()
+            if (nextTranslationValue != null) {
+                def nextTranslationKey = nextTranslation["Message Key"]
+                if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
+                    def matchingProperty = properties.getPropertyValue(nextTranslationKey)
+                    if (matchingProperty == null) {
+                        Log.writeLine("exceptions", "Translated property '$nextTranslationKey' not found in properties file")
+                    } else {
+                        if (!matchingProperty.equals(nextTranslationValue)) {
                             properties.setPropertyValue(nextTranslationKey, nextTranslationValue)
-                            Log.writeLine("Property $nextTranslationKey: '$nextPropertyValue' replaced by '$nextTranslationValue'")
+                            Log.writeLine("Property $nextTranslationKey: '$matchingProperty' replaced by '$nextTranslationValue'")
                         }
                     }
                 }
             }
         }
-        //loop through translation file
-        //  log any translations missing in properties file
-        //end loop
 
+    }
+
+    static logMissingTranslations(KeyFileMgr translationFile, Properties properties) {
+        Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
+        Translations translations = new Translations(translationFile)
+        properties.propKeyMap.each { propKey, propValue ->
+            if (propKey[0] != "*") {
+                Translation matchingTranslation = translations.getTranslation("Message Key", propKey)
+                if (matchingTranslation == null)
+                    Log.writeLine("exceptions", "Property '$propKey' does not have corresponding 'Message Key' in translation spreadsheet.")
+                else if (matchingTranslation.getTranslationValue("Japanese") == null)
+                    Log.writeLine("exceptions", "Property '$propKey' has row, but no Japanese translation in translation spreadsheet.")
+            }
+        }
     }
 
     static main(args) {
@@ -86,7 +98,9 @@ class UpdateJapaneseProperties {
                 propertyFile = openPropertyFile(propFileName)
             }
             if (propertyFile != null) {
-                updatePropertyFile(translationFile, propertyFile)
+                Properties properties = new Properties(propertyFile)
+                updatePropertyFile(translationFile, properties)
+                logMissingTranslations(translationFile, properties)
             }
         }
     }
