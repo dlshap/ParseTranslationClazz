@@ -62,6 +62,7 @@ class UpdateJapaneseProperties {
     static logMissingTranslations(KeyFileMgr translationFile, Properties properties) {
         Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
         Translations translations = new Translations(translationFile)
+        //TODO: Encapsulate propKeyMap
         properties.propKeyMap.each { propKey, propValue ->
             if (propKey[0] != "*") {
                 Translation matchingTranslation = translations.getTranslation("Message Key", propKey)
