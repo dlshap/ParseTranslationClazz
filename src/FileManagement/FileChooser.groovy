@@ -9,6 +9,7 @@ class FileChooser {
 
     def chooseFile(fp) {
 //      return full pathname to selected file
+        String fullPathName
         File chosenFile
         JFileChooser fc = new JFileChooser(fp)
         fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES)
@@ -21,7 +22,8 @@ class FileChooser {
             case JFileChooser.ERROR_OPTION:
                 break
         }
-        def fullPathName = chosenFile.getPath()
+        if (chosenFile != null)
+            fullPathName = chosenFile.getPath()
         fullPathName
     }
 
