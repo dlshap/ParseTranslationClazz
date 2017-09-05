@@ -13,8 +13,15 @@ class FileMgr {
     }
 
     def FileMgr(fileName, createFlag create) {
-        openFile(fileName)
-        if (theFile.exists()) {
+        theFile = openFile(fileName)
+        if (!theFile.exists()) {
+            // if no file exists, make sure folder exists
+            def parentDir = this.getDirPath()
+            def folderPath = new File(parentDir)
+            if (!folderPath.exists()) {
+                folderPath.mkdir()
+            }
+        } else {
             theFile.delete()
         }
     }
