@@ -2,15 +2,15 @@ package FileManagement
 /**
  * Created by s0041664 on 8/11/2017.
  */
-class LineFileMgr extends FileMgr {
+class LineFile extends FileMgr {
     def lines
     Iterator lineIterator
 
-    def LineFileMgr() {
+    def LineFile() {
         super()
     }
 
-    def LineFileMgr(fileName) {
+    def LineFile(fileName) {
         super()
         openFile(fileName)
     }
@@ -23,7 +23,7 @@ class LineFileMgr extends FileMgr {
         }
     }
 
-    def LineFileMgr(String fileName, createFlag create) {
+    def LineFile(String fileName, createFlag create) {
         super(fileName, create)
     }
 

@@ -1,7 +1,7 @@
 package Logging
 
 import FileManagement.FileMgr
-import FileManagement.LineFileMgr
+import FileManagement.LineFile
 
 /**
  * Created by s0041664 on 8/16/2017.
@@ -10,7 +10,7 @@ class Log {
     static file = [:]
 
     static open(logName, fileName) {
-        file[logName] = new LineFileMgr(fileName, FileMgr.createFlag.CREATE)
+        file[logName] = new LineFile(fileName, FileMgr.createFlag.CREATE)
     }
 
     static open(fileName) {

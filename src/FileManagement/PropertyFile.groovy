@@ -2,7 +2,7 @@ package FileManagement
 
 import Logging.Log
 
-class PropertyFile extends LineFileMgr {
+class PropertyFile extends LineFile {
 
     def PropertyFile() {
         super()
@@ -26,10 +26,10 @@ class PropertyFile extends LineFileMgr {
     }
 
     def openTranslatedFile() {
-        LineFileMgr translatedFile
+        LineFile translatedFile
         if (theFile != null) {
             def propertyOutFileName = this.getTranslatedFileName()
-            translatedFile = new LineFileMgr(propertyOutFileName, FileMgr.createFlag.CREATE)
+            translatedFile = new LineFile(propertyOutFileName, FileMgr.createFlag.CREATE)
         }
         translatedFile
     }

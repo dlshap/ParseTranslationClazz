@@ -3,7 +3,7 @@ package FileManagement
 /**
  * Created by s0041664 on 8/11/2017.
  */
-class KeyFile extends LineFileMgr {
+class KeyFile extends LineFile {
     def keyMaps = []
     def keyMapIterator
 

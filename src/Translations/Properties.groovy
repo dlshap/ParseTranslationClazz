@@ -1,6 +1,6 @@
 package Translations
 
-import FileManagement.LineFileMgr
+import FileManagement.LineFile
 import FileManagement.PropertyFile
 
 /**
@@ -36,7 +36,7 @@ class Properties {
     }
 
     def writeToTranslatedFile() {
-        LineFileMgr translatedFile = propFile.openTranslatedFile()
+        LineFile translatedFile = propFile.openTranslatedFile()
         if (propFile != null) {
             propKeyMap.each {propKey, propValue ->
                 if (propKey[0] == "*") {
