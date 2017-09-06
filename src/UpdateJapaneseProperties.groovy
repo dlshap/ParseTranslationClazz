@@ -1,7 +1,7 @@
-import FileManagement.FileChooser
-import FileManagement.FileMgr
 import FileManagement.KeyFileMgr
 import FileManagement.LineFileMgr
+import FileManagement.PropertyFile
+import FileManagement.TranslationFile
 import Logging.Dates
 import Logging.Log
 import Translations.Properties
@@ -21,23 +21,7 @@ class UpdateJapaneseProperties {
         Log.writeLine("exceptions", "Running on: " + Dates.currentDateAndTime())
     }
 
-    static openTranslationFile(transFileName) {
-        def transFile = new KeyFileMgr(transFileName)
-        if (!transFile.exists()) {
-            Log.writeLine("exceptions", "Translation file: $transFileName doesn't exist.")
-        }
-        transFile
-    }
-
-    static openPropertyFile(propFileName) {
-        def propFile = new LineFileMgr(propFileName)
-        if (!propFile.exists()) {
-            Log.writeLine("exceptions", "Property file $propFileName doesn't exist.")
-        }
-        propFile
-    }
-
-    static updatePropertyFile(KeyFileMgr translationFile, Properties properties) {
+    static updatePropertyFile(TranslationFile translationFile, Properties properties) {
         // loop through translationFile
         while (translationFile.hasNext()) {
             def nextTranslation = translationFile.next()
@@ -79,29 +63,13 @@ class UpdateJapaneseProperties {
         def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
         openLogs(fp)
         // open translation file
-        def transFileName = new FileChooser().chooseFile(fp + "PropertyExports\\\\")
-//        def transFileName = fp + "PropertyExports\\\\DMT-export.txt"         //testing
-        KeyFileMgr translationFile
-        if (transFileName == null) {
-            Log.writeLine("exceptions", "No translation file found.")
-        } else {
-            translationFile = openTranslationFile(transFileName)
-        }
-
-        LineFileMgr propertyFile
+        TranslationFile translationFile = new TranslationFile(fp)
         if (translationFile != null) {
             // open property file
-        def propFileName = new FileChooser().chooseFile(fp + "PropertyFiles\\\\")
-//            def propFileName = fp + "PropertyFiles\\\\messages_ja.properties"
-            if (propFileName == null) {
-                Log.writeLine("exceptions", "No properties file found.")
-            } else {
-                propertyFile = openPropertyFile(propFileName)
-            }
+            PropertyFile propertyFile = new PropertyFile(fp)
             if (propertyFile != null) {
                 //open property output file
-                def propertyOutFileName = fp + "PropertyFilesTranslated\\\\" + propertyFile.getFileName() + ".translated"
-                LineFileMgr propertyOutFile = new LineFileMgr(propertyOutFileName, FileMgr.createFlag.CREATE)
+                LineFileMgr propertyOutFile = propertyFile.openPropertyOutFile()
                 Properties properties = new Properties(propertyFile)
                 updatePropertyFile(translationFile, properties)
                 logMissingTranslations(translationFile, properties)

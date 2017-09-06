@@ -3,6 +3,7 @@ package Translations
 import FileManagement.KeyFileMgr
 import FileManagement.KeyPairParser
 import FileManagement.LineFileMgr
+import FileManagement.PropertyFile
 
 import javax.sound.sampled.Line
 
@@ -11,7 +12,7 @@ import javax.sound.sampled.Line
  */
 class Properties {
 
-    LineFileMgr propFile
+    PropertyFile propFile
     Map propKeyMap = [:]
 
     def Properties(propFile) {
@@ -19,7 +20,7 @@ class Properties {
         propKeyMap = buildPropKeyMap(propFile)
     }
 
-    static buildPropKeyMap(LineFileMgr propFile) {
+    static buildPropKeyMap(PropertyFile propFile) {
         Map<String, String> keyMap = [:]
         def lastNonProperty = 1
         def propKey
