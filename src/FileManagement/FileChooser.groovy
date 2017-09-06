@@ -7,11 +7,12 @@ import javax.swing.JFileChooser
  */
 class FileChooser {
 
-    def chooseFile(fp) {
+    def chooseFile(title, fp) {
 //      return full pathname to selected file
         String fullPathName
         File chosenFile
         JFileChooser fc = new JFileChooser(fp)
+        fc.setDialogTitle(title)
         fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES)
         int result = fc.showOpenDialog(null)
         switch (result) {

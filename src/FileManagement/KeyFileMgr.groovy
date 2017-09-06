@@ -12,7 +12,12 @@ class KeyFileMgr extends LineFileMgr {
     }
 
     def KeyFileMgr(fileName) {
-        super(fileName)
+        super()
+        openFile(fileName)
+    }
+
+    def openFile(fileName) {
+        super.openFile(fileName)
         buildKeyMapList()
     }
 

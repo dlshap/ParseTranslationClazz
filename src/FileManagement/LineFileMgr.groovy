@@ -11,11 +11,8 @@ class LineFileMgr extends FileMgr {
     }
 
     def LineFileMgr(fileName) {
-        super(fileName)
-    }
-
-    def LineFileMgr(String fileName, createFlag create) {
-        super(fileName, create)
+        super()
+        openFile(fileName)
     }
 
     def openFile(fileName) {
@@ -24,7 +21,10 @@ class LineFileMgr extends FileMgr {
             lines = theFile.readLines()
             lineIterator = lines.iterator()
         }
-        theFile
+    }
+
+    def LineFileMgr(String fileName, createFlag create) {
+        super(fileName, create)
     }
 
     def next() {

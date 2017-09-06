@@ -2,49 +2,35 @@ package FileManagement
 
 import Logging.Log
 
-class PropertyFile {
+class PropertyFile extends LineFileMgr {
 
-    String fp
-    LineFileMgr propertyFile
+    def PropertyFile() {
+        super()
+    }
 
     def PropertyFile(fp) {
-        this.fp = fp
-        def propFileName = new FileChooser().chooseFile(fp + "PropertyFiles\\\\")
+        super()
+        def propFileName = new FileChooser().chooseFile("Select Property file", fp + "PropertyFiles\\\\")
 //            def propFileName = fp + "PropertyFiles\\\\messages_ja.properties"
         if (propFileName == null) {
-            Log.writeLine("exceptions", "No properties file found.")
+            Log.writeLine("exceptions", "No properties file selected.")
         } else {
-            this.propertyFile = openPropertyFile(propFileName)
+            openFile(propFileName)
         }
     }
 
-    def openPropertyFile(propFileName) {
-        def propFile = new LineFileMgr(propFileName)
-        if (!propFile.exists()) {
-            Log.writeLine("exceptions", "Property file $propFileName doesn't exist.")
-        }
-        propFile
-    }
-
-    def hasNext() {
-        propertyFile.hasNext()
-    }
-
-    def next() {
-        propertyFile.next()
-    }
-
-    def getOutFileName() {
-        def propertyOutFileName = fp + "PropertyFilesTranslated\\\\" + propertyFile.getFileName() + ".translated"
+    def getTranslatedFileName() {
+        def parentDir = new File(getDirPath()).getParent()
+        def propertyOutFileName = parentDir + "\\\\PropertyFilesTranslated\\\\" + getFileName() + ".translated"
         propertyOutFileName
     }
 
-    def openPropertyOutFile() {
-        LineFileMgr propertyOutFile
-        if (this.propertyFile != null) {
-            def propertyOutFileName = this.getOutFileName()
-            propertyOutFile = new LineFileMgr(propertyOutFileName, FileMgr.createFlag.CREATE)
+    def openTranslatedFile() {
+        LineFileMgr translatedFile
+        if (theFile != null) {
+            def propertyOutFileName = this.getTranslatedFileName()
+            translatedFile = new LineFileMgr(propertyOutFileName, FileMgr.createFlag.CREATE)
         }
-        propertyOutFile
+        translatedFile
     }
 }

@@ -1,3 +1,4 @@
+import FileManagement.FileMgr
 import FileManagement.KeyFileMgr
 import FileManagement.LineFileMgr
 import FileManagement.PropertyFile
@@ -61,21 +62,20 @@ class UpdateJapaneseProperties {
     static main(args) {
         //open log files
         def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+
         openLogs(fp)
         // open translation file
         TranslationFile translationFile = new TranslationFile(fp)
-        if (translationFile != null) {
+        if (translationFile.exists()) {
             // open property file
             PropertyFile propertyFile = new PropertyFile(fp)
-            if (propertyFile != null) {
-                //open property output file
-                LineFileMgr propertyOutFile = propertyFile.openPropertyOutFile()
+            if (propertyFile.exists()) {
+                //get property list
                 Properties properties = new Properties(propertyFile)
                 updatePropertyFile(translationFile, properties)
                 logMissingTranslations(translationFile, properties)
-                properties.writeToFile(propertyOutFile)
+                properties.writeToTranslatedFile()
             }
         }
     }
-
 }

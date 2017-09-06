@@ -9,7 +9,6 @@ class FileMgr {
     File theFile
 
     def FileMgr() {
-        super()
     }
 
     def FileMgr(fileName) {
@@ -17,7 +16,7 @@ class FileMgr {
     }
 
     def FileMgr(fileName, createFlag create) {
-        theFile = openFile(fileName)
+        openFile(fileName)
         if (!theFile.exists()) {
             // if no file exists, make sure folder exists
             def parentDir = this.getDirPath()
@@ -35,7 +34,7 @@ class FileMgr {
     }
 
     def exists() {
-        (theFile.exists())
+        (theFile != null)
     }
 
     def getDirPath() {

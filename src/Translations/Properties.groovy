@@ -1,11 +1,7 @@
 package Translations
 
-import FileManagement.KeyFileMgr
-import FileManagement.KeyPairParser
 import FileManagement.LineFileMgr
 import FileManagement.PropertyFile
-
-import javax.sound.sampled.Line
 
 /**
  * Created by s0041664 on 8/25/2017.
@@ -39,13 +35,14 @@ class Properties {
         keyMap
     }
 
-    def writeToFile(LineFileMgr propkeyFile) {
-        if (propkeyFile != null) {
+    def writeToTranslatedFile() {
+        LineFileMgr translatedFile = propFile.openTranslatedFile()
+        if (propFile != null) {
             propKeyMap.each {propKey, propValue ->
                 if (propKey[0] == "*") {
-                    propkeyFile.writeLine(propValue)
+                    translatedFile.writeLine(propValue)
                 } else {
-                    propkeyFile.writeLine(propKey + "=" + propValue)
+                    translatedFile.writeLine(propKey + "=" + propValue)
                 }
             }
         }
