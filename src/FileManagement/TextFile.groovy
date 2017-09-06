@@ -3,15 +3,15 @@ package FileManagement
 /**
  * Created by s0041664 on 8/18/2017.
  */
-class TextFileMgr extends FileMgr {
+class TextFile extends FileMgr {
 
     def fileText
 
-    def TextFileMgr(fileName) {
+    def TextFile(fileName) {
         super(fileName)
     }
 
-    def TextFileMgr(fileName, FileMgr.createFlag create) {
+    def TextFile(fileName, FileMgr.createFlag create) {
         super(fileName, create)
     }
 

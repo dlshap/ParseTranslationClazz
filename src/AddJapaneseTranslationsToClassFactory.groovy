@@ -1,4 +1,4 @@
-import FileManagement.TextFileMgr
+import FileManagement.TextFile
 import FileManagement.FileChooser
 
 /**
@@ -18,7 +18,7 @@ class AddJapaneseTranslationsToClassFactory {
         result
     }
 
-    static addJapaneseTranslations(TextFileMgr classFactoryFile) {
+    static addJapaneseTranslations(TextFile classFactoryFile) {
         def origText = classFactoryFile.getText()
         def newText
         newText = addJapaneseDescriptionKey(origText)
@@ -30,7 +30,7 @@ class AddJapaneseTranslationsToClassFactory {
         def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\LibraryFactories"
         def fileName = new FileChooser().chooseFile(fp)
         if (fileName != null) {
-            TextFileMgr classFactoryFile = new TextFileMgr(fileName)
+            TextFile classFactoryFile = new TextFile(fileName)
             def newText = addJapaneseTranslations(classFactoryFile)
             if (newText != null) {
                 classFactoryFile.makeBackupFile()

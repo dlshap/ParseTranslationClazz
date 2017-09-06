@@ -1,8 +1,7 @@
 package LibraryQuestions
 
-import FileManagement.TextFileMgr
+import FileManagement.TextFile
 import com.google.common.base.Splitter
-import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator
 
 /**
  * Created by s0041664 on 8/18/2017.
@@ -12,11 +11,11 @@ class LibraryFileParser {
     def libraryText
     def libraryIterator
 
-    def LibraryFileParser(TextFileMgr libraryFile) {
+    def LibraryFileParser(TextFile libraryFile) {
         parseFile(libraryFile)
     }
 
-    def parseFile(TextFileMgr libraryFile) {
+    def parseFile(TextFile libraryFile) {
         def fileText = libraryFile.getText()
         // split on string
         def libraryText = (Splitter.on(splitOn)

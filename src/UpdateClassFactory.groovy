@@ -1,7 +1,7 @@
 import FileManagement.FileMgr
 import FileManagement.FileDirectoryMgr
 import FileManagement.KeyFile
-import FileManagement.TextFileMgr
+import FileManagement.TextFile
 import LibraryQuestions.LibraryFileParser
 import LibraryQuestions.LibraryQuestionMatchers
 import Logging.Dates
@@ -58,7 +58,7 @@ class UpdateClassFactory {
     static openFactoryFile(fp, fileName) {
         def smallName = FileDirectoryMgr.getSmallName(fileName)       // no file extension
         def factoryFileName = smallName + "ClassFactory.groovy"
-        def factoryFile = new TextFileMgr(fp + "LibraryFactories\\\\" + factoryFileName)
+        def factoryFile = new TextFile(fp + "LibraryFactories\\\\" + factoryFileName)
         if (!factoryFile.exists()) {
             Log.writeLine "${factoryFile.getFullPathName()} doesn't exist"
         }
@@ -68,7 +68,7 @@ class UpdateClassFactory {
     static openFactoryTranslatedFile(fp, fileName) {
         def factoryTranslatedFileName = fileName + ".translated"
         def factoryTranslatedPath = fp + "LibraryFactoriesTranslated\\\\"
-        def factoryTranslatedFile = new TextFileMgr(factoryTranslatedPath + factoryTranslatedFileName, FileMgr.createFlag.CREATE)
+        def factoryTranslatedFile = new TextFile(factoryTranslatedPath + factoryTranslatedFileName, FileMgr.createFlag.CREATE)
         factoryTranslatedFile
     }
 
@@ -99,7 +99,7 @@ class UpdateClassFactory {
         nextText
     }
 
-    static updateFactory(transFile, TextFileMgr factoryFile, TextFileMgr factoryOutFile) {
+    static updateFactory(transFile, TextFile factoryFile, TextFile factoryOutFile) {
         def factoryParser = new LibraryFileParser(factoryFile)
         def translations = new Translations(transFile)
         if (factoryParser.hasNext()) {
