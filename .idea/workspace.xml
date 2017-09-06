@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="Working version before refactoring">
+    <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties$_writeToFile_closure1.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties$_writeToFile_closure1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/FileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/FileMgr.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/LineFileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/LineFileMgr.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -985,11 +981,18 @@
       <option name="project" value="LOCAL" />
       <updated>1504706984200</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Working version before refactoring">
+      <created>1504724896458</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1504724896458</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="217000000" />
+    <option name="totallyTimeSpent" value="217052000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1673" height="1015" extended-state="0" />
