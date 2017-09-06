@@ -7,6 +7,10 @@ class KeyFileMgr extends LineFileMgr {
     def keyMaps = []
     def keyMapIterator
 
+    def KeyFileMgr() {
+        super()
+    }
+
     def KeyFileMgr(fileName) {
         super(fileName)
         buildKeyMapList()
@@ -24,7 +28,10 @@ class KeyFileMgr extends LineFileMgr {
     }
 
     def hasNext() {
-        keyMapIterator.hasNext()
+        if (keyMapIterator == null)
+            null
+        else
+            keyMapIterator.hasNext()
     }
 
     def buildKeyMapList() {

@@ -6,6 +6,10 @@ class LineFileMgr extends FileMgr {
     def lines
     Iterator lineIterator
 
+    def LineFileMgr() {
+        super()
+    }
+
     def LineFileMgr(fileName) {
         super(fileName)
     }

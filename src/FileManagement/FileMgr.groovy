@@ -8,6 +8,10 @@ class FileMgr {
     enum createFlag {CREATE}
     File theFile
 
+    def FileMgr() {
+        super()
+    }
+
     def FileMgr(fileName) {
         openFile(fileName)
     }

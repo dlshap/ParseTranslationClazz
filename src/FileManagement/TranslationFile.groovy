@@ -10,16 +10,7 @@ class TranslationFile extends KeyFileMgr {
         if (transFileName == null) {
             Log.writeLine("exceptions", "No translation file found.")
         } else {
-            this.translationFile = openTranslationFile(transFileName)
+            openFile(transFileName)
         }
-        this.translationFile
-    }
-
-    def openTranslationFile(transFileName) {
-        def translationFile = new KeyFileMgr(transFileName)
-        if (!translationFile.exists()) {
-            Log.writeLine("exceptions", "Translation file: $transFileName doesn't exist.")
-        }
-        translationFile
     }
 }
