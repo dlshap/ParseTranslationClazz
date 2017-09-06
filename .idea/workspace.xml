@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TextFileMgr.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/TextFileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/TextFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure1.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure2.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateClassFactory.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateClassFactory.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" afterPath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LibraryQuestions/LibraryFileParser.groovy" afterPath="$PROJECT_DIR$/src/LibraryQuestions/LibraryFileParser.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateClassFactory.groovy" afterPath="$PROJECT_DIR$/src/UpdateClassFactory.groovy" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,31 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UpdateJapaneseProperties.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UpdateJapaneseProperties.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
               <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TranslationFile.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KeyFile.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -762,7 +732,7 @@
       <workItem from="1504642377674" duration="286000" />
       <workItem from="1504648358559" duration="882000" />
       <workItem from="1504704899431" duration="3054000" />
-      <workItem from="1504731307158" duration="5535000" />
+      <workItem from="1504731307158" duration="6099000" />
     </task>
     <task id="LOCAL-00001" summary="Everything seems to be working">
       <created>1502907901568</created>
@@ -995,11 +965,18 @@
       <option name="project" value="LOCAL" />
       <updated>1504736794751</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Renamed TextFileMgr to TextFile">
+      <created>1504736872834</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1504736872834</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225327000" />
+    <option name="totallyTimeSpent" value="225891000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1672" height="1008" extended-state="0" />
@@ -1050,7 +1027,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="All translations and excepts seem to be working...now to work on Person class and financial fields" />
     <MESSAGE value="Debugging...not catching Help Text in ClimbingExperience.txt" />
     <MESSAGE value="Getting pretty close...and recording timestamp to overwrites log" />
     <MESSAGE value="Cleaned up main" />
@@ -1075,7 +1051,8 @@
     <MESSAGE value="Refactor all the file managers" />
     <MESSAGE value="Renamed KeyFileMgr to KeyFile" />
     <MESSAGE value="Renamed LineFileMgr to LineFile" />
-    <option name="LAST_COMMIT_MESSAGE" value="Renamed LineFileMgr to LineFile" />
+    <MESSAGE value="Renamed TextFileMgr to TextFile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Renamed TextFileMgr to TextFile" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1386,10 +1363,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="323">
+          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -1402,10 +1379,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
+    <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
