@@ -732,7 +732,7 @@
       <workItem from="1504642377674" duration="286000" />
       <workItem from="1504648358559" duration="882000" />
       <workItem from="1504704899431" duration="3054000" />
-      <workItem from="1504731307158" duration="6099000" />
+      <workItem from="1504731307158" duration="6106000" />
     </task>
     <task id="LOCAL-00001" summary="Everything seems to be working">
       <created>1502907901568</created>
@@ -972,11 +972,18 @@
       <option name="project" value="LOCAL" />
       <updated>1504736872834</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Renamed TextFileMgr to TextFile">
+      <created>1504737421422</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1504737421422</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225891000" />
+    <option name="totallyTimeSpent" value="225898000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1672" height="1008" extended-state="0" />
