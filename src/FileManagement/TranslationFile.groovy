@@ -2,7 +2,7 @@ package FileManagement
 
 import Logging.Log
 
-class TranslationFile extends KeyFileMgr {
+class TranslationFile extends KeyFile {
 
     def TranslationFile(fp) {
         super()

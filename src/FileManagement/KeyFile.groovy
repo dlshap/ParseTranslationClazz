@@ -3,15 +3,15 @@ package FileManagement
 /**
  * Created by s0041664 on 8/11/2017.
  */
-class KeyFileMgr extends LineFileMgr {
+class KeyFile extends LineFileMgr {
     def keyMaps = []
     def keyMapIterator
 
-    def KeyFileMgr() {
+    def KeyFile() {
         super()
     }
 
-    def KeyFileMgr(fileName) {
+    def KeyFile(fileName) {
         super()
         openFile(fileName)
     }

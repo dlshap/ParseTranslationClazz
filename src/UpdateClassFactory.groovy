@@ -1,6 +1,6 @@
 import FileManagement.FileMgr
 import FileManagement.FileDirectoryMgr
-import FileManagement.KeyFileMgr
+import FileManagement.KeyFile
 import FileManagement.TextFileMgr
 import LibraryQuestions.LibraryFileParser
 import LibraryQuestions.LibraryQuestionMatchers
@@ -48,7 +48,7 @@ class UpdateClassFactory {
     }
 
     static openTranslationFile(fp, fileName) {
-        def transFile = new KeyFileMgr(fp + "LibraryExports\\\\" + fileName)
+        def transFile = new KeyFile(fp + "LibraryExports\\\\" + fileName)
         if (!transFile.exists()) {
             Log.writeLine("exceptions", "Translation file: $fileName doesn't exist.")
         }

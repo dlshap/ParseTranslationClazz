@@ -2,22 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/KeyFileMgr.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/KeyFileMgr.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/LineFileMgr.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/LineFileMgr.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/PropertyFile.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/PropertyFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TextFileMgr.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TextFileMgr.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties$_writeToFile_closure1.class" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/KeyFile.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties$_logMissingTranslations_closure1.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties$_logMissingTranslations_closure1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/FileChooser.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/FileChooser.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/FileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/FileMgr.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/LineFileMgr.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/LineFileMgr.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/PropertyFile.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/PropertyFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Translations/Properties.groovy" afterPath="$PROJECT_DIR$/src/Translations/Properties.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateClassFactory.groovy" afterPath="$PROJECT_DIR$/src/UpdateClassFactory.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" afterPath="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
@@ -45,52 +35,28 @@
       <file leaf-file-name="UpdateJapaneseProperties.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-357">
-              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Properties.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Translations/Properties.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="508">
-              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-              <folding>
-                <element signature="e#22#55#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PropertyFile.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/FileManagement/PropertyFile.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="17">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LineFileMgr.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/FileManagement/LineFileMgr.groovy">
+      <file leaf-file-name="TranslationFile.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="170">
+              <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileMgr.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/FileManagement/FileMgr.groovy">
+      <file leaf-file-name="KeyFile.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+            <state relative-caret-position="323">
+              <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -131,7 +97,6 @@
         <option value="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionFields.groovy" />
         <option value="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMappings.groovy" />
         <option value="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMapping.groovy" />
-        <option value="$PROJECT_DIR$/src/FileManagement/KeyFile.groovy" />
         <option value="$PROJECT_DIR$/src/FileManagement/FileDirectoryMgr.groovy" />
         <option value="$PROJECT_DIR$/src/Translations/Translation.groovy" />
         <option value="$PROJECT_DIR$/src/FileManagement/AnyFile.groovy" />
@@ -154,9 +119,10 @@
         <option value="$PROJECT_DIR$/src/FileManagement/LineFileMgr.groovy" />
         <option value="$PROJECT_DIR$/src/FileManagement/FileMgr.groovy" />
         <option value="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" />
-        <option value="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" />
         <option value="$PROJECT_DIR$/src/FileManagement/PropertyFile.groovy" />
         <option value="$PROJECT_DIR$/src/Translations/Properties.groovy" />
+        <option value="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" />
+        <option value="$PROJECT_DIR$/src/FileManagement/KeyFile.groovy" />
       </list>
     </option>
   </component>
@@ -792,7 +758,7 @@
       <workItem from="1504642377674" duration="286000" />
       <workItem from="1504648358559" duration="882000" />
       <workItem from="1504704899431" duration="3054000" />
-      <workItem from="1504731307158" duration="5220000" />
+      <workItem from="1504731307158" duration="5396000" />
     </task>
     <task id="LOCAL-00001" summary="Everything seems to be working">
       <created>1502907901568</created>
@@ -1004,11 +970,18 @@
       <option name="project" value="LOCAL" />
       <updated>1504724896458</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Refactor all the file managers">
+      <created>1504736567149</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1504736567150</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225012000" />
+    <option name="totallyTimeSpent" value="225188000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1672" height="1008" extended-state="0" />
@@ -1083,7 +1056,8 @@
     <MESSAGE value="All functions working...going to refactor in branch" />
     <MESSAGE value="Minor fix in app to add Japanese Translation attributes" />
     <MESSAGE value="Working version before refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working version before refactoring" />
+    <MESSAGE value="Refactor all the file managers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor all the file managers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1173,7 +1147,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy">
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="833">
           <caret line="49" column="21" lean-forward="false" selection-start-line="49" selection-start-column="21" selection-end-line="49" selection-end-column="21" />
@@ -1209,7 +1183,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy">
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
@@ -1240,7 +1214,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy">
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
@@ -1344,14 +1318,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFileMgr.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files (x86)/Groovy/libraries/google/guava-19.0.jar!/com/google/common/base/Splitter.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1364,14 +1330,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -1400,23 +1358,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-357">
-          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Translations/Properties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
+        <state relative-caret-position="748">
           <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding>
             <element signature="e#22#55#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>

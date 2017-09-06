@@ -1,6 +1,4 @@
-import FileManagement.FileMgr
-import FileManagement.KeyFileMgr
-import FileManagement.LineFileMgr
+import FileManagement.KeyFile
 import FileManagement.PropertyFile
 import FileManagement.TranslationFile
 import Logging.Dates
@@ -44,7 +42,7 @@ class UpdateJapaneseProperties {
         }
     }
 
-    static logMissingTranslations(KeyFileMgr translationFile, Properties properties) {
+    static logMissingTranslations(KeyFile translationFile, Properties properties) {
         Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
         Translations translations = new Translations(translationFile)
         //TODO: Encapsulate propKeyMap
