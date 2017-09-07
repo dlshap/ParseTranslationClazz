@@ -41,12 +41,6 @@ class UpdateClassFactories {
     }
 
 
-    static getFileList(fp) {
-        def fileList = new FileDirectoryMgr(fp + "LibraryExports\\\\").getFileList()
-        FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
-        fileList
-    }
-
     static openTranslationFile(fp, fileName) {
         def transFile = new KeyFile(fp + "LibraryExports\\\\" + fileName)
         if (!transFile.exists()) {
@@ -117,18 +111,36 @@ class UpdateClassFactories {
         }
     }
 
-    static main(args) {
-        /** ****************************************************/
-        def testFile = ""   // "" if not testing a single file
-        /** ****************************************************/
+    static buildFileList(fp) {
+        def fileList = new FileDirectoryMgr(fp + "LibraryExports\\\\").getFileList()
+        FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
+        fileList
+    }
 
-        def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
-        openLogs(fp)
+    static getFilePath(args) {
+        def fp //filepath
+        if (args.size() == 0)
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+        else
+            fp = args[0]
+        fp
+    }
 
-        def fileList = [testFile]
-        if (testFile == "") {
-            fileList = getFileList(fp)
+    static getFileList(fp, args) {
+        def fileList
+        if (args.size() > 1) {
+             fileList = [args[1]]
+        } else {
+             fileList = buildFileList(fp)
         }
+        fileList
+    }
+
+    static main(args) {
+        def fp = getFilePath(args)
+        openLogs(fp)
+        def fileList = getFileList(fp, args)
+        Log.writeLine("Processing ${fileList.size()} files: ${fileList}")
         fileList.forEach {
             addFileToLogs(it)
             def transFile = openTranslationFile(fp, it)

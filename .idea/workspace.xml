@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/UpdateClassFactory.groovy" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/UpdateClassFactory.groovy" afterPath="$PROJECT_DIR$/src/UpdateClassFactories.groovy" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateClassFactory$_main_closure2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateClassFactory$_replaceLineWithTranslations_closure1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateClassFactory.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" afterPath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateClassFactories.groovy" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,11 +31,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UpdateClassFactories.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UpdateClassFactories.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/UpdateClassFactories.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
-              <caret line="139" column="9" lean-forward="false" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+            <state relative-caret-position="181">
+              <caret line="128" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddJapaneseTranslationsToClassFactory.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="470">
+              <caret line="50" column="1" lean-forward="true" selection-start-line="50" selection-start-column="1" selection-end-line="50" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileChooser.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/FileManagement/FileChooser.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="31" lean-forward="false" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KeyFile.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -83,7 +118,6 @@
         <option value="$PROJECT_DIR$/src/TestParse.groovy" />
         <option value="$PROJECT_DIR$/src/Logging/Dates.groovy" />
         <option value="$PROJECT_DIR$/src/FileManagement/TextFileMgr.groovy" />
-        <option value="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" />
         <option value="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMatchers.groovy" />
         <option value="$PROJECT_DIR$/src/Translations/UpdateJapaneseProperties.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateClassFactory.groovy" />
@@ -100,6 +134,7 @@
         <option value="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateClassFactories.groovy" />
+        <option value="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" />
       </list>
     </option>
   </component>
@@ -112,7 +147,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="1" />
     <option name="y" value="1" />
-    <option name="width" value="1676" />
+    <option name="width" value="1677" />
     <option name="height" value="1014" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -239,9 +274,9 @@
     <configuration name="UpdateClassFactories" type="Application" factoryName="Application" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="UpdateClassFactories" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\s0041664\Documents\Projects\DMT-DE\Translations\ " />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
@@ -259,7 +294,7 @@
       </extension>
       <option name="MAIN_CLASS_NAME" value="UpdateJapaneseProperties" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\" />
+      <option name="PROGRAM_PARAMETERS" value="C:\Users\s0041664\Documents\Projects\DMT-DE\Translations\" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -997,18 +1032,26 @@
       <option name="project" value="LOCAL" />
       <updated>1504796742694</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Renamed main class">
+      <created>1504796993719</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1504796993719</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="229336000" />
+    <option name="totallyTimeSpent" value="231383000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="1" width="1676" height="1014" extended-state="0" />
+    <frame x="1" y="1" width="1677" height="1014" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32035595" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.319337" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1019,7 +1062,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19987959" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1072,7 +1115,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added log for missing translation code in ClassFactory" />
     <MESSAGE value="Cleaned up missing translations in code, and fixed HelpText for line break between end brackets" />
     <MESSAGE value="Added utility to add Japanese translation key/value pairs when not present in ClassFactory file" />
     <MESSAGE value="Fixed txt:default... parsing issue on description" />
@@ -1097,7 +1139,8 @@
     <MESSAGE value="All changes working...will merge back to master (when I figure out how :))" />
     <MESSAGE value="Changed translation export folder name and added command line arg for home directory" />
     <MESSAGE value="Refactored args a bit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored args a bit" />
+    <MESSAGE value="Renamed main class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Renamed main class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1312,21 +1355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/FileChooser.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="31" lean-forward="false" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Logging/Log.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1356,14 +1384,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -1425,17 +1445,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="606">
-          <caret line="56" column="9" lean-forward="true" selection-start-line="56" selection-start-column="9" selection-end-line="56" selection-end-column="9" />
+        <state relative-caret-position="215">
+          <caret line="69" column="34" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="69" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/KeyFile.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateClassFactories.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="139" column="9" lean-forward="false" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+        <state relative-caret-position="181">
+          <caret line="128" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FileManagement/FileChooser.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="31" lean-forward="false" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="50" column="1" lean-forward="true" selection-start-line="50" selection-start-column="1" selection-end-line="50" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

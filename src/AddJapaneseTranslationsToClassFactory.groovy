@@ -26,9 +26,19 @@ class AddJapaneseTranslationsToClassFactory {
         newText
     }
 
+    static getFilePath(args) {
+        def fp //filepath
+        if (args.size() == 0)
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+        else
+            fp = args[0]
+        fp
+    }
+
     static main(args) {
-        def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\LibraryFactories"
-        def fileName = new FileChooser().chooseFile(fp)
+        def fp = getFilePath(args)
+        def factoryPath = fp + "\\\\LibraryFactories"
+        def fileName = new FileChooser().chooseFile("Select Library Factory to update", factoryPath)
         if (fileName != null) {
             TextFile classFactoryFile = new TextFile(fileName)
             def newText = addJapaneseTranslations(classFactoryFile)
@@ -38,6 +48,5 @@ class AddJapaneseTranslationsToClassFactory {
             }
         }
     }
-
 }
 
