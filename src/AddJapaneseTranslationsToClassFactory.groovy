@@ -38,7 +38,7 @@ class AddJapaneseTranslationsToClassFactory {
     static main(args) {
         def fp = getFilePath(args)
         def factoryPath = fp + "\\\\LibraryFactories"
-        def fileName = new FileChooser().chooseFile("Select Library Factory to update", factoryPath)
+        def fileName = FileChooser.chooseFile("Select Library Factory to update", factoryPath)
         if (fileName != null) {
             TextFile classFactoryFile = new TextFile(fileName)
             def newText = addJapaneseTranslations(classFactoryFile)

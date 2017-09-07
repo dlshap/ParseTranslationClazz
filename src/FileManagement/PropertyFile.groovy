@@ -10,7 +10,7 @@ class PropertyFile extends LineFile {
 
     def PropertyFile(fp) {
         super()
-        def propFileName = new FileChooser().chooseFile("Select Property file", fp + "PropertyFiles\\\\")
+        def propFileName = FileChooser.chooseFile("Select Property file", fp + "PropertyFiles\\\\")
 //            def propFileName = fp + "PropertyFiles\\\\messages_ja.properties"
         if (propFileName == null) {
             Log.writeLine("exceptions", "No properties file selected.")

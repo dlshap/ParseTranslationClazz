@@ -6,7 +6,7 @@ class TranslationFile extends KeyFile {
 
     def TranslationFile(fp) {
         super()
-        def transFileName = new FileChooser().chooseFile("Select Translation file", fp + "TranslationExports\\\\")
+        def transFileName = FileChooser.chooseFile("Select Translation file", fp + "TranslationExports\\\\")
 //        def transFileName = fp + "PropertyExports\\\\DMT-export.txt"         //testing
         if (transFileName == null) {
             Log.writeLine("exceptions", "No translation file selected.")

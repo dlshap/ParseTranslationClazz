@@ -7,13 +7,15 @@ import javax.swing.JFileChooser
  */
 class FileChooser {
 
-    def chooseFile(title, fp) {
-//      return full pathname to selected file
+    enum selectMode {BOTH, DIRECTORIES}
+
+    static chooseFile(title, fp, selectMode mode) {
         String fullPathName
         File chosenFile
         JFileChooser fc = new JFileChooser(fp)
+        def selectMode = (mode == selectMode.BOTH) ? JFileChooser.FILES_AND_DIRECTORIES : JFileChooser.DIRECTORIES_ONLY
         fc.setDialogTitle(title)
-        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES)
+        fc.setFileSelectionMode(selectMode)
         int result = fc.showOpenDialog(null)
         switch (result) {
             case JFileChooser.APPROVE_OPTION:
@@ -28,4 +30,7 @@ class FileChooser {
         fullPathName
     }
 
+    static chooseFile(title, fp) {
+        chooseFile(title, fp, selectMode.BOTH)
+    }
 }
