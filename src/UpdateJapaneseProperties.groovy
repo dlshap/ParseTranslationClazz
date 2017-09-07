@@ -58,8 +58,13 @@ class UpdateJapaneseProperties {
     }
 
     static main(args) {
-        //open log files
-        def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+        def fp //filepath
+        if (args.size() == 0)
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+        else
+            fp = args[0]
+
+        println "fp=$fp"
 
         openLogs(fp)
         // open translation file
