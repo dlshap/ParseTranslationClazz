@@ -24,7 +24,7 @@ class Properties {
         while (propFile.hasNext()) {
             String nextPropLine = propFile.next()
 
-            if (nextPropLine.indexOf("=") == -1) {
+            if ((nextPropLine.indexOf("=") == -1) || (nextPropLine[0] == "#")) {
                 propKey = "*OTHER" + lastNonProperty++
                 keyMap[propKey] = nextPropLine
             } else {
