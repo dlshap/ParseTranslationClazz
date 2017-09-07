@@ -57,15 +57,17 @@ class UpdateJapaneseProperties {
         }
     }
 
-    static main(args) {
+    static getFilePath(args) {
         def fp //filepath
         if (args.size() == 0)
             fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
         else
             fp = args[0]
+        fp
+    }
 
-        println "fp=$fp"
-
+    static main(args) {
+        def fp = getFilePath(args)
         openLogs(fp)
         // open translation file
         TranslationFile translationFile = new TranslationFile(fp)
