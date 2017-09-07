@@ -11,7 +11,7 @@ import Translations.Translations
 /**
  * Created by s0041664 on 8/14/2017.
  */
-class UpdateClassFactory {
+class UpdateClassFactories {
 
 
     static openLogs(fp) {
