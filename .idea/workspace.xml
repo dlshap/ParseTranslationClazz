@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="Everything working.">
+    <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
@@ -1041,11 +1041,18 @@
       <option name="project" value="LOCAL" />
       <updated>1504799400481</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Everything working.">
+      <created>1504799429085</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1504799429085</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="231421000" />
+    <option name="totallyTimeSpent" value="231427000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1677" height="1014" extended-state="0" />
