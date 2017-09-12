@@ -24,9 +24,16 @@ class Translations {
         translation
     }
 
-    def getTransKeyListIterator() {
-        transKeyList.iterator()
-    }
+//    def getTransKeyListIterator() {
+//        transKeyList.iterator()
+//    }
+
+//    def getTranslationList(keyName, keyValue) {
+//        def translationList = transKeyMaps.findAll {
+//            ((it[keyName] == keyValue) && (it["Message Key"][0] != "#") && (it["Message Key"] != ""))
+//        }
+//        translationList
+//    }
 }
 
 class Translation {

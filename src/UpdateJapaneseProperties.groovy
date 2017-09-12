@@ -42,19 +42,32 @@ class UpdateJapaneseProperties {
         }
     }
 
-    static logMissingTranslations(KeyFile translationFile, Properties properties) {
-        Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
-        Translations translations = new Translations(translationFile)
-        //TODO: Encapsulate propKeyMap
+    static logPropertiesWithNoTranslations(translations, properties) {
         properties.propKeyMap.each { propKey, propValue ->
             if (propKey[0] != "*") {
                 Translation matchingTranslation = translations.getTranslation("Message Key", propKey)
                 if (matchingTranslation == null)
                     Log.writeLine("exceptions", "Property '$propKey' does not have corresponding 'Message Key' in translation spreadsheet.")
                 else if (matchingTranslation.getTranslationValue("Japanese") == null)
-                    Log.writeLine("exceptions", "Property '$propKey' has row, but no Japanese translation in translation spreadsheet.")
+                    Log.writeLine("exceptions", "Property '$propKey' in property file, but no Japanese translation in translation spreadsheet.")
             }
         }
+    }
+
+    static logTranslationKeysWithNoValues(Translations translations, Properties properties) {
+        def noJapaneseList = translations.getTranslationList("Japanese", "")
+        if (noJapaneseList != null) {
+            noJapaneseList.each {
+                println it
+            }
+        }
+    }
+
+    static logMissingTranslations(KeyFile translationFile, Properties properties) {
+        Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
+        Translations translations = new Translations(translationFile)
+        logPropertiesWithNoTranslations(translations, properties)
+//        logTranslationKeysWithNoValues(translations, properties)
     }
 
     static getFilePath(args) {
