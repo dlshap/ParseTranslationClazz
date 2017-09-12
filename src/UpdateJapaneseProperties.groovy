@@ -55,15 +55,14 @@ class UpdateJapaneseProperties {
     }
 
     static logTranslationKeysWithNoValues(Translations translations, Properties properties) {
+        Log.writeLine("exceptions", "No Japanese translation in spreadsheet:")
         def noJapaneseList = translations.getTranslations("Japanese", "")
         if (noJapaneseList != null) {
             noJapaneseList.each {
                 def tKey = it.get("Message Key")
                 def x = (tKey != "")
                 if ((tKey != "") && (tKey[0] != "#")) {
-                    if (properties.get(tKey) == null) {
-                        Log.writeLine("exceptions", "Property $tKey has no Japanese translation in spreadsheet, and no property in property file.")
-                    }
+                        Log.writeLine("exceptions", "Property $tKey has no Japanese translation in spreadsheet.")
                 }
             }
         }

@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translations$_getTranslation_closure1.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translation.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translations.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translations.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/PropertyFile.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/PropertyFile.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/KeyFile.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/KeyFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" afterPath="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Translations/Properties.groovy" afterPath="$PROJECT_DIR$/src/Translations/Properties.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Translations/Translations.groovy" afterPath="$PROJECT_DIR$/src/Translations/Translations.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateClassFactories.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" afterPath="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
@@ -39,8 +33,8 @@
       <file leaf-file-name="UpdateJapaneseProperties.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="64" column="34" lean-forward="false" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
+            <state relative-caret-position="178">
+              <caret line="57" column="49" lean-forward="false" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -770,7 +764,7 @@
       <workItem from="1505167924402" duration="258000" />
       <workItem from="1505224376878" duration="1026000" />
       <workItem from="1505225706253" duration="573000" />
-      <workItem from="1505226538217" duration="15272000" />
+      <workItem from="1505226538217" duration="15933000" />
     </task>
     <task id="LOCAL-00001" summary="Everything seems to be working">
       <created>1502907901568</created>
@@ -1101,11 +1095,18 @@
       <option name="project" value="LOCAL" />
       <updated>1505241730205</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Refactored translations, properties, and logging if no translation and no property in property file">
+      <created>1505252353468</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1505252353468</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="259742000" />
+    <option name="totallyTimeSpent" value="260403000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1671" height="1014" extended-state="0" />
@@ -1186,7 +1187,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed parsing problem for different arrangements of brackets on desc: field" />
     <MESSAGE value="Began properties updater" />
     <MESSAGE value="Getting close with property updater" />
     <MESSAGE value="TODO: Log missing translations in properties file" />
@@ -1211,7 +1211,8 @@
     <MESSAGE value="Finished Translated filename stripper." />
     <MESSAGE value="Changes per Paul's request (added linefeed/cr for adding Japanese attributes to Library Factory classes" />
     <MESSAGE value="Update before branching to refactor Properties and Translations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update before branching to refactor Properties and Translations" />
+    <MESSAGE value="Refactored translations, properties, and logging if no translation and no property in property file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored translations, properties, and logging if no translation and no property in property file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1539,8 +1540,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="64" column="34" lean-forward="false" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
+        <state relative-caret-position="178">
+          <caret line="57" column="49" lean-forward="false" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
