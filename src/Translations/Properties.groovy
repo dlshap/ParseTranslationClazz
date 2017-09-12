@@ -9,36 +9,38 @@ import FileManagement.PropertyFile
 class Properties {
 
     PropertyFile propFile
-    Map propKeyMap = [:]
+    Map allProperties = [:]
+    Iterator<Map> propertyIterator
 
     def Properties(propFile) {
         this.propFile = propFile
-        propKeyMap = buildPropKeyMap(propFile)
+        allProperties = buildAllPropertiesMap(propFile)
+        propertyIterator = allProperties.iterator()
     }
 
-    static buildPropKeyMap(PropertyFile propFile) {
-        Map<String, String> keyMap = [:]
-        def lastNonProperty = 1
+    static buildAllPropertiesMap(PropertyFile propFile) {
+        Map property = [:]
+        def lastOtherPropertyIndex = 1
         def propKey
 
         while (propFile.hasNext()) {
             String nextPropLine = propFile.next()
 
             if ((nextPropLine.indexOf("=") == -1) || (nextPropLine[0] == "#")) {
-                propKey = "*OTHER" + lastNonProperty++
-                keyMap[propKey] = nextPropLine
+                propKey = "*OTHER" + lastOtherPropertyIndex++
+                property[propKey] = nextPropLine
             } else {
                 def parsedProp = nextPropLine.split("=")
-                keyMap[parsedProp[0]] = parsedProp[1]
+                property[parsedProp[0]] = parsedProp[1]
             }
         }
-        keyMap
+        property
     }
 
     def writeToTranslatedFile() {
         LineFile translatedFile = propFile.openTranslatedFile()
         if (propFile != null) {
-            propKeyMap.each {propKey, propValue ->
+            allProperties.each { propKey, propValue ->
                 if (propKey[0] == "*") {
                     translatedFile.writeLine(propValue)
                 } else {
@@ -48,11 +50,29 @@ class Properties {
         }
     }
 
-    def getPropertyValue(keyValue) {
-        propKeyMap[keyValue]
+    def get(keyName) {
+        allProperties[keyName]
     }
 
-    def setPropertyValue(keyValue, newValue) {
-        propKeyMap[keyValue] = newValue
+    def set(keyName, newValue) {
+        allProperties[keyName] = newValue
+    }
+
+    def rewind() {
+        propertyIterator = allProperties.iterator()
+    }
+
+    def hasNext() {
+        if (propertyIterator != null)
+            propertyIterator.hasNext()
+        else
+            null
+    }
+
+    def next() {
+        if (propertyIterator != null)
+            propertyIterator.next()
+        else
+            null
     }
 }

@@ -21,6 +21,15 @@ class KeyFile extends LineFile {
         buildKeyMapList()
     }
 
+    def buildKeyMapList() {
+        keyMaps = []
+        for (int i = 0; i < super.lines.size; i++) {
+            def parsedLine = KeyPairParser.parseToMap(super.lines[i])
+            keyMaps << parsedLine
+        }
+        rewind()
+    }
+
     def next() {
         if (keyMapIterator.hasNext())
             keyMapIterator.next()
@@ -28,7 +37,7 @@ class KeyFile extends LineFile {
             null
     }
 
-    def rewindToStart() {
+    def rewind() {
         keyMapIterator = keyMaps.iterator()
     }
 
@@ -37,15 +46,6 @@ class KeyFile extends LineFile {
             null
         else
             keyMapIterator.hasNext()
-    }
-
-    def buildKeyMapList() {
-        keyMaps = []
-        for (int i = 0; i < super.lines.size; i++) {
-            def parsedLine = KeyPairParser.parseToMap(super.lines[i])
-            keyMaps << parsedLine
-        }
-        rewindToStart()
     }
 
     def getKeyMapSize() {

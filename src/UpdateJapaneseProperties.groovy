@@ -20,20 +20,20 @@ class UpdateJapaneseProperties {
         Log.writeLine("exceptions", "Running on: " + Dates.currentDateAndTime())
     }
 
-    static updatePropertyFile(TranslationFile translationFile, Properties properties) {
+    static updatePropertyFile(Translations translations, Properties properties) {
         // loop through translationFile
-        while (translationFile.hasNext()) {
-            def nextTranslation = translationFile.next()
+        while (translations.hasNext()) {
+            def nextTranslation = translations.next()
             def nextTranslationValue = nextTranslation["Japanese"].trim()
             if (nextTranslationValue != null) {
                 def nextTranslationKey = nextTranslation["Message Key"]
                 if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
-                    def matchingProperty = properties.getPropertyValue(nextTranslationKey)
+                    def matchingProperty = properties.get(nextTranslationKey)
                     if (matchingProperty == null) {
                         Log.writeLine("exceptions", "Translated property '$nextTranslationKey' not found in properties file")
                     } else {
                         if (!matchingProperty.equals(nextTranslationValue)) {
-                            properties.setPropertyValue(nextTranslationKey, nextTranslationValue)
+                            properties.set(nextTranslationKey, nextTranslationValue)
                             Log.writeLine("Property $nextTranslationKey: '$matchingProperty' replaced by '$nextTranslationValue'")
                         }
                     }
@@ -43,31 +43,36 @@ class UpdateJapaneseProperties {
     }
 
     static logPropertiesWithNoTranslations(translations, properties) {
-        properties.propKeyMap.each { propKey, propValue ->
+        properties.allProperties.each { propKey, propValue ->
             if (propKey[0] != "*") {
                 Translation matchingTranslation = translations.getTranslation("Message Key", propKey)
                 if (matchingTranslation == null)
                     Log.writeLine("exceptions", "Property '$propKey' does not have corresponding 'Message Key' in translation spreadsheet.")
-                else if (matchingTranslation.getTranslationValue("Japanese") == null)
+                else if (matchingTranslation.get("Japanese") == null)
                     Log.writeLine("exceptions", "Property '$propKey' in property file, but no Japanese translation in translation spreadsheet.")
             }
         }
     }
 
     static logTranslationKeysWithNoValues(Translations translations, Properties properties) {
-        def noJapaneseList = translations.getTranslationList("Japanese", "")
+        def noJapaneseList = translations.getTranslations("Japanese", "")
         if (noJapaneseList != null) {
             noJapaneseList.each {
-                println it
+                def tKey = it.get("Message Key")
+                def x = (tKey != "")
+                if ((tKey != "") && (tKey[0] != "#")) {
+                    if (properties.get(tKey) == null) {
+                        Log.writeLine("exceptions", "Property $tKey has no Japanese translation in spreadsheet, and no property in property file.")
+                    }
+                }
             }
         }
     }
 
-    static logMissingTranslations(KeyFile translationFile, Properties properties) {
+    static logMissingTranslations(Translations translations, Properties properties) {
         Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
-        Translations translations = new Translations(translationFile)
         logPropertiesWithNoTranslations(translations, properties)
-//        logTranslationKeysWithNoValues(translations, properties)
+        logTranslationKeysWithNoValues(translations, properties)
     }
 
     static getFilePath(args) {
@@ -85,13 +90,14 @@ class UpdateJapaneseProperties {
         // open translation file
         TranslationFile translationFile = new TranslationFile(fp)
         if (translationFile.exists()) {
+            Translations translations = new Translations(translationFile)
             // open property file
             PropertyFile propertyFile = new PropertyFile(fp)
             if (propertyFile.exists()) {
                 //get property list
                 Properties properties = new Properties(propertyFile)
-                updatePropertyFile(translationFile, properties)
-                logMissingTranslations(translationFile, properties)
+                updatePropertyFile(translations, properties)
+                logMissingTranslations(translations, properties)
                 properties.writeToTranslatedFile()
             }
         }

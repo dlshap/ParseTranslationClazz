@@ -1,39 +1,58 @@
 package Translations
 
+import FileManagement.TranslationFile
+
 /**
  * Created by s0041664 on 8/15/2017.
  */
 class Translations {
-    def transKeyMaps = []
-    List transKeyList
 
-    def Translations(keyFile) {
-        transKeyMaps = keyFile.getKeyMaps()
-        transKeyList = transKeyMaps.toList()
+    TranslationFile translationFile
+    def transKeyMapList = []
+    Iterator translationIterator
+
+    def Translations(transFile) {
+        transKeyMapList = transFile.getKeyMaps()
+        translationIterator = transKeyMapList.iterator()
     }
 
     def getTranslation(keyName, keyValue) {
-        def translation = null
-        def transKeyMap = transKeyMaps.find { map ->
-            map[keyName] == keyValue
-        }
-        // if successful getting a map, create a translation object containing the map
-        if (transKeyMap) {
-            translation = new Translation(transKeyMap)
-        }
-        translation
+        def translations = getTranslations(keyName, keyValue)
+        if (translations == null)
+            null
+        else
+            // first translation
+            translations[0]
     }
 
-//    def getTransKeyListIterator() {
-//        transKeyList.iterator()
-//    }
+    def getTranslations(keyName, value) {
+        List translations = transKeyMapList.findAll() { keyMap ->
+            keyMap[keyName] == value
+        }
+        translations
+    }
 
-//    def getTranslationList(keyName, keyValue) {
-//        def translationList = transKeyMaps.findAll {
-//            ((it[keyName] == keyValue) && (it["Message Key"][0] != "#") && (it["Message Key"] != ""))
-//        }
-//        translationList
-//    }
+    def hasNext() {
+        if (translationIterator != null)
+            translationIterator.hasNext()
+        else
+            null
+    }
+
+    def next() {
+        if (translationIterator != null)
+            translationIterator.next()
+        else
+            null
+    }
+
+    def rewind() {
+        translationIterator = transKeyMapList.iterator()
+    }
+
+    def size() {
+        transKeyMapList.size()
+    }
 }
 
 class Translation {
@@ -44,7 +63,7 @@ class Translation {
         this.transKeyMap = transKeyMap
     }
 
-    def getTranslationValue(keyName) {
+    def get(keyName) {
         transKeyMap[keyName]
     }
 }
