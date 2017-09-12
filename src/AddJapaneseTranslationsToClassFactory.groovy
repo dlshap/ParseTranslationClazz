@@ -7,14 +7,16 @@ import FileManagement.FileChooser
 class AddJapaneseTranslationsToClassFactory {
 
     static addJapaneseDescriptionKey(origText) {
+        def crlf = "\r\n"
         def findPattern = /(desc.*]).*]]/
-        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, "ja_JP": ["desc": '']]]/ }
+        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $crlf"ja_JP": [$crlf"desc": '']]]/ }
         result
     }
 
     static addJapaneseQuestionKeys(origText) {
+        def crlf = "\r\n"
         def findPattern = /(?s)(localizationMap.*?helpText])]/
-        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, "ja_JP": ["txt": '', "title": '', "helpText": '']]/ }
+        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $crlf"ja_JP": ["txt": '', "title": '', $crlf"helpText": '']]/ }
         result
     }
 
