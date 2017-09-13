@@ -6,17 +6,17 @@ import FileManagement.FileChooser
  */
 class AddJapaneseTranslationsToClassFactory {
 
+    static final linebreak = "\r\n             "
+
     static addJapaneseDescriptionKey(origText) {
-        def crlf = "\r\n"
         def findPattern = /(desc.*]).*]]/
-        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $crlf"ja_JP": [$crlf"desc": '']]]/ }
+        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $linebreak"ja_JP": ["desc": '']]]/ }
         result
     }
 
     static addJapaneseQuestionKeys(origText) {
-        def crlf = "\r\n"
         def findPattern = /(?s)(localizationMap.*?helpText])]/
-        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $crlf"ja_JP": ["txt": '', "title": '', $crlf"helpText": '']]/ }
+        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $linebreak"ja_JP": ["txt": '', "title": '', $linebreak"helpText": '']]/ }
         result
     }
 
@@ -39,7 +39,7 @@ class AddJapaneseTranslationsToClassFactory {
 
     static main(args) {
         def fp = getFilePath(args)
-        def factoryPath = fp + "\\\\LibraryFactories"
+        def factoryPath = fp + "\\\\AddToFactoriesTest"
         def fileName = FileChooser.chooseFile("Select Library Factory to update", factoryPath)
         if (fileName != null) {
             TextFile classFactoryFile = new TextFile(fileName)
