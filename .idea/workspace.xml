@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28efd8e1-22c3-4b79-a762-ab7bc2019641" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory$_addJapaneseDescriptionKey_closure1.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory$_addJapaneseDescriptionKey_closure1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory$_addJapaneseQuestionKeys_closure2.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory$_addJapaneseQuestionKeys_closure2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
@@ -31,7 +32,7 @@
       <file leaf-file-name="AddJapaneseTranslationsToClassFactory.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
+            <state relative-caret-position="17">
               <caret line="8" column="44" lean-forward="false" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
               <folding />
             </state>
@@ -132,6 +133,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -162,7 +164,6 @@
       </pane>
       <pane id="AndroidView" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -741,14 +742,9 @@
       <workItem from="1505224376878" duration="1026000" />
       <workItem from="1505225706253" duration="573000" />
       <workItem from="1505226538217" duration="15933000" />
-      <workItem from="1505310461984" duration="636000" />
-    </task>
-    <task id="LOCAL-00001" summary="Everything seems to be working">
-      <created>1502907901568</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1502907901568</updated>
+      <workItem from="1505310461984" duration="693000" />
+      <workItem from="1505311570335" duration="82000" />
+      <workItem from="1505313830036" duration="175000" />
     </task>
     <task id="LOCAL-00002" summary="Everything seems to be working">
       <created>1503084478571</created>
@@ -1086,15 +1082,21 @@
       <option name="project" value="LOCAL" />
       <updated>1505311099098</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Fixed spacing when adding ja_JP properties to class factories">
+      <created>1505311106172</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1505311106173</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="261139000" />
+    <option name="totallyTimeSpent" value="261453000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1671" height="1014" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1104,7 +1106,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27071825" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27071825" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32850778" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1405,9 +1407,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="e#17#46#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1518,7 +1517,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
+        <state relative-caret-position="17">
           <caret line="8" column="44" lean-forward="false" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
           <folding />
         </state>
