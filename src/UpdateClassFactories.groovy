@@ -15,12 +15,12 @@ class UpdateClassFactories {
 
 
     static openLogs(fp) {
-        Log.open(fp + "log-library-translations.txt")
-        Log.writeLine("Running on: " + Dates.currentDateAndTime())
-        Log.open("exceptions", fp + "log-library-exceptions.txt")
-        Log.writeLine("exceptions", "Running on: " + Dates.currentDateAndTime())
-        Log.open("nocode", fp + "log-library-nocode.txt")
-        Log.writeLine("nocode", "Running on: " + Dates.currentDateAndTime())
+        Log.open fp + "log-library-translations.txt"
+        Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open"exceptions", fp + "log-library-exceptions.txt"
+        Log.writeLine"exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open"nocode", fp + "log-library-nocode.txt"
+        Log.writeLine"nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
    static findBomFieldNameInText(nextText) {

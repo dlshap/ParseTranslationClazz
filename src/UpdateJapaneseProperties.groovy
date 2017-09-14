@@ -15,9 +15,9 @@ class UpdateJapaneseProperties {
 
     static openLogs(fp) {
         Log.open(fp + "log-property-translations.txt")
-        Log.writeLine("Running on: " + Dates.currentDateAndTime())
+        Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
         Log.open("exceptions", fp + "log-property-exceptions.txt")
-        Log.writeLine("exceptions", "Running on: " + Dates.currentDateAndTime())
+        Log.writeLine"exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     static updatePropertyFile(Translations translations, Properties properties) {
@@ -55,7 +55,7 @@ class UpdateJapaneseProperties {
     }
 
     static logTranslationKeysWithNoValues(Translations translations, Properties properties) {
-        Log.writeLine("exceptions", "No Japanese translation in spreadsheet:")
+        Log.writeLine("exceptions", "\r\n******* No Japanese translation in spreadsheet:")
         def noJapaneseList = translations.getTranslations("Japanese", "")
         if (noJapaneseList != null) {
             noJapaneseList.each {
