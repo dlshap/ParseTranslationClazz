@@ -17,13 +17,13 @@ class UpdateClassFactories {
     static openLogs(fp) {
         Log.open fp + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open"exceptions", fp + "log-library-exceptions.txt"
-        Log.writeLine"exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open"nocode", fp + "log-library-nocode.txt"
-        Log.writeLine"nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open "exceptions", fp + "log-library-exceptions.txt"
+        Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open "nocode", fp + "log-library-nocode.txt"
+        Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-   static findBomFieldNameInText(nextText) {
+    static findBomFieldNameInText(nextText) {
         def bomFieldName = null
         if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
             bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
@@ -120,18 +120,20 @@ class UpdateClassFactories {
     static getFilePath(args) {
         def fp //filepath
         if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
-        else
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\Translations\\\\"
+        else {
             fp = args[0]
+            if (fp[-1] != "\\") fp += "\\"
+        }
         fp
     }
 
     static getFileList(fp, args) {
         def fileList
         if (args.size() > 1) {
-             fileList = [args[1]]
+            fileList = [args[1]]
         } else {
-             fileList = buildFileList(fp)
+            fileList = buildFileList(fp)
         }
         fileList
     }

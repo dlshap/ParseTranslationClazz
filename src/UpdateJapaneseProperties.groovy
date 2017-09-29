@@ -1,4 +1,3 @@
-import FileManagement.KeyFile
 import FileManagement.PropertyFile
 import FileManagement.TranslationFile
 import Logging.Dates
@@ -75,11 +74,14 @@ class UpdateJapaneseProperties {
     }
 
     static getFilePath(args) {
-        def fp //filepath
+        String fp //filepath
+        def lastChar
         if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
-        else
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\Translations\\\\"
+        else {
             fp = args[0]
+            if (fp[-1] != "\\") fp += "\\"
+        }
         fp
     }
 
