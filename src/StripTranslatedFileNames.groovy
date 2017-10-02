@@ -23,11 +23,23 @@ class StripTranslatedFileNames {
         Log.writeLine("exceptions", "Running on: " + Dates.currentDateAndTime())
     }
 
+    static getFilePath(args) {
+        String fp //filepath
+        def lastChar
+        if (args.size() == 0)
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\Translations\\\\"
+        else {
+            fp = args[0]
+            if (fp[-1] != "\\") fp += "\\"
+        }
+        fp
+    }
+
     static main(args) {
-        def fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Translations\\\\"
+        def fp = getFilePath(args)
         // pick library folder (translated files)
         openLogs(fp)
-        def changeLibrary = FileChooser.chooseFile("Select Directory Folder for Name Changes", fp, FileChooser.selectMode.DIRECTORIES)
+        def changeLibrary = FileChooser.chooseFile("Select Directory Folder for Name Changes", fp, FileChooser.selectChoices.DIRECTORIES)
         if (changeLibrary != null) {
             stripTranslatedFromFileNames(changeLibrary)
         }
