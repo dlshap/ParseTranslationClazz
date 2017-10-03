@@ -5,7 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMatchers.groovy" afterPath="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMatchers.groovy" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -760,14 +759,7 @@
       <workItem from="1505742462760" duration="340000" />
       <workItem from="1506700132364" duration="5768000" />
       <workItem from="1506952297178" duration="3426000" />
-      <workItem from="1507058515122" duration="3191000" />
-    </task>
-    <task id="LOCAL-00007" summary="All translations and excepts seem to be working...now to work on Person class and financial fields">
-      <created>1503414701530</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1503414701530</updated>
+      <workItem from="1507058515122" duration="3217000" />
     </task>
     <task id="LOCAL-00008" summary="Debugging...not catching Help Text in ClimbingExperience.txt">
       <created>1503440715805</created>
@@ -1105,11 +1097,18 @@
       <option name="project" value="LOCAL" />
       <updated>1506959882807</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Add args to StripTranslated and fix args in configurations (weird).">
+      <created>1507066284171</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1507066284172</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="278514000" />
+    <option name="totallyTimeSpent" value="278540000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1667" height="1008" extended-state="0" />
@@ -1506,7 +1505,7 @@
         <state relative-caret-position="1377">
           <caret line="87" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#34#0" expanded="false" />
           </folding>
         </state>
       </provider>
