@@ -28,9 +28,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translation.class" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translations.class" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ParseTranslationClazz.iml" afterPath="$PROJECT_DIR$/ParseTranslationClazz.iml" />
     </list>
     <ignored path="ParseTranslationClazz.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -792,14 +790,7 @@
       <workItem from="1507058515122" duration="3265000" />
       <workItem from="1507131618569" duration="2252000" />
       <workItem from="1508166946022" duration="374000" />
-      <workItem from="1508171105472" duration="3924000" />
-    </task>
-    <task id="LOCAL-00010" summary="Cleaned up main">
-      <created>1503588069508</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1503588069508</updated>
+      <workItem from="1508171105472" duration="3945000" />
     </task>
     <task id="LOCAL-00011" summary="Added log for missing translation code in ClassFactory">
       <created>1503591839948</created>
@@ -1137,11 +1128,18 @@
       <option name="project" value="LOCAL" />
       <updated>1507141728615</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Installed on new machine">
+      <created>1508186610710</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1508186610710</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285138000" />
+    <option name="totallyTimeSpent" value="285159000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1667" height="1008" extended-state="0" />
@@ -1221,7 +1219,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="All functions working...going to refactor in branch" />
     <MESSAGE value="Minor fix in app to add Japanese Translation attributes" />
     <MESSAGE value="Working version before refactoring" />
     <MESSAGE value="Refactor all the file managers" />
@@ -1246,7 +1243,8 @@
     <MESSAGE value="Add args to StripTranslated and fix args in configurations (weird)." />
     <MESSAGE value="Fixed delimiter on regex for txt: in class factory for library questions" />
     <MESSAGE value="Minor fix in regex" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor fix in regex" />
+    <MESSAGE value="Installed on new machine" />
+    <option name="LAST_COMMIT_MESSAGE" value="Installed on new machine" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
