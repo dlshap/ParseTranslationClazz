@@ -34,7 +34,7 @@ class FileMgr {
     }
 
     def exists() {
-        (theFile != null)
+        ((theFile.exists()) && (theFile != null))
     }
 
     def getDirPath() {

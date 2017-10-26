@@ -54,7 +54,7 @@ class UpdateClassFactories {
         def factoryFileName = smallName + "ClassFactory.groovy"
         def factoryFile = new TextFile(fp + "LibraryFactories\\\\" + factoryFileName)
         if (!factoryFile.exists()) {
-            Log.writeLine "${factoryFile.getFullPathName()} doesn't exist"
+            Log.writeLine "exceptions", "${factoryFile.getFullPathName()} doesn't exist"
         }
         factoryFile
     }
