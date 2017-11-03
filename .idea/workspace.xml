@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -83,7 +82,6 @@
     <panes>
       <pane id="Scratches" />
       <pane id="AndroidView" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -107,6 +105,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -272,7 +271,9 @@
       <workItem from="1508854921322" duration="1345000" />
       <workItem from="1509037307179" duration="12722000" />
       <workItem from="1509388121188" duration="684000" />
-      <workItem from="1509544586130" duration="41000" />
+      <workItem from="1509544586130" duration="71000" />
+      <workItem from="1509735087362" duration="1259000" />
+      <workItem from="1509740349234" duration="49000" />
     </task>
     <task id="LOCAL-00001" summary="Rebuilt and tested on new notebook">
       <created>1508786065263</created>
@@ -302,14 +303,22 @@
       <option name="project" value="LOCAL" />
       <updated>1509051173198</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Latest greatest">
+      <created>1509544639050</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1509544639050</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16097000" />
+    <option name="totallyTimeSpent" value="17435000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1665" height="989" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -349,7 +358,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Rebuilt and tested on new notebook" />
     <MESSAGE value="Ran against new translations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ran against new translations" />
+    <MESSAGE value="Latest greatest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Latest greatest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -369,6 +379,38 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/UpdateClassFactories.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMatchers.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UpdateClassFactories.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMatchers.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateClassFactories.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
