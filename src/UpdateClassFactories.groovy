@@ -78,7 +78,7 @@ class UpdateClassFactories {
         Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
     }
 
-    static replaceLineWithTranslations(nextText, translation, bomFieldName) {
+    static replaceLineWithTranslations(nextFactoryBlock, translation, bomFieldName) {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
@@ -87,28 +87,10 @@ class UpdateClassFactories {
             def translationValue = translation.get(translationKey)
             // translate it if there is a match...leave alone if not
             if (translationValue != "") {
-                nextText = it.translate(nextText, translationValue, bomFieldName)
+                nextFactoryBlock = it.translate(nextFactoryBlock, translationValue, bomFieldName)
             }
         }
-        nextText
-    }
-
-    static updateFactory(transFile, TextFile factoryFile, TextFile factoryOutFile) {
-        def factoryParser = new LibraryFileParser(factoryFile)
-        def translations = new Translations(transFile)
-        if (factoryParser.hasNext()) {
-            while (factoryParser.hasNext()) {
-                def nextText = factoryParser.next()
-                def bomFieldName = findBomFieldNameInText(nextText)
-                if (bomFieldName != null) {
-                    def translation = getTranslationForBomField(translations, bomFieldName)
-                    if (translation != null) {
-                        nextText = replaceLineWithTranslations(nextText, translation, bomFieldName)
-                    }
-                }
-                factoryOutFile.writeToFile(nextText)
-            }
-        }
+        nextFactoryBlock
     }
 
     static buildFileList(fp) {
@@ -136,6 +118,24 @@ class UpdateClassFactories {
             fileList = buildFileList(fp)
         }
         fileList
+    }
+
+    static updateFactory(transFile, TextFile factoryFile, TextFile factoryOutFile) {
+        def factoryParser = new LibraryFileParser(factoryFile)
+        def translations = new Translations(transFile)
+        if (factoryParser.hasNext()) {
+            while (factoryParser.hasNext()) {
+                def nextFactoryTextBlock = factoryParser.next()
+                def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
+                if (bomFieldName != null) {
+                    def translation = getTranslationForBomField(translations, bomFieldName)
+                    if (translation != null) {
+                        nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translation, bomFieldName)
+                    }
+                }
+                factoryOutFile.writeToFile(nextFactoryTextBlock)
+            }
+        }
     }
 
     static main(args) {
