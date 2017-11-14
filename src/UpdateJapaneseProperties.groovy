@@ -24,7 +24,7 @@ class UpdateJapaneseProperties {
         while (translations.hasNext()) {
             def nextTranslation = translations.next()
             def nextTranslationValue = nextTranslation["Japanese"].trim()
-            if (nextTranslationValue != null) {
+            if ((nextTranslationValue != null) && (nextTranslationValue.trim() != "")) {
                 def nextTranslationKey = nextTranslation["Message Key"]
                 if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
                     def matchingProperty = properties.get(nextTranslationKey)
