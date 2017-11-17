@@ -1,6 +1,6 @@
-package LibraryQuestions
+package libraryquestions
 
-import FileManagement.TextFile
+import filemanagement.TextFile
 import com.google.common.base.Splitter
 
 /**

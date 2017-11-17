@@ -1,7 +1,7 @@
-package Logging
+package logging
 
-import FileManagement.FileMgr
-import FileManagement.LineFile
+import filemanagement.FileMgr
+import filemanagement.LineFile
 
 /**
  * Created by s0041664 on 8/16/2017.

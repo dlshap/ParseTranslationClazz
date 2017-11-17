@@ -1,6 +1,6 @@
-import FileManagement.FileChooser
-import Logging.Dates
-import Logging.Log
+import filemanagement.FileChooser
+import logging.Dates
+import logging.Log
 
 class StripTranslatedFileNames {
 
@@ -27,7 +27,7 @@ class StripTranslatedFileNames {
         String fp //filepath
         def lastChar
         if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\Translations\\\\"
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         else {
             fp = args[0]
             if (fp[-1] != "\\") fp += "\\"

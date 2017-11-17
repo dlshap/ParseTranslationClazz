@@ -1,5 +1,5 @@
-import FileManagement.TextFile
-import FileManagement.FileChooser
+import filemanagement.TextFile
+import filemanagement.FileChooser
 
 /**
  * Created by s0041664 on 8/24/2017.
@@ -32,7 +32,7 @@ class AddJapaneseTranslationsToClassFactory {
         String fp //filepath
         def lastChar
         if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\Translations\\\\"
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         else {
             fp = args[0]
             if (fp[-1] != "\\") fp += "\\"

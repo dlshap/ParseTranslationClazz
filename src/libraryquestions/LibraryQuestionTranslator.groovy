@@ -1,6 +1,6 @@
-package LibraryQuestions
+package libraryquestions
 
-import Logging.Log
+import logging.Log
 
 /**
  * Created by s0041664 on 8/14/2017.

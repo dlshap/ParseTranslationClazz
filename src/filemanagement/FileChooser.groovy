@@ -1,4 +1,4 @@
-package FileManagement
+package filemanagement
 
 import javax.swing.JFileChooser
 

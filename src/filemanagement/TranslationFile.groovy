@@ -1,6 +1,6 @@
-package FileManagement
+package filemanagement
 
-import Logging.Log
+import logging.Log
 
 class TranslationFile extends KeyFile {
 

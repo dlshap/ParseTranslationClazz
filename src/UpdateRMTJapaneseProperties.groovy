@@ -1,21 +1,23 @@
-import FileManagement.PropertyFile
-import FileManagement.TranslationFile
-import Logging.Dates
-import Logging.Log
-import Translations.Properties
-import Translations.Translations
-import Translations.Translation
+import translations.UnicodeUtil
+
+import filemanagement.PropertyFile
+import filemanagement.TranslationFile
+import logging.Dates
+import logging.Log
+import translations.Properties
+import translations.Translations
+import translations.Translation
 
 
 /**
- * Created by s0041664 on 8/25/2017.
+ * Created by s0041664 on 11/17/2017.
  */
-class UpdateJapaneseProperties {
+class UpdateRMTJapaneseProperties {
 
     static openLogs(fp) {
-        Log.open(fp + "log-property-translations.txt")
+        Log.open(fp + "log-rmt-property-translations.txt")
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("exceptions", fp + "log-property-exceptions.txt")
+        Log.open("exceptions", fp + "log-rmt-property-exceptions.txt")
         Log.writeLine"exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
@@ -24,13 +26,16 @@ class UpdateJapaneseProperties {
         while (translations.hasNext()) {
             def nextTranslation = translations.next()
             def nextTranslationValue = nextTranslation["Japanese"].trim()
-            if ((nextTranslationValue != null) && (nextTranslationValue.trim() != "")) {
-                def nextTranslationKey = nextTranslation["Message Key"]
+            if ((nextTranslationValue != null) && (nextTranslationValue != "")) {
+                def nextTranslationKey = (nextTranslation["English"]).trim()
+                nextTranslationKey = UnicodeUtil.encodeSpaces(nextTranslationKey)
                 if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
                     def matchingProperty = properties.get(nextTranslationKey)
                     if (matchingProperty == null) {
                         Log.writeLine("exceptions", "Translated property '$nextTranslationKey' not found in properties file")
                     } else {
+                        matchingProperty = matchingProperty.trim().toLowerCase()
+                        nextTranslationValue = UnicodeUtil.unicodeEncode(nextTranslationValue)
                         if (!matchingProperty.equals(nextTranslationValue)) {
                             properties.set(nextTranslationKey, nextTranslationValue)
                             Log.writeLine("Property $nextTranslationKey: '$matchingProperty' replaced by '$nextTranslationValue'")
@@ -58,10 +63,10 @@ class UpdateJapaneseProperties {
         def noJapaneseList = translations.getTranslations("Japanese", "")
         if (noJapaneseList != null) {
             noJapaneseList.each {
-                def tKey = it.get("Message Key")
+                def tKey = it.get("English")
                 def x = (tKey != "")
                 if ((tKey != "") && (tKey[0] != "#")) {
-                        Log.writeLine("exceptions", "Property $tKey has no Japanese translation in spreadsheet.")
+                    Log.writeLine("exceptions", "Property $tKey has no Japanese translation in spreadsheet.")
                 }
             }
         }
@@ -77,7 +82,7 @@ class UpdateJapaneseProperties {
         String fp //filepath
         def lastChar
         if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\Translations\\\\"
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         else {
             fp = args[0]
             if (fp[-1] != "\\") fp += "\\"

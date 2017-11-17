@@ -1,12 +1,12 @@
-import FileManagement.FileMgr
-import FileManagement.FileDirectoryMgr
-import FileManagement.KeyFile
-import FileManagement.TextFile
-import LibraryQuestions.LibraryFileParser
-import LibraryQuestions.LibraryQuestionMatchers
-import Logging.Dates
-import Logging.Log
-import Translations.Translations
+import filemanagement.FileMgr
+import filemanagement.FileDirectoryMgr
+import filemanagement.KeyFile
+import filemanagement.TextFile
+import libraryquestions.LibraryFileParser
+import libraryquestions.LibraryQuestionMatchers
+import logging.Dates
+import logging.Log
+import translations.Translations
 
 /**
  * Created by s0041664 on 8/14/2017.
@@ -102,7 +102,7 @@ class UpdateClassFactories {
     static getFilePath(args) {
         def fp //filepath
         if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\Translations\\\\"
+            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         else {
             fp = args[0]
             if (fp[-1] != "\\") fp += "\\"
