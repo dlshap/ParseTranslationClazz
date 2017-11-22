@@ -2,54 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/translations/UnicodeUtil.groovy" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/UpdateJapaneseProperties.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/UpdateRMTProperties.groovy" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/FileChooser.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/FileChooser.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/FileDirectoryMgr.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/FileDirectoryMgr.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/FileMgr.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/FileMgr.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/KeyFile.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/KeyFile.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/KeyPairParser.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/KeyPairParser.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/LineFile.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/LineFile.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/PropertyFile.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/PropertyFile.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/TextFile.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/TextFile.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/FileManagement/TranslationFile.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/TranslationFile.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LibraryQuestions/LibraryFileParser.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryFileParser.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionMatchers.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionMatchers.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LibraryQuestions/LibraryQuestionTranslator.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Logging/Dates.groovy" afterPath="$PROJECT_DIR$/src/logging/Dates.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Logging/Log.groovy" afterPath="$PROJECT_DIR$/src/logging/Log.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Translations/Properties.groovy" afterPath="$PROJECT_DIR$/src/translations/Properties.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Translations/Translations.groovy" afterPath="$PROJECT_DIR$/src/translations/Translations.groovy" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/UpdateJapaneseProperties.groovy" afterPath="$PROJECT_DIR$/src/UpdateDMTJapaneseProperties.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileDirectoryMgr$_getFileList_closure1.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileDirectoryMgr$_getFileList_closure1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileDirectoryMgr.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileDirectoryMgr.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr$createFlag.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr$createFlag.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileMgr.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/KeyPairParser.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/KeyPairParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/PropertyFile.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/PropertyFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/TranslationFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure1.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure2.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser$_parseFile_closure2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryFileParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_getFactoryMatchingValue_closure3.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_getFactoryMatchingValue_closure3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_getLibraryQuestionTranslators_closure4.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_getLibraryQuestionTranslators_closure4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_getValue_closure2.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_getValue_closure2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_lineContains_closure1.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers$_lineContains_closure1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionMatchers.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionTranslator.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionTranslator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Logging/Dates.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Logging/Dates.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Logging/Log.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Logging/Log.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Properties.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translation.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translations.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/Translations/Translations.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" afterPath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/StripTranslatedFileNames.groovy" afterPath="$PROJECT_DIR$/src/StripTranslatedFileNames.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateClassFactories.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy" afterPath="$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,14 +15,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6917349">
+    <splitter split-orientation="horizontal" split-proportion="0.50546247">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="UpdateRMTJapaneseProperties.groovy" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1105">
-                  <caret line="65" column="42" lean-forward="false" selection-start-line="65" selection-start-column="42" selection-end-line="65" selection-end-column="42" />
+                <state relative-caret-position="153">
+                  <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
@@ -78,7 +33,7 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="UnicodeUtil.groovy" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/translations/UnicodeUtil.groovy">
               <provider selected="true" editor-type-id="text-editor">
@@ -143,9 +98,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,7 +120,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -383,7 +338,10 @@
       <workItem from="1510863552611" duration="1815000" />
       <workItem from="1510929151947" duration="2270000" />
       <workItem from="1510946708948" duration="35000" />
-      <workItem from="1510947357097" duration="2718000" />
+      <workItem from="1510947357097" duration="2774000" />
+      <workItem from="1511211647215" duration="1038000" />
+      <workItem from="1511291503506" duration="1169000" />
+      <workItem from="1511364357816" duration="48000" />
     </task>
     <task id="LOCAL-00001" summary="Rebuilt and tested on new notebook">
       <created>1508786065263</created>
@@ -455,11 +413,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510869610677</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="First version of RMT property translator">
+      <created>1510957730694</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1510957730695</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33275000" />
+    <option name="totallyTimeSpent" value="35586000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1696" height="1008" extended-state="0" />
@@ -467,14 +432,13 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32842582" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13963965" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22828507" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22828507" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -484,12 +448,13 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34743875" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27505568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32842582" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31466964" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -508,38 +473,87 @@
     <MESSAGE value="Fixed properties translation to ignore empty translation values (will not copy empty value into properties file...used to overwrite whatever default was there)" />
     <MESSAGE value="Adding RMT Property translations" />
     <MESSAGE value="Working on Unicode translations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on Unicode translations" />
+    <MESSAGE value="First version of RMT property translator" />
+    <option name="LAST_COMMIT_MESSAGE" value="First version of RMT property translator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy</url>
-          <line>28</line>
+          <line>104</line>
           <properties />
-          <option name="timeStamp" value="31" />
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy</url>
-          <line>31</line>
+          <line>38</line>
           <properties />
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy</url>
-          <line>33</line>
-          <properties />
-          <option name="timeStamp" value="33" />
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="34" />
+      <option name="time" value="36" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/translations/UnicodeUtil.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="53" column="110" lean-forward="false" selection-start-line="53" selection-start-column="110" selection-end-line="53" selection-end-column="110" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/translations/UnicodeUtil.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="38" lean-forward="false" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1105">
+          <caret line="65" column="42" lean-forward="false" selection-start-line="65" selection-start-column="42" selection-end-line="65" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/translations/UnicodeUtil.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/translations/UnicodeUtil.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -691,8 +705,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateRMTJapaneseProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
-          <caret line="65" column="42" lean-forward="false" selection-start-line="65" selection-start-column="42" selection-end-line="65" selection-end-column="42" />
+        <state relative-caret-position="153">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

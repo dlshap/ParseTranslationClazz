@@ -49,9 +49,9 @@ class UpdateRMTJapaneseProperties {
     static logPropertiesWithNoTranslations(translations, properties) {
         properties.allProperties.each { propKey, propValue ->
             if (propKey[0] != "*") {
-                Translation matchingTranslation = translations.getTranslation("Message Key", propKey)
+                Translation matchingTranslation = translations.getTranslation("English", propKey)
                 if (matchingTranslation == null)
-                    Log.writeLine("exceptions", "Property '$propKey' does not have corresponding 'Message Key' in translation spreadsheet.")
+                    Log.writeLine("exceptions", "Property '$propKey' does not have corresponding 'English' key in translation spreadsheet.")
                 else if (matchingTranslation.get("Japanese") == null)
                     Log.writeLine("exceptions", "Property '$propKey' in property file, but no Japanese translation in translation spreadsheet.")
             }
