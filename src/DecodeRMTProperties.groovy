@@ -1,18 +1,16 @@
-import translations.UnicodeUtil
-
 import filemanagement.PropertyFile
 import filemanagement.TranslationFile
 import logging.Dates
 import logging.Log
 import translations.Properties
-import translations.Translations
 import translations.Translation
-
+import translations.Translations
+import translations.UnicodeUtil
 
 /**
  * Created by s0041664 on 11/17/2017.
  */
-class UpdateRMTJapaneseProperties {
+class DecodeRMTProperties {
 
     static openLogs(fp) {
         Log.open(fp + "log-rmt-property-translations.txt")
@@ -22,30 +20,17 @@ class UpdateRMTJapaneseProperties {
     }
 
     static updatePropertyFile(Translations translations, Properties properties) {
-        // loop through translationFile
-        while (translations.hasNext()) {
-            def nextTranslation = translations.next()
-            def nextTranslationValue = nextTranslation["Japanese"].trim()
-            if ((nextTranslationValue != null) && (nextTranslationValue != "")) {
-                def nextTranslationKey = (nextTranslation["English"]).trim()
-                nextTranslationKey = UnicodeUtil.encodeSpaces(nextTranslationKey)
-                if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
-                    def matchingProperty = properties.get(nextTranslationKey)
-                    if (matchingProperty == null) {
-                        Log.writeLine("exceptions", "Translated property '$nextTranslationKey' not found in properties file")
-                    } else {
-                        def matchingPropertyMixedEncoding = matchingProperty.trim()
-                        def matchingPropertyDecoded = UnicodeUtil.unicodeDecode(matchingPropertyMixedEncoding)
-                        matchingProperty = UnicodeUtil.unicodeEncode(matchingPropertyDecoded)
-                        nextTranslationValue = UnicodeUtil.unicodeEncode(nextTranslationValue)
-                        if (!matchingProperty.equals(nextTranslationValue)) {
-                            properties.set(nextTranslationKey, nextTranslationValue)
-                            Log.writeLine("Property $nextTranslationKey: '$matchingProperty' replaced by '$nextTranslationValue'")
-                        }
-                    }
-                }
-            }
+
+        def tempProperties = new Properties()
+
+        while (properties.hasNext()) {
+            def nextprop = properties.next()
+//            def nextDecodedKey = UnicodeUtil.unicodeDecode(nextprop.key)
+            def nextDecodedKey = nextprop.key
+            def nextDecodedValue = UnicodeUtil.unicodeDecode(nextprop.value)
+            tempProperties.set(nextDecodedKey, nextDecodedValue)
         }
+        properties.setProperties(tempProperties.getProperties())
     }
 
     static logPropertiesWithNoTranslations(translations, properties) {
@@ -105,7 +90,7 @@ class UpdateRMTJapaneseProperties {
                 //get property list
                 Properties properties = new Properties(propertyFile)
                 updatePropertyFile(translations, properties)
-                logMissingTranslations(translations, properties)
+//                logMissingTranslations(translations, properties)
                 properties.writeToTranslatedFile()
             }
         }
