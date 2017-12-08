@@ -10,7 +10,7 @@ import translations.Translation
 /**
  * Created by s0041664 on 8/25/2017.
  */
-class UpdateDMTJapaneseProperties {
+class UpdateDmtDeJapaneseProperties {
 
     static openLogs(fp) {
         def logFp = fp + "logs\\\\"
@@ -93,11 +93,11 @@ class UpdateDMTJapaneseProperties {
             def fp = initFp + comp + "\\\\"
             openLogs(fp)
             // open translation file
-            TranslationFile translationFile = new TranslationFile(fp)
+            TranslationFile translationFile = new TranslationFile(comp, fp)
             if (translationFile.exists()) {
                 Translations translations = new Translations(translationFile)
                 // open property file
-                PropertyFile propertyFile = new PropertyFile(fp)
+                PropertyFile propertyFile = new PropertyFile(comp, fp)
                 if (propertyFile.exists()) {
                     //get property list
                     Properties properties = new Properties(propertyFile)

@@ -11,7 +11,16 @@ class PropertyFile extends LineFile {
     def PropertyFile(fp) {
         super()
         def propFileName = FileChooser.chooseFile("Select Property file", fp + "PropertyFiles\\\\")
-//            def propFileName = fp + "PropertyFiles\\\\messages_ja.properties"
+        openPropFile(propFileName)
+     }
+
+    def PropertyFile(comp, fp) {
+        super()
+        def propFileName = FileChooser.chooseFile("Select Property file for $comp", fp + "PropertyFiles\\\\")
+        openPropFile(propFileName)
+    }
+
+    def openPropFile(propFileName) {
         if (propFileName == null) {
             Log.writeLine("exceptions", "No properties file selected.")
         } else {
