@@ -12,11 +12,11 @@ import translations.Translation
  */
 class UpdateDmtDeJapaneseProperties {
 
-    static openLogs(fp) {
+    static openLogs(comp, fp) {
         def logFp = fp + "logs\\\\"
-        Log.open(logFp + "log-property-translations.txt")
+        Log.open(logFp + "$comp log-property-translations.txt")
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("exceptions", logFp + "log-property-exceptions.txt")
+        Log.open("exceptions", logFp + "$comp log-property-exceptions.txt")
         Log.writeLine"exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
@@ -91,7 +91,7 @@ class UpdateDmtDeJapaneseProperties {
         def components = ["DMT", "DE"]
         components.each { comp ->
             def fp = initFp + comp + "\\\\"
-            openLogs(fp)
+            openLogs(comp, fp)
             // open translation file
             TranslationFile translationFile = new TranslationFile(comp, fp)
             if (translationFile.exists()) {
