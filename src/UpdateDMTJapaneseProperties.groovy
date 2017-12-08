@@ -13,9 +13,10 @@ import translations.Translation
 class UpdateDMTJapaneseProperties {
 
     static openLogs(fp) {
-        Log.open(fp + "log-property-translations.txt")
+        def logFp = fp + "logs\\\\"
+        Log.open(logFp + "log-property-translations.txt")
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("exceptions", fp + "log-property-exceptions.txt")
+        Log.open("exceptions", logFp + "log-property-exceptions.txt")
         Log.writeLine"exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
@@ -86,20 +87,24 @@ class UpdateDMTJapaneseProperties {
     }
 
     static main(args) {
-        def fp = getFilePath(args)
-        openLogs(fp)
-        // open translation file
-        TranslationFile translationFile = new TranslationFile(fp)
-        if (translationFile.exists()) {
-            Translations translations = new Translations(translationFile)
-            // open property file
-            PropertyFile propertyFile = new PropertyFile(fp)
-            if (propertyFile.exists()) {
-                //get property list
-                Properties properties = new Properties(propertyFile)
-                updatePropertyFile(translations, properties)
-                logMissingTranslations(translations, properties)
-                properties.writeToTranslatedFile()
+        def initFp = getFilePath(args)
+        def components = ["DMT", "DE"]
+        components.each { comp ->
+            def fp = initFp + comp + "\\\\"
+            openLogs(fp)
+            // open translation file
+            TranslationFile translationFile = new TranslationFile(fp)
+            if (translationFile.exists()) {
+                Translations translations = new Translations(translationFile)
+                // open property file
+                PropertyFile propertyFile = new PropertyFile(fp)
+                if (propertyFile.exists()) {
+                    //get property list
+                    Properties properties = new Properties(propertyFile)
+                    updatePropertyFile(translations, properties)
+                    logMissingTranslations(translations, properties)
+                    properties.writeToTranslatedFile()
+                }
             }
         }
     }
