@@ -15,11 +15,12 @@ class UpdateDMTClassFactories {
 
 
     static openLogs(fp) {
-        Log.open fp + "log-library-translations.txt"
+        def logFp = fp + "logs\\\\"
+        Log.open logFp + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "exceptions", fp + "log-library-exceptions.txt"
+        Log.open "exceptions", logFp + "log-library-exceptions.txt"
         Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "nocode", fp + "log-library-nocode.txt"
+        Log.open "nocode", logFp + "log-library-nocode.txt"
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
