@@ -36,9 +36,9 @@ class Properties {
             } else {
                 def parsedProp = nextPropLine.split("=")
                 if (parsedProp.size() >= 2) {
-                    property[parsedProp[0]] = parsedProp[1]
+                    property[parsedProp[0].trim()] = parsedProp[1]
                 } else
-                    property[parsedProp[0]] = ""
+                    property[parsedProp[0].trim()] = ""
             }
         }
         property
