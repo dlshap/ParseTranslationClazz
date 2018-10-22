@@ -2,15 +2,15 @@ package filemanagement
 
 import logging.Log
 
-class TranslationFile extends KeyFile {
+class TranslationsExcelExportFile extends KeyFile {
 
-    def TranslationFile(fp) {
+    def TranslationsExcelExportFile(fp) {
         super()
         def transFileName = FileChooser.chooseFile("Select Translation file", fp + "PropertyExports\\\\")
         openTransFile(transFileName)
     }
 
-    def TranslationFile(comp, fp) {
+    def TranslationsExcelExportFile(comp, fp) {
         super()
         def transFileName = FileChooser.chooseFile("Select Translation file for $comp", fp + "PropertyExports\\\\")
         openTransFile(transFileName)

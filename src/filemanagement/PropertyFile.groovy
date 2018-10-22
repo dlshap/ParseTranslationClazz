@@ -28,16 +28,16 @@ class PropertyFile extends LineFile {
         }
     }
 
-    def getTranslatedFileName() {
+    def getTranslatedOutputFileName() {
         def parentDir = new File(getDirPath()).getParent()
         def propertyOutFileName = parentDir + "\\\\PropertyFilesTranslated\\\\" + getFileName() + ".translated"
         propertyOutFileName
     }
 
-    def openTranslatedFile() {
+    def openTranslatedOutputFile() {
         LineFile translatedFile
         if (theFile != null) {
-            def propertyOutFileName = this.getTranslatedFileName()
+            def propertyOutFileName = this.getTranslatedOutputFileName()
             translatedFile = new LineFile(propertyOutFileName, FileMgr.createFlag.CREATE)
         }
         translatedFile

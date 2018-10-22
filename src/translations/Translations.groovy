@@ -1,18 +1,14 @@
 package translations
-
-import filemanagement.TranslationFile
-
 /**
  * Created by s0041664 on 8/15/2017.
  */
 class Translations {
-
-    TranslationFile translationFile
+    // Translations: collection of Translation objects imported from Translation Spreadsheet export file
     def transKeyMapList = []
     Iterator translationIterator
 
-    def Translations(transFile) {
-        transKeyMapList = transFile.getKeyMaps()
+    def Translations(translationExportFile) {
+        transKeyMapList = translationExportFile.getKeyMaps()
         translationIterator = transKeyMapList.iterator()
     }
 

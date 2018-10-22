@@ -8,7 +8,7 @@ import filemanagement.PropertyFile
  */
 class Properties {
 
-    PropertyFile propFile
+    PropertyFile propertyFile
     Map allProperties = [:]
     Iterator<Map> propertyIterator
 
@@ -16,9 +16,9 @@ class Properties {
         // no property file
     }
 
-    def Properties(propFile) {
-        this.propFile = propFile
-        allProperties = buildAllPropertiesMap(propFile)
+    def Properties(propertyFile) {
+        this.propertyFile = propertyFile
+        allProperties = buildAllPropertiesMap(this.propertyFile)
         propertyIterator = allProperties.iterator()
     }
 
@@ -52,9 +52,9 @@ class Properties {
         this.allProperties = properties
     }
 
-    def writeToTranslatedFile() {
-        LineFile translatedFile = propFile.openTranslatedFile()
-        if (propFile != null) {
+    def writePropertiesToTranslatedOutputFile() {
+        LineFile translatedFile = propertyFile.openTranslatedOutputFile()
+        if (propertyFile != null) {
             allProperties.each { propKey, propValue ->
                 if (propKey[0] == "*") {
                     translatedFile.writeLine(propValue)

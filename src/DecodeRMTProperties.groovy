@@ -1,5 +1,5 @@
 import filemanagement.PropertyFile
-import filemanagement.TranslationFile
+import filemanagement.TranslationsExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.Properties
@@ -81,7 +81,7 @@ class DecodeRMTProperties {
         def fp = getFilePath(args)
         openLogs(fp)
         // open translation file
-        TranslationFile translationFile = new TranslationFile(fp)
+        TranslationsExcelExportFile translationFile = new TranslationsExcelExportFile(fp)
         if (translationFile.exists()) {
             Translations translations = new Translations(translationFile)
             // open property file
@@ -91,7 +91,7 @@ class DecodeRMTProperties {
                 Properties properties = new Properties(propertyFile)
                 updatePropertyFile(translations, properties)
 //                logMissingTranslations(translations, properties)
-                properties.writeToTranslatedFile()
+                properties.writePropertiesToTranslatedOutputFile()
             }
         }
     }
