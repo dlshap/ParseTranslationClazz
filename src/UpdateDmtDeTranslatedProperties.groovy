@@ -19,39 +19,48 @@ class UpdateDmtDeTranslatedProperties {
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
         //exceptions log: property exceptions log
         Log.open("exceptions", logsFilePath + "$component log-property-exceptions.txt")
-        Log.writeLine"exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     static updatePropertiesFromTranslations(Translations translationsFromSpreadsheet, Properties properties, languageName) {
         // loop through property value translations from Excel spreadsheet
         while (translationsFromSpreadsheet.hasNext()) {
-            def nextTranslationFromSpreadsheet = translationsFromSpreadsheet.next()
-            def nextTranslationValue = nextTranslationFromSpreadsheet[languageName].trim()
-            if ((nextTranslationValue != null) && (nextTranslationValue.trim() != "")) {
-                def nextTranslationKey = nextTranslationFromSpreadsheet["Message Key"]
-                if (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")) {
-                    def matchingProperty = properties.get(nextTranslationKey)
-                    if (matchingProperty == null) {
-                        Log.writeLine("exceptions", "Translated property '$nextTranslationKey' not found in properties file")
-                    } else {
-                        if (!matchingProperty.equals(nextTranslationValue)) {
-                            properties.set(nextTranslationKey, nextTranslationValue)
-                            Log.writeLine("Property $nextTranslationKey: '$matchingProperty' replaced by '$nextTranslationValue'")
+            def nextSpreadsheetRow = translationsFromSpreadsheet.next()
+            def nextTranslatedValue = nextSpreadsheetRow[languageName].trim()
+            if ((nextTranslatedValue != null) && (nextTranslatedValue.trim() != "")) {
+                def nextSpreadsheetTranslationKey = nextSpreadsheetRow["Message Key"]
+                if (!(nextSpreadsheetTranslationKey == "" || nextSpreadsheetTranslationKey[0] == "#")) {
+                    def originalPropertyValue = properties.get(nextSpreadsheetTranslationKey)
+                    if (originalPropertyValue != null) {
+                        // if property value found for key
+                        if (!originalPropertyValue.equals(nextTranslatedValue)) {
+                            // if property value differs from value from spreadsheet, replace it and log it; otherwise, do nothing
+                            properties.set(nextSpreadsheetTranslationKey, nextTranslatedValue)
+                            Log.writeLine("Property $nextSpreadsheetTranslationKey: '$originalPropertyValue' replaced by '$nextTranslatedValue'")
                         }
+                    } else {
+                        Log.writeLine("exceptions", "Translated property '$nextSpreadsheetTranslationKey' not found in properties file")
                     }
                 }
             }
         }
     }
 
-    static logPropertiesWithNoTranslations(translations, properties, languageName) {
-        properties.allProperties.each { propKey, propValue ->
-            if (propKey[0] != "*") {
-                Translation matchingTranslation = translations.getTranslation("Message Key", propKey)
-                if (matchingTranslation == null)
-                    Log.writeLine("exceptions", "Property '$propKey' does not have corresponding 'Message Key' in translation spreadsheet.")
-                else if (matchingTranslation.get(languageName) == null)
-                    Log.writeLine("exceptions", "Property '$propKey' in property file, but no $languageName translation in translation spreadsheet.")
+    static logPropertiesWithNoTranslations(translations, Properties properties, languageName) {
+        //loop through all properties (iterator), find matching translation from spreadsheet if it exists; otherwise log missing translation
+//        properties.allProperties.each { propKey, propValue ->
+        properties.rewind()
+        while (properties.hasNext()) {
+            def nextProperty = properties.next()
+            def nextPropertyKey = nextProperty.key
+            def nextPropertyValue = nextProperty.value
+            if (nextPropertyKey[0] != "*") {
+                //pseudo-properties (comments) have '*' in first character (maybe should trim left?)
+                Translation matchingSpreadsheetTranslation = translations.getTranslation("Message Key", nextPropertyKey)
+                if (matchingSpreadsheetTranslation == null)
+                    Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation spreadsheet.")
+                else if (matchingSpreadsheetTranslation.get(languageName) == null)
+                    Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation spreadsheet.")
             }
         }
     }
@@ -64,7 +73,7 @@ class UpdateDmtDeTranslatedProperties {
                 def tKey = it.get("Message Key")
                 def x = (tKey != "")
                 if ((tKey != "") && (tKey[0] != "#")) {
-                        Log.writeLine("exceptions", "Property $tKey has no $languageName translation in spreadsheet.")
+                    Log.writeLine("exceptions", "Property $tKey has no $languageName translation in spreadsheet.")
                 }
             }
         }
@@ -76,41 +85,47 @@ class UpdateDmtDeTranslatedProperties {
         logTranslationKeysWithNoValues(translations, properties, languageName)
     }
 
-    static getFilePath(args) {
-        String fp //filepath
-        def lastChar
-        if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-        else {
-            fp = args[0]
-            if (fp[-2] != "\\")
-                fp += "\\"
+    static buildArgsMap(args) {
+        def key, value
+        def argsMap = [:]
+        def argCount = args.size()
+        args.each {
+            def match = it =~ /(.*?)=(.*)/
+            if (match[0].size() > 0) {
+                key = match[0][1]
+                value = match[0][2]
+                argsMap.put(key, value)
+            }
         }
-        fp
+        argsMap
     }
 
-    static main(args) {
-        def initFp = getFilePath(args)
-        def languageName = "Japanese"
-        def component_list = ["DMT", "DE"]
-        component_list.each { componentName ->
-            def componentFilePath = initFp + componentName + "\\\\"
-            // open log files
-            openLogs(componentName, componentFilePath)
-            // open translation file
-            TranslationsExcelExportFile translationsExcelExportFile = new TranslationsExcelExportFile(componentName, componentFilePath)
-            if (translationsExcelExportFile.exists()) {
-                Translations translationsFromSpreadsheet = new Translations(translationsExcelExportFile)
-                // open property file
-                PropertyFile propertyFile = new PropertyFile(componentName, componentFilePath)
-                if (propertyFile.exists()) {
-                    //get property list
-                    Properties properties = new Properties(propertyFile)            //load initial property values
-                    updatePropertiesFromTranslations(translationsFromSpreadsheet, properties, languageName)      //overwrite properties from translations
-                    logMissingTranslations(translationsFromSpreadsheet, properties, languageName)                //identify missing translations
-                    properties.writePropertiesToTranslatedOutputFile()              //write new properties out to output (.translated) file
+        static main(args) {
+            def argsMap = buildArgsMap(args)
+            def startFilePath = argsMap.get("path")
+            def languageName = argsMap["language"]
+            def component_list = ["DMT", "DE"]
+            component_list.each { componentName ->
+                def componentFilePath = startFilePath + componentName + "\\\\"
+                // open log files
+                openLogs(componentName, componentFilePath)
+                // open translation file
+                TranslationsExcelExportFile translationsExcelExportFile = new TranslationsExcelExportFile(componentName, componentFilePath)
+                if (translationsExcelExportFile.exists()) {
+                    Translations translationsFromSpreadsheet = new Translations(translationsExcelExportFile)
+                    // open property file
+                    PropertyFile propertyFile = new PropertyFile(componentName, componentFilePath)
+                    if (propertyFile.exists()) {
+                        //get property list
+                        Properties properties = new Properties(propertyFile)            //load initial property values
+                        updatePropertiesFromTranslations(translationsFromSpreadsheet, properties, languageName)
+                        //update properties from spreadsheet translation values
+                        logMissingTranslations(translationsFromSpreadsheet, properties, languageName)
+                        //identify missing translations
+                        properties.writePropertiesToTranslatedOutputFile()
+                        //write new properties out to output (.translated) file
+                    }
                 }
             }
         }
     }
-}
