@@ -4,6 +4,7 @@
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy" afterPath="$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/filemanagement/TranslationsExcelExportFile.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/TranslationsExcelExportFile.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +19,8 @@
       <file leaf-file-name="UpdateDmtDeTranslatedProperties.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+            <state relative-caret-position="612">
+              <caret line="36" column="16" lean-forward="false" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -89,12 +90,12 @@
         <option value="$PROJECT_DIR$/src/StripTranslatedFileNames.groovy" />
         <option value="$PROJECT_DIR$/src/filemanagement/TranslationSpreadsheetExportFile.groovy" />
         <option value="$PROJECT_DIR$/src/translations/Translations.groovy" />
-        <option value="$PROJECT_DIR$/src/filemanagement/TranslationsExcelExportFile.groovy" />
         <option value="$PROJECT_DIR$/src/filemanagement/PropertyFile.groovy" />
         <option value="$PROJECT_DIR$/src/translations/Properties.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateDmtDeJapaneseProperties.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateDmtDeLanguageProperties.groovy" />
         <option value="$PROJECT_DIR$/src/useful/ArgsParser.groovy" />
+        <option value="$PROJECT_DIR$/src/filemanagement/TranslationsExcelExportFile.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy" />
       </list>
     </option>
@@ -504,7 +505,7 @@
       <workItem from="1541169534518" duration="606000" />
       <workItem from="1541629453330" duration="672000" />
       <workItem from="1542656397096" duration="7719000" />
-      <workItem from="1543526292118" duration="3257000" />
+      <workItem from="1543526292118" duration="4112000" />
     </task>
     <task id="LOCAL-00001" summary="Rebuilt and tested on new notebook">
       <created>1508786065263</created>
@@ -681,11 +682,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543526385172</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Began pulling out static vars and reducing function sizes for readability">
+      <created>1543531667786</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1543531667786</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138596000" />
+    <option name="totallyTimeSpent" value="139451000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -747,20 +755,21 @@
     <MESSAGE value="Adding comments, and making more generic in anticipation of additional languages." />
     <MESSAGE value="Parse command line" />
     <MESSAGE value="Refactored for readability and added args parser utility" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored for readability and added args parser utility" />
+    <MESSAGE value="Began pulling out static vars and reducing function sizes for readability" />
+    <option name="LAST_COMMIT_MESSAGE" value="Began pulling out static vars and reducing function sizes for readability" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy</url>
-          <line>71</line>
+          <line>76</line>
           <properties />
           <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy</url>
-          <line>37</line>
+          <line>72</line>
           <properties />
           <option name="timeStamp" value="86" />
         </line-breakpoint>
@@ -1068,14 +1077,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/filemanagement/TranslationsExcelExportFile.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="51" lean-forward="true" selection-start-line="4" selection-start-column="51" selection-end-line="4" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/filemanagement/PropertyFile.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -1132,10 +1133,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/filemanagement/TranslationsExcelExportFile.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="50" lean-forward="false" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        <state relative-caret-position="612">
+          <caret line="36" column="16" lean-forward="false" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>

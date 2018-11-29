@@ -4,15 +4,15 @@ import logging.Log
 
 class TranslationsExcelExportFile extends KeyFile {
 
-    def TranslationsExcelExportFile(fp) {
+    def TranslationsExcelExportFile(exportFilePath) {
         super()
-        def transFileName = FileChooser.chooseFile("Select Translation file", fp + "PropertyExports\\\\")
+        def transFileName = FileChooser.chooseFile("Select Translation file", exportFilePath + "PropertyExports\\\\")
         openTransFile(transFileName)
     }
 
-    def TranslationsExcelExportFile(comp, fp) {
+    def TranslationsExcelExportFile(componentName, componentFilePath) {
         super()
-        def transFileName = FileChooser.chooseFile("Select Translation file for $comp", fp + "PropertyExports\\\\")
+        def transFileName = FileChooser.chooseFile("Select Translation file for $componentName", componentFilePath + "PropertyExports\\\\")
         openTransFile(transFileName)
     }
 
