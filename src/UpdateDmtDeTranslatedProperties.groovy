@@ -14,13 +14,67 @@ import static useful.ArgsParser.buildArgsMap
  */
 class UpdateDmtDeTranslatedProperties {
 
-    static openLogs(component, rootFilePath) {
-        def logsFilePath = rootFilePath + "logs\\\\"
+    static argsMap = [:]        // parsed map of command line args (key=value -> [key:value])
+    static startFilePath        // "root" filepath
+    static languageName         // language for this translation
+
+    static componentList        // list for looping through components
+    static componentFilePath    // filepath for individual component
+    static componentName        // name of component from component list for translations
+
+    static buildArgsAndParameters(args) {
+        argsMap = buildArgsMap(args)
+        makeStartFilePath()
+        languageName = argsMap["language"]
+        componentList = ["DMT", "DE"]
+    }
+
+    static makeStartFilePath() {
+        startFilePath = argsMap.get("path")
+        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+    }
+
+    static makeComponentFilePath() {
+        componentFilePath = startFilePath + componentName + "\\\\"
+    }
+
+    static moveTranslationsFromExcelToPropertiesFiles() {
+        componentList.each { it ->
+            componentName = it
+            makeComponentFilePath()
+            openLogs()
+            TranslationsExcelExportFile translationsExcelExportFile = new TranslationsExcelExportFile(componentName, componentFilePath)
+            if (translationsExcelExportFile.exists()) {
+                Translations translationsFromSpreadsheet = new Translations(translationsExcelExportFile)
+                // open property file
+                PropertyFile propertyFile = new PropertyFile(componentName, componentFilePath)
+                if (propertyFile.exists()) {
+                    //get property list
+                    Properties propertiesFromPropertyFile = new Properties(propertyFile)
+                    //load initial property values
+                    updatePropertiesFromSpreadsheet(translationsFromSpreadsheet, propertiesFromPropertyFile, languageName)
+                    //update properties from spreadsheet translation values
+                    logMissingTranslations(translationsFromSpreadsheet, propertiesFromPropertyFile, languageName)
+                    //identify missing translations
+                    propertiesFromPropertyFile.writePropertiesToTranslatedOutputFile()
+                    //write new properties out to output (.translated) file
+                }
+            }
+        }
+    }
+
+    static main(args) {
+        buildArgsAndParameters(args)
+        moveTranslationsFromExcelToPropertiesFiles()
+    }
+
+    static openLogs() {
+        def logsFilePath = componentFilePath + "logs\\\\"
         //default log: property translations (successful) log
-        Log.open(logsFilePath + "$component log-property-translations.txt")
+        Log.open(logsFilePath + "$componentName log-property-translations.txt")
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
         //exceptions log: property exceptions log
-        Log.open("exceptions", logsFilePath + "$component log-property-exceptions.txt")
+        Log.open("exceptions", logsFilePath + "$componentName log-property-exceptions.txt")
         Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
@@ -87,33 +141,4 @@ class UpdateDmtDeTranslatedProperties {
         logTranslationKeysWithNoValues(translationsFromSpreadsheet, propertiesFromFile, languageName)
     }
 
-        static main(args) {
-            def argsMap = buildArgsMap(args)
-            def startFilePath = argsMap.get("path")
-            if (startFilePath == null) startFilePath="C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-            def languageName = argsMap["language"]
-            def component_list = ["DMT", "DE"]
-            component_list.each { componentName ->
-                def componentFilePath = startFilePath + componentName + "\\\\"
-                // open log files
-                openLogs(componentName, componentFilePath)
-                // open translation file
-                TranslationsExcelExportFile translationsExcelExportFile = new TranslationsExcelExportFile(componentName, componentFilePath)
-                if (translationsExcelExportFile.exists()) {
-                    Translations translationsFromSpreadsheet = new Translations(translationsExcelExportFile)
-                    // open property file
-                    PropertyFile propertyFile = new PropertyFile(componentName, componentFilePath)
-                    if (propertyFile.exists()) {
-                        //get property list
-                        Properties propertiesFromPropertyFile = new Properties(propertyFile)            //load initial property values
-                        updatePropertiesFromSpreadsheet(translationsFromSpreadsheet, propertiesFromPropertyFile, languageName)
-                        //update properties from spreadsheet translation values
-                        logMissingTranslations(translationsFromSpreadsheet, propertiesFromPropertyFile, languageName)
-                        //identify missing translations
-                        propertiesFromPropertyFile.writePropertiesToTranslatedOutputFile()
-                        //write new properties out to output (.translated) file
-                    }
-                }
-            }
-        }
-    }
+}
