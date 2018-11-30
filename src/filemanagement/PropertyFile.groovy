@@ -4,25 +4,29 @@ import logging.Log
 
 class PropertyFile extends LineFile {
 
+    def componentName
+    def propFileName
+
     def PropertyFile() {
         super()
     }
 
-    def PropertyFile(fp) {
-        super()
-        def propFileName = FileChooser.chooseFile("Select Property file", fp + "PropertyFiles\\\\")
-        openPropFile(propFileName)
-     }
+//    def PropertyFile(fp) {
+//        super()
+//        def propFileName = FileChooser.chooseFile("Select Property file", fp + "PropertyFiles\\\\")
+//        openPropFile(propFileName)
+//     }
 
-    def PropertyFile(comp, fp) {
+    def PropertyFile(componentName, componentPath) {
         super()
-        def propFileName = FileChooser.chooseFile("Select Property file for $comp", fp + "PropertyFiles\\\\")
-        openPropFile(propFileName)
+        this.componentName = componentName
+        propFileName = FileChooser.chooseFile("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
+        openPropFile()
     }
 
-    def openPropFile(propFileName) {
+    def openPropFile() {
         if (propFileName == null) {
-            Log.writeLine("exceptions", "No properties file selected.")
+            Log.writeLine("exceptions", "No properties file selected for $componentName.")
         } else {
             openFile(propFileName)
         }
