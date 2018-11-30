@@ -122,64 +122,68 @@ class UpdateDmtDeTranslatedProperties {
     static updatePropertiesFromTranslations() {
         // loop through property value translations from Excel spreadsheet
         while (translationsFromSpreadsheet.hasNext()) {
-            def nextSpreadsheetRow = translationsFromSpreadsheet.next()
-            def nextTranslatedValue = nextSpreadsheetRow[languageName].trim()
-            if ((nextTranslatedValue != null) && (nextTranslatedValue.trim() != "")) {
-                def nextSpreadsheetTranslationKey = nextSpreadsheetRow["Message Key"]
-                if (!(nextSpreadsheetTranslationKey == "" || nextSpreadsheetTranslationKey[0] == "#")) {
-                    def originalPropertyValue = propertiesFromPropertyFile.get(nextSpreadsheetTranslationKey)
-                    if (originalPropertyValue != null) {
-                        // if property value found for key
-                        if (!originalPropertyValue.equals(nextTranslatedValue)) {
-                            // if property value differs from value from spreadsheet, replace it and log it; otherwise, do nothing
-                            propertiesFromPropertyFile.set(nextSpreadsheetTranslationKey, nextTranslatedValue)
-                            Log.writeLine("Property $nextSpreadsheetTranslationKey: '$originalPropertyValue' replaced by '$nextTranslatedValue'")
-                        }
-                    } else {
-                        Log.writeLine("exceptions", "Translated property '$nextSpreadsheetTranslationKey' not found in properties file")
-                    }
+            updateAPropertyFromASpreadsheetRow()
+        }
+    }
+
+    static updateAPropertyFromASpreadsheetRow() {
+        def nextSpreadsheetRow = translationsFromSpreadsheet.next()
+        def nextTranslationValue = nextSpreadsheetRow[languageName].trim()
+        def nextTranslationKey = nextSpreadsheetRow["Message Key"].trim()
+        if ((nextTranslationValue != null) && (nextTranslationValue != "") && (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")))
+            replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue)
+    }
+
+    static replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue) {
+        def originalPropertyValue = propertiesFromPropertyFile.get(nextTranslationKey)
+        if (originalPropertyValue != null) {
+            if (!originalPropertyValue.equals(nextTranslationValue)) {
+                propertiesFromPropertyFile.set(nextTranslationKey, nextTranslationValue)
+                Log.writeLine("Property $nextTranslationKey: '$originalPropertyValue' replaced by '$nextTranslationValue'")
+            }
+        } else {
+            Log.writeLine("exceptions", "Translated property '$nextTranslationKey' not found in properties file")
+        }
+    }
+
+    static logMissingTranslations() {
+        Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
+        logTranslationKeysWithNoValues()
+        logPropertiesWithNoTranslations()
+    }
+
+    static logTranslationKeysWithNoValues() {
+        // write exceptions accumulated while moving translations into properties file
+        Log.writeLine("exceptions", "\r\n******* No $languageName translation in spreadsheet:")
+        def noTranslationList = translationsFromSpreadsheet.getTranslations("$languageName", "")
+        if (noTranslationList != null) {
+            noTranslationList.each {
+                def translationKey = it.get("Message Key")
+                if ((translationKey != "") && (translationKey[0] != "#")) {
+                    Log.writeLine("exceptions", "Property $translationKey has no $languageName translation in spreadsheet.")
                 }
             }
         }
     }
 
     static logPropertiesWithNoTranslations() {
-//        loop through all properties (iterator), find matching translation from spreadsheet if it exists; otherwise log missing translation
-//        properties.allProperties.each { propKey, propValue ->
+//      loop through all properties (iterator), find matching translation from spreadsheet if it exists; otherwise log missing translation
         propertiesFromPropertyFile.rewind()
         while (propertiesFromPropertyFile.hasNext()) {
-            def nextProperty = propertiesFromPropertyFile.next()
-            def nextPropertyKey = nextProperty.key
-            def nextPropertyValue = nextProperty.value
-            if (nextPropertyKey[0] != "*") {
-                //pseudo-properties (comments) have '*' in first character (maybe should trim left?)
-                Translation matchingSpreadsheetTranslation = translationsFromSpreadsheet.getTranslation("Message Key", nextPropertyKey)
-                if (matchingSpreadsheetTranslation == null)
-                    Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation spreadsheet.")
-                else if (matchingSpreadsheetTranslation.get(languageName) == null)
-                    Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation spreadsheet.")
-            }
+            logIfNoMatchingSpreadsheetTranslation()
         }
     }
 
-    static logTranslationKeysWithNoValues() {
-        Log.writeLine("exceptions", "\r\n******* No $languageName translation in spreadsheet:")
-        def noTranslationList = translationsFromSpreadsheet.getTranslations("$languageName", "")
-        if (noTranslationList != null) {
-            noTranslationList.each {
-                def tKey = it.get("Message Key")
-                def x = (tKey != "")
-                if ((tKey != "") && (tKey[0] != "#")) {
-                    Log.writeLine("exceptions", "Property $tKey has no $languageName translation in spreadsheet.")
-                }
-            }
+    static logIfNoMatchingSpreadsheetTranslation() {
+        def nextProperty = propertiesFromPropertyFile.next()
+        def nextPropertyKey = nextProperty.key
+        if (nextPropertyKey[0] != "*") {
+            //pseudo-properties (comments) have '*' in first character (maybe should trim left?)
+            Translation matchingSpreadsheetTranslation = translationsFromSpreadsheet.getTranslation("Message Key", nextPropertyKey)
+            if (matchingSpreadsheetTranslation == null)
+                Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation spreadsheet.")
+            else if (matchingSpreadsheetTranslation.get(languageName) == null)
+                Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation spreadsheet.")
         }
     }
-
-    static logMissingTranslations() {
-        Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
-        logPropertiesWithNoTranslations()
-        logTranslationKeysWithNoValues()
-    }
-
 }
