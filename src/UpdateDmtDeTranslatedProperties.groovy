@@ -8,7 +8,6 @@ import translations.Translation
 
 import static useful.ArgsParser.buildArgsMap
 
-
 /**
  * Created by s0041664 on 8/25/2017.
  */
@@ -23,7 +22,7 @@ class UpdateDmtDeTranslatedProperties {
     static componentName        // name of component from component list for translations
 
     static TranslationsExcelExportFile translationsExcelExportFile
-    static Translations translationsFromSpreadsheet
+    static Translations translationsFromExcelExport
     static PropertyFile propertyFile
     static Properties propertiesFromPropertyFile
 
@@ -101,7 +100,7 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     static buildTranslationsFromExport() {
-        translationsFromSpreadsheet = new Translations(translationsExcelExportFile)
+        translationsFromExcelExport = new Translations(translationsExcelExportFile)
     }
 
     static openPropertyFile() {
@@ -120,16 +119,16 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     static updatePropertiesFromTranslations() {
-        // loop through property value translations from Excel spreadsheet
-        while (translationsFromSpreadsheet.hasNext()) {
-            updateAPropertyFromASpreadsheetRow()
+        // loop through property value translations from Excel export
+        while (translationsFromExcelExport.hasNext()) {
+            updateAPropertyFromAExcelExportRow()
         }
     }
 
-    static updateAPropertyFromASpreadsheetRow() {
-        def nextSpreadsheetRow = translationsFromSpreadsheet.next()
-        def nextTranslationValue = nextSpreadsheetRow[languageName].trim()
-        def nextTranslationKey = nextSpreadsheetRow["Message Key"].trim()
+    static updateAPropertyFromAExcelExportRow() {
+        def nextExcelExportRow = translationsFromExcelExport.next()
+        def nextTranslationValue = nextExcelExportRow[languageName].trim()
+        def nextTranslationKey = nextExcelExportRow["Message Key"].trim()
         if ((nextTranslationValue != null) && (nextTranslationValue != "") && (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")))
             replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue)
     }
@@ -154,36 +153,36 @@ class UpdateDmtDeTranslatedProperties {
 
     static logTranslationKeysWithNoValues() {
         // write exceptions accumulated while moving translations into properties file
-        Log.writeLine("exceptions", "\r\n******* No $languageName translation in spreadsheet:")
-        def noTranslationList = translationsFromSpreadsheet.getTranslations("$languageName", "")
+        Log.writeLine("exceptions", "\r\n******* No $languageName translation in Excel export:")
+        def noTranslationList = translationsFromExcelExport.getTranslations("$languageName", "")
         if (noTranslationList != null) {
             noTranslationList.each {
                 def translationKey = it.get("Message Key")
                 if ((translationKey != "") && (translationKey[0] != "#")) {
-                    Log.writeLine("exceptions", "Property $translationKey has no $languageName translation in spreadsheet.")
+                    Log.writeLine("exceptions", "Property $translationKey has no $languageName translation in Excel export.")
                 }
             }
         }
     }
 
     static logPropertiesWithNoTranslations() {
-//      loop through all properties (iterator), find matching translation from spreadsheet if it exists; otherwise log missing translation
+//      loop through all properties (iterator), find matching translation from Excel export if it exists; otherwise log missing translation
         propertiesFromPropertyFile.rewind()
         while (propertiesFromPropertyFile.hasNext()) {
-            logIfNoMatchingSpreadsheetTranslation()
+            logIfNoMatchingExcelExportTranslation()
         }
     }
 
-    static logIfNoMatchingSpreadsheetTranslation() {
+    static logIfNoMatchingExcelExportTranslation() {
         def nextProperty = propertiesFromPropertyFile.next()
         def nextPropertyKey = nextProperty.key
         if (nextPropertyKey[0] != "*") {
             //pseudo-properties (comments) have '*' in first character (maybe should trim left?)
-            Translation matchingSpreadsheetTranslation = translationsFromSpreadsheet.getTranslation("Message Key", nextPropertyKey)
-            if (matchingSpreadsheetTranslation == null)
-                Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation spreadsheet.")
-            else if (matchingSpreadsheetTranslation.get(languageName) == null)
-                Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation spreadsheet.")
+            Translation matchingExcelExportTranslation = translationsFromExcelExport.getTranslation("Message Key", nextPropertyKey)
+            if (matchingExcelExportTranslation == null)
+                Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation Excel export.")
+            else if (matchingExcelExportTranslation.get(languageName) == null)
+                Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")
         }
     }
 }

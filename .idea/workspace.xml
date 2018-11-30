@@ -18,21 +18,11 @@
       <file leaf-file-name="UpdateDmtDeTranslatedProperties.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="839">
-              <caret line="172" column="51" lean-forward="true" selection-start-line="172" selection-start-column="51" selection-end-line="172" selection-end-column="51" />
+            <state relative-caret-position="-2510">
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Translations.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-187">
-              <caret line="4" column="6" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -42,7 +32,12 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Japanese</find>
+      <find>ExcelExport</find>
     </findStrings>
+    <replaceStrings>
+      <replace>ExcelExport</replace>
+      <replace>Excel export</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -496,7 +491,7 @@
       <workItem from="1541629453330" duration="672000" />
       <workItem from="1542656397096" duration="7719000" />
       <workItem from="1543526292118" duration="4147000" />
-      <workItem from="1543590438720" duration="13160000" />
+      <workItem from="1543590438720" duration="13561000" />
     </task>
     <task id="LOCAL-00001" summary="Rebuilt and tested on new notebook">
       <created>1508786065263</created>
@@ -701,11 +696,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543604828841</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="End of first cleaning.">
+      <created>1543609104590</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1543609104590</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152646000" />
+    <option name="totallyTimeSpent" value="153047000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="11" width="1684" height="1002" extended-state="0" />
@@ -770,7 +772,8 @@
     <MESSAGE value="Began pulling out static vars and reducing function sizes for readability" />
     <MESSAGE value="Cleaned up file opening and further refactored code for readability." />
     <MESSAGE value="A little more cleaning up." />
-    <option name="LAST_COMMIT_MESSAGE" value="A little more cleaning up." />
+    <MESSAGE value="End of first cleaning." />
+    <option name="LAST_COMMIT_MESSAGE" value="End of first cleaning." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1143,8 +1146,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="839">
-          <caret line="172" column="51" lean-forward="true" selection-start-line="172" selection-start-column="51" selection-end-line="172" selection-end-column="51" />
+        <state relative-caret-position="-2510">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
