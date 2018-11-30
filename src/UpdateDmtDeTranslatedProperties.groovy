@@ -73,8 +73,10 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     static moveTranslationsToPropertiesForComponent() {
-        if (buildPropertiesAndTranslationsObjects())
+        if (buildPropertiesAndTranslationsObjects()) {
             copyTranslations()
+            logMissingTranslations()
+        }
     }
 
     static buildPropertiesAndTranslationsObjects() {
@@ -90,8 +92,6 @@ class UpdateDmtDeTranslatedProperties {
     static buildPropertiesObject() {
         if (openPropertyFile())
             buildPropertiesFromPropertyFile()
-        else
-            false
     }
 
     static openTranslationsExcelExportFile() {
@@ -115,12 +115,11 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     static copyTranslations() {
-        updatePropertiesFromTranslations(translationsFromSpreadsheet, propertiesFromPropertyFile, languageName)
-        logMissingTranslations(translationsFromSpreadsheet, propertiesFromPropertyFile, languageName)
+        updatePropertiesFromTranslations()
         propertiesFromPropertyFile.writePropertiesToTranslatedOutputFile()
     }
 
-    static updatePropertiesFromTranslations(Translations translationsFromSpreadsheet, Properties propertiesFromFile, languageName) {
+    static updatePropertiesFromTranslations() {
         // loop through property value translations from Excel spreadsheet
         while (translationsFromSpreadsheet.hasNext()) {
             def nextSpreadsheetRow = translationsFromSpreadsheet.next()
@@ -128,12 +127,12 @@ class UpdateDmtDeTranslatedProperties {
             if ((nextTranslatedValue != null) && (nextTranslatedValue.trim() != "")) {
                 def nextSpreadsheetTranslationKey = nextSpreadsheetRow["Message Key"]
                 if (!(nextSpreadsheetTranslationKey == "" || nextSpreadsheetTranslationKey[0] == "#")) {
-                    def originalPropertyValue = propertiesFromFile.get(nextSpreadsheetTranslationKey)
+                    def originalPropertyValue = propertiesFromPropertyFile.get(nextSpreadsheetTranslationKey)
                     if (originalPropertyValue != null) {
                         // if property value found for key
                         if (!originalPropertyValue.equals(nextTranslatedValue)) {
                             // if property value differs from value from spreadsheet, replace it and log it; otherwise, do nothing
-                            propertiesFromFile.set(nextSpreadsheetTranslationKey, nextTranslatedValue)
+                            propertiesFromPropertyFile.set(nextSpreadsheetTranslationKey, nextTranslatedValue)
                             Log.writeLine("Property $nextSpreadsheetTranslationKey: '$originalPropertyValue' replaced by '$nextTranslatedValue'")
                         }
                     } else {
@@ -144,12 +143,12 @@ class UpdateDmtDeTranslatedProperties {
         }
     }
 
-    static logPropertiesWithNoTranslations(Translations translationsFromSpreadsheet, Properties propertiesFromFile, languageName) {
+    static logPropertiesWithNoTranslations() {
 //        loop through all properties (iterator), find matching translation from spreadsheet if it exists; otherwise log missing translation
 //        properties.allProperties.each { propKey, propValue ->
-        propertiesFromFile.rewind()
-        while (propertiesFromFile.hasNext()) {
-            def nextProperty = propertiesFromFile.next()
+        propertiesFromPropertyFile.rewind()
+        while (propertiesFromPropertyFile.hasNext()) {
+            def nextProperty = propertiesFromPropertyFile.next()
             def nextPropertyKey = nextProperty.key
             def nextPropertyValue = nextProperty.value
             if (nextPropertyKey[0] != "*") {
@@ -163,7 +162,7 @@ class UpdateDmtDeTranslatedProperties {
         }
     }
 
-    static logTranslationKeysWithNoValues(Translations translationsFromSpreadsheet, Properties propertiesFromFile, languageName) {
+    static logTranslationKeysWithNoValues() {
         Log.writeLine("exceptions", "\r\n******* No $languageName translation in spreadsheet:")
         def noTranslationList = translationsFromSpreadsheet.getTranslations("$languageName", "")
         if (noTranslationList != null) {
@@ -177,10 +176,10 @@ class UpdateDmtDeTranslatedProperties {
         }
     }
 
-    static logMissingTranslations(Translations translationsFromSpreadsheet, Properties propertiesFromFile, languageName) {
+    static logMissingTranslations() {
         Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
-        logPropertiesWithNoTranslations(translationsFromSpreadsheet, propertiesFromFile, languageName)
-        logTranslationKeysWithNoValues(translationsFromSpreadsheet, propertiesFromFile, languageName)
+        logPropertiesWithNoTranslations()
+        logTranslationKeysWithNoValues()
     }
 
 }
