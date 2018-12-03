@@ -2,6 +2,7 @@ import filemanagement.PropertyFile
 import filemanagement.TranslationsExcelExportFile
 import logging.Dates
 import logging.Log
+import translations.IgnorePropertyList
 import translations.Properties
 import translations.Translations
 import translations.Translation
@@ -25,6 +26,7 @@ class UpdateDmtDeTranslatedProperties {
     static Translations translationsFromExcelExport
     static PropertyFile propertyFile
     static Properties propertiesFromPropertyFile
+    static IgnorePropertyList ignorePropertyList
 
     static main(args) {
         buildArgsAndParameters(args)
@@ -53,12 +55,17 @@ class UpdateDmtDeTranslatedProperties {
 
     static doTranslationsForComponent() {
         buildFilePathForComponent()
+        buildIgnorePropertyList()
         openTranslationLogsForComponent()
         moveTranslationsToPropertiesForComponent()
     }
 
     static buildFilePathForComponent() {
         componentFilePath = startFilePath + componentName + "\\\\"
+    }
+
+    static buildIgnorePropertyList() {
+        ignorePropertyList = new IgnorePropertyList(componentFilePath + "logs\\\\ignoreMessages.txt")
     }
 
     static openTranslationLogsForComponent() {
@@ -122,11 +129,11 @@ class UpdateDmtDeTranslatedProperties {
     static updatePropertiesFromTranslations() {
         // loop through property value translations from Excel export
         while (translationsFromExcelExport.hasNext()) {
-            updateAPropertyFromAExcelExportRow()
+            updateAPropertyFromAnExcelExportRow()
         }
     }
 
-    static updateAPropertyFromAExcelExportRow() {
+    static updateAPropertyFromAnExcelExportRow() {
         def nextExcelExportRow = translationsFromExcelExport.next()
         def nextTranslationValue = nextExcelExportRow[languageName].trim()
         def nextTranslationKey = nextExcelExportRow["Message Key"].trim()
@@ -176,8 +183,8 @@ class UpdateDmtDeTranslatedProperties {
 
     static logIfNoMatchingExcelExportTranslation() {
         def nextProperty = propertiesFromPropertyFile.next()
-        def nextPropertyKey = nextProperty.key
-        if (nextPropertyKey[0] != "*") {
+        String nextPropertyKey = nextProperty.key
+        if ((nextPropertyKey[0] != "*") && (!(ignorePropertyList.contains(nextPropertyKey)))) {
             //pseudo-properties (comments) have '*' in first character (maybe should trim left?)
             Translation matchingExcelExportTranslation = translationsFromExcelExport.getTranslation("Message Key", nextPropertyKey)
             if (matchingExcelExportTranslation == null)
