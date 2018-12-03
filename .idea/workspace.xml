@@ -712,11 +712,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543611083305</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Merged refactor">
+      <created>1543854172473</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1543854172473</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155620000" />
+    <option name="totallyTimeSpent" value="155637000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1932" height="1038" extended-state="0" />
@@ -777,7 +784,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Rebuilt and tested on new notebook" />
     <MESSAGE value="Ran against new translations" />
     <MESSAGE value="Latest greatest" />
     <MESSAGE value="Renamed to make things a little clearer" />
@@ -802,7 +808,8 @@
     <MESSAGE value="A little more cleaning up." />
     <MESSAGE value="End of first cleaning." />
     <MESSAGE value="A couple of typos" />
-    <option name="LAST_COMMIT_MESSAGE" value="A couple of typos" />
+    <MESSAGE value="Merged refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merged refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
