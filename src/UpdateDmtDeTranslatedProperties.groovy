@@ -166,8 +166,8 @@ class UpdateDmtDeTranslatedProperties {
         if (noTranslationList != null) {
             noTranslationList.each {
                 def translationKey = it.get("Message Key")
-                if ((translationKey != "") && (translationKey[0] != "#")) {
-                    Log.writeLine("exceptions", "Property $translationKey has no $languageName translation in Excel export.")
+                if ((translationKey != "") && (translationKey.charAt(0) != "#") && (!(ignorePropertyList.contains(translationKey)))) {
+                    Log.writeLine("exceptions", "Property '$translationKey' has no $languageName translation in Excel export.")
                 }
             }
         }
@@ -184,7 +184,7 @@ class UpdateDmtDeTranslatedProperties {
     static logIfNoMatchingExcelExportTranslation() {
         def nextProperty = propertiesFromPropertyFile.next()
         String nextPropertyKey = nextProperty.key
-        if ((nextPropertyKey[0] != "*") && (!(ignorePropertyList.contains(nextPropertyKey)))) {
+        if ((nextPropertyKey.charAt(0) != "*") && (!(ignorePropertyList.contains(nextPropertyKey)))) {
             //pseudo-properties (comments) have '*' in first character (maybe should trim left?)
             Translation matchingExcelExportTranslation = translationsFromExcelExport.getTranslation("Message Key", nextPropertyKey)
             if (matchingExcelExportTranslation == null)
