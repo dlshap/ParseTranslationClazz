@@ -79,6 +79,7 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     static buildPropertiesAndTranslationsObjects() {
+        // first build translations object...if that's ok
         if (buildTranslationsObject())
             buildPropertiesObject()
     }
