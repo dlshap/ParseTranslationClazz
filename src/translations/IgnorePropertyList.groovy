@@ -15,7 +15,7 @@ class IgnorePropertyList {
     private def loadIgnorePropertyList() {
         def ignoreList = ignorePropertyListFile.getText()
         if (ignoreList != null) {
-            def matchingLines = ignoreList.findAll(/Property.+?'.*?'.*/).collect()
+            def matchingLines = ignoreList.findAll(/[^#]Property.+?'.*?'.*/).collect()
             ignorePropertyList = matchingLines.collect { (it =~ /Property.+?'(.*?)'.*/)[0][1] }
         }
     }
