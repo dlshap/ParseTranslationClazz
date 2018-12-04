@@ -56,7 +56,7 @@ class UpdateDmtDeTranslatedProperties {
 
     static doTranslationsForComponent() {
         buildFilePathForComponent()
-        buildIgnorePropertyList()
+        buildIgnorePropertyListForComponent()
         openTranslationLogsForComponent()
         moveTranslationsToPropertiesForComponent()
     }
@@ -65,7 +65,7 @@ class UpdateDmtDeTranslatedProperties {
         componentFilePath = startFilePath + componentName + "\\\\"
     }
 
-    static buildIgnorePropertyList() {
+    static buildIgnorePropertyListForComponent() {
         ignorePropertyList = new IgnorePropertyList(componentFilePath + "logs\\\\ignoreMessages.txt")
     }
 
@@ -136,9 +136,9 @@ class UpdateDmtDeTranslatedProperties {
 
     static updateAPropertyFromAnExcelExportRow() {
         def nextExcelExportRow = translationsFromExcelExport.next()
-        def nextTranslationValue = nextExcelExportRow[languageName].trim()
         def nextTranslationKey = nextExcelExportRow["Message Key"].trim()
-        if ((nextTranslationValue != null) && (nextTranslationValue != "") && (!(nextTranslationKey == "" || nextTranslationKey[0] == "#")))
+        def nextTranslationValue = nextExcelExportRow[languageName].trim()
+        if ((nextTranslationValue != null) && (nextTranslationValue != "") && (!(nextTranslationKey == "" || nextTranslationKey.charAt(0) == "#")))
             replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue)
     }
 
