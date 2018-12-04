@@ -7,12 +7,53 @@ import libraryquestions.LibraryQuestionMatchers
 import logging.Dates
 import logging.Log
 import translations.Translations
+import useful.ArgsParser
 
 /**
  * Created by s0041664 on 8/14/2017.
  */
 class UpdateDMTClassFactories {
 
+    static startFilePath
+    static languageName
+    static fileList
+
+    static main(args) {
+        buildArgsAndParameters(args)
+        openLogs(startFilePath)
+        buildFileList()
+        translateLibraryFiles()
+    }
+
+    static translateLibraryFiles() {
+        Log.writeLine("Processing ${fileList.size()} files: ${fileList}")
+        fileList.forEach {
+            addFileToLogs(it)
+            def transFile = openTranslationFile(startFilePath, it)
+            def factoryFile = openFactoryFile(startFilePath, it)
+            if (transFile.exists() && factoryFile.exists()) {
+                def factoryOutFile = openFactoryTranslatedFile(startFilePath, factoryFile.getFileName())
+                updateFactory(transFile, factoryFile, factoryOutFile)
+            }
+        }
+        addDoneToLogs()
+    }
+
+    static buildArgsAndParameters(args) {
+        getArgValues(args)
+        getDefaultValuesIfArgsNull()
+    }
+
+    static getArgValues(args) {
+        def argsMap = new ArgsParser(args)
+        languageName = argsMap.get("language")
+        startFilePath = argsMap.get("path")
+    }
+
+    static getDefaultValuesIfArgsNull() {
+        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
+        if (languageName == null) languageName = "Japanese"
+    }
 
     static openLogs(fp) {
         def logFp = fp + "logs\\\\"
@@ -23,6 +64,35 @@ class UpdateDMTClassFactories {
         Log.open "nocode", logFp + "log-library-nocode.txt"
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
+
+    static buildFileList() {
+        //TODO: Get single file argument from args object
+//        def fileList
+//        if (args.size() > 1) {
+//            fileList = [args[1]]
+//        } else {
+//            fileList = getFilesInLibraryFactoryDirectory()
+//        }
+        getFilesInLibraryFactoryDirectory()
+    }
+
+    static getFilesInLibraryFactoryDirectory() {
+        fileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
+        FileDirectoryMgr.makeDirectory(startFilePath + "LibraryFactoriesTranslated\\\\")
+    }
+
+
+//    static getFilePath(args) {
+//        def fp //filepath
+//        if (args.size() == 0)
+//            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+//        else {
+//            fp = args[0]
+//            if (fp[-1] != "\\") fp += "\\"
+//        }
+//        fp
+//    }
+
 
     static findBomFieldNameInText(nextText) {
         def bomFieldName = null
@@ -94,33 +164,6 @@ class UpdateDMTClassFactories {
         nextFactoryBlock
     }
 
-    static buildFileList(fp) {
-        def fileList = new FileDirectoryMgr(fp + "LibraryExports\\\\").getFileList()
-        FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
-        fileList
-    }
-
-    static getFilePath(args) {
-        def fp //filepath
-        if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-        else {
-            fp = args[0]
-            if (fp[-1] != "\\") fp += "\\"
-        }
-        fp
-    }
-
-    static getFileList(fp, args) {
-        def fileList
-        if (args.size() > 1) {
-            fileList = [args[1]]
-        } else {
-            fileList = buildFileList(fp)
-        }
-        fileList
-    }
-
     static updateFactory(transFile, TextFile factoryFile, TextFile factoryOutFile) {
         def factoryParser = new LibraryFileParser(factoryFile)
         def translations = new Translations(transFile)
@@ -139,20 +182,4 @@ class UpdateDMTClassFactories {
         }
     }
 
-    static main(args) {
-        def fp = getFilePath(args)
-        openLogs(fp)
-        def fileList = getFileList(fp, args)
-        Log.writeLine("Processing ${fileList.size()} files: ${fileList}")
-        fileList.forEach {
-            addFileToLogs(it)
-            def transFile = openTranslationFile(fp, it)
-            def factoryFile = openFactoryFile(fp, it)
-            if (transFile.exists() && factoryFile.exists()) {
-                def factoryOutFile = openFactoryTranslatedFile(fp, factoryFile.getFileName())
-                updateFactory(transFile, factoryFile, factoryOutFile)
-            }
-        }
-        addDoneToLogs()
-    }
 }
