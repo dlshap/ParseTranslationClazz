@@ -34,8 +34,6 @@ class UpdateDmtDeTranslatedProperties {
     static buildArgsAndParameters(args) {
         getArgValues(args)
         getDefaultValuesIfArgsNull()
-        println languageName
-        println startFilePath
     }
 
     static getArgValues(args) {
