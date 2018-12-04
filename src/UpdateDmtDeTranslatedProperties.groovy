@@ -33,7 +33,7 @@ class UpdateDmtDeTranslatedProperties {
 
     static buildArgsAndParameters(args) {
         getArgValues(args)
-        getDefaultValues()
+        getDefaultValuesIfArgsNull()
         println languageName
         println startFilePath
     }
@@ -44,7 +44,7 @@ class UpdateDmtDeTranslatedProperties {
         startFilePath = argsMap.get("path")
     }
 
-    static getDefaultValues() {
+    static getDefaultValuesIfArgsNull() {
         if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         if (languageName == null) languageName = "Japanese"
     }

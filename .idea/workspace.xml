@@ -18,8 +18,8 @@
       <file leaf-file-name="UpdateDmtDeTranslatedProperties.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="41" column="12" lean-forward="false" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
+            <state relative-caret-position="258">
+              <caret line="35" column="24" lean-forward="false" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="34" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -538,7 +538,7 @@
       <workItem from="1543851414447" duration="254000" />
       <workItem from="1543876534476" duration="3578000" />
       <workItem from="1543937681736" duration="41000" />
-      <workItem from="1543939345213" duration="2949000" />
+      <workItem from="1543939345213" duration="3004000" />
     </task>
     <task id="LOCAL-00001" summary="Rebuilt and tested on new notebook">
       <created>1508786065263</created>
@@ -813,11 +813,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543942663163</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="made argsMap local var">
+      <created>1543942729646</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1543942729646</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="174961000" />
+    <option name="totallyTimeSpent" value="175016000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1689" height="1017" extended-state="0" />
@@ -859,7 +866,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Working on Unicode translations" />
     <MESSAGE value="First version of RMT property translator" />
     <MESSAGE value="Working on RMT Translator" />
     <MESSAGE value="Unencoded RMT properties file" />
@@ -884,7 +890,8 @@
     <MESSAGE value="In Ignore file, skip commented lines (beginning with #)" />
     <MESSAGE value="cleaned up IgnorePropertyList code to use 1 regex instead of 2" />
     <MESSAGE value="cleaned up args" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaned up args" />
+    <MESSAGE value="made argsMap local var" />
+    <option name="LAST_COMMIT_MESSAGE" value="made argsMap local var" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1259,8 +1266,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="41" column="12" lean-forward="false" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
+        <state relative-caret-position="258">
+          <caret line="35" column="24" lean-forward="false" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="34" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
