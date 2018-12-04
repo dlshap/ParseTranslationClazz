@@ -13,7 +13,6 @@ import useful.ArgsParser
  */
 class UpdateDmtDeTranslatedProperties {
 
-    static argsMap              // args object
     static startFilePath        // "root" filepath
     static languageName         // language for this translation
 
@@ -40,7 +39,7 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     static getArgValues(args) {
-        argsMap = new ArgsParser(args)
+        def argsMap = new ArgsParser(args)
         languageName = argsMap.get("language")
         startFilePath = argsMap.get("path")
     }

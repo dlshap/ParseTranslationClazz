@@ -4,7 +4,6 @@
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy" afterPath="$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/useful/ArgsParser.groovy" afterPath="$PROJECT_DIR$/src/useful/ArgsParser.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +18,8 @@
       <file leaf-file-name="UpdateDmtDeTranslatedProperties.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="38" column="29" lean-forward="false" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+            <state relative-caret-position="309">
+              <caret line="41" column="12" lean-forward="false" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -539,7 +538,7 @@
       <workItem from="1543851414447" duration="254000" />
       <workItem from="1543876534476" duration="3578000" />
       <workItem from="1543937681736" duration="41000" />
-      <workItem from="1543939345213" duration="2886000" />
+      <workItem from="1543939345213" duration="2949000" />
     </task>
     <task id="LOCAL-00001" summary="Rebuilt and tested on new notebook">
       <created>1508786065263</created>
@@ -807,11 +806,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543941432746</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="cleaned up args">
+      <created>1543942663163</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1543942663163</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="174898000" />
+    <option name="totallyTimeSpent" value="174961000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1689" height="1017" extended-state="0" />
@@ -853,7 +859,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Adding RMT Property translations" />
     <MESSAGE value="Working on Unicode translations" />
     <MESSAGE value="First version of RMT property translator" />
     <MESSAGE value="Working on RMT Translator" />
@@ -878,7 +883,8 @@
     <MESSAGE value="A little more readable + some additional checks on noise." />
     <MESSAGE value="In Ignore file, skip commented lines (beginning with #)" />
     <MESSAGE value="cleaned up IgnorePropertyList code to use 1 regex instead of 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaned up IgnorePropertyList code to use 1 regex instead of 2" />
+    <MESSAGE value="cleaned up args" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaned up args" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1253,8 +1259,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="29" lean-forward="false" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+        <state relative-caret-position="309">
+          <caret line="41" column="12" lean-forward="false" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
