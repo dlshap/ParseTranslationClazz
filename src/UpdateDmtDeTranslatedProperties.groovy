@@ -6,21 +6,20 @@ import translations.IgnorePropertyList
 import translations.Properties
 import translations.Translations
 import translations.Translation
-
-import static useful.ArgsParser.buildArgsMap
+import useful.ArgsParser
 
 /**
  * Created by s0041664 on 8/25/2017.
  */
 class UpdateDmtDeTranslatedProperties {
 
-    static argsMap = [:]        // parsed map of command line args (key=value -> [key:value])
+    static argsMap              // args object
     static startFilePath        // "root" filepath
     static languageName         // language for this translation
 
-    static componentList        // list for looping through components
-    static componentFilePath    // filepath for individual component
-    static componentName        // name of component from component list for translations
+    static componentList = ["DMT", "DE"]       // list for looping through components
+    static componentFilePath                    // filepath for individual component
+    static componentName                        // name of component from component list for translations
 
     static TranslationsExcelExportFile translationsExcelExportFile
     static Translations translationsFromExcelExport
@@ -34,16 +33,21 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     static buildArgsAndParameters(args) {
-        argsMap = buildArgsMap(args)
-        startFilePath = buildStartFilePath()
-        languageName = argsMap["language"]
-        componentList = ["DMT", "DE"]
+        getArgValues(args)
+        getDefaultValues()
+        println languageName
+        println startFilePath
     }
 
-    static buildStartFilePath() {
-        def thePath = argsMap.get("path")
-        if (thePath == null) thePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-        thePath
+    static getArgValues(args) {
+        argsMap = new ArgsParser(args)
+        languageName = argsMap.get("language")
+        startFilePath = argsMap.get("path")
+    }
+
+    static getDefaultValues() {
+        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+        if (languageName == null) languageName = "Japanese"
     }
 
     static moveTranslationsFromExcelExportToPropertiesFiles() {
