@@ -16,12 +16,13 @@ class UpdateDMTClassFactories {
 
     static startFilePath
     static languageName
-    static fileList = []
+    static translationExcelExportFileList = []
 
     static main(args) {
         buildArgsAndParameters(args)
         openLogs()
         buildFileList()
+        buildOutputDirectoryForUpdatedTranslations()
         translateFilesInFileList()
     }
 
@@ -34,7 +35,7 @@ class UpdateDMTClassFactories {
         def argsMap = new ArgsParser(args)
         startFilePath = argsMap.get("path")
         languageName = argsMap.get("language")
-        fileList.add(argsMap.get("file"))
+        translationExcelExportFileList.add(argsMap.get("file"))
     }
 
     static getDefaultValuesIfArgsNull() {
@@ -53,30 +54,33 @@ class UpdateDMTClassFactories {
     }
 
     static buildFileList() {
-        if (fileList[0] == null) {
+        if (translationExcelExportFileList.get(0) == null) {
             buildFileListFromDirectory()
         }
     }
 
     static buildFileListFromDirectory() {
-        fileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
+        translationExcelExportFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
+    }
+
+    static buildOutputDirectoryForUpdatedTranslations() {
         FileDirectoryMgr.makeDirectory(startFilePath + "LibraryFactoriesTranslated\\\\")
     }
 
     static translateFilesInFileList() {
-        Log.writeLine("Processing ${fileList.size()} files: ${fileList}")
-        fileList.forEach { nextFile ->
-            translateNextFileInFileList(nextFile)
+        Log.writeLine("Processing ${translationExcelExportFileList.size()} files: ${translationExcelExportFileList}")
+        translationExcelExportFileList.forEach { nextExcelExportFile ->
+            translateNextFileInFileList(nextExcelExportFile)
         }
         closeTheLogs()
     }
 
-    static translateNextFileInFileList(nextFile) {
-        addFileToLogs(nextFile)
-        def transFile = openTranslationFile(startFilePath, nextFile)
-        def factoryFile = openFactoryFile(startFilePath, nextFile)
+    static translateNextFileInFileList(nextExcelExportFile) {
+        addFileToLogs(nextExcelExportFile)
+        def transFile = openTranslationFile(nextExcelExportFile)
+        def factoryFile = openFactoryFile(nextExcelExportFile)
         if (transFile.exists() && factoryFile.exists()) {
-            def factoryOutFile = openFactoryTranslatedFile(startFilePath, factoryFile.getFileName())
+            def factoryOutFile = openFactoryTranslatedFile(factoryFile.getFileName())
             updateFactory(transFile, factoryFile, factoryOutFile)
         }
     }
@@ -99,27 +103,27 @@ class UpdateDMTClassFactories {
     }
 
 
-    static openTranslationFile(fp, fileName) {
-        def transFile = new KeyFile(fp + "LibraryExports\\\\" + fileName)
-        if (!transFile.exists()) {
-            Log.writeLine("exceptions", "Translation file: $fileName doesn't exist.")
+    static openTranslationFile(translationFileName) {
+        def translationFile = new KeyFile(startFilePath + "LibraryExports\\\\" + translationFileName)
+        if (!translationFile.exists()) {
+            Log.writeLine("exceptions", "Translation file: $translationFileName doesn't exist.")
         }
-        transFile
+        translationFile
     }
 
-    static openFactoryFile(fp, fileName) {
+    static openFactoryFile(fileName) {
         def smallName = FileDirectoryMgr.getSmallName(fileName)       // no file extension
         def factoryFileName = smallName + "ClassFactory.groovy"
-        def factoryFile = new TextFile(fp + "LibraryFactories\\\\" + factoryFileName)
+        def factoryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + factoryFileName)
         if (!factoryFile.exists()) {
             Log.writeLine "exceptions", "${factoryFile.getFullPathName()} doesn't exist"
         }
         factoryFile
     }
 
-    static openFactoryTranslatedFile(fp, fileName) {
+    static openFactoryTranslatedFile(fileName) {
         def factoryTranslatedFileName = fileName + ".translated"
-        def factoryTranslatedPath = fp + "LibraryFactoriesTranslated\\\\"
+        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
         def factoryTranslatedFile = new TextFile(factoryTranslatedPath + factoryTranslatedFileName, FileMgr.createFlag.CREATE)
         factoryTranslatedFile
     }
