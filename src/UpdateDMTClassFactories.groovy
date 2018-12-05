@@ -16,27 +16,13 @@ class UpdateDMTClassFactories {
 
     static startFilePath
     static languageName
-    static fileList
+    static fileList = []
 
     static main(args) {
         buildArgsAndParameters(args)
-        openLogs(startFilePath)
+        openLogs()
         buildFileList()
-        translateLibraryFiles()
-    }
-
-    static translateLibraryFiles() {
-        Log.writeLine("Processing ${fileList.size()} files: ${fileList}")
-        fileList.forEach {
-            addFileToLogs(it)
-            def transFile = openTranslationFile(startFilePath, it)
-            def factoryFile = openFactoryFile(startFilePath, it)
-            if (transFile.exists() && factoryFile.exists()) {
-                def factoryOutFile = openFactoryTranslatedFile(startFilePath, factoryFile.getFileName())
-                updateFactory(transFile, factoryFile, factoryOutFile)
-            }
-        }
-        addDoneToLogs()
+        translateFilesInFileList()
     }
 
     static buildArgsAndParameters(args) {
@@ -46,8 +32,9 @@ class UpdateDMTClassFactories {
 
     static getArgValues(args) {
         def argsMap = new ArgsParser(args)
-        languageName = argsMap.get("language")
         startFilePath = argsMap.get("path")
+        languageName = argsMap.get("language")
+        fileList.add(argsMap.get("file"))
     }
 
     static getDefaultValuesIfArgsNull() {
@@ -55,44 +42,44 @@ class UpdateDMTClassFactories {
         if (languageName == null) languageName = "Japanese"
     }
 
-    static openLogs(fp) {
-        def logFp = fp + "logs\\\\"
-        Log.open logFp + "log-library-translations.txt"
+    static openLogs() {
+        def logsFilePath = startFilePath + "logs\\\\"
+        Log.open logsFilePath + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "exceptions", logFp + "log-library-exceptions.txt"
+        Log.open "exceptions", logsFilePath + "log-library-exceptions.txt"
         Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "nocode", logFp + "log-library-nocode.txt"
+        Log.open "nocode", logsFilePath + "log-library-nocode.txt"
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     static buildFileList() {
-        //TODO: Get single file argument from args object
-//        def fileList
-//        if (args.size() > 1) {
-//            fileList = [args[1]]
-//        } else {
-//            fileList = getFilesInLibraryFactoryDirectory()
-//        }
-        getFilesInLibraryFactoryDirectory()
+        if (fileList[0] == null) {
+            buildFileListFromDirectory()
+        }
     }
 
-    static getFilesInLibraryFactoryDirectory() {
+    static buildFileListFromDirectory() {
         fileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
         FileDirectoryMgr.makeDirectory(startFilePath + "LibraryFactoriesTranslated\\\\")
     }
 
+    static translateFilesInFileList() {
+        Log.writeLine("Processing ${fileList.size()} files: ${fileList}")
+        fileList.forEach { nextFile ->
+            translateNextFileInFileList(nextFile)
+        }
+        closeTheLogs()
+    }
 
-//    static getFilePath(args) {
-//        def fp //filepath
-//        if (args.size() == 0)
-//            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-//        else {
-//            fp = args[0]
-//            if (fp[-1] != "\\") fp += "\\"
-//        }
-//        fp
-//    }
-
+    static translateNextFileInFileList(nextFile) {
+        addFileToLogs(nextFile)
+        def transFile = openTranslationFile(startFilePath, nextFile)
+        def factoryFile = openFactoryFile(startFilePath, nextFile)
+        if (transFile.exists() && factoryFile.exists()) {
+            def factoryOutFile = openFactoryTranslatedFile(startFilePath, factoryFile.getFileName())
+            updateFactory(transFile, factoryFile, factoryOutFile)
+        }
+    }
 
     static findBomFieldNameInText(nextText) {
         def bomFieldName = null
@@ -143,7 +130,7 @@ class UpdateDMTClassFactories {
         Log.writeLine("nocode", "\r\n$fileName:")
     }
 
-    static addDoneToLogs() {
+    static closeTheLogs() {
         Log.writeLine("Done at: " + Dates.currentDateAndTime())
         Log.writeLine("exceptions", "Done at: " + Dates.currentDateAndTime())
         Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
