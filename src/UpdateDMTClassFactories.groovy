@@ -21,9 +21,7 @@ class UpdateDMTClassFactories {
     static main(args) {
         buildArgsAndParameters(args)
         openLogs()
-        buildFileList()
-        buildOutputDirectoryForUpdatedTranslations()
-        translateFilesInFileList()
+        translateFiles()
     }
 
     static buildArgsAndParameters(args) {
@@ -43,7 +41,7 @@ class UpdateDMTClassFactories {
         if (languageName == null) languageName = "Japanese"
     }
 
-    static openLogs() {
+   static openLogs() {
         def logsFilePath = startFilePath + "logs\\\\"
         Log.open logsFilePath + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
@@ -51,6 +49,12 @@ class UpdateDMTClassFactories {
         Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
         Log.open "nocode", logsFilePath + "log-library-nocode.txt"
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+    }
+
+    static translateFiles() {
+        buildFileList()
+        buildOutputDirectoryForUpdatedTranslations()
+        translateFilesInFileList()
     }
 
     static buildFileList() {
