@@ -137,6 +137,7 @@ class UpdateDMTClassFactories {
         while (libraryClassFactoryParser.hasNext()) {
             def nextFactoryTextBlock = libraryClassFactoryParser.next()
             def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
+//            def questionIdentifier = findQuestionIdentifierInText(nextFactoryTextBlock)
             if (bomFieldName != null) {
                 def translation = getTranslationForBomField(translationsFromExcelExport, bomFieldName)
                 if (translation != null) {
@@ -152,6 +153,14 @@ class UpdateDMTClassFactories {
         def bomFieldName = null
         if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
             bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
+        }
+        bomFieldName
+    }
+
+    static findQuestionIdentifierInText(nextText) {
+        def bomFieldName = null
+        if (LibraryQuestionMatchers.lineContains(nextText, "Question Identifier")) {
+            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "Question Identifier")
         }
         bomFieldName
     }
