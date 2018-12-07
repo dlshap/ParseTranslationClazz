@@ -2,6 +2,7 @@ import filemanagement.FileMgr
 import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
+import filemanagement.TranslationsExcelExportFile
 import libraryquestions.LibraryFileParser
 import libraryquestions.LibraryQuestionMatchers
 import logging.Dates
@@ -17,6 +18,9 @@ class UpdateDMTClassFactories {
     static startFilePath
     static languageName
     static translationExcelExportFileList = []
+
+    static translationsExcelExport
+    static libraryClassFactory
 
     static main(args) {
         buildArgsAndParameters(args)
@@ -41,7 +45,7 @@ class UpdateDMTClassFactories {
         if (languageName == null) languageName = "Japanese"
     }
 
-   static openLogs() {
+    static openLogs() {
         def logsFilePath = startFilePath + "logs\\\\"
         Log.open logsFilePath + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
@@ -52,9 +56,14 @@ class UpdateDMTClassFactories {
     }
 
     static translateFiles() {
+        setupForTranslations()
+        doTranslations()
+    }
+
+    static setupForTranslations() {
         buildFileList()
         buildOutputDirectoryForUpdatedTranslations()
-        translateFilesInFileList()
+        cleanupAfterTranslations()
     }
 
     static buildFileList() {
@@ -71,21 +80,43 @@ class UpdateDMTClassFactories {
         FileDirectoryMgr.makeDirectory(startFilePath + "LibraryFactoriesTranslated\\\\")
     }
 
-    static translateFilesInFileList() {
+    static cleanupAfterTranslations() {
+        closeLogs()
+    }
+
+    static closeLogs() {
+        Log.writeLine("Done at: " + Dates.currentDateAndTime())
+        Log.writeLine("exceptions", "Done at: " + Dates.currentDateAndTime())
+        Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
+    }
+
+    static doTranslations() {
         Log.writeLine("Processing ${translationExcelExportFileList.size()} files: ${translationExcelExportFileList}")
         translationExcelExportFileList.forEach { nextExcelExportFile ->
             translateNextFileInFileList(nextExcelExportFile)
         }
-        closeTheLogs()
     }
 
     static translateNextFileInFileList(nextExcelExportFile) {
-        addFileToLogs(nextExcelExportFile)
-        def transFile = openTranslationFile(nextExcelExportFile)
+        addFilenameToLogs(nextExcelExportFile)
+        openTranslationFile(nextExcelExportFile)
         def factoryFile = openFactoryFile(nextExcelExportFile)
-        if (transFile.exists() && factoryFile.exists()) {
+        if (translationsExcelExport.exists() && factoryFile.exists()) {
             def factoryOutFile = openFactoryTranslatedFile(factoryFile.getFileName())
-            updateFactory(transFile, factoryFile, factoryOutFile)
+            updateFactory(translationsExcelExport, factoryFile, factoryOutFile)
+        }
+    }
+
+    static addFilenameToLogs(fileName) {
+        Log.writeLine "\r\n$fileName:"
+        Log.writeLine("exceptions", "\r\n$fileName:")
+        Log.writeLine("nocode", "\r\n$fileName:")
+    }
+
+    static openTranslationFile(translationFileName) {
+        translationsExcelExport = new KeyFile(startFilePath + "LibraryExports\\\\" + translationFileName)
+        if (!translationsExcelExport.exists()) {
+            Log.writeLine("exceptions", "Translation file: $translationFileName doesn't exist.")
         }
     }
 
@@ -107,14 +138,6 @@ class UpdateDMTClassFactories {
     }
 
 
-    static openTranslationFile(translationFileName) {
-        def translationFile = new KeyFile(startFilePath + "LibraryExports\\\\" + translationFileName)
-        if (!translationFile.exists()) {
-            Log.writeLine("exceptions", "Translation file: $translationFileName doesn't exist.")
-        }
-        translationFile
-    }
-
     static openFactoryFile(fileName) {
         def smallName = FileDirectoryMgr.getSmallName(fileName)       // no file extension
         def factoryFileName = smallName + "ClassFactory.groovy"
@@ -130,18 +153,6 @@ class UpdateDMTClassFactories {
         def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
         def factoryTranslatedFile = new TextFile(factoryTranslatedPath + factoryTranslatedFileName, FileMgr.createFlag.CREATE)
         factoryTranslatedFile
-    }
-
-    static addFileToLogs(fileName) {
-        Log.writeLine "\r\n$fileName:"
-        Log.writeLine("exceptions", "\r\n$fileName:")
-        Log.writeLine("nocode", "\r\n$fileName:")
-    }
-
-    static closeTheLogs() {
-        Log.writeLine("Done at: " + Dates.currentDateAndTime())
-        Log.writeLine("exceptions", "Done at: " + Dates.currentDateAndTime())
-        Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
     }
 
     static replaceLineWithTranslations(nextFactoryBlock, translation, bomFieldName) {
