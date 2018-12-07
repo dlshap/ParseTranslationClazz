@@ -2,7 +2,7 @@ import filemanagement.FileMgr
 import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
-import filemanagement.TranslationsExcelExportFile
+import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFileParser
 import libraryquestions.LibraryQuestionMatchers
 import logging.Dates
@@ -17,10 +17,14 @@ class UpdateDMTClassFactories {
 
     static startFilePath
     static languageName
+    static excelExportFileName
+
+    static classFileList = []
     static translationExcelExportFileList = []
 
-    static translationsExcelExport
-    static libraryClassFactory
+    static translationsFromExcelExport
+    static libraryClassFactoryParser
+    static libraryClassFactoryWithNewTranslations
 
     static main(args) {
         buildArgsAndParameters(args)
@@ -37,7 +41,7 @@ class UpdateDMTClassFactories {
         def argsMap = new ArgsParser(args)
         startFilePath = argsMap.get("path")
         languageName = argsMap.get("language")
-        translationExcelExportFileList.add(argsMap.get("file"))
+        excelExportFileName = argsMap.get("file")
     }
 
     static getDefaultValuesIfArgsNull() {
@@ -67,7 +71,9 @@ class UpdateDMTClassFactories {
     }
 
     static buildFileList() {
-        if (translationExcelExportFileList.get(0) == null) {
+        if (!(excelExportFileName == null)) {
+            classFileList.add(FileDirectoryMgr.getSmallName(excelExportFileName))
+        } else {
             buildFileListFromDirectory()
         }
     }
@@ -92,33 +98,40 @@ class UpdateDMTClassFactories {
 
     static doTranslations() {
         Log.writeLine("Processing ${translationExcelExportFileList.size()} files: ${translationExcelExportFileList}")
-        translationExcelExportFileList.forEach { nextExcelExportFile ->
-            translateNextFileInFileList(nextExcelExportFile)
+        classFileList.forEach { nextClassFileName ->
+            translateNextFileInFileList(nextClassFileName)
         }
     }
 
-    static translateNextFileInFileList(nextExcelExportFile) {
-        addFilenameToLogs(nextExcelExportFile)
-        openTranslationFile(nextExcelExportFile)
-        def factoryFile = openFactoryFile(nextExcelExportFile)
-        if (translationsExcelExport.exists() && factoryFile.exists()) {
-            def factoryOutFile = openFactoryTranslatedFile(factoryFile.getFileName())
-            updateFactory(translationsExcelExport, factoryFile, factoryOutFile)
+    static translateNextFileInFileList(nextClassFileName) {
+        addFilenameToLogs(nextClassFileName)
+        loadTranslationsFromExcelExport(nextClassFileName)
+        loadLibraryFactoryParserFromLibraryFile(nextClassFileName)
+        createLibraryFactoryWithNewTranslations(nextClassFileName)
+        updateFactory()
+    }
+
+    static addFilenameToLogs(classFileName) {
+        Log.writeLine "\r\n$classFileName:"
+        Log.writeLine("exceptions", "\r\n$classFileName:")
+        Log.writeLine("nocode", "\r\n$classFileName:")
+    }
+
+    static loadTranslationsFromExcelExport(classFileName) {
+        def translationsFromExcelExportFile = new KeyFile(startFilePath + "LibraryExports\\\\" + classFileName + ".txt")
+        if (translationsFromExcelExportFile.exists()) {
+            translationsFromExcelExport = new Translations(translationsFromExcelExportFile)
+        } else {
+            Log.writeLine("exceptions", "Excel Export file: ${classFileName}.txt doesn't exist.")
         }
     }
 
-    static addFilenameToLogs(fileName) {
-        Log.writeLine "\r\n$fileName:"
-        Log.writeLine("exceptions", "\r\n$fileName:")
-        Log.writeLine("nocode", "\r\n$fileName:")
+    static createLibraryFactoryWithNewTranslations(classFileName) {
+        def factoryTranslatedFileName = classFileName + ".translated"
+        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
+        libraryClassFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
     }
 
-    static openTranslationFile(translationFileName) {
-        translationsExcelExport = new KeyFile(startFilePath + "LibraryExports\\\\" + translationFileName)
-        if (!translationsExcelExport.exists()) {
-            Log.writeLine("exceptions", "Translation file: $translationFileName doesn't exist.")
-        }
-    }
 
     static findBomFieldNameInText(nextText) {
         def bomFieldName = null
@@ -138,21 +151,14 @@ class UpdateDMTClassFactories {
     }
 
 
-    static openFactoryFile(fileName) {
-        def smallName = FileDirectoryMgr.getSmallName(fileName)       // no file extension
-        def factoryFileName = smallName + "ClassFactory.groovy"
-        def factoryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + factoryFileName)
-        if (!factoryFile.exists()) {
-            Log.writeLine "exceptions", "${factoryFile.getFullPathName()} doesn't exist"
+    static loadLibraryFactoryParserFromLibraryFile(fileName) {
+        def groovyLibraryFileName = fileName + "ClassFactory.groovy"
+        def groovyLibraryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + groovyLibraryFileName)
+        if (groovyLibraryFile.exists()) {
+            libraryClassFactoryParser = new LibraryFileParser(groovyLibraryFile)
+        } else {
+            Log.writeLine "exceptions", "${groovyLibraryFile.getFullPathName()} doesn't exist"
         }
-        factoryFile
-    }
-
-    static openFactoryTranslatedFile(fileName) {
-        def factoryTranslatedFileName = fileName + ".translated"
-        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
-        def factoryTranslatedFile = new TextFile(factoryTranslatedPath + factoryTranslatedFileName, FileMgr.createFlag.CREATE)
-        factoryTranslatedFile
     }
 
     static replaceLineWithTranslations(nextFactoryBlock, translation, bomFieldName) {
@@ -170,20 +176,18 @@ class UpdateDMTClassFactories {
         nextFactoryBlock
     }
 
-    static updateFactory(transFile, TextFile factoryFile, TextFile factoryOutFile) {
-        def factoryParser = new LibraryFileParser(factoryFile)
-        def translations = new Translations(transFile)
-        if (factoryParser.hasNext()) {
-            while (factoryParser.hasNext()) {
-                def nextFactoryTextBlock = factoryParser.next()
+    static updateFactory() {
+        if (libraryClassFactoryParser.hasNext()) {
+            while (libraryClassFactoryParser.hasNext()) {
+                def nextFactoryTextBlock = libraryClassFactoryParser.next()
                 def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
                 if (bomFieldName != null) {
-                    def translation = getTranslationForBomField(translations, bomFieldName)
+                    def translation = getTranslationForBomField(translationsFromExcelExport, bomFieldName)
                     if (translation != null) {
                         nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translation, bomFieldName)
                     }
                 }
-                factoryOutFile.writeToFile(nextFactoryTextBlock)
+                libraryClassFactoryWithNewTranslations.add(nextFactoryTextBlock)
             }
         }
     }
