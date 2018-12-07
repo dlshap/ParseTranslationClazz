@@ -18,7 +18,7 @@ class LibraryFileParser {
     def parseFile(TextFile libraryFile) {
         def fileText = libraryFile.getText()
         // split on string
-        def libraryText = (Splitter.on(splitOn)
+        libraryText = (Splitter.on(splitOn)
                 .split(fileText)).asList()
         // for all but first "chunk" put the splitter back at beginning
         def allButFirst = libraryText[1..libraryText.size()-1].collect { splitOn + it }

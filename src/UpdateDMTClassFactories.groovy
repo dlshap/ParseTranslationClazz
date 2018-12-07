@@ -1,4 +1,3 @@
-import filemanagement.FileMgr
 import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
@@ -17,7 +16,7 @@ class UpdateDMTClassFactories {
 
     static startFilePath
     static languageName
-    static excelExportFileName
+    static testFileName
 
     static classFileList = []
     static translationExcelExportFileList = []
@@ -28,7 +27,6 @@ class UpdateDMTClassFactories {
 
     static main(args) {
         buildArgsAndParameters(args)
-        openLogs()
         translateFiles()
     }
 
@@ -41,12 +39,19 @@ class UpdateDMTClassFactories {
         def argsMap = new ArgsParser(args)
         startFilePath = argsMap.get("path")
         languageName = argsMap.get("language")
-        excelExportFileName = argsMap.get("file")
+        testFileName = argsMap.get("file")
     }
 
     static getDefaultValuesIfArgsNull() {
         if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
         if (languageName == null) languageName = "Japanese"
+    }
+
+    static translateFiles() {
+        openLogs()
+        setupForTranslations()
+        doTranslations()
+        cleanupAfterTranslations()
     }
 
     static openLogs() {
@@ -59,27 +64,22 @@ class UpdateDMTClassFactories {
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    static translateFiles() {
-        setupForTranslations()
-        doTranslations()
-    }
-
     static setupForTranslations() {
         buildFileList()
         buildOutputDirectoryForUpdatedTranslations()
-        cleanupAfterTranslations()
     }
 
     static buildFileList() {
-        if (!(excelExportFileName == null)) {
-            classFileList.add(FileDirectoryMgr.getSmallName(excelExportFileName))
+        if (!(testFileName == null)) {
+            classFileList.add(FileDirectoryMgr.getSmallName(testFileName))
         } else {
             buildFileListFromDirectory()
         }
     }
 
     static buildFileListFromDirectory() {
-        translationExcelExportFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
+        classFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
+        classFileList = classFileList.collect { it - ~/\.\w{3}/ }             // remove file extension
     }
 
     static buildOutputDirectoryForUpdatedTranslations() {
@@ -132,6 +132,21 @@ class UpdateDMTClassFactories {
         libraryClassFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
     }
 
+    static updateFactory() {
+//        if (libraryClassFactoryParser.hasNext()) {
+        while (libraryClassFactoryParser.hasNext()) {
+            def nextFactoryTextBlock = libraryClassFactoryParser.next()
+            def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
+            if (bomFieldName != null) {
+                def translation = getTranslationForBomField(translationsFromExcelExport, bomFieldName)
+                if (translation != null) {
+                    nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translation, bomFieldName)
+                }
+            }
+            libraryClassFactoryWithNewTranslations.add(nextFactoryTextBlock)
+        }
+    }
+//    }
 
     static findBomFieldNameInText(nextText) {
         def bomFieldName = null
@@ -175,21 +190,4 @@ class UpdateDMTClassFactories {
         }
         nextFactoryBlock
     }
-
-    static updateFactory() {
-        if (libraryClassFactoryParser.hasNext()) {
-            while (libraryClassFactoryParser.hasNext()) {
-                def nextFactoryTextBlock = libraryClassFactoryParser.next()
-                def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
-                if (bomFieldName != null) {
-                    def translation = getTranslationForBomField(translationsFromExcelExport, bomFieldName)
-                    if (translation != null) {
-                        nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translation, bomFieldName)
-                    }
-                }
-                libraryClassFactoryWithNewTranslations.add(nextFactoryTextBlock)
-            }
-        }
-    }
-
 }
