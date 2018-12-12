@@ -2,7 +2,7 @@ import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
 import libraryquestions.LibraryFactory
-import libraryquestions.LibraryFileParser
+import libraryquestions.LibraryFactoryParser
 import libraryquestions.LibraryQuestionMatchers
 import logging.Dates
 import logging.Log
@@ -18,11 +18,11 @@ class UpdateDMTClassFactories {
     static languageName
     static testFileName
 
-    static classFileList = []
+    static excelExportFileList = []
     static translationExcelExportFileList = []
 
     static translationsFromExcelExport
-    static libraryClassFactoryParser
+    static libraryFactoryParser
     static libraryClassFactoryWithNewTranslations
 
     static main(args) {
@@ -71,15 +71,15 @@ class UpdateDMTClassFactories {
 
     static buildFileList() {
         if (!(testFileName == null)) {
-            classFileList.add(FileDirectoryMgr.getSmallName(testFileName))
+            excelExportFileList.add(FileDirectoryMgr.getSmallName(testFileName))
         } else {
-            buildFileListFromDirectory()
+            buildFileListFromExcelExportDirectory()
         }
     }
 
-    static buildFileListFromDirectory() {
-        classFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
-        classFileList = classFileList.collect { it - ~/\.\w{3}/ }             // remove file extension
+    static buildFileListFromExcelExportDirectory() {
+        excelExportFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
+        excelExportFileList = excelExportFileList.collect { it - ~/\.\w{3}/ }             // remove file extension
     }
 
     static buildOutputDirectoryForUpdatedTranslations() {
@@ -98,17 +98,17 @@ class UpdateDMTClassFactories {
 
     static doTranslations() {
         Log.writeLine("Processing ${translationExcelExportFileList.size()} files: ${translationExcelExportFileList}")
-        classFileList.forEach { nextClassFileName ->
-            translateNextFileInFileList(nextClassFileName)
+        excelExportFileList.forEach { nextExcelExportFileName ->
+            translateNextFileInFileList(nextExcelExportFileName)
         }
     }
 
-    static translateNextFileInFileList(nextClassFileName) {
-        addFilenameToLogs(nextClassFileName)
-        loadTranslationsFromExcelExport(nextClassFileName)
-        loadLibraryFactoryParserFromLibraryFile(nextClassFileName)
-        createLibraryFactoryWithNewTranslations(nextClassFileName)
-        updateFactory()
+    static translateNextFileInFileList(classFileName) {
+        addFilenameToLogs(classFileName)
+        loadTranslationsFromExcelExport(classFileName)
+        loadLibraryFactoryParserFromLibraryFactoryFile(classFileName)
+        createLibraryFactoryForNewTranslations(classFileName)
+        updateLibraryFactoryFromExcelTranslations()
     }
 
     static addFilenameToLogs(classFileName) {
@@ -118,7 +118,9 @@ class UpdateDMTClassFactories {
     }
 
     static loadTranslationsFromExcelExport(classFileName) {
-        def translationsFromExcelExportFile = new KeyFile(startFilePath + "LibraryExports\\\\" + classFileName + ".txt")
+        def translationsFromExcelExportFileName = classFileName + ".txt"
+        def translationsFromExcelExportPath = startFilePath + "LibraryExports\\\\"
+        def translationsFromExcelExportFile = new KeyFile( translationsFromExcelExportPath + translationsFromExcelExportFileName)
         if (translationsFromExcelExportFile.exists()) {
             translationsFromExcelExport = new Translations(translationsFromExcelExportFile)
         } else {
@@ -126,16 +128,16 @@ class UpdateDMTClassFactories {
         }
     }
 
-    static createLibraryFactoryWithNewTranslations(classFileName) {
+    static createLibraryFactoryForNewTranslations(classFileName) {
         def factoryTranslatedFileName = classFileName + ".translated"
         def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
         libraryClassFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
     }
 
-    static updateFactory() {
-//        if (libraryClassFactoryParser.hasNext()) {
-        while (libraryClassFactoryParser.hasNext()) {
-            def nextFactoryTextBlock = libraryClassFactoryParser.next()
+    static updateLibraryFactoryFromExcelTranslations() {
+//        if (libraryFactoryParser.hasNext()) {
+        while (libraryFactoryParser.hasNext()) {
+            def nextFactoryTextBlock = libraryFactoryParser.next()
             def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
 //            def questionIdentifier = findQuestionIdentifierInText(nextFactoryTextBlock)
             if (bomFieldName != null) {
@@ -166,7 +168,7 @@ class UpdateDMTClassFactories {
     }
 
     static getTranslationForBomField(translations, bomFieldName) {
-        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
+        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField" )
         def translation = translations.getTranslation(translationKeyName, bomFieldName)
         if (translation == null) {
             Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
@@ -175,13 +177,13 @@ class UpdateDMTClassFactories {
     }
 
 
-    static loadLibraryFactoryParserFromLibraryFile(fileName) {
-        def groovyLibraryFileName = fileName + "ClassFactory.groovy"
-        def groovyLibraryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + groovyLibraryFileName)
-        if (groovyLibraryFile.exists()) {
-            libraryClassFactoryParser = new LibraryFileParser(groovyLibraryFile)
+    static loadLibraryFactoryParserFromLibraryFactoryFile(fileName) {
+        def libraryFactoryFileName = fileName + "ClassFactory.groovy"
+        def libraryFactoryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + libraryFactoryFileName)
+        if (libraryFactoryFile.exists()) {
+            libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
         } else {
-            Log.writeLine "exceptions", "${groovyLibraryFile.getFullPathName()} doesn't exist"
+            Log.writeLine "exceptions", "${libraryFactoryFile.getFullPathName()} doesn't exist"
         }
     }
 

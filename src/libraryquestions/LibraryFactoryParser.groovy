@@ -6,12 +6,12 @@ import com.google.common.base.Splitter
 /**
  * Created by s0041664 on 8/18/2017.
  */
-class LibraryFileParser {
+class LibraryFactoryParser {
     def splitOn = "currentAttr ="       // default...create another constructor if override is needed
     def libraryText
     def libraryIterator
 
-    def LibraryFileParser(TextFile libraryFile) {
+    def LibraryFactoryParser(TextFile libraryFile) {
         parseFile(libraryFile)
     }
 
