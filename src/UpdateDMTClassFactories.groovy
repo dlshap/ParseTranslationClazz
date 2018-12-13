@@ -167,7 +167,7 @@ class UpdateDMTClassFactories {
     static findBomFieldNameInText() {
         def bomFieldName = null
         if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "BOM Fields")) {
-            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextFactoryTextBlock, "BOM Fields")
+            bomFieldName = LibraryQuestionMatchers.findValueInTextUsingLibraryQuestionMatcher(nextFactoryTextBlock, "BOM Fields")
         }
         bomFieldName
     }
@@ -175,7 +175,7 @@ class UpdateDMTClassFactories {
     static findQuestionIdentifierInText() {
         def questionIdentifier = null
         if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "Question Identifier")) {
-            questionIdentifier = LibraryQuestionMatchers.getFactoryMatchingValue(nextFactoryTextBlock, "Question Identifier")
+            questionIdentifier = LibraryQuestionMatchers.findValueInTextUsingLibraryQuestionMatcher(nextFactoryTextBlock, "Question Identifier")
         }
         questionIdentifier
     }
@@ -188,7 +188,7 @@ class UpdateDMTClassFactories {
     }
 
     static getTranslationForBomField(bomFieldName) {
-        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "excelColumnName")
+        def translationKeyName = LibraryQuestionMatchers.getLibraryQuestionRegexMapValue("BOM Fields", "excelColumnName")
         def translation = translationsFromExcelExport.getTranslation(translationKeyName, bomFieldName)
         if (translation == null) {
             Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"

@@ -23,7 +23,7 @@ class LibraryQuestionTranslator {
     def translate(nextText, translationValue, bomFieldName) {
         def translatedText = nextText
         if (translationValue != null) {
-            def libraryValue = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, this.getValue("excelColumnName"))
+            def libraryValue = LibraryQuestionMatchers.findValueInTextUsingLibraryQuestionMatcher(nextText, this.getValue("excelColumnName"))
             def regex = this.getValue("regex")
             def translationFieldName = this.getValue("excelColumnName")
             def result = nextText =~ regex

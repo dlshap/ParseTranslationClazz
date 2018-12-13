@@ -14,22 +14,22 @@ class LibraryQuestionMatchers {
         [excelColumnName: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
     ]
 
-    static lineContains(aLine, keyField) {
+    static lineContains(aLine, searchColumnName) {
         def regex = LibraryQuestionRegexes.find { map ->
-            map.excelColumnName == keyField
+            map.excelColumnName == searchColumnName
         }.regex
         def result = aLine =~ regex
         (result.count > 0)
     }
 
-    static getValue(excelColumnName, matcherKey ) {
-        def value = LibraryQuestionRegexes.find { map ->
-            map.excelColumnName == excelColumnName
-        }.getAt(matcherKey)
-        value
+    static getLibraryQuestionRegexMapValue(excelColumnNameKey, regexMapFieldKey ) {
+        def regexMapValue = LibraryQuestionRegexes.find { map ->
+            map.excelColumnName == excelColumnNameKey
+        }.getAt(regexMapFieldKey)
+        regexMapValue
     }
 
-    static getFactoryMatchingValue(theText, keyField) {
+    static findValueInTextUsingLibraryQuestionMatcher(theText, keyField) {
         // get value in factory text for keyField in translation file
         def regex = LibraryQuestionRegexes.find { map ->
             map.excelColumnName == keyField
