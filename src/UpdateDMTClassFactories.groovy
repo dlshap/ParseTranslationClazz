@@ -199,7 +199,8 @@ class UpdateDMTClassFactories {
     static updateFactoryTextBlockWithTranslatedColumns() {
         if (translationFromExcelExport != null) {
             def bomFieldName = libraryFactoryBlockKey.getKey("BOM Fields")
-            nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translationFromExcelExport, bomFieldName)
+            replaceLineWithTranslations(bomFieldName)
+//            nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translationFromExcelExport, bomFieldName)
         }
     }
 
@@ -218,21 +219,22 @@ class UpdateDMTClassFactories {
         }
     }
 
-    static replaceLineWithTranslations(nextFactoryBlock, translation, bomFieldName) {
+    static replaceLineWithTranslations(bomFieldName) {
+        def tryToTranslateFactoryTextBlock = nextFactoryTextBlock
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
             def translationKey = it.getValue("excelColumnName")
             if (translationKey.toLowerCase().contains("translated")) {
                 // get translation value from translation (keyfile)
-                def translationValue = translation.get(translationKey)
+                def translationValue = translationFromExcelExport.get(translationKey)
                 // translate it if there is a match...leave alone if not
                 if (translationValue != "") {
-                    nextFactoryBlock = it.translate(nextFactoryBlock, translationValue, bomFieldName)
+                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, translationValue, bomFieldName)
                 }
             }
         }
-        nextFactoryBlock
+        nextFactoryTextBlock = tryToTranslateFactoryTextBlock
     }
 
 }
