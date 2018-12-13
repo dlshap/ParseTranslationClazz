@@ -141,7 +141,7 @@ class UpdateDMTClassFactories {
             def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
 //            def questionIdentifier = findQuestionIdentifierInText(nextFactoryTextBlock)
             if (bomFieldName != null) {
-                def translation = getTranslationForBomField(translationsFromExcelExport, bomFieldName)
+                def translation = getTranslationForBomField(bomFieldName)
                 if (translation != null) {
                     nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translation, bomFieldName)
                 }
@@ -167,9 +167,9 @@ class UpdateDMTClassFactories {
         bomFieldName
     }
 
-    static getTranslationForBomField(translations, bomFieldName) {
-        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField" )
-        def translation = translations.getTranslation(translationKeyName, bomFieldName)
+    static getTranslationForBomField(bomFieldName) {
+        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "excelColumnName" )
+        def translation = translationsFromExcelExport.getTranslation(translationKeyName, bomFieldName)
         if (translation == null) {
             Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
         }
@@ -191,7 +191,7 @@ class UpdateDMTClassFactories {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
-            def translationKey = it.getValue("transKeyField")
+            def translationKey = it.getValue("excelColumnName")
             // get translation value from translation (keyfile)
             def translationValue = translation.get(translationKey)
             // translate it if there is a match...leave alone if not
