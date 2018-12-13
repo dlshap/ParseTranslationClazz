@@ -5,6 +5,7 @@ import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryBlockKey
 import libraryquestions.LibraryFactoryParser
 import libraryquestions.LibraryQuestionMatchers
+import libraryquestions.LibraryQuestionTranslator
 import logging.Dates
 import logging.Log
 import translations.Translations
@@ -161,7 +162,7 @@ class UpdateDMTClassFactories {
         def bomFieldName = findBomFieldNameInText()
         def questionIdentifier = findQuestionIdentifierInText()
         if ((bomFieldName != null) || (questionIdentifier != null))
-        libraryFactoryBlockKey = new LibraryFactoryBlockKey(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
+            libraryFactoryBlockKey = new LibraryFactoryBlockKey(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
     }
 
     static findBomFieldNameInText() {
@@ -221,7 +222,7 @@ class UpdateDMTClassFactories {
 
     static replaceLineWithTranslations(bomFieldName) {
         def tryToTranslateFactoryTextBlock = nextFactoryTextBlock
-        def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
+        LibraryQuestionTranslator[] libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
             def translationKey = it.getValue("excelColumnName")
