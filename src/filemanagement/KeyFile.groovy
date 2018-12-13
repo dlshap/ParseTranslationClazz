@@ -23,11 +23,13 @@ class KeyFile extends LineFile {
 
     def buildKeyMapList() {
         keyMaps = []
-        for (int i = 0; i < super.lines.size; i++) {
-            def parsedLine = KeyPairParser.parseToMap(super.lines[i])
-            keyMaps << parsedLine
+        if (!(super.lines == null)) {
+            for (int i = 0; i < super.lines.size; i++) {
+                def parsedLine = KeyPairParser.parseToMap(super.lines[i])
+                keyMaps << parsedLine
+            }
+            rewind()
         }
-        rewind()
     }
 
     def next() {

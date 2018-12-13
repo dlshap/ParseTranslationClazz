@@ -1,158 +1,238 @@
-import filemanagement.FileMgr
 import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
-import libraryquestions.LibraryFileParser
+import libraryquestions.LibraryFactory
+import libraryquestions.LibraryFactoryBlockKey
+import libraryquestions.LibraryFactoryParser
 import libraryquestions.LibraryQuestionMatchers
 import logging.Dates
 import logging.Log
 import translations.Translations
+import useful.ArgsParser
 
 /**
  * Created by s0041664 on 8/14/2017.
  */
 class UpdateDMTClassFactories {
 
+    static startFilePath
+    static languageName
+    static testFileName
 
-    static openLogs(fp) {
-        def logFp = fp + "logs\\\\"
-        Log.open logFp + "log-library-translations.txt"
+    static excelExportFileList = []
+    static translationExcelExportFileList = []
+
+    static translationsFromExcelExport
+    static libraryFactoryParser
+    static libraryClassFactoryWithNewTranslations
+
+    static nextFactoryTextBlock
+    static translationFromExcelExport
+    static libraryFactoryBlockKey
+
+    static main(args) {
+        buildArgsAndParameters(args)
+        translateFiles()
+    }
+
+    static buildArgsAndParameters(args) {
+        getArgValues(args)
+        getDefaultValuesIfArgsNull()
+    }
+
+    static getArgValues(args) {
+        def argsMap = new ArgsParser(args)
+        startFilePath = argsMap.get("path")
+        languageName = argsMap.get("language")
+        testFileName = argsMap.get("file")
+    }
+
+    static getDefaultValuesIfArgsNull() {
+        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
+        if (languageName == null) languageName = "Japanese"
+    }
+
+    static translateFiles() {
+        openLogs()
+        setupForTranslations()
+        doTranslations()
+        cleanupAfterTranslations()
+    }
+
+    static openLogs() {
+        def logsFilePath = startFilePath + "logs\\\\"
+        Log.open logsFilePath + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "exceptions", logFp + "log-library-exceptions.txt"
+        Log.open "exceptions", logsFilePath + "log-library-exceptions.txt"
         Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "nocode", logFp + "log-library-nocode.txt"
+        Log.open "nocode", logsFilePath + "log-library-nocode.txt"
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    static findBomFieldNameInText(nextText) {
+    static setupForTranslations() {
+        buildFileList()
+        buildOutputDirectoryForUpdatedTranslations()
+    }
+
+    static buildFileList() {
+        if (!(testFileName == null)) {
+            excelExportFileList.add(FileDirectoryMgr.getSmallName(testFileName))
+        } else {
+            buildFileListFromExcelExportDirectory()
+        }
+    }
+
+    static buildFileListFromExcelExportDirectory() {
+        excelExportFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
+        excelExportFileList = excelExportFileList.collect { it - ~/\.\w{3}/ }             // remove file extension
+    }
+
+    static buildOutputDirectoryForUpdatedTranslations() {
+        FileDirectoryMgr.makeDirectory(startFilePath + "LibraryFactoriesTranslated\\\\")
+    }
+
+    static cleanupAfterTranslations() {
+        closeLogs()
+    }
+
+    static closeLogs() {
+        Log.writeLine("Done at: " + Dates.currentDateAndTime())
+        Log.writeLine("exceptions", "Done at: " + Dates.currentDateAndTime())
+        Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
+    }
+
+    static doTranslations() {
+        Log.writeLine("Processing ${translationExcelExportFileList.size()} files: ${translationExcelExportFileList}")
+        excelExportFileList.forEach { nextExcelExportFileName ->
+            translateNextFileInFileList(nextExcelExportFileName)
+        }
+    }
+
+    static translateNextFileInFileList(classFileName) {
+        addFilenameToLogs(classFileName)
+        loadTranslationsFromExcelExport(classFileName)
+        loadLibraryFactoryParserFromLibraryFactoryFile(classFileName)
+        createLibraryFactoryForNewTranslations(classFileName)
+        updateLibraryFactoryFromExcelTranslations()
+    }
+
+    static addFilenameToLogs(classFileName) {
+        Log.writeLine "\r\n$classFileName:"
+        Log.writeLine("exceptions", "\r\n$classFileName:")
+        Log.writeLine("nocode", "\r\n$classFileName:")
+    }
+
+    static loadTranslationsFromExcelExport(classFileName) {
+        def translationsFromExcelExportFileName = classFileName + ".txt"
+        def translationsFromExcelExportPath = startFilePath + "LibraryExports\\\\"
+        def translationsFromExcelExportFile = new KeyFile(translationsFromExcelExportPath + translationsFromExcelExportFileName)
+        if (translationsFromExcelExportFile.exists()) {
+            translationsFromExcelExport = new Translations(translationsFromExcelExportFile)
+        } else {
+            Log.writeLine("exceptions", "Excel Export file: ${classFileName}.txt doesn't exist.")
+        }
+    }
+
+    static createLibraryFactoryForNewTranslations(classFileName) {
+        def factoryTranslatedFileName = classFileName + ".translated"
+        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
+        libraryClassFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
+    }
+
+    static updateLibraryFactoryFromExcelTranslations() {
+        while (libraryFactoryParser.hasNext()) {
+            getNextFactoryTextBlock()
+            getTranslationsForNextFactoryTextBlock()
+        }
+        WriteTranslatedFactoryTextBlockToTranslatedFile()
+    }
+
+    static getNextFactoryTextBlock() {
+        nextFactoryTextBlock = libraryFactoryParser.next()
+    }
+
+    static getTranslationsForNextFactoryTextBlock() {
+        getKeysFromFactoryTextBlock()
+        getTranslationsForFactoryTextBlockKeys()
+        updateFactoryTextBlockWithTranslatedColumns()
+    }
+
+    static getKeysFromFactoryTextBlock() {
+        def bomFieldName = findBomFieldNameInText()
+        def questionIdentifier = findQuestionIdentifierInText()
+        if ((bomFieldName != null) || (questionIdentifier != null))
+        libraryFactoryBlockKey = new LibraryFactoryBlockKey(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
+    }
+
+    static findBomFieldNameInText() {
         def bomFieldName = null
-        if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
-            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
+        if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "BOM Fields")) {
+            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextFactoryTextBlock, "BOM Fields")
         }
         bomFieldName
     }
 
-    static getTranslationForBomField(translations, bomFieldName) {
-        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "transKeyField")
-        def translation = translations.getTranslation(translationKeyName, bomFieldName)
+    static findQuestionIdentifierInText() {
+        def questionIdentifier = null
+        if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "Question Identifier")) {
+            questionIdentifier = LibraryQuestionMatchers.getFactoryMatchingValue(nextFactoryTextBlock, "Question Identifier")
+        }
+        questionIdentifier
+    }
+
+    static getTranslationsForFactoryTextBlockKeys() {
+        if (libraryFactoryBlockKey != null) {
+            def bomFieldName = libraryFactoryBlockKey.getKey("BOM Fields")
+            translationFromExcelExport = getTranslationForBomField(bomFieldName)
+        }
+    }
+
+    static getTranslationForBomField(bomFieldName) {
+        def translationKeyName = LibraryQuestionMatchers.getValue("BOM Fields", "excelColumnName")
+        def translation = translationsFromExcelExport.getTranslation(translationKeyName, bomFieldName)
         if (translation == null) {
             Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
         }
         translation
     }
 
-
-    static openTranslationFile(fp, fileName) {
-        def transFile = new KeyFile(fp + "LibraryExports\\\\" + fileName)
-        if (!transFile.exists()) {
-            Log.writeLine("exceptions", "Translation file: $fileName doesn't exist.")
+    static updateFactoryTextBlockWithTranslatedColumns() {
+        if (translationFromExcelExport != null) {
+            def bomFieldName = libraryFactoryBlockKey.getKey("BOM Fields")
+            nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translationFromExcelExport, bomFieldName)
         }
-        transFile
     }
 
-    static openFactoryFile(fp, fileName) {
-        def smallName = FileDirectoryMgr.getSmallName(fileName)       // no file extension
-        def factoryFileName = smallName + "ClassFactory.groovy"
-        def factoryFile = new TextFile(fp + "LibraryFactories\\\\" + factoryFileName)
-        if (!factoryFile.exists()) {
-            Log.writeLine "exceptions", "${factoryFile.getFullPathName()} doesn't exist"
+    static WriteTranslatedFactoryTextBlockToTranslatedFile() {
+        libraryClassFactoryWithNewTranslations.add(nextFactoryTextBlock)
+    }
+
+
+    static loadLibraryFactoryParserFromLibraryFactoryFile(fileName) {
+        def libraryFactoryFileName = fileName + "ClassFactory.groovy"
+        def libraryFactoryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + libraryFactoryFileName)
+        if (libraryFactoryFile.exists()) {
+            libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
+        } else {
+            Log.writeLine "exceptions", "${libraryFactoryFile.getFullPathName()} doesn't exist"
         }
-        factoryFile
-    }
-
-    static openFactoryTranslatedFile(fp, fileName) {
-        def factoryTranslatedFileName = fileName + ".translated"
-        def factoryTranslatedPath = fp + "LibraryFactoriesTranslated\\\\"
-        def factoryTranslatedFile = new TextFile(factoryTranslatedPath + factoryTranslatedFileName, FileMgr.createFlag.CREATE)
-        factoryTranslatedFile
-    }
-
-    static addFileToLogs(fileName) {
-        Log.writeLine "\r\n$fileName:"
-        Log.writeLine("exceptions", "\r\n$fileName:")
-        Log.writeLine("nocode", "\r\n$fileName:")
-    }
-
-    static addDoneToLogs() {
-        Log.writeLine("Done at: " + Dates.currentDateAndTime())
-        Log.writeLine("exceptions", "Done at: " + Dates.currentDateAndTime())
-        Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
     }
 
     static replaceLineWithTranslations(nextFactoryBlock, translation, bomFieldName) {
         def libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
-            def translationKey = it.getValue("transKeyField")
-            // get translation value from translation (keyfile)
-            def translationValue = translation.get(translationKey)
-            // translate it if there is a match...leave alone if not
-            if (translationValue != "") {
-                nextFactoryBlock = it.translate(nextFactoryBlock, translationValue, bomFieldName)
+            def translationKey = it.getValue("excelColumnName")
+            if (translationKey.toLowerCase().contains("translated")) {
+                // get translation value from translation (keyfile)
+                def translationValue = translation.get(translationKey)
+                // translate it if there is a match...leave alone if not
+                if (translationValue != "") {
+                    nextFactoryBlock = it.translate(nextFactoryBlock, translationValue, bomFieldName)
+                }
             }
         }
         nextFactoryBlock
     }
 
-    static buildFileList(fp) {
-        def fileList = new FileDirectoryMgr(fp + "LibraryExports\\\\").getFileList()
-        FileDirectoryMgr.makeDirectory(fp + "LibraryFactoriesTranslated\\\\")       // make it if it doesn't exist
-        fileList
-    }
-
-    static getFilePath(args) {
-        def fp //filepath
-        if (args.size() == 0)
-            fp = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-        else {
-            fp = args[0]
-            if (fp[-1] != "\\") fp += "\\"
-        }
-        fp
-    }
-
-    static getFileList(fp, args) {
-        def fileList
-        if (args.size() > 1) {
-            fileList = [args[1]]
-        } else {
-            fileList = buildFileList(fp)
-        }
-        fileList
-    }
-
-    static updateFactory(transFile, TextFile factoryFile, TextFile factoryOutFile) {
-        def factoryParser = new LibraryFileParser(factoryFile)
-        def translations = new Translations(transFile)
-        if (factoryParser.hasNext()) {
-            while (factoryParser.hasNext()) {
-                def nextFactoryTextBlock = factoryParser.next()
-                def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
-                if (bomFieldName != null) {
-                    def translation = getTranslationForBomField(translations, bomFieldName)
-                    if (translation != null) {
-                        nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translation, bomFieldName)
-                    }
-                }
-                factoryOutFile.writeToFile(nextFactoryTextBlock)
-            }
-        }
-    }
-
-    static main(args) {
-        def fp = getFilePath(args)
-        openLogs(fp)
-        def fileList = getFileList(fp, args)
-        Log.writeLine("Processing ${fileList.size()} files: ${fileList}")
-        fileList.forEach {
-            addFileToLogs(it)
-            def transFile = openTranslationFile(fp, it)
-            def factoryFile = openFactoryFile(fp, it)
-            if (transFile.exists() && factoryFile.exists()) {
-                def factoryOutFile = openFactoryTranslatedFile(fp, factoryFile.getFileName())
-                updateFactory(transFile, factoryFile, factoryOutFile)
-            }
-        }
-        addDoneToLogs()
-    }
 }

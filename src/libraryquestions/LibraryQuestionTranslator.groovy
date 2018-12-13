@@ -23,9 +23,9 @@ class LibraryQuestionTranslator {
     def translate(nextText, translationValue, bomFieldName) {
         def translatedText = nextText
         if (translationValue != null) {
-            def libraryValue = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, this.getValue("transKeyField"))
+            def libraryValue = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, this.getValue("excelColumnName"))
             def regex = this.getValue("regex")
-            def translationFieldName = this.getValue("transKeyField")
+            def translationFieldName = this.getValue("excelColumnName")
             def result = nextText =~ regex
             if (result.count == 0) {
                 Log.writeLine("nocode", "No Class Factory code for: $bomFieldName/$translationFieldName: '$translationValue'")

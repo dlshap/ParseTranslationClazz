@@ -17,7 +17,7 @@ class FileMgr {
 
     def FileMgr(fileName, createFlag create) {
         openFile(fileName)
-        if (!theFile.exists()) {
+        if (!(theFile.exists())) {
             // if no file exists, make sure folder exists
             def parentDir = this.getDirPath()
             def folderPath = new File(parentDir)
