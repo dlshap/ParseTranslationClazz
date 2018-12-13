@@ -2,6 +2,7 @@ import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
 import libraryquestions.LibraryFactory
+import libraryquestions.LibraryFactoryBlockKey
 import libraryquestions.LibraryFactoryParser
 import libraryquestions.LibraryQuestionMatchers
 import logging.Dates
@@ -26,6 +27,8 @@ class UpdateDMTClassFactories {
     static libraryClassFactoryWithNewTranslations
 
     static nextFactoryTextBlock
+    static translationFromExcelExport
+    static libraryFactoryBlockKey
 
     static main(args) {
         buildArgsAndParameters(args)
@@ -149,35 +152,39 @@ class UpdateDMTClassFactories {
     }
 
     static getTranslationsForNextFactoryTextBlock() {
-        def bomFieldName = findBomFieldNameInText(nextFactoryTextBlock)
-//            def questionIdentifier = findQuestionIdentifierInText(nextFactoryTextBlock)       // TODO: for resolving non-unique BOM Field names
-        if (bomFieldName != null) {
-            def translation = getTranslationForBomField(bomFieldName)
-            if (translation != null) {
-                nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translation, bomFieldName)
-            }
-        }
+        getKeysFromFactoryTextBlock()
+        getTranslationsForFactoryTextBlockKeys()
+        updateFactoryTextBlockWithTranslatedColumns()
     }
 
-    static WriteTranslatedFactoryTextBlockToTranslatedFile() {
-        libraryClassFactoryWithNewTranslations.add(nextFactoryTextBlock)
+    static getKeysFromFactoryTextBlock() {
+        def bomFieldName = findBomFieldNameInText()
+        def questionIdentifier = findQuestionIdentifierInText()
+        if ((bomFieldName != null) || (questionIdentifier != null))
+        libraryFactoryBlockKey = new LibraryFactoryBlockKey(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
     }
 
-
-    static findBomFieldNameInText(nextText) {
+    static findBomFieldNameInText() {
         def bomFieldName = null
-        if (LibraryQuestionMatchers.lineContains(nextText, "BOM Fields")) {
-            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "BOM Fields")
+        if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "BOM Fields")) {
+            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextFactoryTextBlock, "BOM Fields")
         }
         bomFieldName
     }
 
-    static findQuestionIdentifierInText(nextText) {
-        def bomFieldName = null
-        if (LibraryQuestionMatchers.lineContains(nextText, "Question Identifier")) {
-            bomFieldName = LibraryQuestionMatchers.getFactoryMatchingValue(nextText, "Question Identifier")
+    static findQuestionIdentifierInText() {
+        def questionIdentifier = null
+        if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "Question Identifier")) {
+            questionIdentifier = LibraryQuestionMatchers.getFactoryMatchingValue(nextFactoryTextBlock, "Question Identifier")
         }
-        bomFieldName
+        questionIdentifier
+    }
+
+    static getTranslationsForFactoryTextBlockKeys() {
+        if (libraryFactoryBlockKey != null) {
+            def bomFieldName = libraryFactoryBlockKey.getKey("BOM Fields")
+            translationFromExcelExport = getTranslationForBomField(bomFieldName)
+        }
     }
 
     static getTranslationForBomField(bomFieldName) {
@@ -187,6 +194,17 @@ class UpdateDMTClassFactories {
             Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
         }
         translation
+    }
+
+    static updateFactoryTextBlockWithTranslatedColumns() {
+        if (translationFromExcelExport != null) {
+            def bomFieldName = libraryFactoryBlockKey.getKey("BOM Fields")
+            nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translationFromExcelExport, bomFieldName)
+        }
+    }
+
+    static WriteTranslatedFactoryTextBlockToTranslatedFile() {
+        libraryClassFactoryWithNewTranslations.add(nextFactoryTextBlock)
     }
 
 
