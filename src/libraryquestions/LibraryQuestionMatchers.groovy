@@ -5,7 +5,7 @@ package libraryquestions
  */
 class LibraryQuestionMatchers {
 
-    static LibQRegexes = [
+    static LibraryQuestionRegexes = [
         [excelColumnName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
         [excelColumnName: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:)(.*?)([,\]].*)/],
         [excelColumnName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
@@ -15,7 +15,7 @@ class LibraryQuestionMatchers {
     ]
 
     static lineContains(aLine, keyField) {
-        def regex = LibQRegexes.find { map ->
+        def regex = LibraryQuestionRegexes.find { map ->
             map.excelColumnName == keyField
         }.regex
         def result = aLine =~ regex
@@ -23,7 +23,7 @@ class LibraryQuestionMatchers {
     }
 
     static getValue(excelColumnName, matcherKey ) {
-        def value = LibQRegexes.find { map ->
+        def value = LibraryQuestionRegexes.find { map ->
             map.excelColumnName == excelColumnName
         }.getAt(matcherKey)
         value
@@ -31,7 +31,7 @@ class LibraryQuestionMatchers {
 
     static getFactoryMatchingValue(theText, keyField) {
         // get value in factory text for keyField in translation file
-        def regex = LibQRegexes.find { map ->
+        def regex = LibraryQuestionRegexes.find { map ->
             map.excelColumnName == keyField
         }.regex
         def result = theText =~ regex
@@ -46,8 +46,8 @@ class LibraryQuestionMatchers {
     static getLibraryQuestionTranslators() {
         // return list of translator objects
         def libraryQuestionTranslators = []
-        LibQRegexes.each { libQMap ->
-            libraryQuestionTranslators << new LibraryQuestionTranslator(libQMap)
+        LibraryQuestionRegexes.each { libraryQuestionMap ->
+            libraryQuestionTranslators << new LibraryQuestionTranslator(libraryQuestionMap)
         }
         libraryQuestionTranslators
     }

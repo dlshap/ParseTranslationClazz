@@ -8,16 +8,16 @@ import logging.Log
 class LibraryQuestionTranslator {
     /*
     Map format:
-        [transKeyField: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],...
+        [excelColumnName: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],...
     */
-    def libQuestionMap = [:]
+    def libraryQuestionMap = [:]
 
-    def LibraryQuestionTranslator(libQMap) {
-        this.libQuestionMap = libQMap
+    def LibraryQuestionTranslator(libraryQuestionMap) {
+        this.libraryQuestionMap = libraryQuestionMap
     }
 
     def getValue(keyname) {
-        libQuestionMap[keyname]
+        libraryQuestionMap[keyname]
     }
 
     def translate(nextText, translationValue, bomFieldName) {
