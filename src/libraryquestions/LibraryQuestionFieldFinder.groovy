@@ -6,25 +6,25 @@ package libraryquestions
 class LibraryQuestionFieldFinder {
 
     static LibraryQuestionRegexes = [
-        [libraryQuestionFieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
-        [libraryQuestionFieldName: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:)(.*?)([,\]].*)/],
-        [libraryQuestionFieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
-        [libraryQuestionFieldName: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:)(.*?)(,.*)/],
-        [libraryQuestionFieldName: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
-        [libraryQuestionFieldName: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
+        [excelExportFieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
+        [excelExportFieldName: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:)(.*?)([,\]].*)/],
+        [excelExportFieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
+        [excelExportFieldName: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:)(.*?)(,.*)/],
+        [excelExportFieldName: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
+        [excelExportFieldName: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
     ]
 
-    static lineContains(aLine, libraryQuestionFieldName) {
+    static lineContains(aLine, excelExportFieldName) {
         def findRegex = LibraryQuestionRegexes.find { map ->
-            map.libraryQuestionFieldName == libraryQuestionFieldName
+            map.excelExportFieldName == excelExportFieldName
         }.regex
         def findMatch = aLine =~ findRegex
         (findMatch.count > 0)
     }
 
-    static findFieldInLibraryText(theText, libraryQuestionFieldName) {
+    static findFieldInLibraryText(theText, excelExportFieldName) {
         def regex = LibraryQuestionRegexes.find { map ->
-            map.libraryQuestionFieldName == libraryQuestionFieldName
+            map.excelExportFieldName == excelExportFieldName
         }.regex
         def result = theText =~ regex
         def returnVal = null

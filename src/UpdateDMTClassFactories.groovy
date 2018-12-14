@@ -2,6 +2,7 @@ import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
 import libraryquestions.LibraryFactory
+import translations.Translation
 import translations.TranslationFieldKeys
 import libraryquestions.LibraryFactoryParser
 import libraryquestions.LibraryQuestionTranslator
@@ -23,13 +24,13 @@ class UpdateDMTClassFactories {
     static excelExportFileList = []
     static translationExcelExportFileList = []
 
-    static translationsFromExcelExport
     static libraryFactoryParser
     static libraryClassFactoryWithNewTranslations
-
     static nextFactoryTextBlock
-    static translationFromExcelExport
-    static translationFieldKeys
+
+    static Translations translationsFromExcelExport
+    static Translation translationFromExcelExport
+    static TranslationFieldKeys translationFieldKeys
 
     static main(args) {
         buildArgsAndParameters(args)
@@ -184,6 +185,7 @@ class UpdateDMTClassFactories {
     static getTranslationsForFactoryTextBlockKeys() {
         if (translationFieldKeys != null) {
             def bomFieldName = translationFieldKeys.getKey("BOM Fields")
+            def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
             translationFromExcelExport = getTranslationForBomField(bomFieldName)
         }
     }
@@ -223,7 +225,7 @@ class UpdateDMTClassFactories {
         LibraryQuestionTranslator[] libraryQuestionTranslators = LibraryQuestionFieldFinder.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
-            def translationKey = it.getValue("libraryQuestionFieldName")
+            def translationKey = it.getValue("excelExportFieldName")
             if (translationKey.toLowerCase().contains("translated")) {
                 // get translation value from translation (keyfile)
                 def translationValue = translationFromExcelExport.get(translationKey)
