@@ -30,7 +30,7 @@ class LibraryQuestionTranslator {
             if (result.count == 0) {
                 Log.writeLine("nocode", "No Class Factory code for: $bomFieldName/$translationFieldName: '$translationValue'")
             } else {
-                if (!libraryValue.equals(translationValue)) {
+                if (!(libraryValue.equals(translationValue))) {
                     Log.writeLine("$bomFieldName/$translationFieldName: replacing '$libraryValue' with '$translationValue'")
                     translationValue = "'" + translationValue + "'"
                     translatedText = result[0][1] + translationValue + result[0][3]
