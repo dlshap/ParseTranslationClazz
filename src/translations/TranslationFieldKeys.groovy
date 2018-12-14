@@ -1,9 +1,9 @@
-package libraryquestions
+package translations
 
-class LibraryFactoryBlockKey {
+class TranslationFieldKeys {
     def keys = [:]
 
-    def LibraryFactoryBlockKey(keyMap) {
+    def TranslationFieldKeys(keyMap) {
         this.keys = keyMap
     }
 

@@ -8,7 +8,7 @@ import logging.Log
 class LibraryQuestionTranslator {
     /*
     Map format:
-        [excelColumnName: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],...
+        [libraryQuestionFieldName: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],...
     */
     def libraryQuestionMap = [:]
 
@@ -23,9 +23,9 @@ class LibraryQuestionTranslator {
     def translate(nextText, translationValue, bomFieldName) {
         def translatedText = nextText
         if (translationValue != null) {
-            def libraryValue = LibraryQuestionMatchers.findValueInTextUsingLibraryQuestionMatcher(nextText, this.getValue("excelColumnName"))
+            def libraryValue = LibraryQuestionFieldFinder.findFieldInLibraryText(nextText, this.getValue("libraryQuestionFieldName"))
             def regex = this.getValue("regex")
-            def translationFieldName = this.getValue("excelColumnName")
+            def translationFieldName = this.getValue("libraryQuestionFieldName")
             def result = nextText =~ regex
             if (result.count == 0) {
                 Log.writeLine("nocode", "No Class Factory code for: $bomFieldName/$translationFieldName: '$translationValue'")

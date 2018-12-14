@@ -2,10 +2,10 @@ import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
 import libraryquestions.LibraryFactory
-import libraryquestions.LibraryFactoryBlockKey
+import translations.TranslationFieldKeys
 import libraryquestions.LibraryFactoryParser
-import libraryquestions.LibraryQuestionMatchers
 import libraryquestions.LibraryQuestionTranslator
+import libraryquestions.LibraryQuestionFieldFinder
 import logging.Dates
 import logging.Log
 import translations.Translations
@@ -18,7 +18,7 @@ class UpdateDMTClassFactories {
 
     static startFilePath
     static languageName
-    static testFileName
+    static fileNameForTesting
 
     static excelExportFileList = []
     static translationExcelExportFileList = []
@@ -29,7 +29,7 @@ class UpdateDMTClassFactories {
 
     static nextFactoryTextBlock
     static translationFromExcelExport
-    static libraryFactoryBlockKey
+    static translationFieldKeys
 
     static main(args) {
         buildArgsAndParameters(args)
@@ -45,7 +45,7 @@ class UpdateDMTClassFactories {
         def argsMap = new ArgsParser(args)
         startFilePath = argsMap.get("path")
         languageName = argsMap.get("language")
-        testFileName = argsMap.get("file")
+        fileNameForTesting = argsMap.get("file")
     }
 
     static getDefaultValuesIfArgsNull() {
@@ -76,14 +76,14 @@ class UpdateDMTClassFactories {
     }
 
     static buildFileList() {
-        if (!(testFileName == null)) {
-            excelExportFileList.add(FileDirectoryMgr.getSmallName(testFileName))
+        if (fileNameForTesting != null) {
+            excelExportFileList.add(FileDirectoryMgr.getSmallName(fileNameForTesting))
         } else {
-            buildFileListFromExcelExportDirectory()
+            buildExcelExportFileListFromDirectoryList()
         }
     }
 
-    static buildFileListFromExcelExportDirectory() {
+    static buildExcelExportFileListFromDirectoryList() {
         excelExportFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
         excelExportFileList = excelExportFileList.collect { it - ~/\.\w{3}/ }             // remove file extension
     }
@@ -113,7 +113,7 @@ class UpdateDMTClassFactories {
         addFilenameToLogs(classFileName)
         loadTranslationsFromExcelExport(classFileName)
         loadLibraryFactoryParserFromLibraryFactoryFile(classFileName)
-        createLibraryFactoryForNewTranslations(classFileName)
+        createLibraryFactoryForUpdatedTranslations(classFileName)
         updateLibraryFactoryFromExcelTranslations()
     }
 
@@ -134,7 +134,7 @@ class UpdateDMTClassFactories {
         }
     }
 
-    static createLibraryFactoryForNewTranslations(classFileName) {
+    static createLibraryFactoryForUpdatedTranslations(classFileName) {
         def factoryTranslatedFileName = classFileName + ".translated"
         def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
         libraryClassFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
@@ -162,35 +162,34 @@ class UpdateDMTClassFactories {
         def bomFieldName = findBomFieldNameInText()
         def questionIdentifier = findQuestionIdentifierInText()
         if ((bomFieldName != null) || (questionIdentifier != null))
-            libraryFactoryBlockKey = new LibraryFactoryBlockKey(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
+            translationFieldKeys = new TranslationFieldKeys(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
     }
 
     static findBomFieldNameInText() {
         def bomFieldName = null
-        if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "BOM Fields")) {
-            bomFieldName = LibraryQuestionMatchers.findValueInTextUsingLibraryQuestionMatcher(nextFactoryTextBlock, "BOM Fields")
+        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "BOM Fields")) {
+            bomFieldName = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "BOM Fields")
         }
         bomFieldName
     }
 
     static findQuestionIdentifierInText() {
         def questionIdentifier = null
-        if (LibraryQuestionMatchers.lineContains(nextFactoryTextBlock, "Question Identifier")) {
-            questionIdentifier = LibraryQuestionMatchers.findValueInTextUsingLibraryQuestionMatcher(nextFactoryTextBlock, "Question Identifier")
+        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "Question Identifier")) {
+            questionIdentifier = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "Question Identifier")
         }
         questionIdentifier
     }
 
     static getTranslationsForFactoryTextBlockKeys() {
-        if (libraryFactoryBlockKey != null) {
-            def bomFieldName = libraryFactoryBlockKey.getKey("BOM Fields")
+        if (translationFieldKeys != null) {
+            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
             translationFromExcelExport = getTranslationForBomField(bomFieldName)
         }
     }
 
     static getTranslationForBomField(bomFieldName) {
-        def translationKeyName = LibraryQuestionMatchers.getLibraryQuestionRegexMapValue("BOM Fields", "excelColumnName")
-        def translation = translationsFromExcelExport.getTranslation(translationKeyName, bomFieldName)
+        def translation = translationsFromExcelExport.getTranslation("BOM Fields", bomFieldName)
         if (translation == null) {
             Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
         }
@@ -199,9 +198,8 @@ class UpdateDMTClassFactories {
 
     static updateFactoryTextBlockWithTranslatedColumns() {
         if (translationFromExcelExport != null) {
-            def bomFieldName = libraryFactoryBlockKey.getKey("BOM Fields")
+            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
             replaceLineWithTranslations(bomFieldName)
-//            nextFactoryTextBlock = replaceLineWithTranslations(nextFactoryTextBlock, translationFromExcelExport, bomFieldName)
         }
     }
 
@@ -222,10 +220,10 @@ class UpdateDMTClassFactories {
 
     static replaceLineWithTranslations(bomFieldName) {
         def tryToTranslateFactoryTextBlock = nextFactoryTextBlock
-        LibraryQuestionTranslator[] libraryQuestionTranslators = LibraryQuestionMatchers.getLibraryQuestionTranslators()
+        LibraryQuestionTranslator[] libraryQuestionTranslators = LibraryQuestionFieldFinder.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
-            def translationKey = it.getValue("excelColumnName")
+            def translationKey = it.getValue("libraryQuestionFieldName")
             if (translationKey.toLowerCase().contains("translated")) {
                 // get translation value from translation (keyfile)
                 def translationValue = translationFromExcelExport.get(translationKey)
