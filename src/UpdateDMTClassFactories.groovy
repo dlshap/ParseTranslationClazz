@@ -155,7 +155,7 @@ class UpdateDMTClassFactories {
 
     static getTranslationsForNextFactoryTextBlock() {
         getKeysFromFactoryTextBlock()
-        getTranslationsForFactoryTextBlockKeys()
+        getTranslationForKeys()
         updateFactoryTextBlockWithTranslatedColumns()
     }
 
@@ -182,11 +182,12 @@ class UpdateDMTClassFactories {
         questionIdentifier
     }
 
-    static getTranslationsForFactoryTextBlockKeys() {
+    static getTranslationForKeys() {
         if (translationFieldKeys != null) {
-            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
-            def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
-            translationFromExcelExport = getTranslationForBomField(bomFieldName)
+//            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
+//            def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
+//            translationFromExcelExport = getTranslationForBomField(bomFieldName)
+            def translation = translationsFromExcelExport.getTranslation(translationFieldKeys)
         }
     }
 

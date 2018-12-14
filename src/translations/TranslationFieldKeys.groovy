@@ -10,5 +10,4 @@ class TranslationFieldKeys {
     def getKey(keyName) {
         keys.get(keyName)
     }
-
 }

@@ -21,6 +21,10 @@ class Translations {
             translations[0]
     }
 
+    def getTranslation(TranslationFieldKeys keys) {
+
+    }
+
     def getTranslations(keyName, value) {
         List translations = transKeyMapList.findAll() { keyMap ->
             keyMap[keyName] == value
