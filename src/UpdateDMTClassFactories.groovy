@@ -168,16 +168,16 @@ class UpdateDMTClassFactories {
 
     static findBomFieldNameInText() {
         def bomFieldName = null
-        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "BOM Fields")) {
-            bomFieldName = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "BOM Fields")
+        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, languageName, "BOM Fields")) {
+            bomFieldName = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "BOM Fields")
         }
         bomFieldName
     }
 
     static findQuestionIdentifierInText() {
         def questionIdentifier = null
-        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "Question Identifier")) {
-            questionIdentifier = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "Question Identifier")
+        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, languageName, "Question Identifier")) {
+            questionIdentifier = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "Question Identifier")
         }
         questionIdentifier
     }
@@ -232,7 +232,7 @@ class UpdateDMTClassFactories {
                 def translationValue = translationFromExcelExport.get(translationKey)
                 // translate it if there is a match...leave alone if not
                 if (translationValue != "") {
-                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, translationValue, bomFieldName)
+                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, languageName, translationValue, bomFieldName)
                 }
             }
         }
