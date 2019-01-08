@@ -17,7 +17,6 @@ import useful.ArgsParser
  */
 class UpdateDMTClassFactories {
 
-    /* test */
 
     static startFilePath
     static languageName
