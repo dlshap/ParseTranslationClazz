@@ -35,9 +35,6 @@ class UpdateDMTClassFactories {
 
     static LibraryQuestionFieldFinder libraryQuestionFieldFinder
 
-//    static tryToTranslateFactoryTextBlock
-//    static LibraryQuestionTranslator[] libraryQuestionTranslators
-
     static main(args) {
         buildArgsAndParameters(args)
         translateFiles()

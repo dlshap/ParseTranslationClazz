@@ -4,7 +4,6 @@
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +18,8 @@
       <file leaf-file-name="UpdateDMTClassFactories.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="547">
-              <caret line="248" column="1" lean-forward="true" selection-start-line="248" selection-start-column="1" selection-end-line="248" selection-end-column="1" />
+            <state relative-caret-position="353">
+              <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -612,13 +611,6 @@
       <workItem from="1546642651355" duration="1599000" />
       <workItem from="1546904052450" duration="60000" />
     </task>
-    <task id="LOCAL-00016" summary="Common properties file translator">
-      <created>1512770222625</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1512770222625</updated>
-    </task>
     <task id="LOCAL-00017" summary="Added component to log file name">
       <created>1512771952279</created>
       <option name="number" value="00017" />
@@ -955,11 +947,18 @@
       <option name="project" value="LOCAL" />
       <updated>1546978554117</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Close...writing translated block correctly.">
+      <created>1546981233581</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1546981233581</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211174000" />
+    <option name="totallyTimeSpent" value="211252000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1687" height="1011" extended-state="0" />
@@ -1031,7 +1030,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refactored for readability and added args parser utility" />
     <MESSAGE value="Began pulling out static vars and reducing function sizes for readability" />
     <MESSAGE value="Cleaned up file opening and further refactored code for readability." />
     <MESSAGE value="A little more cleaning up." />
@@ -1056,20 +1054,21 @@
     <MESSAGE value="About to get translation on concatenated key (maybe)" />
     <MESSAGE value="Fixing regex generator" />
     <MESSAGE value="Now we have to make it work again." />
-    <option name="LAST_COMMIT_MESSAGE" value="Now we have to make it work again." />
+    <MESSAGE value="Close...writing translated block correctly." />
+    <option name="LAST_COMMIT_MESSAGE" value="Close...writing translated block correctly." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
-          <line>154</line>
+          <line>151</line>
           <properties />
           <option name="timeStamp" value="178" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
-          <line>240</line>
+          <line>237</line>
           <properties />
           <option name="timeStamp" value="179" />
         </line-breakpoint>
@@ -1441,8 +1440,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="248" column="1" lean-forward="true" selection-start-line="248" selection-start-column="1" selection-end-line="248" selection-end-column="1" />
+        <state relative-caret-position="353">
+          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
