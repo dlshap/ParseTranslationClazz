@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionTranslator.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionTranslator.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
     </list>
@@ -18,8 +19,8 @@
       <file leaf-file-name="UpdateDMTClassFactories.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="223">
+              <caret line="151" column="0" lean-forward="false" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -336,7 +337,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="UpdateDMTClassFactories" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="path=C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project&quot; &quot;Work\\Translations\\DMT\\ file=MIBConfirmation.txt" />
+      <option name="PROGRAM_PARAMETERS" value="path=C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project&quot; &quot;Work\\Translations\\DMT\\ xfile=MIBConfirmation.txt" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -610,13 +611,6 @@
       <workItem from="1544830180333" duration="220000" />
       <workItem from="1546642651355" duration="1599000" />
       <workItem from="1546904052450" duration="60000" />
-    </task>
-    <task id="LOCAL-00017" summary="Added component to log file name">
-      <created>1512771952279</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1512771952279</updated>
     </task>
     <task id="LOCAL-00018" summary="fixed class factory log file location">
       <created>1513369043967</created>
@@ -954,11 +948,18 @@
       <option name="project" value="LOCAL" />
       <updated>1546981233581</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Close...writing translated block correctly.">
+      <created>1546981286780</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1546981286780</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211252000" />
+    <option name="totallyTimeSpent" value="212336000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1687" height="1011" extended-state="0" />
@@ -1062,27 +1063,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
-          <line>151</line>
+          <line>120</line>
           <properties />
-          <option name="timeStamp" value="178" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
-          <line>237</line>
-          <properties />
-          <option name="timeStamp" value="179" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy</url>
-          <line>23</line>
-          <properties />
-          <option name="timeStamp" value="185" />
+          <option name="timeStamp" value="188" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="186" />
+      <option name="time" value="191" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1440,8 +1429,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+        <state relative-caret-position="223">
+          <caret line="151" column="0" lean-forward="false" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>

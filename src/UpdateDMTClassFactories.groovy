@@ -148,8 +148,8 @@ class UpdateDMTClassFactories {
         while (libraryFactoryParser.hasNext()) {
             getNextFactoryTextBlock()
             getTranslationsForNextFactoryTextBlock()
+            WriteTranslatedFactoryTextBlockToTranslatedFile()
         }
-        WriteTranslatedFactoryTextBlockToTranslatedFile()
     }
 
     static getNextFactoryTextBlock() {
