@@ -187,10 +187,10 @@ class UpdateDMTClassFactories {
 
     static getTranslationForKeys() {
         if (translationFieldKeys != null) {
-//            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
+            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
 //            def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
 //            translationFromExcelExport = getTranslationForBomField(bomFieldName)
-            def translation = translationsFromExcelExport.getTranslation(translationFieldKeys)
+            translationFromExcelExport = getTranslationForBomField(bomFieldName)
         }
     }
 
@@ -236,7 +236,7 @@ class UpdateDMTClassFactories {
                 def translationValue = translationFromExcelExport.get(translationKey)
                 // translate it if there is a match...leave alone if not
                 if (translationValue != "") {
-                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, translationValue, bomFieldName)
+//                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, translationValue, bomFieldName)
                 }
             }
         }
