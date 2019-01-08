@@ -20,7 +20,7 @@ class UpdateDMTClassFactories {
 
     static startFilePath
     static languageName
-    static fileNameForTesting
+    static fileNameForTestingSingleFile
 
     static excelExportFileList = []
     static translationExcelExportFileList = []
@@ -34,6 +34,9 @@ class UpdateDMTClassFactories {
     static TranslationFieldKeys translationFieldKeys
 
     static LibraryQuestionFieldFinder libraryQuestionFieldFinder
+
+//    static tryToTranslateFactoryTextBlock
+//    static LibraryQuestionTranslator[] libraryQuestionTranslators
 
     static main(args) {
         buildArgsAndParameters(args)
@@ -49,7 +52,7 @@ class UpdateDMTClassFactories {
         def argsMap = new ArgsParser(args)
         startFilePath = argsMap.get("path")
         languageName = argsMap.get("language")
-        fileNameForTesting = argsMap.get("file")
+        fileNameForTestingSingleFile = argsMap.get("file")
     }
 
     static getDefaultValuesIfArgsNull() {
@@ -80,8 +83,8 @@ class UpdateDMTClassFactories {
     }
 
     static buildFileList() {
-        if (fileNameForTesting != null) {
-            excelExportFileList.add(FileDirectoryMgr.getSmallName(fileNameForTesting))
+        if (fileNameForTestingSingleFile != null) {
+            excelExportFileList.add(FileDirectoryMgr.getSmallName(fileNameForTestingSingleFile))
         } else {
             buildExcelExportFileListFromDirectoryList()
         }
@@ -139,8 +142,8 @@ class UpdateDMTClassFactories {
     }
 
     static createLibraryFactoryForUpdatedTranslations(classFileName) {
-        def factoryTranslatedFileName = classFileName + ".translated"
         def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
+        def factoryTranslatedFileName = classFileName + "ClassFactory.translated"
         libraryClassFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
     }
 
@@ -227,7 +230,7 @@ class UpdateDMTClassFactories {
 
     static replaceLineWithTranslations(bomFieldName) {
         def tryToTranslateFactoryTextBlock = nextFactoryTextBlock
-        LibraryQuestionTranslator[] libraryQuestionTranslators = libraryQuestionFieldFinder.getLibraryQuestionTranslators()
+        def libraryQuestionTranslators = libraryQuestionFieldFinder.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
             def translationKey = it.getValue("excelExportFieldName")
@@ -236,7 +239,7 @@ class UpdateDMTClassFactories {
                 def translationValue = translationFromExcelExport.get(translationKey)
                 // translate it if there is a match...leave alone if not
                 if (translationValue != "") {
-//                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, translationValue, bomFieldName)
+                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, languageName,translationValue, bomFieldName)
                 }
             }
         }
