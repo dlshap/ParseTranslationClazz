@@ -32,6 +32,8 @@ class UpdateDMTClassFactories {
     static Translation translationFromExcelExport
     static TranslationFieldKeys translationFieldKeys
 
+    static LibraryQuestionFieldFinder libraryQuestionFieldFinder
+
     static main(args) {
         buildArgsAndParameters(args)
         translateFiles()
@@ -168,16 +170,16 @@ class UpdateDMTClassFactories {
 
     static findBomFieldNameInText() {
         def bomFieldName = null
-        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, languageName, "BOM Fields")) {
-            bomFieldName = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "BOM Fields")
+        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "BOM Fields")) {
+            bomFieldName = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "BOM Fields")
         }
         bomFieldName
     }
 
     static findQuestionIdentifierInText() {
         def questionIdentifier = null
-        if (LibraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, languageName, "Question Identifier")) {
-            questionIdentifier = LibraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "Question Identifier")
+        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "Question Identifier")) {
+            questionIdentifier = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "Question Identifier")
         }
         questionIdentifier
     }
@@ -216,6 +218,7 @@ class UpdateDMTClassFactories {
         def libraryFactoryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + libraryFactoryFileName)
         if (libraryFactoryFile.exists()) {
             libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
+            libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(languageName)
         } else {
             Log.writeLine "exceptions", "${libraryFactoryFile.getFullPathName()} doesn't exist"
         }
@@ -223,7 +226,7 @@ class UpdateDMTClassFactories {
 
     static replaceLineWithTranslations(bomFieldName) {
         def tryToTranslateFactoryTextBlock = nextFactoryTextBlock
-        LibraryQuestionTranslator[] libraryQuestionTranslators = LibraryQuestionFieldFinder.getLibraryQuestionTranslators()
+        LibraryQuestionTranslator[] libraryQuestionTranslators = libraryQuestionFieldFinder.getLibraryQuestionTranslators()
         libraryQuestionTranslators.eachWithIndex { it, i ->
             // get field name from translator
             def translationKey = it.getValue("excelExportFieldName")
@@ -232,7 +235,7 @@ class UpdateDMTClassFactories {
                 def translationValue = translationFromExcelExport.get(translationKey)
                 // translate it if there is a match...leave alone if not
                 if (translationValue != "") {
-                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, languageName, translationValue, bomFieldName)
+                    tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, translationValue, bomFieldName)
                 }
             }
         }
