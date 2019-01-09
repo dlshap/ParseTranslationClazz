@@ -186,8 +186,11 @@ class UpdateDMTClassFactories {
 
     static getTranslationForKeys() {
         if (translationFieldKeys != null) {
+            /*
+            get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
+             */
             def bomFieldName = translationFieldKeys.getKey("BOM Fields")
-//            def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
+            def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
 //            translationFromExcelExport = getTranslationForBomField(bomFieldName)
             translationFromExcelExport = getTranslationForBomField(bomFieldName)
         }

@@ -22,6 +22,9 @@ class Translations {
     }
 
     def getTranslation(TranslationFieldKeys keys) {
+        /*
+        loop through the keys and find all matches
+         */
 
     }
 
