@@ -5,7 +5,6 @@ import libraryquestions.LibraryFactory
 import translations.Translation
 import translations.TranslationFieldKeys
 import libraryquestions.LibraryFactoryParser
-import libraryquestions.LibraryQuestionTranslator
 import libraryquestions.LibraryQuestionFieldFinder
 import logging.Dates
 import logging.Log
@@ -26,7 +25,7 @@ class UpdateDMTClassFactories {
     static translationExcelExportFileList = []
 
     static libraryFactoryParser
-    static libraryClassFactoryWithNewTranslations
+    static libraryFactoryWithNewTranslations
     static nextFactoryTextBlock
 
     static Translations translationsFromExcelExport
@@ -141,7 +140,7 @@ class UpdateDMTClassFactories {
     static createLibraryFactoryForUpdatedTranslations(classFileName) {
         def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
         def factoryTranslatedFileName = classFileName + "ClassFactory.translated"
-        libraryClassFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
+        libraryFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
     }
 
     static updateLibraryFactoryFromExcelTranslations() {
@@ -210,7 +209,7 @@ class UpdateDMTClassFactories {
     }
 
     static WriteTranslatedFactoryTextBlockToTranslatedFile() {
-        libraryClassFactoryWithNewTranslations.add(nextFactoryTextBlock)
+        libraryFactoryWithNewTranslations.add(nextFactoryTextBlock)
     }
 
 
