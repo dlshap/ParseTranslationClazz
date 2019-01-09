@@ -193,7 +193,19 @@ class UpdateDMTClassFactories {
             def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
 //            translationFromExcelExport = getTranslationForBomField(bomFieldName)
             translationFromExcelExport = getTranslationForBomField(bomFieldName)
+
+            nowTryAllKeys()
         }
+    }
+
+    static nowTryAllKeys() {
+        assert (translationsFromExcelExport instanceof Translations)
+        Translations x = translationsFromExcelExport
+        println translationFieldKeys
+        def result = x.getTranslations(translationFieldKeys)
+//        def matchingTranslations = translationFromExcelExport.getTranslations(translationFieldKeys)
+//        println "keys = $translationFieldKeys"
+//        println "matches = $matchingTranslations"
     }
 
     static getTranslationForBomField(bomFieldName) {

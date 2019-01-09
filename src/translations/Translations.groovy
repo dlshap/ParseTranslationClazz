@@ -21,11 +21,18 @@ class Translations {
             translations[0]
     }
 
-    def getTranslation(TranslationFieldKeys keys) {
+    def getTranslations(TranslationFieldKeys keys) {
         /*
-        loop through the keys and find all matches
+        keys = map of key/value pairs that should be matched against corresponding pairs in transKeyMapList
+        returns all maps in transKeyMapList that match on all keys
          */
-
+        def translations = transKeyMapList
+        keys.each { k, v ->
+            translations = translations.findAll() {
+                it.get(k) == keys.get(k)
+            }
+        }
+        translations
     }
 
     def getTranslations(keyName, value) {
