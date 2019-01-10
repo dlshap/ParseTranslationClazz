@@ -203,25 +203,13 @@ class UpdateDMTClassFactories {
         if (translationCount == 1)
             return true
         else if (translationCount == 0) {
-            def bomFieldName = translationFieldKeys.getKeyValue("BOM Fields")
-            Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
+            Log.writeLine "exceptions", "Missing translation for keys: ${translationFieldKeys.getKeyList()}"
             return false
         } else if (translationCount > 1) {
-            //TODO: Change to log for multiple keys
-            def bomFieldName = translationFieldKeys.getKeyValue("BOM Fields")
-            def questionIdentifier = translationFieldKeys.getKeyValue("Question Identifier")
-            Log.writeLine "exceptions", "Multiple translations for BOM Field: $bomFieldName and Question Identifier: $questionIdentifier"
+             Log.writeLine "exceptions", "Multiple translations for keys: ${translationFieldKeys.getKeyList()}"
             return false
         }
 
-    }
-
-    static getTranslationForBomField(bomFieldName) {
-        def translation = translationsFromExcelExport.getTranslation("BOM Fields", bomFieldName)
-        if (translation == null) {
-            Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
-        }
-        translation
     }
 
     static WriteTranslatedFactoryTextBlockToTranslatedFile() {
