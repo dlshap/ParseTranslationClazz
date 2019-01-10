@@ -208,18 +208,12 @@ class UpdateDMTClassFactories {
         } else if (translationCount > 1) {
             //TODO: Change to log for multiple keys
             def bomFieldName = translationFieldKeys.getKeyValue("BOM Fields")
-            Log.writeLine "exceptions", "Multiple translations for BOM Field: $bomFieldName"
+            def questionIdentifier = translationFieldKeys.getKeyValue("Question Identifier")
+            Log.writeLine "exceptions", "Multiple translations for BOM Field: $bomFieldName and Question Identifier: $questionIdentifier"
             return false
         }
 
     }
-
-//    static testWithMultipleKeys() {
-//        assert (translationsFromExcelExport instanceof Translations)
-//        def matchingTranslations = translationsFromExcelExport.getTranslations(translationFieldKeys)
-//        println "keys = $translationFieldKeys"
-//        println "matches = $matchingTranslations"
-//    }
 
     static getTranslationForBomField(bomFieldName) {
         def translation = translationsFromExcelExport.getTranslation("BOM Fields", bomFieldName)
