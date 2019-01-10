@@ -17,19 +17,20 @@ class Translations {
         if (translations == null)
             null
         else
-            // first translation
+        // first translation
             translations[0]
     }
 
-    def getTranslations(TranslationFieldKeys keys) {
+    def getTranslations(TranslationFieldKeys translationFieldKeys) {
         /*
         keys = map of key/value pairs that should be matched against corresponding pairs in transKeyMapList
         returns all maps in transKeyMapList that match on all keys
          */
+        def keyMap = translationFieldKeys.getKeys()
         def translations = transKeyMapList
-        keys.each { k, v ->
+        keyMap.each { k, v ->
             translations = translations.findAll() {
-                it.get(k) == keys.get(k)
+                it.get(k) == keyMap.get(k)
             }
         }
         translations

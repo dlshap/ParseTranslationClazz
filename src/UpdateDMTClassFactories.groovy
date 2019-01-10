@@ -29,7 +29,7 @@ class UpdateDMTClassFactories {
     static nextFactoryTextBlock
 
     static Translations translationsFromExcelExport
-    static Translation translationFromExcelExport
+    static Translation matchingTranslationFromExcelExport
     static TranslationFieldKeys translationFieldKeys
 
     static LibraryQuestionFieldFinder libraryQuestionFieldFinder
@@ -189,24 +189,37 @@ class UpdateDMTClassFactories {
             /*
             get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
              */
-            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
-            def questionIdentifier = translationFieldKeys.getKey("Question Identifier")
-//            translationFromExcelExport = getTranslationForBomField(bomFieldName)
-            translationFromExcelExport = getTranslationForBomField(bomFieldName)
-
-            nowTryAllKeys()
+            def matchingTranslations = translationsFromExcelExport.getTranslations(translationFieldKeys)
+            if (singleMatchingTranslation(matchingTranslations)) {
+                matchingTranslationFromExcelExport = matchingTranslations[0]
+            }
+            matchingTranslationFromExcelExport
         }
     }
 
-    static nowTryAllKeys() {
-        assert (translationsFromExcelExport instanceof Translations)
-        Translations x = translationsFromExcelExport
-        println translationFieldKeys
-        def result = x.getTranslations(translationFieldKeys)
-//        def matchingTranslations = translationFromExcelExport.getTranslations(translationFieldKeys)
+    static singleMatchingTranslation(matchingTranslations) {
+        def translationCount = matchingTranslations.size()
+        if (translationCount == 1)
+            return true
+        else if (translationCount == 0) {
+            def bomFieldName = translationFieldKeys.getKeyValue("BOM Fields")
+            Log.writeLine "exceptions", "Missing translation for BOM Field: $bomFieldName"
+            return false
+        } else if (translationCount > 1) {
+            //TODO: Change to log for multiple keys
+            def bomFieldName = translationFieldKeys.getKeyValue("BOM Fields")
+            Log.writeLine "exceptions", "Multiple translations for BOM Field: $bomFieldName"
+            return false
+        }
+
+    }
+
+//    static testWithMultipleKeys() {
+//        assert (translationsFromExcelExport instanceof Translations)
+//        def matchingTranslations = translationsFromExcelExport.getTranslations(translationFieldKeys)
 //        println "keys = $translationFieldKeys"
 //        println "matches = $matchingTranslations"
-    }
+//    }
 
     static getTranslationForBomField(bomFieldName) {
         def translation = translationsFromExcelExport.getTranslation("BOM Fields", bomFieldName)
@@ -217,8 +230,8 @@ class UpdateDMTClassFactories {
     }
 
     static updateFactoryTextBlockWithTranslatedColumns() {
-        if (translationFromExcelExport != null) {
-            def bomFieldName = translationFieldKeys.getKey("BOM Fields")
+        if (matchingTranslationFromExcelExport != null) {
+            def bomFieldName = translationFieldKeys.getKeyValue("BOM Fields")
             replaceLineWithTranslations(bomFieldName)
         }
     }
@@ -247,7 +260,7 @@ class UpdateDMTClassFactories {
             def translationKey = it.getValue("excelExportFieldName")
             if (translationKey.toLowerCase().contains("translated")) {
                 // get translation value from translation (keyfile)
-                def translationValue = translationFromExcelExport.get(translationKey)
+                def translationValue = matchingTranslationFromExcelExport.get(translationKey)
                 // translate it if there is a match...leave alone if not
                 if (translationValue != "") {
                     tryToTranslateFactoryTextBlock = it.translate(tryToTranslateFactoryTextBlock, languageName,translationValue, bomFieldName)
