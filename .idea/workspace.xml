@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
+    <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="Need to work on remaining BOM Fields (single key) operations. Convert to TranslationFieldKeys">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy" afterPath="$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,14 +17,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UpdateDMTClassFactories.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UpdateDMTClassFactories.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="259" column="0" lean-forward="false" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
+            <state relative-caret-position="184">
+              <caret line="246" column="55" lean-forward="false" selection-start-line="246" selection-start-column="55" selection-end-line="246" selection-end-column="55" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LibraryQuestionTranslator.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="331">
+              <caret line="36" column="80" lean-forward="false" selection-start-line="36" selection-start-column="80" selection-end-line="36" selection-end-column="80" />
+              <folding>
+                <element signature="e#26#44#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TranslationFieldKeys.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Translations.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="412">
+              <caret line="76" column="10" lean-forward="true" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -32,36 +66,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
               <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LibraryQuestionTranslator.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Translations.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="935">
-              <caret line="55" column="12" lean-forward="true" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TranslationFieldKeys.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -166,10 +170,10 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/groovy/groovy_console_2.groovy" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/groovy/groovy_console_3.groovy" />
         <option value="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionFieldFinder.groovy" />
-        <option value="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" />
         <option value="$PROJECT_DIR$/src/translations/Translations.groovy" />
         <option value="$PROJECT_DIR$/src/test.groovy" />
         <option value="$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy" />
+        <option value="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
       </list>
     </option>
@@ -244,6 +248,45 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="translations" type="462c0819:PsiDirectoryNode" />
               <item name="Translations.groovy" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="guava-19.0.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="guava-19.0.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="google" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="guava-19.0.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="google" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="guava-19.0.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="google" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -621,14 +664,7 @@
       <workItem from="1546642651355" duration="1599000" />
       <workItem from="1546904052450" duration="60000" />
       <workItem from="1547046342713" duration="781000" />
-      <workItem from="1547141018891" duration="9082000" />
-    </task>
-    <task id="LOCAL-00026" summary="Began pulling out static vars and reducing function sizes for readability">
-      <created>1543531667786</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1543531667786</updated>
+      <workItem from="1547141018891" duration="13840000" />
     </task>
     <task id="LOCAL-00027" summary="Began pulling out static vars and reducing function sizes for readability">
       <created>1543532500926</created>
@@ -966,25 +1002,33 @@
       <option name="project" value="LOCAL" />
       <updated>1547148548468</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Working for multiple (concatenated keys). Next make work only when BOM Fields finds dupes.">
+      <created>1547154384511</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1547154384512</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="235304000" />
+    <option name="totallyTimeSpent" value="240062000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1691" height="1009" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32925472" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13963965" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25361514" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25361514" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1021,8 +1065,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="End of first cleaning." />
-    <MESSAGE value="A couple of typos" />
     <MESSAGE value="Merged refactor" />
     <MESSAGE value="Added noise removal" />
     <MESSAGE value="A little more readable + some additional checks on noise." />
@@ -1046,34 +1088,78 @@
     <MESSAGE value="It appears to be working again!" />
     <MESSAGE value="Making sure properties can accept escape unicode sequences." />
     <MESSAGE value="Multiple key search working." />
-    <option name="LAST_COMMIT_MESSAGE" value="Multiple key search working." />
+    <MESSAGE value="Working for multiple (concatenated keys). Next make work only when BOM Fields finds dupes." />
+    <MESSAGE value="Need to work on remaining BOM Fields (single key) operations. Convert to TranslationFieldKeys" />
+    <option name="LAST_COMMIT_MESSAGE" value="Need to work on remaining BOM Fields (single key) operations. Convert to TranslationFieldKeys" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
+          <line>110</line>
+          <properties />
+          <option name="timeStamp" value="221" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
+          <line>115</line>
+          <properties />
+          <option name="timeStamp" value="222" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
+          <line>119</line>
+          <properties />
+          <option name="timeStamp" value="226" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
+          <line>206</line>
+          <properties />
+          <option name="timeStamp" value="232" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
+          <line>221</line>
+          <properties />
+          <option name="timeStamp" value="233" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
+          <line>238</line>
+          <properties />
+          <option name="timeStamp" value="234" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy</url>
-          <line>28</line>
+          <line>31</line>
           <properties />
-          <option name="timeStamp" value="191" />
+          <option name="timeStamp" value="235" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy</url>
+          <line>34</line>
+          <properties />
+          <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
-          <line>226</line>
+          <line>146</line>
           <properties />
-          <option name="timeStamp" value="207" />
+          <option name="timeStamp" value="237" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy</url>
-          <line>259</line>
+          <line>148</line>
           <properties />
-          <option name="timeStamp" value="208" />
+          <option name="timeStamp" value="238" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="209" />
+      <option name="time" value="239" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1351,29 +1437,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/guava/guava-19.0.jar!/com/google/common/base/Splitter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/filemanagement/KeyPairParser.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/filemanagement/KeyFile.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryFactoryParser.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -1387,41 +1450,7 @@
         <state relative-caret-position="198">
           <caret line="165" column="70" lean-forward="true" selection-start-line="165" selection-start-column="70" selection-end-line="165" selection-end-column="70" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="55" column="12" lean-forward="true" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="259" column="0" lean-forward="false" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#0#34#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1434,11 +1463,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="32" lean-forward="false" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="76" column="10" lean-forward="true" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/guava/guava-19.0.jar!/com/google/common/base/Splitter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/filemanagement/KeyPairParser.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/filemanagement/KeyFile.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="331">
+          <caret line="36" column="80" lean-forward="false" selection-start-line="36" selection-start-column="80" selection-end-line="36" selection-end-column="80" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="246" column="55" lean-forward="false" selection-start-line="246" selection-start-column="55" selection-end-line="246" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
