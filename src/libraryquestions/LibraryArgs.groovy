@@ -8,14 +8,13 @@ class LibraryArgs {
     def fileNameForTestingSingleFile
 
     LibraryArgs(args) {
-        getArgValues(args)
+        getValuesFromCommandLineArgs(args)
     }
 
-    def getArgValues(args) {
+    def getValuesFromCommandLineArgs(args) {
         def argsMap = new ArgsParser(args)
         startFilePath = argsMap.get("path")
         languageName = argsMap.get("language")
         fileNameForTestingSingleFile = argsMap.get("file")
     }
-
- }
+}

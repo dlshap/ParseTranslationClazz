@@ -1,19 +1,15 @@
-package filemanagement
+package properties
 
+import filemanagement.FileChooser
+import filemanagement.KeyFile
 import logging.Log
 
-class TranslationsExcelExportFile extends KeyFile {
+class PropertiesExcelExportFile extends KeyFile {
 
     def componentName
     def transFileName
 
-//    def TranslationsExcelExportFile(exportFilePath) {
-//        super()
-//        def transFileName = FileChooser.chooseFile("Select Translation.groovy file", exportFilePath + "PropertyExports\\\\")
-//        openTransFile(transFileName)
-//    }
-
-    def TranslationsExcelExportFile(componentName, componentFilePath) {
+    def PropertiesExcelExportFile(componentName, componentFilePath) {
         super()
         this.componentName = componentName
         transFileName = FileChooser.chooseFile("Select Translation.groovy file for $componentName", componentFilePath + "PropertyExports\\\\")

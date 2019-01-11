@@ -1,3 +1,4 @@
+import filemanagement.ExcelExportFileList
 import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
@@ -11,7 +12,6 @@ import libraryquestions.LibraryQuestionFieldFinder
 import logging.Dates
 import logging.Log
 import translations.Translations
-import useful.ArgsParser
 
 /**
  * Created by s0041664 on 8/14/2017.
@@ -21,8 +21,6 @@ class UpdateDMTClassFactories {
     static startFilePath
     static languageName
     static fileNameForTestingSingleFile
-
-    def libraryArgs
 
     static excelExportFileList = []
 
@@ -45,33 +43,35 @@ class UpdateDMTClassFactories {
     }
 
     def start(args) {
-        buildArgsAndParameters(args)
-        translateFiles()
+        def libraryArgs = buildLibraryArgsFromCommandLineArgs(args)
+        def excelExtractFileList = buildExcelExportFileList(libraryArgs)
+        translateFiles(libraryArgs)
     }
 
-    def buildArgsAndParameters(args) {
-        libraryArgs = new LibraryArgs(args)
+    def buildLibraryArgsFromCommandLineArgs(args) {
+        def libraryArgs = new LibraryArgs(args)
         getDefaultValuesIfArgsNull(libraryArgs)
+        libraryArgs
     }
 
     def getDefaultValuesIfArgsNull(libraryArgs) {
-        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
-        if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
-        //temp
+        if (libraryArgs.startFilePath == null) libraryArgs.setStartFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
+        if (libraryArgs.languageName == null) libraryArgs.setLanguageName = "Japanese"
+        //TODO: Remove
         startFilePath = libraryArgs.startFilePath
         languageName = libraryArgs.languageName
         fileNameForTestingSingleFile = libraryArgs.fileNameForTestingSingleFile
     }
 
-    static translateFiles() {
-        openLogs()
-        setupForTranslations()
+    def translateFiles(libraryArgs) {
+        openLogs(libraryArgs)
+        setupForTranslations(libraryArgs)
         doTranslations()
         cleanupAfterTranslations()
     }
 
-    static openLogs() {
-        def logsFilePath = startFilePath + "logs\\\\"
+    static openLogs(libraryArgs) {
+        def logsFilePath = libraryArgs.startFilePath + "logs\\\\"
         Log.open logsFilePath + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
         Log.open "exceptions", logsFilePath + "log-library-exceptions.txt"
@@ -80,26 +80,25 @@ class UpdateDMTClassFactories {
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    static setupForTranslations() {
-        buildFileList()
-        buildOutputDirectoryForUpdatedTranslations()
+    static setupForTranslations(libraryArgs) {
+        def excelExportFileList = buildExcelExportFileList(libraryArgs)
+        buildOutputDirectoryForUpdatedTranslations(libraryArgs)
+        excelExportFileList  //for test
     }
 
-    static buildFileList() {
-        if (fileNameForTestingSingleFile != null) {
-            excelExportFileList.add(FileDirectoryMgr.getSmallName(fileNameForTestingSingleFile))
+    static buildExcelExportFileList(libraryArgs) {
+        def excelExportFileList
+        if (libraryArgs.fileNameForTestingSingleFile != null) {
+            excelExportFileList = new ExcelExportFileList()
+            excelExportFileList.add(libraryArgs.fileNameForTestingSingleFile)
         } else {
-            buildExcelExportFileListFromDirectoryList()
+            excelExportFileList = new ExcelExportFileList(libraryArgs.startFilePath + "LibraryExports\\\\")
         }
+        excelExportFileList
     }
 
-    static buildExcelExportFileListFromDirectoryList() {
-        excelExportFileList = new FileDirectoryMgr(startFilePath + "LibraryExports\\\\").getFileList()
-        excelExportFileList = excelExportFileList.collect { it - ~/\.\w{3}/ }             // remove file extension
-    }
-
-    static buildOutputDirectoryForUpdatedTranslations() {
-        FileDirectoryMgr.makeDirectory(startFilePath + "LibraryFactoriesTranslated\\\\")
+    static buildOutputDirectoryForUpdatedTranslations(libraryArgs) {
+        FileDirectoryMgr.makeDirectory(libraryArgs.startFilePath + "LibraryFactoriesTranslated\\\\")
     }
 
     static cleanupAfterTranslations() {

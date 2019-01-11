@@ -1,5 +1,8 @@
-package filemanagement
+package properties
 
+import filemanagement.FileChooser
+import filemanagement.FileMgr
+import filemanagement.LineFile
 import logging.Log
 
 class PropertyFile extends LineFile {
@@ -10,12 +13,6 @@ class PropertyFile extends LineFile {
     def PropertyFile() {
         super()
     }
-
-//    def PropertyFile(fp) {
-//        super()
-//        def propFileName = FileChooser.chooseFile("Select Property file", fp + "PropertyFiles\\\\")
-//        openPropFile(propFileName)
-//     }
 
     def PropertyFile(componentName, componentPath) {
         super()

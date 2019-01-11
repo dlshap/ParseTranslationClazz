@@ -1,5 +1,5 @@
-import filemanagement.PropertyFile
-import filemanagement.TranslationsExcelExportFile
+import properties.PropertyFile
+import properties.PropertiesExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.IgnorePropertyList
@@ -20,7 +20,7 @@ class UpdateDmtDeTranslatedProperties {
     static componentFilePath                    // filepath for individual component
     static componentName                        // name of component from component list for translations
 
-    static TranslationsExcelExportFile translationsExcelExportFile
+    static PropertiesExcelExportFile translationsExcelExportFile
     static Translations translationsFromExcelExport
     static PropertyFile propertyFile
     static Properties propertiesFromPropertyFile
@@ -104,7 +104,7 @@ class UpdateDmtDeTranslatedProperties {
 
     static openTranslationsExcelExportFile() {
         // open property file
-        translationsExcelExportFile = new TranslationsExcelExportFile(componentName, componentFilePath)
+        translationsExcelExportFile = new PropertiesExcelExportFile(componentName, componentFilePath)
         (translationsExcelExportFile.theFile != null)       // return true if there is a file (open was successful)
     }
 

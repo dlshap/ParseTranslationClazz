@@ -1,7 +1,7 @@
 import translations.UnicodeUtil
 
-import filemanagement.PropertyFile
-import filemanagement.TranslationsExcelExportFile
+import properties.PropertyFile
+import properties.PropertiesExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.Properties
@@ -96,7 +96,7 @@ class UpdateRMTJapaneseProperties {
         def fp = getFilePath(args)
         openLogs(fp)
         // open translation file
-        TranslationsExcelExportFile translationFile = new TranslationsExcelExportFile(fp)
+        PropertiesExcelExportFile translationFile = new PropertiesExcelExportFile(fp)
         if (translationFile.exists()) {
             Translations translations = new Translations(translationFile)
             // open property file
