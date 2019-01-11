@@ -1,6 +1,7 @@
 import filemanagement.FileDirectoryMgr
 import filemanagement.KeyFile
 import filemanagement.TextFile
+import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryQuestionTranslator
 import translations.Translation
@@ -17,10 +18,11 @@ import useful.ArgsParser
  */
 class UpdateDMTClassFactories {
 
-
     static startFilePath
     static languageName
     static fileNameForTestingSingleFile
+
+    def libraryArgs
 
     static excelExportFileList = []
 
@@ -34,26 +36,31 @@ class UpdateDMTClassFactories {
 
     static LibraryQuestionFieldFinder libraryQuestionFieldFinder
 
+    UpdateDMTClassFactories(args) {
+        start(args)
+    }
+
     static main(args) {
+        new UpdateDMTClassFactories(args)
+    }
+
+    def start(args) {
         buildArgsAndParameters(args)
         translateFiles()
     }
 
-    static buildArgsAndParameters(args) {
-        getArgValues(args)
-        getDefaultValuesIfArgsNull()
+    def buildArgsAndParameters(args) {
+        libraryArgs = new LibraryArgs(args)
+        getDefaultValuesIfArgsNull(libraryArgs)
     }
 
-    static getArgValues(args) {
-        def argsMap = new ArgsParser(args)
-        startFilePath = argsMap.get("path")
-        languageName = argsMap.get("language")
-        fileNameForTestingSingleFile = argsMap.get("file")
-    }
-
-    static getDefaultValuesIfArgsNull() {
-        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
-        if (languageName == null) languageName = "Japanese"
+    def getDefaultValuesIfArgsNull(libraryArgs) {
+        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
+        if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
+        //temp
+        startFilePath = libraryArgs.startFilePath
+        languageName = libraryArgs.languageName
+        fileNameForTestingSingleFile = libraryArgs.fileNameForTestingSingleFile
     }
 
     static translateFiles() {
