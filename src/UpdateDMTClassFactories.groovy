@@ -190,6 +190,7 @@ class UpdateDMTClassFactories {
         /*
         get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
          */
+        matchingTranslationFromExcelExport = null
         if (translationFieldKeys != null) {
             def matchingTranslations = translationsFromExcelExport.getTranslations(translationFieldKeys)
             if (singleMatchingTranslation(matchingTranslations)) {
@@ -229,7 +230,7 @@ class UpdateDMTClassFactories {
     }
 
     static replaceLineWithTranslations() {
-        if (translationFieldKeys != null) {
+        if ((translationFieldKeys != null) && (matchingTranslationFromExcelExport != null)) {
             def tryToTranslateFactoryTextBlock = nextFactoryTextBlock
             def libraryQuestionTranslators = libraryQuestionFieldFinder.getLibraryQuestionTranslators()
             libraryQuestionTranslators.eachWithIndex { LibraryQuestionTranslator it, i ->

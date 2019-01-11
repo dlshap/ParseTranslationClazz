@@ -30,7 +30,7 @@ class Translations {
         def translations = transKeyMapList
         keyMap.each { k, v ->
             translations = translations.findAll() {
-                it.get(k) == keyMap.get(k)
+                it.get(k).trim().toLowerCase() == keyMap.get(k).trim().toLowerCase()
             }
         }
         translations
