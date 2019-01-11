@@ -3,7 +3,7 @@ package translations
  * Created by s0041664 on 8/15/2017.
  */
 class Translations {
-    // Translations: collection of Translation.groovy objects imported from Translation.groovy Spreadsheet export file
+    // Translations: collection of Translation objects imported from Translation Spreadsheet export file
     def transKeyMapList = []
     Iterator translationIterator
 
@@ -17,12 +17,23 @@ class Translations {
         if (translations == null)
             null
         else
-            // first translation
+        // first translation
             translations[0]
     }
 
-    def getTranslation(TranslationFieldKeys keys) {
-
+    def getTranslations(TranslationFieldKeys translationFieldKeys) {
+        /*
+        keys = map of key/value pairs that should be matched against corresponding pairs in transKeyMapList
+        returns all maps in transKeyMapList that match on all keys
+         */
+        def keyMap = translationFieldKeys.getKeys()
+        def translations = transKeyMapList
+        keyMap.each { k, v ->
+            translations = translations.findAll() {
+                it.get(k).trim().toLowerCase() == keyMap.get(k).trim().toLowerCase()
+            }
+        }
+        translations
     }
 
     def getTranslations(keyName, value) {
@@ -54,3 +65,4 @@ class Translations {
         transKeyMapList.size()
     }
 }
+

@@ -7,7 +7,15 @@ class TranslationFieldKeys {
         this.keys = keyMap
     }
 
-    def getKey(keyName) {
+    def getKeyValue(keyName) {
         keys.get(keyName)
+    }
+
+    def getKeys() {
+        keys
+    }
+
+    def getKeyList() {
+        keys.collect().toString()[1..-2]    //printable list of keys and values
     }
 }
