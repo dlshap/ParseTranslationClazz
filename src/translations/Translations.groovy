@@ -3,7 +3,7 @@ package translations
  * Created by s0041664 on 8/15/2017.
  */
 class Translations {
-    // Translations: collection of Translation objects imported from Translation Spreadsheet export file
+    // Translations: collection of Translation.groovy objects imported from Translation.groovy Spreadsheet export file
     def transKeyMapList = []
     Iterator translationIterator
 
@@ -52,18 +52,5 @@ class Translations {
 
     def size() {
         transKeyMapList.size()
-    }
-}
-
-class Translation {
-
-    def transKeyMap = [:]
-
-    def Translation(transKeyMap) {
-        this.transKeyMap = transKeyMap
-    }
-
-    def get(keyName) {
-        transKeyMap[keyName]
     }
 }

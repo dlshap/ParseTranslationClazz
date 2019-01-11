@@ -9,14 +9,14 @@ class TranslationsExcelExportFile extends KeyFile {
 
 //    def TranslationsExcelExportFile(exportFilePath) {
 //        super()
-//        def transFileName = FileChooser.chooseFile("Select Translation file", exportFilePath + "PropertyExports\\\\")
+//        def transFileName = FileChooser.chooseFile("Select Translation.groovy file", exportFilePath + "PropertyExports\\\\")
 //        openTransFile(transFileName)
 //    }
 
     def TranslationsExcelExportFile(componentName, componentFilePath) {
         super()
         this.componentName = componentName
-        transFileName = FileChooser.chooseFile("Select Translation file for $componentName", componentFilePath + "PropertyExports\\\\")
+        transFileName = FileChooser.chooseFile("Select Translation.groovy file for $componentName", componentFilePath + "PropertyExports\\\\")
         openTransFile()
     }
 
