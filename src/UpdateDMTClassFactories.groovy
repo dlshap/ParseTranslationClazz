@@ -1,8 +1,8 @@
-import filemanagement.ExcelExportFileList
-import filemanagement.FileDirectoryMgr
+import excelExports.ExcelExports
 import filemanagement.KeyFile
 import filemanagement.TextFile
 import libraryquestions.LibraryArgs
+import libraryquestions.LibraryFactories
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryQuestionTranslator
 import translations.Translation
@@ -44,8 +44,7 @@ class UpdateDMTClassFactories {
 
     def start(args) {
         def libraryArgs = buildLibraryArgsFromCommandLineArgs(args)
-        def excelExtractFileList = buildExcelExportFileList(libraryArgs)
-        translateFiles(libraryArgs)
+        performTranslations(libraryArgs)
     }
 
     def buildLibraryArgsFromCommandLineArgs(args) {
@@ -58,19 +57,19 @@ class UpdateDMTClassFactories {
         if (libraryArgs.startFilePath == null) libraryArgs.setStartFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
         if (libraryArgs.languageName == null) libraryArgs.setLanguageName = "Japanese"
         //TODO: Remove
-        startFilePath = libraryArgs.startFilePath
-        languageName = libraryArgs.languageName
-        fileNameForTestingSingleFile = libraryArgs.fileNameForTestingSingleFile
+//        startFilePath = libraryArgs.startFilePath
+//        languageName = libraryArgs.languageName
+//        fileNameForTestingSingleFile = libraryArgs.fileNameForTestingSingleFile
     }
 
-    def translateFiles(libraryArgs) {
+    def performTranslations(libraryArgs) {
         openLogs(libraryArgs)
-        setupForTranslations(libraryArgs)
-        doTranslations()
-        cleanupAfterTranslations()
+        def excelExports = buildExcelExportFileList(libraryArgs)
+        def libraryFactories = buildLibraryFactories(libraryArgs)
+        updateLibraryFactoriesFromExcelExports(libraryFactories, excelExports)
     }
 
-    static openLogs(libraryArgs) {
+    def openLogs(libraryArgs) {
         def logsFilePath = libraryArgs.startFilePath + "logs\\\\"
         Log.open logsFilePath + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
@@ -80,25 +79,24 @@ class UpdateDMTClassFactories {
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    static setupForTranslations(libraryArgs) {
-        def excelExportFileList = buildExcelExportFileList(libraryArgs)
-        buildOutputDirectoryForUpdatedTranslations(libraryArgs)
-        excelExportFileList  //for test
+    def buildExcelExportFileList(libraryArgs) {
+        def excelExports = new ExcelExports(libraryArgs)
+        excelExports
     }
 
-    static buildExcelExportFileList(libraryArgs) {
-        def excelExportFileList
-        if (libraryArgs.fileNameForTestingSingleFile != null) {
-            excelExportFileList = new ExcelExportFileList()
-            excelExportFileList.add(libraryArgs.fileNameForTestingSingleFile)
-        } else {
-            excelExportFileList = new ExcelExportFileList(libraryArgs.startFilePath + "LibraryExports\\\\")
-        }
-        excelExportFileList
+    def buildLibraryFactories(libraryArgs) {
+        def libraryFactories = new LibraryFactories(libraryArgs)
     }
 
-    static buildOutputDirectoryForUpdatedTranslations(libraryArgs) {
-        FileDirectoryMgr.makeDirectory(libraryArgs.startFilePath + "LibraryFactoriesTranslated\\\\")
+    def updateLibraryFactoriesFromExcelExports(libraryFactories, excelExports) {
+    }
+
+    /*************************************************************************************************************/
+
+    def translateFiles(libraryArgs) {
+        setupForTranslations(libraryArgs)
+        doTranslations()
+        cleanupAfterTranslations()
     }
 
     static cleanupAfterTranslations() {
@@ -213,7 +211,7 @@ class UpdateDMTClassFactories {
             Log.writeLine "exceptions", "Missing translation for keys: ${translationFieldKeys.getKeyList()}"
             return false
         } else if (translationCount > 1) {
-             Log.writeLine "exceptions", "Multiple translations for keys: ${translationFieldKeys.getKeyList()}"
+            Log.writeLine "exceptions", "Multiple translations for keys: ${translationFieldKeys.getKeyList()}"
             return false
         }
 
