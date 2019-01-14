@@ -68,6 +68,7 @@ class UpdateDMTClassFactories {
         def excelExports = buildExcelExports(libraryArgs)
         def libraryFactories = buildLibraryFactories(libraryArgs)
         updateLibraryFactoriesFromExcelExports(libraryFactories, excelExports)
+        closeLogs()
     }
 
     def openLogs(libraryArgs) {
@@ -102,15 +103,27 @@ class UpdateDMTClassFactories {
 
     }
 
-    def updateLibraryFactoryFromExcelTranslation(libraryFactories, ExcelExport nextExcelExport) {
+    def updateLibraryFactoryFromExcelTranslation(LibraryFactories libraryFactories, ExcelExport nextExcelExport) {
         def excelFileName = nextExcelExport.getShortName()
         def libraryFactory = libraryFactories.getLibraryFactoryForFileName(excelFileName)
-        while (libraryFactoryParser.hasNext()) {
-            getNextFactoryTextBlock()
-            getTranslationsForNextFactoryTextBlock()
-            WriteTranslatedFactoryTextBlockToTranslatedFile()
-        }
+        moveExcelTranslationsToLibraryFactory(nextExcelExport, libraryFactory)
     }
+
+    def moveExcelTranslationsToLibraryFactory(ExcelExport nextExcelExport, LibraryFactory libraryFactory) {
+//        while (libraryFactoryParser.hasNext()) {
+//            getNextFactoryTextBlock()
+//            getTranslationsForNextFactoryTextBlock()
+//            WriteTranslatedFactoryTextBlockToTranslatedFile()
+//        }
+    }
+
+    static closeLogs() {
+        Log.writeLine("\nDone at: " + Dates.currentDateAndTime())
+        Log.writeLine("exceptions", "\nDone at: " + Dates.currentDateAndTime())
+        Log.writeLine("nocode", "\nDone at: " + Dates.currentDateAndTime())
+    }
+
+
 
     /** ***********************************************************************************************************/
 //    def createLibraryFactoryForUpdatedTranslations(ExcelExport excelExport) {
@@ -129,13 +142,7 @@ class UpdateDMTClassFactories {
         closeLogs()
     }
 
-    static closeLogs() {
-        Log.writeLine("Done at: " + Dates.currentDateAndTime())
-        Log.writeLine("exceptions", "Done at: " + Dates.currentDateAndTime())
-        Log.writeLine("nocode", "Done at: " + Dates.currentDateAndTime())
-    }
-
-    static doTranslations() {
+   static doTranslations() {
     }
 
     static translateNextFileInFileList(classFileName) {
