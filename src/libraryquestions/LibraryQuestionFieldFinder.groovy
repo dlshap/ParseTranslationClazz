@@ -14,7 +14,7 @@ class LibraryQuestionFieldFinder {
 
     def LibraryQuestionFieldFinder(languageName) {
         this.languageName = languageName
-        buildLibraryQuestionRegexes()
+        buildLibraryQuestionRegexes(languageName)
     }
 
     static LibraryLanguageLabels = [
@@ -22,15 +22,24 @@ class LibraryQuestionFieldFinder {
             "English" : "en_US"
     ]
 
-    def buildLibraryQuestionRegexes() {
+    def buildLibraryQuestionRegexes(languageName) {
+        def languageLabel = LibraryLanguageLabels[languageName]
         libraryQuestionRegexes = [
-                [excelExportFieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
-                [excelExportFieldName: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:)(.*?)([,\]].*)/],
+                [excelExportFieldName: "Question Identifier", regex: /(?s)(.*/ + languageLabel + /.*?title.*?:)(.*?)([,\]].*)/],
+                [excelExportFieldName: "Question Identifier Translated", regex: /(?s)(.*/ + languageLabel + /.*title.*?:)(.*?)([,\]].*)/],
                 [excelExportFieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
-                [excelExportFieldName: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:)(.*?)(,.*)/],
-                [excelExportFieldName: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
-                [excelExportFieldName: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
+                [excelExportFieldName: "Questions and Answers Translated", regex: /(?s)(.*/ + languageLabel + /.*txt.*?:)(.*?)(,.*)/],
+                [excelExportFieldName: "Help Text Translated", regex: /(?s)(.*/ + languageLabel + /.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
+                [excelExportFieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
         ]
+//        libraryQuestionRegexes = [
+//                [excelExportFieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
+//                [excelExportFieldName: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:)(.*?)([,\]].*)/],
+//                [excelExportFieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
+//                [excelExportFieldName: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:)(.*?)(,.*)/],
+//                [excelExportFieldName: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
+//                [excelExportFieldName: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
+//        ]
     }
 
     def lineContains(aLine, excelExportFieldName) {

@@ -5,8 +5,10 @@ import filemanagement.FileDirectoryMgr
 class LibraryFactories {
     def libraryFactoryFilePath
     def translatedLibraryFactoryFilePath
+    def translationLanguage
 
-    LibraryFactories(libraryArgs) {
+    LibraryFactories(LibraryArgs libraryArgs) {
+        translationLanguage = libraryArgs.languageName
         buildLibraryFactoryFilePaths(libraryArgs)
         createLibraryFactoryOutputDirectory()
     }
@@ -20,10 +22,10 @@ class LibraryFactories {
         FileDirectoryMgr.makeDirectory(translatedLibraryFactoryFilePath)
     }
 
-    def getLibraryFactoryForFileName(shortName) {
+    def getLibraryFactoryForFileName(String shortName, LibraryFactories libraryFactories) {
         def libraryFactoryFileName = libraryFactoryFilePath + shortName + "ClassFactory.groovy"
         def translatedLibraryFactoryFileName = translatedLibraryFactoryFilePath + shortName + "ClassFactory.groovy.translated"
-        def libraryFactory = new LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName)
+        def libraryFactory = new LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName, libraryFactories)
         libraryFactory
     }
 }

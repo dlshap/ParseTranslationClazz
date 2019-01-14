@@ -4,16 +4,22 @@ import filemanagement.FileMgr
 import filemanagement.TextFile
 
 class LibraryFactory {
-    def libraryFactoryFile
-    def translatedLibraryFactoryFile
+    TextFile libraryFactoryFile
+    TextFile translatedLibraryFactoryFile
+    LibraryFactoryParser libraryFactoryParser
+    LibraryQuestionFieldFinder libraryQuestionFieldFinder
 
-    LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName) {
+    LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName, LibraryFactories libraryFactories) {
         libraryFactoryFile = new TextFile(libraryFactoryFileName)
         translatedLibraryFactoryFile = new TextFile(translatedLibraryFactoryFileName, FileMgr.createFlag.CREATE)
+        libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
+        libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(libraryFactories.translationLanguage)
     }
 
-    def writeToFile(nextFactoryTextBlock) {
-        libraryFactoryFile.writeToFile(nextFactoryTextBlock)
+
+
+    def writeToTranslatedFile(nextFactoryTextBlock) {
+        translatedLibraryFactoryFile.writeToFile(nextFactoryTextBlock)
     }
 
 }

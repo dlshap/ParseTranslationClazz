@@ -13,7 +13,7 @@ class LibraryQuestionTranslator {
     */
     def libraryQuestionMap = [:]
 
-    def LibraryQuestionTranslator(libraryQuestionMap) {
+    LibraryQuestionTranslator(libraryQuestionMap) {
         this.libraryQuestionMap = libraryQuestionMap
     }
 
