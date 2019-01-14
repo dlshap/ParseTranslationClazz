@@ -1,3 +1,4 @@
+import excelExports.ExcelExport
 import excelExports.ExcelExports
 import filemanagement.KeyFile
 import filemanagement.TextFile
@@ -22,7 +23,7 @@ class UpdateDMTClassFactories {
     static languageName
     static fileNameForTestingSingleFile
 
-    static excelExportFileList = []
+//    static excelExportFileList = []
 
     static libraryFactoryParser
     static libraryFactoryWithNewTranslations
@@ -64,7 +65,7 @@ class UpdateDMTClassFactories {
 
     def performTranslations(libraryArgs) {
         openLogs(libraryArgs)
-        def excelExports = buildExcelExportFileList(libraryArgs)
+        def excelExports = buildExcelExports(libraryArgs)
         def libraryFactories = buildLibraryFactories(libraryArgs)
         updateLibraryFactoriesFromExcelExports(libraryFactories, excelExports)
     }
@@ -79,22 +80,44 @@ class UpdateDMTClassFactories {
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    def buildExcelExportFileList(libraryArgs) {
+    def buildExcelExports(libraryArgs) {
         def excelExports = new ExcelExports(libraryArgs)
         excelExports
     }
 
     def buildLibraryFactories(libraryArgs) {
         def libraryFactories = new LibraryFactories(libraryArgs)
+        libraryFactories
     }
 
     def updateLibraryFactoriesFromExcelExports(libraryFactories, excelExports) {
+        Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
+        while (excelExports.hasNext()) {
+            updateLibraryFactoryFromExcelTranslation(it)
+        }
+//        excelExportFileList.forEach { nextExcelExportFileName ->
+//            translateNextFileInFileList(nextExcelExportFileName)
+//        }
+
     }
 
-    /*************************************************************************************************************/
+    def createLibraryFactoryForUpdatedTranslations(ExcelExport excelExport) {
+        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
+        def factoryTranslatedFileName = classFileName + "ClassFactory.translated"
+        libraryFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
+    }
+
+    def updateLibraryFactoryFromExcelTranslation() {
+        while (libraryFactoryParser.hasNext()) {
+            getNextFactoryTextBlock()
+            getTranslationsForNextFactoryTextBlock()
+            WriteTranslatedFactoryTextBlockToTranslatedFile()
+        }
+    }
+
+    /** ***********************************************************************************************************/
 
     def translateFiles(libraryArgs) {
-        setupForTranslations(libraryArgs)
         doTranslations()
         cleanupAfterTranslations()
     }
@@ -110,10 +133,6 @@ class UpdateDMTClassFactories {
     }
 
     static doTranslations() {
-        Log.writeLine("Processing ${excelExportFileList.size()} files: ${excelExportFileList}")
-        excelExportFileList.forEach { nextExcelExportFileName ->
-            translateNextFileInFileList(nextExcelExportFileName)
-        }
     }
 
     static translateNextFileInFileList(classFileName) {
@@ -138,20 +157,6 @@ class UpdateDMTClassFactories {
             translationsFromExcelExport = new Translations(translationsFromExcelExportFile)
         } else {
             Log.writeLine("exceptions", "Excel Export file: ${classFileName}.txt doesn't exist.")
-        }
-    }
-
-    static createLibraryFactoryForUpdatedTranslations(classFileName) {
-        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
-        def factoryTranslatedFileName = classFileName + "ClassFactory.translated"
-        libraryFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
-    }
-
-    static updateLibraryFactoryFromExcelTranslations() {
-        while (libraryFactoryParser.hasNext()) {
-            getNextFactoryTextBlock()
-            getTranslationsForNextFactoryTextBlock()
-            WriteTranslatedFactoryTextBlockToTranslatedFile()
         }
     }
 

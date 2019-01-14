@@ -10,7 +10,7 @@ class LibraryFactory {
         libraryFactoryFile = new TextFile(libraryFactoryFileName, FileMgr.createFlag.CREATE)
     }
 
-    def add(nextFactoryTextBlock) {
+    def writeToFile(nextFactoryTextBlock) {
         libraryFactoryFile.writeToFile(nextFactoryTextBlock)
     }
 }
