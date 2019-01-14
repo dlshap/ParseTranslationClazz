@@ -19,4 +19,9 @@ class LibraryFactories {
     def createLibraryFactoryOutputDirectory() {
         FileDirectoryMgr.makeDirectory(libraryFactoryOutputFilePath)
     }
+
+    def getLibraryFactoryForFileName(shortName) {
+        def libraryFactory = new LibraryFactory(libraryFactoryFilePath + shortName + "ClassFactory.groovy")
+        libraryFactory
+    }
 }

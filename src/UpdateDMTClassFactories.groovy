@@ -93,7 +93,8 @@ class UpdateDMTClassFactories {
     def updateLibraryFactoriesFromExcelExports(libraryFactories, excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
-            updateLibraryFactoryFromExcelTranslation(it)
+            def nextExcelExport = excelExports.next()
+            updateLibraryFactoryFromExcelTranslation(libraryFactories, nextExcelExport)
         }
 //        excelExportFileList.forEach { nextExcelExportFileName ->
 //            translateNextFileInFileList(nextExcelExportFileName)
@@ -101,13 +102,9 @@ class UpdateDMTClassFactories {
 
     }
 
-    def createLibraryFactoryForUpdatedTranslations(ExcelExport excelExport) {
-        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
-        def factoryTranslatedFileName = classFileName + "ClassFactory.translated"
-        libraryFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
-    }
-
-    def updateLibraryFactoryFromExcelTranslation() {
+    def updateLibraryFactoryFromExcelTranslation(libraryFactories, ExcelExport nextExcelExport) {
+        def excelFileName = nextExcelExport.getShortName()
+        def libraryFactory = libraryFactories.getLibraryFactoryForFileName(excelFileName)
         while (libraryFactoryParser.hasNext()) {
             getNextFactoryTextBlock()
             getTranslationsForNextFactoryTextBlock()
@@ -116,6 +113,12 @@ class UpdateDMTClassFactories {
     }
 
     /** ***********************************************************************************************************/
+//    def createLibraryFactoryForUpdatedTranslations(ExcelExport excelExport) {
+//        def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
+//        def factoryTranslatedFileName = classFileName + "ClassFactory.translated"
+//        libraryFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
+//    }
+
 
     def translateFiles(libraryArgs) {
         doTranslations()
