@@ -7,13 +7,11 @@ class LibraryFactory {
     TextFile libraryFactoryFile
     TextFile translatedLibraryFactoryFile
     LibraryFactoryParser libraryFactoryParser
-    LibraryQuestionFieldFinder libraryQuestionFieldFinder
 
-    LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName, LibraryFactories libraryFactories) {
+    LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName, LibraryFactoryManager libraryFactories) {
         libraryFactoryFile = new TextFile(libraryFactoryFileName)
         translatedLibraryFactoryFile = new TextFile(translatedLibraryFactoryFileName, FileMgr.createFlag.CREATE)
         libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
-        libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(libraryFactories.translationLanguage)
     }
 
     def writeTextBlockToTranslatedFile(String factoryTextBlock) {

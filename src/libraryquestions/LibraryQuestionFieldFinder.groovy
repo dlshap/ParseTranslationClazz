@@ -8,7 +8,7 @@ class LibraryQuestionFieldFinder {
     def languageName = "English"
     def libraryQuestionRegexes = []
 
-    def LibraryQuestionFieldFinder() {
+    LibraryQuestionFieldFinder() {
         buildLibraryQuestionRegexes()
     }
 

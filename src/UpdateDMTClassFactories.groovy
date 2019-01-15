@@ -1,10 +1,8 @@
 import excelExports.ExcelExport
 import excelExports.ExcelExports
 import libraryquestions.LibraryArgs
-import libraryquestions.LibraryFactories
 import libraryquestions.LibraryFactory
-import libraryquestions.LibraryFactoryParser
-import libraryquestions.LibraryQuestionTranslator
+import libraryquestions.LibraryFactoryManager
 import translations.Translation
 import translations.TranslationFieldKeys
 import libraryquestions.LibraryQuestionFieldFinder
@@ -81,11 +79,11 @@ class UpdateDMTClassFactories {
     }
 
     def buildLibraryFactories(libraryArgs) {
-        def libraryFactories = new LibraryFactories(libraryArgs)
+        def libraryFactories = new LibraryFactoryManager(libraryArgs)
         libraryFactories
     }
 
-    def updateLibraryFactoriesFromExcelExports(LibraryFactories libraryFactories, ExcelExports excelExports) {
+    def updateLibraryFactoriesFromExcelExports(LibraryFactoryManager libraryFactories, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
             def nextExcelExport = excelExports.next()
@@ -94,7 +92,7 @@ class UpdateDMTClassFactories {
         }
     }
 
-    def getLibraryFactoryForExcelExport(ExcelExport excelExport, LibraryFactories libraryFactories) {
+    def getLibraryFactoryForExcelExport(ExcelExport excelExport, LibraryFactoryManager libraryFactories) {
         def classFileName = excelExport.getShortName()
         def libraryFactory = libraryFactories.getLibraryFactoryForFileName(classFileName, libraryFactories)
         libraryFactory
@@ -136,6 +134,23 @@ class UpdateDMTClassFactories {
             translationFieldKeys = null
         translationFieldKeys
     }
+
+    def findBomFieldNameInText() {
+        def bomFieldName = null
+        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "BOM Fields")) {
+            bomFieldName = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "BOM Fields")
+        }
+        bomFieldName
+    }
+
+    def findQuestionIdentifierInText() {
+        def questionIdentifier = null
+        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "Question Identifier")) {
+            questionIdentifier = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "Question Identifier")
+        }
+        questionIdentifier
+    }
+
 
     def getTranslationForKeys(nextExcelExport, factoryTranslationKeys) {
 
@@ -189,22 +204,6 @@ class UpdateDMTClassFactories {
 //        nextFactoryTextBlock = libraryFactoryParser.next()
 //    }
 
-//    static findBomFieldNameInText() {
-//        def bomFieldName = null
-//        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "BOM Fields")) {
-//            bomFieldName = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "BOM Fields")
-//        }
-//        bomFieldName
-//    }
-//
-//    static findQuestionIdentifierInText() {
-//        def questionIdentifier = null
-//        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "Question Identifier")) {
-//            questionIdentifier = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "Question Identifier")
-//        }
-//        questionIdentifier
-//    }
-//
 //    static getTranslationForKeys() {
 //        /*
 //        get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
@@ -238,7 +237,7 @@ class UpdateDMTClassFactories {
 
 //    static loadLibraryFactoryParserFromLibraryFactoryFile(fileName) {
 //        def libraryFactoryFileName = fileName + "ClassFactory.groovy"
-//        def libraryFactoryFile = new TextFile(startFilePath + "LibraryFactories\\\\" + libraryFactoryFileName)
+//        def libraryFactoryFile = new TextFile(startFilePath + "LibraryFactoryManager\\\\" + libraryFactoryFileName)
 //        if (libraryFactoryFile.exists()) {
 //            libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
 //            libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(languageName)

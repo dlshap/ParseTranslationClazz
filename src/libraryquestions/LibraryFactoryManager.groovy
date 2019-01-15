@@ -2,19 +2,25 @@ package libraryquestions
 
 import filemanagement.FileDirectoryMgr
 
-class LibraryFactories {
-    def libraryFactoryFilePath
-    def translatedLibraryFactoryFilePath
-    def translationLanguage
+class LibraryFactoryManager {
+    String libraryFactoryFilePath
+    String translatedLibraryFactoryFilePath
+    String translationLanguage
+    LibraryQuestionFieldFinder libraryQuestionFieldFinder
 
-    LibraryFactories(LibraryArgs libraryArgs) {
+    LibraryFactoryManager(LibraryArgs libraryArgs) {
         translationLanguage = libraryArgs.languageName
+        createLibraryQuestionFieldFinder(translationLanguage)
         buildLibraryFactoryFilePaths(libraryArgs)
         createLibraryFactoryOutputDirectory()
     }
 
+    def createLibraryQuestionFieldFinder(translationLanguage) {
+        libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(translationLanguage)
+    }
+
     def buildLibraryFactoryFilePaths(libraryArgs) {
-        libraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactories\\\\"
+        libraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactoryManager\\\\"
         translatedLibraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactoriesTranslated\\\\"
     }
 
@@ -22,7 +28,7 @@ class LibraryFactories {
         FileDirectoryMgr.makeDirectory(translatedLibraryFactoryFilePath)
     }
 
-    def getLibraryFactoryForFileName(String shortName, LibraryFactories libraryFactories) {
+    def getLibraryFactoryForFileName(String shortName, LibraryFactoryManager libraryFactories) {
         def libraryFactoryFileName = libraryFactoryFilePath + shortName + "ClassFactory.groovy"
         def translatedLibraryFactoryFileName = translatedLibraryFactoryFilePath + shortName + "ClassFactory.groovy.translated"
         def libraryFactory = new LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName, libraryFactories)
