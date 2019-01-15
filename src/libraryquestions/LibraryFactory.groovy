@@ -16,10 +16,16 @@ class LibraryFactory {
         libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(libraryFactories.translationLanguage)
     }
 
+    def writeTextBlockToTranslatedFile(String factoryTextBlock) {
+        translatedLibraryFactoryFile.writeToFile(factoryTextBlock)
+    }
 
+    def hasNextTextBlock() {
+        libraryFactoryParser.hasNextTextBlock()
+    }
 
-    def writeToTranslatedFile(nextFactoryTextBlock) {
-        translatedLibraryFactoryFile.writeToFile(nextFactoryTextBlock)
+    def nextTextBlock() {
+        libraryFactoryParser.nextTextBlock()
     }
 
 }

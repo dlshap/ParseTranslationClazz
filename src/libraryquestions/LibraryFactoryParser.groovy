@@ -9,8 +9,8 @@ import com.google.common.base.Splitter
 class LibraryFactoryParser {
     def splitOn = "currentAttr ="       // default...create another constructor if override is needed
     def libraryText
-    def libraryTextList = []
-    def libraryIterator
+//    def libraryTextList = []
+    def libraryTextIterator
 
     def LibraryFactoryParser(TextFile libraryFile) {
         parseFile(libraryFile)
@@ -26,11 +26,11 @@ class LibraryFactoryParser {
         libraryIterator = libraryText.iterator()
     }
 
-    def hasNext() {
-        (libraryIterator.hasNext())
+    def hasNextTextBlock() {
+        (libraryTextIterator.hasNext())
     }
 
-    def next() {
-        libraryIterator.next()
+    def nextTextBlock() {
+        libraryTextIterator.next()
     }
 }
