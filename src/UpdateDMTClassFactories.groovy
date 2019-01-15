@@ -114,23 +114,43 @@ class UpdateDMTClassFactories {
 
     def moveExcelTranslationsToLibraryFactory(ExcelExport nextExcelExport, LibraryFactory nextlibraryFactory) {
         while (nextlibraryFactory.hasNextTextBlock()) {
-             def nextFactoryTextBlock = nextlibraryFactory.nextTextBlock()
-             GetExcelTranslationsForNextFactoryTextBlock(nextExcelExport, nextFactoryTextBlock)
+            def nextFactoryTextBlock = nextlibraryFactory.nextTextBlock()
+            def nextTranslatedFactoryTextBlock = GetExcelTranslationsForNextFactoryTextBlock(nextExcelExport, nextFactoryTextBlock)
+            nextlibraryFactory.writeTextBlockToTranslatedFile(nextTranslatedFactoryTextBlock)
         }
     }
 
-    static getExcelTranslationsForNextFactoryTextBlock(ExcelExport nextExcelExport, LibraryFactoryParser nextLibraryFactoryParser) {
-        getKeysFromFactoryTextBlock()
-        getTranslationForKeys()
-        replaceLineWithTranslations()
+    static getExcelTranslationsForNextFactoryTextBlock(ExcelExport nextExcelExport, String nextFactoryTextBlock) {
+        TranslationFieldKeys factoryTranslationKeys = getKeysFromFactoryTextBlock(nextFactoryTextBlock)
+        Translation translation = getTranslationForKeys(nextExcelExport, factoryTranslationKeys)
+        String translatedFactoryTextBlock = applyTranslationToFactoryTextBlock(translation, nextFactoryTextBlock)
+        translatedFactoryTextBlock
     }
+
+    def getKeysFromFactoryTextBlock(String libraryFactory) {
+        def bomFieldName = findBomFieldNameInText()
+        def questionIdentifier = findQuestionIdentifierInText()
+        if ((bomFieldName != null) || (questionIdentifier != null))
+            translationFieldKeys = new TranslationFieldKeys(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
+        else
+            translationFieldKeys = null
+        translationFieldKeys
+    }
+
+    def getTranslationForKeys(nextExcelExport, factoryTranslationKeys) {
+
+    }
+
+    def applyTranslationToFactoryTextBlock(translation, nextFactoryTextBlock) {
+
+    }
+
 
     def closeLogs() {
         Log.writeLine("\r\nDone at: " + Dates.currentDateAndTime())
         Log.writeLine("exceptions", "\r\nDone at: " + Dates.currentDateAndTime())
         Log.writeLine("nocode", "\r\nDone at: " + Dates.currentDateAndTime())
     }
-
 
 /** ***********************************************************************************************************/
 
@@ -169,15 +189,6 @@ class UpdateDMTClassFactories {
 //        nextFactoryTextBlock = libraryFactoryParser.next()
 //    }
 
-//    static getKeysFromFactoryTextBlock() {
-//        def bomFieldName = findBomFieldNameInText()
-//        def questionIdentifier = findQuestionIdentifierInText()
-//        if ((bomFieldName != null) || (questionIdentifier != null))
-//            translationFieldKeys = new TranslationFieldKeys(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
-//        else
-//            translationFieldKeys = null
-//    }
-//
 //    static findBomFieldNameInText() {
 //        def bomFieldName = null
 //        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "BOM Fields")) {
