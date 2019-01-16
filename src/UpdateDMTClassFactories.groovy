@@ -139,7 +139,7 @@ class UpdateDMTClassFactories {
 
     static createLibraryFactoryForUpdatedTranslations(classFileName) {
         def factoryTranslatedPath = startFilePath + "LibraryFactoriesTranslated\\\\"
-        def factoryTranslatedFileName = classFileName + "ClassFactory.translated"
+        def factoryTranslatedFileName = classFileName + "ClassFactory.groovy.translated"
         libraryFactoryWithNewTranslations = new LibraryFactory(factoryTranslatedPath + factoryTranslatedFileName)
     }
 
