@@ -58,8 +58,8 @@ class UpdateDMTClassFactories {
     def performTranslations(libraryArgs) {
         openLogs(libraryArgs)
         def excelExports = buildExcelExports(libraryArgs)
-        def libraryFactories = buildLibraryFactories(libraryArgs)
-        updateLibraryFactoriesFromExcelExports(libraryFactories, excelExports)
+        def libraryFactoryManager = buildLibraryFactoryManager(libraryArgs)
+        updateLibraryFactoriesFromExcelExports(libraryFactoryManager, excelExports)
         closeLogs()
     }
 
@@ -78,23 +78,23 @@ class UpdateDMTClassFactories {
         excelExports
     }
 
-    def buildLibraryFactories(libraryArgs) {
-        def libraryFactories = new LibraryFactoryManager(libraryArgs)
-        libraryFactories
+    def buildLibraryFactoryManager(libraryArgs) {
+        def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
+        libraryFactoryManager
     }
 
-    def updateLibraryFactoriesFromExcelExports(LibraryFactoryManager libraryFactories, ExcelExports excelExports) {
+    def updateLibraryFactoriesFromExcelExports(LibraryFactoryManager libraryMgr, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
             def nextExcelExport = excelExports.next()
-            def nextLibraryFactory = getLibraryFactoryForExcelExport(nextExcelExport, libraryFactories)
+            def nextLibraryFactory = getLibraryFactoryForExcelExport(libraryMgr, nextExcelExport)
             updateLibraryFactoryFromExcelExport(nextLibraryFactory, nextExcelExport)
         }
     }
 
-    def getLibraryFactoryForExcelExport(ExcelExport excelExport, LibraryFactoryManager libraryFactories) {
+    def getLibraryFactoryForExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
         def classFileName = excelExport.getShortName()
-        def libraryFactory = libraryFactories.getLibraryFactoryForFileName(classFileName, libraryFactories)
+        def libraryFactory = libraryFactoryManager.getLibraryFactoryForFileName(classFileName)
         libraryFactory
     }
 

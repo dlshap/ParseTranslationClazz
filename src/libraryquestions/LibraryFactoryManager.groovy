@@ -20,7 +20,7 @@ class LibraryFactoryManager {
     }
 
     def buildLibraryFactoryFilePaths(libraryArgs) {
-        libraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactoryManager\\\\"
+        libraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactories\\\\"
         translatedLibraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactoriesTranslated\\\\"
     }
 
@@ -28,10 +28,10 @@ class LibraryFactoryManager {
         FileDirectoryMgr.makeDirectory(translatedLibraryFactoryFilePath)
     }
 
-    def getLibraryFactoryForFileName(String shortName, LibraryFactoryManager libraryFactories) {
+    def getLibraryFactoryForFileName(String shortName) {
         def libraryFactoryFileName = libraryFactoryFilePath + shortName + "ClassFactory.groovy"
         def translatedLibraryFactoryFileName = translatedLibraryFactoryFilePath + shortName + "ClassFactory.groovy.translated"
-        def libraryFactory = new LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName, libraryFactories)
+        def libraryFactory = new LibraryFactory(libraryFactoryFileName, translatedLibraryFactoryFileName, this)
         libraryFactory
     }
 }
