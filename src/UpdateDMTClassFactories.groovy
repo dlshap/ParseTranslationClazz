@@ -1,8 +1,10 @@
+import com.sun.jna.Library
 import excelExports.ExcelExport
 import excelExports.ExcelExports
 import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
+import libraryquestions.LibraryTextBlock
 import translations.Translation
 import translations.TranslationFieldKeys
 import libraryquestions.LibraryQuestionFieldFinder
@@ -83,11 +85,11 @@ class UpdateDMTClassFactories {
         libraryFactoryManager
     }
 
-    def updateLibraryFactoriesFromExcelExports(LibraryFactoryManager libraryMgr, ExcelExports excelExports) {
+    def updateLibraryFactoriesFromExcelExports(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
             def nextExcelExport = excelExports.next()
-            def nextLibraryFactory = getLibraryFactoryForExcelExport(libraryMgr, nextExcelExport)
+            def nextLibraryFactory = getLibraryFactoryForExcelExport(libraryFactoryManager, nextExcelExport)
             updateLibraryFactoryFromExcelExport(nextLibraryFactory, nextExcelExport)
         }
     }
@@ -98,10 +100,10 @@ class UpdateDMTClassFactories {
         libraryFactory
     }
 
-    def updateLibraryFactoryFromExcelExport(LibraryFactory libraryFactory, ExcelExport nextExcelExport) {
-        def classFileName = nextExcelExport.getShortName()
+    def updateLibraryFactoryFromExcelExport(LibraryFactory libraryFactory, ExcelExport excelExport) {
+        def classFileName = excelExport.getShortName()
         addFilenameToLogs(classFileName)
-        moveExcelTranslationsToLibraryFactory(nextExcelExport, libraryFactory)
+        moveExcelTranslationsToLibraryFactory(excelExport, libraryFactory)
     }
 
     static addFilenameToLogs(classFileName) {
@@ -110,24 +112,26 @@ class UpdateDMTClassFactories {
         Log.writeLine("nocode", "\r\n$classFileName:")
     }
 
-    def moveExcelTranslationsToLibraryFactory(ExcelExport nextExcelExport, LibraryFactory nextlibraryFactory) {
-        while (nextlibraryFactory.hasNextTextBlock()) {
-            def nextFactoryTextBlock = nextlibraryFactory.nextTextBlock()
-            def nextTranslatedFactoryTextBlock = GetExcelTranslationsForNextFactoryTextBlock(nextExcelExport, nextFactoryTextBlock)
-            nextlibraryFactory.writeTextBlockToTranslatedFile(nextTranslatedFactoryTextBlock)
+    def moveExcelTranslationsToLibraryFactory(ExcelExport excelExport, LibraryFactory libraryFactory) {
+        while (libraryFactory.hasNextLibraryTextBlock()) {
+            def nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
+            def nextTranslatedFactoryTextBlock = getExcelTranslationsForNextLibraryTextBlock(excelExport, nextLibraryTextBlock)
+            libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedFactoryTextBlock)
         }
     }
 
-    static getExcelTranslationsForNextFactoryTextBlock(ExcelExport nextExcelExport, String nextFactoryTextBlock) {
-        TranslationFieldKeys factoryTranslationKeys = getKeysFromFactoryTextBlock(nextFactoryTextBlock)
-        Translation translation = getTranslationForKeys(nextExcelExport, factoryTranslationKeys)
-        String translatedFactoryTextBlock = applyTranslationToFactoryTextBlock(translation, nextFactoryTextBlock)
+    def getExcelTranslationsForNextLibraryTextBlock(ExcelExport excelExport, LibraryTextBlock libraryTextBlock) {
+        TranslationFieldKeys factoryTranslationKeys = getKeysFromLibraryTextBlock(libraryTextBlock)
+        Translation translation = getTranslationForKeys(excelExport, factoryTranslationKeys)
+        String translatedFactoryTextBlock = applyTranslationToFactoryTextBlock(translation, libraryTextBlock)
         translatedFactoryTextBlock
     }
 
-    def getKeysFromFactoryTextBlock(String libraryFactory) {
-        def bomFieldName = findBomFieldNameInText()
-        def questionIdentifier = findQuestionIdentifierInText()
+    def getKeysFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
+//        def bomFieldName = findBomFieldNameInLibraryFactory(libraryTextBlock)
+//        def questionIdentifier = findQuestionIdentifierInText(libraryTextBlock)
+        def bomFieldName = findFieldInLibraryText("BOM Fields", libraryTextBlock)
+        def questionIdentifier = findFieldInLibraryText("Question Identifier", libraryTextBlock)
         if ((bomFieldName != null) || (questionIdentifier != null))
             translationFieldKeys = new TranslationFieldKeys(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
         else
@@ -135,18 +139,27 @@ class UpdateDMTClassFactories {
         translationFieldKeys
     }
 
-    def findBomFieldNameInText() {
+    def findFieldInLibraryText(String fieldName, LibraryTextBlock libraryTextBlock) {
+        def fieldValue = null
+        if (libraryTextBlock.lineContains(fieldName)) {
+            fieldValue = libraryTextBlock.findFieldInLibraryText(fieldName)
+        }
+        fieldValue
+
+    }
+
+    def findBomFieldNameInLibraryFactory(LibraryTextBlock libraryTextBlock) {
         def bomFieldName = null
-        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "BOM Fields")) {
-            bomFieldName = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, languageName, "BOM Fields")
+        if (libraryTextBlock.lineContains("BOM Fields")) {
+            bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
         }
         bomFieldName
     }
 
-    def findQuestionIdentifierInText() {
+    def findQuestionIdentifierInText(LibraryTextBlock libraryTextBlock) {
         def questionIdentifier = null
-        if (libraryQuestionFieldFinder.lineContains(nextFactoryTextBlock, "Question Identifier")) {
-            questionIdentifier = libraryQuestionFieldFinder.findFieldInLibraryText(nextFactoryTextBlock, "Question Identifier")
+        if (libraryTextBlock.lineContains("Question Identifier")) {
+            questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
         }
         questionIdentifier
     }

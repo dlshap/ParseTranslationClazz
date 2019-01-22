@@ -6,7 +6,7 @@ class LibraryFactoryManager {
     String libraryFactoryFilePath
     String translatedLibraryFactoryFilePath
     String translationLanguage
-    LibraryQuestionFieldFinder libraryQuestionFieldFinder
+    LibraryQuestionFieldFinder libraryQuestionFieldFinder  /* singleton for a given language */
 
     LibraryFactoryManager(LibraryArgs libraryArgs) {
         translationLanguage = libraryArgs.languageName

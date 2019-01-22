@@ -25,40 +25,35 @@ class LibraryQuestionFieldFinder {
     def buildLibraryQuestionRegexes(languageName) {
         def languageLabel = LibraryLanguageLabels[languageName]
         libraryQuestionRegexes = [
-                [excelExportFieldName: "Question Identifier", regex: /(?s)(.*/ + languageLabel + /.*?title.*?:)(.*?)([,\]].*)/],
-                [excelExportFieldName: "Question Identifier Translated", regex: /(?s)(.*/ + languageLabel + /.*title.*?:)(.*?)([,\]].*)/],
-                [excelExportFieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
-                [excelExportFieldName: "Questions and Answers Translated", regex: /(?s)(.*/ + languageLabel + /.*txt.*?:)(.*?)(,.*)/],
-                [excelExportFieldName: "Help Text Translated", regex: /(?s)(.*/ + languageLabel + /.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
-                [excelExportFieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
+                [fieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
+                [fieldName: "Question Identifier Translated", regex: /(?s)(.*/ + languageLabel + /.*title.*?:)(.*?)([,\]].*)/],
+                [fieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
+                [fieldName: "Questions and Answers Translated", regex: /(?s)(.*/ + languageLabel + /.*txt.*?:)(.*?)(,.*)/],
+                [fieldName: "Help Text Translated", regex: /(?s)(.*/ + languageLabel + /.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
+                [fieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
         ]
-//        libraryQuestionRegexes = [
-//                [excelExportFieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
-//                [excelExportFieldName: "Question Identifier Translated", regex: /(?s)(.*ja_JP.*title.*?:)(.*?)([,\]].*)/],
-//                [excelExportFieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
-//                [excelExportFieldName: "Questions and Answers Translated", regex: /(?s)(.*ja_JP.*txt.*?:)(.*?)(,.*)/],
-//                [excelExportFieldName: "Help Text Translated", regex: /(?s)(.*ja_JP.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
-//                [excelExportFieldName: "Description Text Translated", regex: /(?s)(.*ja_JP.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
-//        ]
     }
 
-    def lineContains(aLine, excelExportFieldName) {
+    def lineContains(aLine, fieldName) {
+        println "aLine = $aLine"
+        println "fieldname = $fieldName"
          def findRegex = libraryQuestionRegexes.find { map ->
-            map.get("excelExportFieldName") == excelExportFieldName
+            map.get("fieldName") == fieldName
         }.get("regex")
         def findMatch = aLine =~ findRegex
         (findMatch.count > 0)
     }
 
-    def lineContains(aLine, aLanguage, excelExportFieldName) {
-        /* set language name different from default */
-        languageName = aLanguage
-        lineContains(aLine, excelExportFieldName)
-    }
+//    def lineContains(aLine, aLanguage, fieldName) {
+//        /* set language name different from default */
+//        languageName = aLanguage
+//        lineContains(aLine, fieldName)
+//    }
+//
 
-    def findFieldInLibraryText(theText, excelExportFieldName) {
+    def findFieldInLibraryText(theText, fieldName) {
         def regex = libraryQuestionRegexes.find { map ->
-            map.excelExportFieldName == excelExportFieldName
+            map.fieldName == fieldName
         }.regex
         def result = theText =~ regex
         def returnVal = null
@@ -69,22 +64,20 @@ class LibraryQuestionFieldFinder {
         returnVal
     }
 
-    def findFieldInLibraryText(theText, aLanguage, excelExportFieldName) {
+    def findFieldInLibraryText(theText, aLanguage, fieldName) {
         /* set language name different from default */
         languageName = aLanguage
-        findFieldInLibraryText(theText, excelExportFieldName)
+        findFieldInLibraryText(theText, fieldName)
     }
-
-
         // this doesn't belong here...
-    def getLibraryQuestionTranslators() {
-        // return list of translator objects
-        def libraryQuestionTranslators = []
-        libraryQuestionRegexes.each { libraryQuestionMap ->
-            libraryQuestionTranslators << new LibraryQuestionTranslator(libraryQuestionMap)
-        }
-        libraryQuestionTranslators
-    }
+//    def getLibraryQuestionTranslators() {
+//        // return list of translator objects
+//        def libraryQuestionTranslators = []
+//        libraryQuestionRegexes.each { libraryQuestionMap ->
+//            libraryQuestionTranslators << new LibraryQuestionTranslator(libraryQuestionMap)
+//        }
+//        libraryQuestionTranslators
+//    }
 }
 
 

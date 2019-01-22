@@ -11,7 +11,7 @@ class LibraryFactoryParser {
     def libraryText
     def libraryTextIterator
 
-    def LibraryFactoryParser(TextFile libraryFile) {
+    LibraryFactoryParser(TextFile libraryFile) {
         parseFile(libraryFile)
     }
 
