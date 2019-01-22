@@ -9,7 +9,6 @@ import com.google.common.base.Splitter
 class LibraryFactoryParser {
     def splitOn = "currentAttr ="       // default...create another constructor if override is needed
     def libraryText
-//    def libraryTextList = []
     def libraryTextIterator
 
     def LibraryFactoryParser(TextFile libraryFile) {
@@ -23,7 +22,7 @@ class LibraryFactoryParser {
                 .split(fileText)).asList()
         // for all but first "chunk" put the splitter back at beginning
         libraryText = [libraryText[0]] + libraryText[1..libraryText.size()-1].collect { splitOn + it }
-        libraryIterator = libraryText.iterator()
+        libraryTextIterator = libraryText.iterator()
     }
 
     def hasNextTextBlock() {
