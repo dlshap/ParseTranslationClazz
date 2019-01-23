@@ -1,6 +1,7 @@
 import com.sun.jna.Library
 import excelExports.ExcelExport
 import excelExports.ExcelExports
+import filemanagement.KeyFile
 import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
@@ -88,9 +89,9 @@ class UpdateDMTClassFactories {
     def updateLibraryFactoriesFromExcelExports(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
-            def nextExcelExport = excelExports.next()
-            def nextLibraryFactory = getLibraryFactoryForExcelExport(libraryFactoryManager, nextExcelExport)
-            updateLibraryFactoryFromExcelExport(nextLibraryFactory, nextExcelExport)
+            ExcelExport nextExcelExport = excelExports.next()
+            LibraryFactory libraryFactoryForExcelExport = getLibraryFactoryForExcelExport(libraryFactoryManager, nextExcelExport)
+            updateLibraryFactoryFromExcelExport(libraryFactoryForExcelExport, nextExcelExport)
         }
     }
 
@@ -101,35 +102,34 @@ class UpdateDMTClassFactories {
     }
 
     def updateLibraryFactoryFromExcelExport(LibraryFactory libraryFactory, ExcelExport excelExport) {
-        def classFileName = excelExport.getShortName()
-        addFilenameToLogs(classFileName)
-        moveExcelTranslationsToLibraryFactory(excelExport, libraryFactory)
+        addFileNameToLog(excelExport)
+        Translations translationsFromExcelExport = new Translations(excelExport)
+        applyTranslationsToLibraryFactory(translationsFromExcelExport, libraryFactory)
     }
 
-    def addFilenameToLogs(classFileName) {
+    def addFileNameToLog(ExcelExport excelExport) {
+        def classFileName = excelExport.getShortName()
         Log.writeLine "\r\n$classFileName:"
         Log.writeLine("exceptions", "\r\n$classFileName:")
         Log.writeLine("nocode", "\r\n$classFileName:")
     }
 
-    def moveExcelTranslationsToLibraryFactory(ExcelExport excelExport, LibraryFactory libraryFactory) {
+    def applyTranslationsToLibraryFactory(Translations translationsFromExcelExport, LibraryFactory libraryFactory) {
         while (libraryFactory.hasNextLibraryTextBlock()) {
             def nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
-            def nextTranslatedFactoryTextBlock = getExcelTranslationsForNextLibraryTextBlock(excelExport, nextLibraryTextBlock)
+            def nextTranslatedFactoryTextBlock = getExcelTranslationsForNextLibraryTextBlock(translationsFromExcelExport, nextLibraryTextBlock)
             libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedFactoryTextBlock)
         }
     }
 
-    def getExcelTranslationsForNextLibraryTextBlock(ExcelExport excelExport, LibraryTextBlock libraryTextBlock) {
+    def getExcelTranslationsForNextLibraryTextBlock(Translations translationsFromExcelExport, LibraryTextBlock libraryTextBlock) {
         TranslationFieldKeys factoryTranslationKeys = getKeysFromLibraryTextBlock(libraryTextBlock)
-        Translation translation = getTranslationForKeys(excelExport, factoryTranslationKeys)
+        Translation translation = getTranslationForKeys(translationsFromExcelExport, factoryTranslationKeys)
         String translatedFactoryTextBlock = applyTranslationToFactoryTextBlock(translation, libraryTextBlock)
         translatedFactoryTextBlock
     }
 
     def getKeysFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
-//        def bomFieldName = findBomFieldNameInLibraryFactory(libraryTextBlock)
-//        def questionIdentifier = findQuestionIdentifierInText(libraryTextBlock)
         def bomFieldName = findFieldInLibraryText("BOM Fields", libraryTextBlock)
         def questionIdentifier = findFieldInLibraryText("Question Identifier", libraryTextBlock)
         def translationFieldKeys = null
@@ -147,36 +147,30 @@ class UpdateDMTClassFactories {
 
     }
 
-//    def findBomFieldNameInLibraryFactory(LibraryTextBlock libraryTextBlock) {
-//        def bomFieldName = null
-//        if (libraryTextBlock.lineContains("BOM Fields")) {
-//            bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
-//        }
-//        bomFieldName
-//    }
-//
-//    def findQuestionIdentifierInText(LibraryTextBlock libraryTextBlock) {
-//        def questionIdentifier = null
-//        if (libraryTextBlock.lineContains("Question Identifier")) {
-//            questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
-//        }
-//        questionIdentifier
-//    }
-
-
-    def getTranslationForKeys(ExcelExport excelExport, TranslationFieldKeys translationFieldKeys) {
+    def getTranslationForKeys(Translations translationsFromExcelExport, TranslationFieldKeys translationFieldKeys) {
         /*
       get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
        */
         def matchingTranslationFromExcelExport = null
         if (translationFieldKeys != null) {
-            def matchingTranslations = excelExport.getTranslations(translationFieldKeys)
+            def matchingTranslations = translationsFromExcelExport.getTranslations(translationFieldKeys)
             if (singleMatchingTranslation(matchingTranslations)) {
                 matchingTranslationFromExcelExport = matchingTranslations[0]
             }
         }
         matchingTranslationFromExcelExport
     }
+
+    //    static loadTranslationsFromExcelExport(classFileName) {
+//        def translationsFromExcelExportFileName = classFileName + ".txt"
+//        def translationsFromExcelExportPath = startFilePath + "LibraryExports\\\\"
+//        def translationsFromExcelExportFile = new KeyFile(translationsFromExcelExportPath + translationsFromExcelExportFileName)
+//        if (translationsFromExcelExportFile.exists()) {
+//            translationsFromExcelExport = new Translations(translationsFromExcelExportFile)
+//        } else {
+//            Log.writeLine("exceptions", "Excel Export file: ${classFileName}.txt doesn't exist.")
+//        }
+//    }
 
     def applyTranslationToFactoryTextBlock(translation, nextFactoryTextBlock) {
 
@@ -211,16 +205,7 @@ class UpdateDMTClassFactories {
 //        updateLibraryFactoryFromExcelTranslations()
 //    }
 
-//    static loadTranslationsFromExcelExport(classFileName) {
-//        def translationsFromExcelExportFileName = classFileName + ".txt"
-//        def translationsFromExcelExportPath = startFilePath + "LibraryExports\\\\"
-//        def translationsFromExcelExportFile = new KeyFile(translationsFromExcelExportPath + translationsFromExcelExportFileName)
-//        if (translationsFromExcelExportFile.exists()) {
-//            translationsFromExcelExport = new Translations(translationsFromExcelExportFile)
-//        } else {
-//            Log.writeLine("exceptions", "Excel Export file: ${classFileName}.txt doesn't exist.")
-//        }
-//    }
+
 
 //    static getNextFactoryTextBlock() {
 //        nextFactoryTextBlock = libraryFactoryParser.next()

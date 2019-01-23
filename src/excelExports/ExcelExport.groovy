@@ -6,14 +6,12 @@ class ExcelExport {
     def pathName
     def fileName
     def shortName
+    KeyFile excelExportFile
 
     ExcelExport(pathName, fileName) {
         this.pathName = pathName
         this.fileName = fileName
         this.shortName =  fileName - ~/\.\w{3}/              // remove file extension
-    }
-
-    def getFile() {
-        new KeyFile(this.pathName + "\\\\" + this.fileName)
+        this.excelExportFile = new KeyFile(this.pathName + "\\\\" + this.fileName)
     }
 }

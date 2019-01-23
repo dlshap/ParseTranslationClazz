@@ -1,4 +1,8 @@
 package translations
+
+import excelExports.ExcelExport
+import filemanagement.KeyFile
+
 /**
  * Created by s0041664 on 8/15/2017.
  */
@@ -7,9 +11,20 @@ class Translations {
     def transKeyMapList = []
     Iterator translationIterator
 
-    def Translations(translationExportFile) {
-        transKeyMapList = translationExportFile.getKeyMaps()
-        translationIterator = transKeyMapList.iterator()
+    Translations(KeyFile translationExportFile) {
+        //old constructor (deprecate)
+        buildTranslations(translationExportFile)
+    }
+
+    Translations(ExcelExport excelExport) {
+        //new constructor (used by LibraryFactories)
+        KeyFile translationExportFile = excelExport.excelExportFile
+        buildTranslations(translationExportFile)
+    }
+
+    def buildTranslations(KeyFile translationExportFile) {
+        this.transKeyMapList = translationExportFile.getKeyMaps()
+        this.translationIterator = transKeyMapList.iterator()
     }
 
     def getTranslation(keyName, keyValue) {

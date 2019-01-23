@@ -17,25 +17,25 @@ class ExcelExports {
     }
 
     def buildExcelExports(libraryArgs) {
-        buildExcelExportFileList(libraryArgs)
+        addFilesToExcelExports(libraryArgs)
         excelExportsIterator = excelExports.iterator()
     }
 
-    def add(fileName) {
+    def addFilesToExcelExports(libraryArgs) {
+        if (libraryArgs.fileNameForTestingSingleFile != null) {
+            this.addFile(libraryArgs.fileNameForTestingSingleFile)
+        } else {
+            def excelExportDirectoryFileList = new FileDirectoryMgr(excelExportFilePath).getFileList()
+            excelExportDirectoryFileList.each {this.addFile(it)}
+        }
+    }
+
+    def addFile(fileName) {
         excelExports.add(new ExcelExport(excelExportFilePath, fileName))
     }
 
     def fileCount() {
         excelExports.size()
-    }
-
-    def buildExcelExportFileList(libraryArgs) {
-        if (libraryArgs.fileNameForTestingSingleFile != null) {
-            this.add(libraryArgs.fileNameForTestingSingleFile)
-        } else {
-            def excelExportDirectoryFileList = new FileDirectoryMgr(excelExportFilePath).getFileList()
-            excelExportDirectoryFileList.each {this.add(it)}
-        }
     }
 
     def getFileNameList() {
@@ -50,10 +50,4 @@ class ExcelExports {
     def next() {
         excelExportsIterator.next()
     }
-
-    def filePath() {
-        excelExportFilePath
-    }
-
-
 }
