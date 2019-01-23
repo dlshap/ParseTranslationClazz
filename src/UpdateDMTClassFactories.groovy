@@ -1,14 +1,11 @@
-import com.sun.jna.Library
 import excelExports.ExcelExport
 import excelExports.ExcelExports
-import filemanagement.KeyFile
 import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
 import libraryquestions.LibraryTextBlock
 import translations.Translation
 import translations.TranslationFieldKeys
-import libraryquestions.LibraryQuestionFieldFinder
 import logging.Dates
 import logging.Log
 import translations.Translations
@@ -43,26 +40,15 @@ class UpdateDMTClassFactories {
     }
 
     def start(args) {
-        def libraryArgs = buildLibraryArgsFromCommandLineArgs(args)
-        performTranslations(libraryArgs)
-    }
-
-    def buildLibraryArgsFromCommandLineArgs(args) {
         def libraryArgs = new LibraryArgs(args)
-        getDefaultValuesIfArgsNull(libraryArgs)
-        libraryArgs
-    }
-
-    def getDefaultValuesIfArgsNull(libraryArgs) {
-        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
-        if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
+        performTranslations(libraryArgs)
     }
 
     def performTranslations(libraryArgs) {
         openLogs(libraryArgs)
-        def excelExports = buildExcelExports(libraryArgs)
-        def libraryFactoryManager = buildLibraryFactoryManager(libraryArgs)
-        updateLibraryFactoriesFromExcelExports(libraryFactoryManager, excelExports)
+        def excelExports = new ExcelExports(libraryArgs)
+        def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
+        updateCorrespondingLibraryFactoryFromEachExcelExport(libraryFactoryManager, excelExports)
         closeLogs()
     }
 
@@ -76,17 +62,7 @@ class UpdateDMTClassFactories {
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    def buildExcelExports(libraryArgs) {
-        def excelExports = new ExcelExports(libraryArgs)
-        excelExports
-    }
-
-    def buildLibraryFactoryManager(libraryArgs) {
-        def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
-        libraryFactoryManager
-    }
-
-    def updateLibraryFactoriesFromExcelExports(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
+    def updateCorrespondingLibraryFactoryFromEachExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
             ExcelExport nextExcelExport = excelExports.next()
@@ -130,21 +106,12 @@ class UpdateDMTClassFactories {
     }
 
     def getKeysFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
-        def bomFieldName = findFieldInLibraryText("BOM Fields", libraryTextBlock)
-        def questionIdentifier = findFieldInLibraryText("Question Identifier", libraryTextBlock)
+        def bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
+        def questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
         def translationFieldKeys = null
         if ((bomFieldName != null) || (questionIdentifier != null))
             translationFieldKeys = new TranslationFieldKeys(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
         translationFieldKeys
-    }
-
-    def findFieldInLibraryText(String fieldName, LibraryTextBlock libraryTextBlock) {
-        def fieldValue = null
-        if (libraryTextBlock.lineContains(fieldName)) {
-            fieldValue = libraryTextBlock.findFieldInLibraryText(fieldName)
-        }
-        fieldValue
-
     }
 
     def getTranslationForKeys(Translations translationsFromExcelExport, TranslationFieldKeys translationFieldKeys) {
@@ -159,6 +126,19 @@ class UpdateDMTClassFactories {
             }
         }
         matchingTranslationFromExcelExport
+    }
+
+    def singleMatchingTranslation(matchingTranslations) {
+        def translationCount = matchingTranslations.size()
+        if (translationCount == 1)
+            return true
+        else if (translationCount == 0) {
+            Log.writeLine "exceptions", "Missing translation for keys: ${translationFieldKeys.getKeyList()}"
+            return false
+        } else if (translationCount > 1) {
+            Log.writeLine "exceptions", "Multiple translations for keys: ${translationFieldKeys.getKeyList()}"
+            return false
+        }
     }
 
     //    static loadTranslationsFromExcelExport(classFileName) {
@@ -205,8 +185,6 @@ class UpdateDMTClassFactories {
 //        updateLibraryFactoryFromExcelTranslations()
 //    }
 
-
-
 //    static getNextFactoryTextBlock() {
 //        nextFactoryTextBlock = libraryFactoryParser.next()
 //    }
@@ -222,20 +200,6 @@ class UpdateDMTClassFactories {
 //                matchingTranslationFromExcelExport = matchingTranslations[0]
 //            }
 //        }
-//    }
-//
-//    static singleMatchingTranslation(matchingTranslations) {
-//        def translationCount = matchingTranslations.size()
-//        if (translationCount == 1)
-//            return true
-//        else if (translationCount == 0) {
-//            Log.writeLine "exceptions", "Missing translation for keys: ${translationFieldKeys.getKeyList()}"
-//            return false
-//        } else if (translationCount > 1) {
-//            Log.writeLine "exceptions", "Multiple translations for keys: ${translationFieldKeys.getKeyList()}"
-//            return false
-//        }
-//
 //    }
 //
 //    static WriteTranslatedFactoryTextBlockToTranslatedFile() {

@@ -8,22 +8,17 @@ class LibraryQuestionFieldFinder {
     def languageName = "English"
     def libraryQuestionRegexes = []
 
-    LibraryQuestionFieldFinder() {
-        buildLibraryQuestionRegexes()
-    }
-
-    def LibraryQuestionFieldFinder(languageName) {
+    LibraryQuestionFieldFinder(languageName) {
         this.languageName = languageName
-        buildLibraryQuestionRegexes(languageName)
+        buildLibraryQuestionRegexes(libraryLanguageLabels[languageName])
     }
 
-    static LibraryLanguageLabels = [
-            "Japanese" : "ja_JP",
+    def libraryLanguageLabels = [
+            "Japanese": "ja_JP",
             "English" : "en_US"
     ]
 
-    def buildLibraryQuestionRegexes(languageName) {
-        def languageLabel = LibraryLanguageLabels[languageName]
+    def buildLibraryQuestionRegexes(languageLabel) {
         libraryQuestionRegexes = [
                 [fieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
                 [fieldName: "Question Identifier Translated", regex: /(?s)(.*/ + languageLabel + /.*title.*?:)(.*?)([,\]].*)/],
@@ -35,31 +30,28 @@ class LibraryQuestionFieldFinder {
     }
 
     def lineContains(aLine, fieldName) {
-        println "aLine = $aLine"
-        println "fieldname = $fieldName"
-         def findRegex = libraryQuestionRegexes.find { map ->
-            map.get("fieldName") == fieldName
-        }.get("regex")
-        def findMatch = aLine =~ findRegex
-        (findMatch.count > 0)
+        if (libraryQuestionRegexes.find { it.fieldName == fieldName } == null)
+            return false
+        else {
+            def findRegex = libraryQuestionRegexes.find { map ->
+                map.get("fieldName") == fieldName
+            }.get("regex")
+            def findMatch = aLine =~ findRegex
+            (findMatch.count > 0)
+        }
     }
 
-//    def lineContains(aLine, aLanguage, fieldName) {
-//        /* set language name different from default */
-//        languageName = aLanguage
-//        lineContains(aLine, fieldName)
-//    }
-//
-
     def findFieldInLibraryText(theText, fieldName) {
-        def regex = libraryQuestionRegexes.find { map ->
-            map.fieldName == fieldName
-        }.regex
-        def result = theText =~ regex
         def returnVal = null
-        if (result.count > 0) {
-            returnVal = result[0][2].trim()
-            returnVal = returnVal.replaceAll(/^['"]|['"]$/, "")     // trim leading and trailing quotes
+        if (libraryQuestionRegexes.find { it.fieldName == fieldName } != null) {
+            def regex = libraryQuestionRegexes.find { map ->
+                map.fieldName == fieldName
+            }.regex
+            def result = theText =~ regex
+            if (result.count > 0) {
+                returnVal = result[0][2].trim()
+                returnVal = returnVal.replaceAll(/^['"]|['"]$/, "")     // trim leading and trailing quotes
+            }
         }
         returnVal
     }
@@ -69,15 +61,7 @@ class LibraryQuestionFieldFinder {
         languageName = aLanguage
         findFieldInLibraryText(theText, fieldName)
     }
-        // this doesn't belong here...
-//    def getLibraryQuestionTranslators() {
-//        // return list of translator objects
-//        def libraryQuestionTranslators = []
-//        libraryQuestionRegexes.each { libraryQuestionMap ->
-//            libraryQuestionTranslators << new LibraryQuestionTranslator(libraryQuestionMap)
-//        }
-//        libraryQuestionTranslators
-//    }
+
 }
 
 

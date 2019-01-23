@@ -9,6 +9,7 @@ class LibraryArgs {
 
     LibraryArgs(args) {
         getValuesFromCommandLineArgs(args)
+        getDefaultValuesIfArgsNull()
     }
 
     def getValuesFromCommandLineArgs(args) {
@@ -17,4 +18,11 @@ class LibraryArgs {
         languageName = argsMap.get("language")
         fileNameForTestingSingleFile = argsMap.get("file")
     }
+
+    def getDefaultValuesIfArgsNull() {
+        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
+        if (languageName == null) languageName = "Japanese"
+    }
+
+
 }
