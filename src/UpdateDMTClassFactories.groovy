@@ -48,7 +48,7 @@ class UpdateDMTClassFactories {
         openLogs(libraryArgs)
         def excelExports = new ExcelExports(libraryArgs)
         def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
-        updateCorrespondingLibraryFactoryFromEachExcelExport(libraryFactoryManager, excelExports)
+        updateLibraryFactoriesFromEachExcelExports(libraryFactoryManager, excelExports)
         closeLogs()
     }
 
@@ -62,25 +62,27 @@ class UpdateDMTClassFactories {
         Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    def updateCorrespondingLibraryFactoryFromEachExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
+    def updateLibraryFactoriesFromEachExcelExports(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
             ExcelExport nextExcelExport = excelExports.next()
-            LibraryFactory libraryFactoryForExcelExport = getLibraryFactoryForExcelExport(libraryFactoryManager, nextExcelExport)
-            updateLibraryFactoryFromExcelExport(libraryFactoryForExcelExport, nextExcelExport)
+            addFileNameToLog(nextExcelExport)
+            updateLibraryFactoriesFromNextExcelExport(libraryFactoryManager, nextExcelExport)
         }
     }
 
-    def getLibraryFactoryForExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
+    def updateLibraryFactoriesFromNextExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
+        Translations translationsFromExcelExport = new Translations(excelExport)
+        LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelExport(libraryFactoryManager, excelExport)
+//            updateLibraryFactoryFromExcelExport(libraryFactoryForExcelExport, nextExcelExport)
+        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
+    }
+
+
+    def getCorrespondingLibraryFactoryForExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
         def classFileName = excelExport.getShortName()
         def libraryFactory = libraryFactoryManager.getLibraryFactoryForFileName(classFileName)
         libraryFactory
-    }
-
-    def updateLibraryFactoryFromExcelExport(LibraryFactory libraryFactory, ExcelExport excelExport) {
-        addFileNameToLog(excelExport)
-        Translations translationsFromExcelExport = new Translations(excelExport)
-        applyTranslationsToLibraryFactory(translationsFromExcelExport, libraryFactory)
     }
 
     def addFileNameToLog(ExcelExport excelExport) {
@@ -90,7 +92,7 @@ class UpdateDMTClassFactories {
         Log.writeLine("nocode", "\r\n$classFileName:")
     }
 
-    def applyTranslationsToLibraryFactory(Translations translationsFromExcelExport, LibraryFactory libraryFactory) {
+    def updateLibraryFactoryFromTranslations(LibraryFactory libraryFactory, Translations translationsFromExcelExport) {
         while (libraryFactory.hasNextLibraryTextBlock()) {
             def nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
             def nextTranslatedFactoryTextBlock = getExcelTranslationsForNextLibraryTextBlock(translationsFromExcelExport, nextLibraryTextBlock)
