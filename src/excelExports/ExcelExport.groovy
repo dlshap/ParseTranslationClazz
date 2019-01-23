@@ -13,7 +13,7 @@ class ExcelExport {
         this.shortName =  fileName - ~/\.\w{3}/              // remove file extension
     }
 
-    def file() {
+    def getFile() {
         new KeyFile(this.pathName + "\\\\" + this.fileName)
     }
 }

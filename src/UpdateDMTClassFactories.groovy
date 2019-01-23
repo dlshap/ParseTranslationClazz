@@ -17,9 +17,9 @@ import translations.Translations
  */
 class UpdateDMTClassFactories {
 
-    static startFilePath
-    static languageName
-    static fileNameForTestingSingleFile
+//    static startFilePath
+//    static languageName
+//    static fileNameForTestingSingleFile
 
 //    static excelExportFileList = []
 
@@ -27,11 +27,11 @@ class UpdateDMTClassFactories {
 //    static libraryFactoryWithNewTranslations
 //    static nextFactoryTextBlock
 
-    static Translations translationsFromExcelExport
-    static Translation matchingTranslationFromExcelExport
-    static TranslationFieldKeys translationFieldKeys
+//    static Translations translationsFromExcelExport
+//    static Translation matchingTranslationFromExcelExport
+//    static TranslationFieldKeys translationFieldKeys
 
-    static LibraryQuestionFieldFinder libraryQuestionFieldFinder
+//    static LibraryQuestionFieldFinder libraryQuestionFieldFinder
 
     UpdateDMTClassFactories(args) {
         start(args)
@@ -106,7 +106,7 @@ class UpdateDMTClassFactories {
         moveExcelTranslationsToLibraryFactory(excelExport, libraryFactory)
     }
 
-    static addFilenameToLogs(classFileName) {
+    def addFilenameToLogs(classFileName) {
         Log.writeLine "\r\n$classFileName:"
         Log.writeLine("exceptions", "\r\n$classFileName:")
         Log.writeLine("nocode", "\r\n$classFileName:")
@@ -132,10 +132,9 @@ class UpdateDMTClassFactories {
 //        def questionIdentifier = findQuestionIdentifierInText(libraryTextBlock)
         def bomFieldName = findFieldInLibraryText("BOM Fields", libraryTextBlock)
         def questionIdentifier = findFieldInLibraryText("Question Identifier", libraryTextBlock)
+        def translationFieldKeys = null
         if ((bomFieldName != null) || (questionIdentifier != null))
             translationFieldKeys = new TranslationFieldKeys(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
-        else
-            translationFieldKeys = null
         translationFieldKeys
     }
 
@@ -148,25 +147,35 @@ class UpdateDMTClassFactories {
 
     }
 
-    def findBomFieldNameInLibraryFactory(LibraryTextBlock libraryTextBlock) {
-        def bomFieldName = null
-        if (libraryTextBlock.lineContains("BOM Fields")) {
-            bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
+//    def findBomFieldNameInLibraryFactory(LibraryTextBlock libraryTextBlock) {
+//        def bomFieldName = null
+//        if (libraryTextBlock.lineContains("BOM Fields")) {
+//            bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
+//        }
+//        bomFieldName
+//    }
+//
+//    def findQuestionIdentifierInText(LibraryTextBlock libraryTextBlock) {
+//        def questionIdentifier = null
+//        if (libraryTextBlock.lineContains("Question Identifier")) {
+//            questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
+//        }
+//        questionIdentifier
+//    }
+
+
+    def getTranslationForKeys(ExcelExport excelExport, TranslationFieldKeys translationFieldKeys) {
+        /*
+      get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
+       */
+        def matchingTranslationFromExcelExport = null
+        if (translationFieldKeys != null) {
+            def matchingTranslations = excelExport.getTranslations(translationFieldKeys)
+            if (singleMatchingTranslation(matchingTranslations)) {
+                matchingTranslationFromExcelExport = matchingTranslations[0]
+            }
         }
-        bomFieldName
-    }
-
-    def findQuestionIdentifierInText(LibraryTextBlock libraryTextBlock) {
-        def questionIdentifier = null
-        if (libraryTextBlock.lineContains("Question Identifier")) {
-            questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
-        }
-        questionIdentifier
-    }
-
-
-    def getTranslationForKeys(nextExcelExport, factoryTranslationKeys) {
-
+        matchingTranslationFromExcelExport
     }
 
     def applyTranslationToFactoryTextBlock(translation, nextFactoryTextBlock) {
