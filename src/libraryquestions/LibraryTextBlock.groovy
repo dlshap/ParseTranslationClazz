@@ -1,6 +1,7 @@
 package libraryquestions
 
 import com.sun.jna.Library
+import translations.Translation
 
 class LibraryTextBlock {
     String textBlock
@@ -17,5 +18,10 @@ class LibraryTextBlock {
 
     def findFieldInLibraryText(String searchText) {
         libraryQuestionFieldFinder.findFieldInLibraryText(this.textBlock, searchText)
+    }
+
+    def translateAllFieldsFromTranslation(Translation translation) {
+        String translatedTextBlock = textBlock
+        translatedTextBlock
     }
 }

@@ -27,8 +27,7 @@ class LibraryFactory {
         libraryTextBlockIterator = libraryTextBlocks.iterator()
     }
 
-    def writeTextBlockToTranslatedFile(LibraryTextBlock libraryTextBlock) {
-        def libraryText = libraryTextBlock.textBlock
+    def writeTextBlockToTranslatedFile(String libraryText) {
         translatedLibraryFactoryFile.writeToFile(libraryText)
     }
 

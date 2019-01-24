@@ -16,12 +16,6 @@ class Translations {
         buildTranslations(translationExportFile)
     }
 
-    Translations(ExcelExport excelExport) {
-        //new constructor (used by LibraryFactories)
-        KeyFile translationExportFile = excelExport.excelExportFile
-        buildTranslations(translationExportFile)
-    }
-
     static createTranslationsFromExcelExport(ExcelExport excelExport) {
         //new factory (replaces old constructor)
         KeyFile translationExportFile = excelExport.excelExportFile

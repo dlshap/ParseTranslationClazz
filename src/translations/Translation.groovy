@@ -1,5 +1,7 @@
 package translations
 
+import libraryquestions.LibraryTextBlock
+
 class Translation {
 
     def transKeyMap = [:]
