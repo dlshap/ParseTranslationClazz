@@ -22,6 +22,13 @@ class Translations {
         buildTranslations(translationExportFile)
     }
 
+    static createTranslationsFromExcelExport(ExcelExport excelExport) {
+        //new factory (replaces old constructor)
+        KeyFile translationExportFile = excelExport.excelExportFile
+        Translations translations = new Translations(translationExportFile)
+        translations
+    }
+
     def buildTranslations(KeyFile translationExportFile) {
         this.transKeyMapList = translationExportFile.getKeyMaps()
         this.translationIterator = transKeyMapList.iterator()

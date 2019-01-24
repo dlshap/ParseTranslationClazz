@@ -72,7 +72,7 @@ class UpdateDMTClassFactories {
     }
 
     def updateLibraryFactoriesFromNextExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
-        Translations translationsFromExcelExport = new Translations(excelExport)
+        Translations translationsFromExcelExport = Translations.createTranslationsFromExcelExport(excelExport)
         LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelExport(libraryFactoryManager, excelExport)
 //            updateLibraryFactoryFromExcelExport(libraryFactoryForExcelExport, nextExcelExport)
         updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
@@ -95,16 +95,16 @@ class UpdateDMTClassFactories {
     def updateLibraryFactoryFromTranslations(LibraryFactory libraryFactory, Translations translationsFromExcelExport) {
         while (libraryFactory.hasNextLibraryTextBlock()) {
             def nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
-            def nextTranslatedFactoryTextBlock = getExcelTranslationsForNextLibraryTextBlock(translationsFromExcelExport, nextLibraryTextBlock)
-            libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedFactoryTextBlock)
+            def nextTranslatedLibraryTextBlock = getExcelTranslationsForNextLibraryTextBlock(translationsFromExcelExport, nextLibraryTextBlock)
+            libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedLibraryTextBlock)
         }
     }
 
     def getExcelTranslationsForNextLibraryTextBlock(Translations translationsFromExcelExport, LibraryTextBlock libraryTextBlock) {
         TranslationFieldKeys factoryTranslationKeys = getKeysFromLibraryTextBlock(libraryTextBlock)
         Translation translation = getTranslationForKeys(translationsFromExcelExport, factoryTranslationKeys)
-        String translatedFactoryTextBlock = applyTranslationToFactoryTextBlock(translation, libraryTextBlock)
-        translatedFactoryTextBlock
+        LibraryTextBlock translatedLibraryTextBlock = applyTranslationToLibraryTextBlock(translation, libraryTextBlock)
+        translatedLibraryTextBlock
     }
 
     def getKeysFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
@@ -154,8 +154,8 @@ class UpdateDMTClassFactories {
 //        }
 //    }
 
-    def applyTranslationToFactoryTextBlock(translation, nextFactoryTextBlock) {
-
+    def applyTranslationToLibraryTextBlock(Translation translation, LibraryTextBlock libraryTextBlock) {
+        libraryTextBlock
     }
 
 
