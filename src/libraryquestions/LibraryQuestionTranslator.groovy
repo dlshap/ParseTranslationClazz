@@ -1,7 +1,7 @@
 package libraryquestions
 
 import logging.Log
-import translations.TranslationFieldKeys
+import translations.Translation
 
 /**
  * Created by s0041664 on 8/14/2017.
@@ -11,33 +11,51 @@ class LibraryQuestionTranslator {
     Map format:
         [libraryQuestionFieldName: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],...
     */
-//    def libraryQuestionMap = [:]
-//
-//    LibraryQuestionTranslator(libraryQuestionMap) {
-//        this.libraryQuestionMap = libraryQuestionMap
-//    }
-//
-//    def getValue(keyname) {
-//        libraryQuestionMap[keyname]
-//    }
-//
-//    def translate(nextText, languageName, translationValue, TranslationFieldKeys translationFieldKeys) {
-//        def translatedText = nextText
-//        if (translationValue != null) {
-//            def libraryValue = new LibraryQuestionFieldFinder(languageName).findFieldInLibraryText(nextText, this.getValue("excelExportFieldName"))
-//            def regex = this.getValue("regex")
-//            def translationFieldName = this.getValue("excelExportFieldName")
-//            def result = nextText =~ regex
-//            if (result.count == 0) {
-//                Log.writeLine("nocode", "No Class Factory code for: keys: ${translationFieldKeys.getKeyList()} / $translationFieldName: '$translationValue'")
-//            } else {
-//                if (!(libraryValue.equals(translationValue))) {
-//                    Log.writeLine("keys: ${translationFieldKeys.getKeyList()} / $translationFieldName: replacing '$libraryValue' with '$translationValue'")
-//                    translationValue = "'" + translationValue + "'"
-//                    translatedText = result[0][1] + translationValue + result[0][3]
-//                }
-//            }
-//        }
-//        translatedText
-//    }
+
+    LibraryQuestionFieldFinder libraryQuestionFieldFinder
+    def libraryQuestionRegexes
+    String translationKeyList
+
+    LibraryQuestionTranslator(LibraryQuestionFieldFinder libraryQuestionFieldFinder) {
+        this.libraryQuestionFieldFinder = libraryQuestionFieldFinder
+        this.libraryQuestionRegexes = libraryQuestionFieldFinder.libraryQuestionRegexes
+    }
+
+    def replaceTextInLibraryTextBlockWithTranslatedValues(String textBlock, Translation translation) {
+        /*
+        for each map in fieldRegexList
+            get fieldName
+            get translated value for fieldname from translation
+            get text value for regex from libraryTextBlock
+            if values differ, replace text in library with translated value from translation
+         */
+        def translatedTextBlock = textBlock
+        String translationKeyList = translation.translationFieldKeys.getKeyList()
+        libraryQuestionRegexes.each { Map fieldsAndRegexes ->
+            translatedTextBlock = translateTextForOneFieldUsingRegexMap(translatedTextBlock, translation, fieldsAndRegexes)
+        }
+        translatedTextBlock
+    }
+
+    def translateTextForOneFieldUsingRegexMap(String textBlock, Translation translation, Map fieldsAndRegexes) {
+        def translatedTextBlock = textBlock
+        def fieldName = fieldsAndRegexes.get("fieldName")
+        if (fieldName.toLowerCase().contains("translated")) {
+            def originalValue = libraryQuestionFieldFinder.findFieldInLibraryText(translatedTextBlock, fieldName)
+            def translatedValue = translation.get(fieldName)
+            if (!(originalValue.equals(translatedValue))) {
+                def regex = fieldsAndRegexes.get("regex")
+                def libraryTextMatcher = translatedTextBlock =~ regex
+                if (libraryTextMatcher.count == 0) {
+                    Log.writeLine("nocode", "No Class Factory code for: keys: $translationKeyList / $fieldName: '$translatedValue'")
+                } else {
+                    Log.writeLine("Keys: $translationKeyList / $fieldName: replacing '$originalValue' with '$translatedValue'")
+                    def translationValue = "'" + translatedValue + "'"
+                    translatedTextBlock = libraryTextMatcher[0][1] + translationValue + libraryTextMatcher[0][3]
+                }
+            }
+        }
+        translatedTextBlock
+    }
+
 }
