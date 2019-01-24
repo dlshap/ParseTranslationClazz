@@ -3,12 +3,12 @@ package libraryquestions
 /**
  * Created by s0041664 on 8/14/2017.
  */
-class LibraryQuestionFieldFinder {
+class LibraryQuestionFieldParser {
 
     def languageName = "English"
     def libraryQuestionRegexes = []
 
-    LibraryQuestionFieldFinder(languageName) {
+    LibraryQuestionFieldParser(languageName) {
         this.languageName = languageName
         buildLibraryQuestionRegexes(libraryLanguageLabels[languageName])
     }
@@ -49,6 +49,8 @@ class LibraryQuestionFieldFinder {
             }.regex
             def result = theText =~ regex
             if (result.count > 0) {
+                def all = result[0]
+                def before = result[0].collect()
                 returnVal = result[0][2].trim()
                 returnVal = returnVal.replaceAll(/^['"]|['"]$/, "")     // trim leading and trailing quotes
             }

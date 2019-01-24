@@ -6,7 +6,7 @@ class LibraryFactoryManager {
     String libraryFactoryFilePath
     String translatedLibraryFactoryFilePath
     String translationLanguage
-    LibraryQuestionFieldFinder libraryQuestionFieldFinder  /* singleton for a given language */
+    LibraryQuestionFieldParser libraryQuestionFieldFinder  /* singleton for a given language */
 
     LibraryFactoryManager(LibraryArgs libraryArgs) {
         translationLanguage = libraryArgs.languageName
@@ -16,7 +16,7 @@ class LibraryFactoryManager {
     }
 
     def createLibraryQuestionFieldFinder(translationLanguage) {
-        libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(translationLanguage)
+        libraryQuestionFieldFinder = new LibraryQuestionFieldParser(translationLanguage)
     }
 
     def buildLibraryFactoryFilePaths(libraryArgs) {

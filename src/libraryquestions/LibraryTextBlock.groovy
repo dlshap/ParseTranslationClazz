@@ -1,11 +1,10 @@
 package libraryquestions
 
-import logging.Log
 import translations.Translation
 
 class LibraryTextBlock {
     String textBlock
-    LibraryQuestionFieldFinder libraryQuestionFieldFinder
+    LibraryQuestionFieldParser libraryQuestionFieldFinder
     LibraryQuestionTranslator libraryQuestionTranslator
 
     LibraryTextBlock(textBlock, libraryQuestionFieldFinder) {

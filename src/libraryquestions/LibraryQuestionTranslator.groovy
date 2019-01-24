@@ -12,11 +12,11 @@ class LibraryQuestionTranslator {
         [libraryQuestionFieldName: "BOM Fields", regex: "(.*currentAttr.*name:.*?[\"'])(.*?)([\"'].*)"],...
     */
 
-    LibraryQuestionFieldFinder libraryQuestionFieldFinder
+    LibraryQuestionFieldParser libraryQuestionFieldFinder
     def libraryQuestionRegexes
     String translationKeyList
 
-    LibraryQuestionTranslator(LibraryQuestionFieldFinder libraryQuestionFieldFinder) {
+    LibraryQuestionTranslator(LibraryQuestionFieldParser libraryQuestionFieldFinder) {
         this.libraryQuestionFieldFinder = libraryQuestionFieldFinder
         this.libraryQuestionRegexes = libraryQuestionFieldFinder.libraryQuestionRegexes
     }
@@ -30,7 +30,7 @@ class LibraryQuestionTranslator {
             if values differ, replace text in library with translated value from translation
          */
         def translatedTextBlock = textBlock
-        String translationKeyList = translation.translationFieldKeys.getKeyList()
+        translationKeyList = translation.translationFieldKeys.getKeyList()
         libraryQuestionRegexes.each { Map fieldsAndRegexes ->
             translatedTextBlock = translateTextForOneFieldUsingRegexMap(translatedTextBlock, translation, fieldsAndRegexes)
         }
