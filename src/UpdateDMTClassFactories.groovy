@@ -101,13 +101,13 @@ class UpdateDMTClassFactories {
 
     def getTranslationForKeys(Translations translationsFromExcelExport, TranslationFieldKeys translationFieldKeys) {
         /*
-      get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
+      get translations for multiple keys...if not exactly one match, return null
        */
         def matchingTranslationFromExcelExport = null
         if (translationFieldKeys != null) {
             def matchingTranslations = translationsFromExcelExport.getTranslations(translationFieldKeys)
             if (singleMatchingTranslation(matchingTranslations)) {
-                matchingTranslationFromExcelExport = matchingTranslations[0]
+                matchingTranslationFromExcelExport = new Translation(matchingTranslations[0], translationFieldKeys)
             }
         }
         matchingTranslationFromExcelExport
@@ -127,7 +127,9 @@ class UpdateDMTClassFactories {
     }
 
     def applyTranslationToLibraryTextBlock(Translation translation, LibraryTextBlock libraryTextBlock) {
-        String translatedLibraryText = libraryTextBlock.translateAllFieldsFromTranslation(translation)
+        String translatedLibraryText = libraryTextBlock.textBlock
+        if (!(translation == null))
+            translatedLibraryText = libraryTextBlock.translateAllFieldsFromTranslation(translation)
         translatedLibraryText
     }
 
@@ -137,54 +139,4 @@ class UpdateDMTClassFactories {
         Log.writeLine("exceptions", "\r\nDone at: " + Dates.currentDateAndTime())
         Log.writeLine("nocode", "\r\nDone at: " + Dates.currentDateAndTime())
     }
-
-/** ***********************************************************************************************************/
-
-
-//    def translateFiles(libraryArgs) {
-//        doTranslations()
-//        cleanupAfterTranslations()
-//    }
-
-//    static cleanupAfterTranslations() {
-//        closeLogs()
-//    }
-
-//    static doTranslations() {
-//    }
-
-
-//    static getNextFactoryTextBlock() {
-//        nextFactoryTextBlock = libraryFactoryParser.next()
-//    }
-
-//    static getTranslationForKeys() {
-//        /*
-//        get translations for BOM Fields key...if more than one, get translations for question identifier and BOM Fields key (or null if no match)
-//         */
-//        matchingTranslationFromExcelExport = null
-//        if (translationFieldKeys != null) {
-//            def matchingTranslations = translationsFromExcelExport.getTranslations(translationFieldKeys)
-//            if (singleMatchingTranslation(matchingTranslations)) {
-//                matchingTranslationFromExcelExport = matchingTranslations[0]
-//            }
-//        }
-//    }
-//
-//    static WriteTranslatedFactoryTextBlockToTranslatedFile() {
-//        libraryFactoryWithNewTranslations.add(nextFactoryTextBlock)
-//    }
-
-//    static loadLibraryFactoryParserFromLibraryFactoryFile(fileName) {
-//        def libraryFactoryFileName = fileName + "ClassFactory.groovy"
-//        def libraryFactoryFile = new TextFile(startFilePath + "LibraryFactoryManager\\\\" + libraryFactoryFileName)
-//        if (libraryFactoryFile.exists()) {
-//            libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
-//            libraryQuestionFieldFinder = new LibraryQuestionFieldFinder(languageName)
-//        } else {
-//            Log.writeLine "exceptions", "${libraryFactoryFile.getFullPathName()} doesn't exist"
-//        }
-//    }
-//
-
 }
