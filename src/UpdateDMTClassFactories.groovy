@@ -133,7 +133,6 @@ class UpdateDMTClassFactories {
         translatedLibraryText
     }
 
-
     def closeLogs() {
         Log.writeLine("\r\nDone at: " + Dates.currentDateAndTime())
         Log.writeLine("exceptions", "\r\nDone at: " + Dates.currentDateAndTime())

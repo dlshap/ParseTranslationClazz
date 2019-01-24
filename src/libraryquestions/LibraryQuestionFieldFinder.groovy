@@ -55,13 +55,6 @@ class LibraryQuestionFieldFinder {
         }
         returnVal
     }
-
-//    def findFieldInLibraryText(theText, aLanguage, fieldName) {
-//        /* set language name different from default */
-//        languageName = aLanguage
-//        findFieldInLibraryText(theText, fieldName)
-//    }
-
 }
 
 
