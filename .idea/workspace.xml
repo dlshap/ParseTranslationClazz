@@ -4,10 +4,7 @@
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/libraryquestions/LibraryFactory.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryFactory.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/libraryquestions/LibraryTextBlock.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryTextBlock.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/translations/Translation.groovy" afterPath="$PROJECT_DIR$/src/translations/Translation.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/translations/Translations.groovy" afterPath="$PROJECT_DIR$/src/translations/Translations.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UpdateDMTClassFactories.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UpdateDMTClassFactories.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+            <state relative-caret-position="209">
+              <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -41,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LibraryTextBlock.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LibraryTextBlock.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryTextBlock.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="22" lean-forward="false" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+            <state relative-caret-position="543">
+              <caret line="45" column="7" lean-forward="false" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
               <folding>
                 <element signature="e#26#52#0" expanded="true" />
               </folding>
@@ -198,9 +195,9 @@
         <option value="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionFieldFinder.groovy" />
         <option value="$PROJECT_DIR$/src/translations/Translations.groovy" />
         <option value="$PROJECT_DIR$/src/translations/Translation.groovy" />
-        <option value="$PROJECT_DIR$/src/libraryquestions/LibraryTextBlock.groovy" />
-        <option value="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
         <option value="$PROJECT_DIR$/src/libraryquestions/LibraryFactory.groovy" />
+        <option value="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
+        <option value="$PROJECT_DIR$/src/libraryquestions/LibraryTextBlock.groovy" />
       </list>
     </option>
   </component>
@@ -685,14 +682,7 @@
       <workItem from="1548177849258" duration="1021000" />
       <workItem from="1548257428023" duration="13029000" />
       <workItem from="1548284178083" duration="949000" />
-      <workItem from="1548342565611" duration="4695000" />
-    </task>
-    <task id="LOCAL-00045" summary="Cosmetics">
-      <created>1544655391550</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1544655391550</updated>
+      <workItem from="1548342565611" duration="4764000" />
     </task>
     <task id="LOCAL-00046" summary="Fixed IntelliJ configuration (args)">
       <created>1544656212372</created>
@@ -1030,14 +1020,22 @@
       <option name="project" value="LOCAL" />
       <updated>1548344299764</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="About to translate.">
+      <created>1548350123757</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1548350123757</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="317495000" />
+    <option name="totallyTimeSpent" value="317564000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="1686" height="1012" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1058,7 +1056,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3037694" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3037694" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1085,7 +1083,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refactored for next set of changes." />
     <MESSAGE value="Getting closer to using Question Identifier" />
     <MESSAGE value="About to get translation on concatenated key (maybe)" />
     <MESSAGE value="Fixing regex generator" />
@@ -1110,7 +1107,8 @@
     <MESSAGE value="Making progress on translations" />
     <MESSAGE value="Getting smaller and smaller" />
     <MESSAGE value="Way cool...writing some of the files (don't know if translating yet)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Way cool...writing some of the files (don't know if translating yet)." />
+    <MESSAGE value="About to translate." />
+    <option name="LAST_COMMIT_MESSAGE" value="About to translate." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1507,12 +1505,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryTextBlock.groovy">
+    <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="22" lean-forward="false" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        <state relative-caret-position="209">
+          <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
           <folding>
-            <element signature="e#26#52#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1525,12 +1523,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
+    <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryTextBlock.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+        <state relative-caret-position="543">
+          <caret line="45" column="7" lean-forward="false" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#26#52#0" expanded="true" />
           </folding>
         </state>
       </provider>
