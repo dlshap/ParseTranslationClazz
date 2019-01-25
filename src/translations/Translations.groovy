@@ -29,7 +29,7 @@ class Translations {
     }
 
     def getTranslation(keyName, keyValue) {
-        def translations = getTranslations(keyName, keyValue)
+        def translations = getTranslationsMap(keyName, keyValue)
         if (translations == null)
             null
         else
@@ -37,7 +37,7 @@ class Translations {
             translations[0]
     }
 
-    def getTranslations(TranslationFieldKeys translationFieldKeys) {
+    def getTranslationsMap(TranslationFieldKeys translationFieldKeys) {
         /*
         keys = map of key/value pairs that should be matched against corresponding pairs in transKeyMapList
         returns all maps in transKeyMapList that match on all keys
@@ -52,7 +52,7 @@ class Translations {
         translations
     }
 
-    def getTranslations(keyName, value) {
+    def getTranslationsMap(keyName, value) {
         List translations = transKeyMapList.findAll() { keyMap ->
             keyMap[keyName] == value
         }

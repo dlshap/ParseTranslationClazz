@@ -163,7 +163,7 @@ class UpdateDmtDeTranslatedProperties {
     static logTranslationKeysWithNoValues() {
         // write exceptions accumulated while moving translations into properties file
         Log.writeLine("exceptions", "\r\n******* No $languageName translation in Excel export:")
-        def noTranslationList = translationsFromExcelExport.getTranslations("$languageName", "")
+        def noTranslationList = translationsFromExcelExport.getTranslationsMap("$languageName", "")
         if (noTranslationList != null) {
             noTranslationList.each {
                 def translationKey = it.get("Message Key")

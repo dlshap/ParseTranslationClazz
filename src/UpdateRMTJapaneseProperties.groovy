@@ -62,7 +62,7 @@ class UpdateRMTJapaneseProperties {
 
     static logTranslationKeysWithNoValues(Translations translations, Properties properties) {
         Log.writeLine("exceptions", "\r\n******* No Japanese translation in spreadsheet:")
-        def noJapaneseList = translations.getTranslations("Japanese", "")
+        def noJapaneseList = translations.getTranslationsMap("Japanese", "")
         if (noJapaneseList != null) {
             noJapaneseList.each {
                 def tKey = it.get("English")
