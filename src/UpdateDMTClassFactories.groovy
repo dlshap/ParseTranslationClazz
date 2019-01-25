@@ -63,8 +63,8 @@ class UpdateDMTClassFactories {
 
 
     def getCorrespondingLibraryFactoryForExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
-        def classFileName = excelExport.getShortName()
-        def libraryFactory = libraryFactoryManager.getLibraryFactoryForFileName(classFileName)
+        def disclosureClassName = excelExport.getShortName()
+        def libraryFactory = libraryFactoryManager.getLibraryFactoryForFileName(disclosureClassName)
         libraryFactory
     }
 
@@ -78,19 +78,19 @@ class UpdateDMTClassFactories {
     def updateLibraryFactoryFromTranslations(LibraryFactory libraryFactory, Translations translationsFromExcelExport) {
         while (libraryFactory.hasNextLibraryTextBlock()) {
             def nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
-            def nextTranslatedLibraryText = getTranslatedTextForNextLibraryTextBlockFromExcelTranslations(nextLibraryTextBlock, translationsFromExcelExport)
+            def nextTranslatedLibraryText = getTranslatedTextForNextLibraryTextBlockUsingExcelTranslations(nextLibraryTextBlock, translationsFromExcelExport)
             libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedLibraryText)
         }
     }
 
-    def getTranslatedTextForNextLibraryTextBlockFromExcelTranslations(LibraryTextBlock libraryTextBlock, Translations translationsFromExcelExport) {
-        TranslationFieldKeys factoryTranslationKeys = getKeysFromLibraryTextBlock(libraryTextBlock)
+    def getTranslatedTextForNextLibraryTextBlockUsingExcelTranslations(LibraryTextBlock libraryTextBlock, Translations translationsFromExcelExport) {
+        TranslationFieldKeys factoryTranslationKeys = getKeyValuesFromLibraryTextBlock(libraryTextBlock)
         Translation translation = getTranslationForKeys(translationsFromExcelExport, factoryTranslationKeys)
         String translatedLibraryText = applyTranslationToLibraryTextBlock(translation, libraryTextBlock)
         translatedLibraryText
     }
 
-    def getKeysFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
+    def getKeyValuesFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
         def bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
         def questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
         def translationFieldKeys = null
@@ -103,17 +103,18 @@ class UpdateDMTClassFactories {
         /*
       get translations for multiple keys...if not exactly one match, return null
        */
-        def matchingTranslationFromExcelExport = null
+        Translation matchingTranslationFromExcelExport = null
         if (translationFieldKeys != null) {
             def matchingTranslations = translationsFromExcelExport.getTranslationsFromKeyFields(translationFieldKeys)
-            if (singleMatchingTranslationForKeys(matchingTranslations, translationFieldKeys)) {
-                matchingTranslationFromExcelExport = new Translation(matchingTranslations[0], translationFieldKeys)
+            if (isSingleMatchingTranslationForKeys(matchingTranslations, translationFieldKeys)) {
+                matchingTranslationFromExcelExport = matchingTranslations[0]
+                matchingTranslationFromExcelExport.translationFieldKeys = translationFieldKeys  // used for missing value messages
             }
         }
         matchingTranslationFromExcelExport
     }
 
-    def singleMatchingTranslationForKeys(matchingTranslations, TranslationFieldKeys translationFieldKeys) {
+    def isSingleMatchingTranslationForKeys(matchingTranslations, TranslationFieldKeys translationFieldKeys) {
         def translationCount = matchingTranslations.size()
         if (translationCount == 1)
             return true
@@ -128,7 +129,7 @@ class UpdateDMTClassFactories {
 
     def applyTranslationToLibraryTextBlock(Translation translation, LibraryTextBlock libraryTextBlock) {
         String translatedLibraryText = libraryTextBlock.textBlock
-        if (!(translation == null))
+        if (translation != null)
             translatedLibraryText = libraryTextBlock.translateAllFieldsFromTranslation(translation)
         translatedLibraryText
     }

@@ -8,7 +8,7 @@ import filemanagement.KeyFile
  */
 class Translations {
     // Translations: collection of Translation objects imported from Translation Spreadsheet export file
-    def translations = []
+    ArrayList<Translation> translations = []
     Iterator translationIterator
 
     Translations(KeyFile translationExportFile) {
@@ -69,10 +69,11 @@ class Translations {
         returns all maps in translations that match on all keys
          */
         def keyMap = translationFieldKeys.getKeys()
-        def translations = translations
+        def translations = this.translations
         keyMap.each { k, v ->
-            translations = translations.findAll() {
-                it.get(k).trim().toLowerCase() == keyMap.get(k).trim().toLowerCase()
+            translations = translations.findAll() { Translation it ->
+                it.get(k) == keyMap.get(k)
+//                it.get(k).trim().toLowerCase() == keyMap.get(k).trim().toLowerCase()
             }
         }
         translations
