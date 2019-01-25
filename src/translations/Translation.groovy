@@ -5,14 +5,18 @@ import libraryquestions.LibraryTextBlock
 class Translation {
 
     def transKeyMap = [:]
-    TranslationFieldKeys translationFieldKeys
+//    TranslationFieldKeys translationFieldKeys
 
-    def Translation(transKeyMap, translationFieldKeys) {
+    Translation(transKeyMap) {
         this.transKeyMap = transKeyMap
-        this.translationFieldKeys = translationFieldKeys
     }
 
+//    def Translation(transKeyMap, translationFieldKeys) {
+//        this.transKeyMap = transKeyMap
+//        this.translationFieldKeys = translationFieldKeys
+//    }
+
     def get(keyName) {
-        transKeyMap[keyName]
+        transKeyMap.get(keyName)
     }
 }
