@@ -1,6 +1,7 @@
 package translations
 
 class Translation {
+    //force recompile
 
     def transKeyMap = [:]
 

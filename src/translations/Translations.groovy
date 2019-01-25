@@ -4,6 +4,7 @@ package translations
  */
 class Translations {
     // Translations: collection of Translation objects imported from Translation Spreadsheet export file
+    // force recompile
     def transKeyMapList = []
     Iterator translationIterator
 
