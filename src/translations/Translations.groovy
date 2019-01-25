@@ -57,10 +57,6 @@ class Translations {
             null
     }
 
-    def rewind() {
-        translationIterator = transKeyMapList.iterator()
-    }
-
     def size() {
         transKeyMapList.size()
     }

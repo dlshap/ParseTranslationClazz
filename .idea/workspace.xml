@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/translations/Translations.groovy" afterPath="$PROJECT_DIR$/src/translations/Translations.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,46 +15,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UpdateDMTClassFactories.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy">
+      <file leaf-file-name="UpdateDmtDeTranslatedProperties.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="131" column="0" lean-forward="false" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+            <state relative-caret-position="247">
+              <caret line="190" column="0" lean-forward="false" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
               <folding>
-                <element signature="e#0#38#0" expanded="true" />
+                <element signature="e#0#34#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LibraryFactory.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryFactory.groovy">
+      <file leaf-file-name="TranslationFieldKeys.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LibraryFactoryParser.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryFactoryParser.groovy">
+      <file leaf-file-name="Translations.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="29" column="35" lean-forward="false" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
+            <state relative-caret-position="775">
+              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Translation.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/translations/Translation.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding>
-                <marker date="1548179544926" expanded="true" signature="980:986" ph="}" />
+                <marker date="1548437226756" expanded="true" signature="172:182" ph="{" />
+                <marker date="1548437226756" expanded="true" signature="202:208" ph="}" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Splitter.class" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/guava/guava-19.0.jar!/com/google/common/base/Splitter.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -161,9 +163,9 @@
         <option value="$PROJECT_DIR$/src/test.groovy" />
         <option value="$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy" />
         <option value="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" />
-        <option value="$PROJECT_DIR$/src/translations/Translations.groovy" />
         <option value="$PROJECT_DIR$/src/translations/Translation.groovy" />
         <option value="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
+        <option value="$PROJECT_DIR$/src/translations/Translations.groovy" />
       </list>
     </option>
   </component>
@@ -194,7 +196,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
@@ -225,6 +226,12 @@
               <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
               <item name="ParseTranslationClazz" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="logging" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ParseTranslationClazz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ParseTranslationClazz" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="translations" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -232,6 +239,7 @@
         </subPane>
       </pane>
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -956,31 +964,31 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="253563000" />
+    <option name="totallyTimeSpent" value="253864000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-3" y="4" width="1684" height="1003" extended-state="0" />
+    <frame x="1" y="5" width="1678" height="995" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32777777" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32542372" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29365963" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25643897" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25875705" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21522781" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21600482" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3057111" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41355932" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1056,10 +1064,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy</url>
+          <line>190</line>
+          <properties />
+          <option name="timeStamp" value="257" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="256" />
+      <option name="time" value="258" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1323,16 +1339,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="365">
           <caret line="29" column="35" lean-forward="false" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
-          <folding>
-            <marker date="1548179544926" expanded="true" signature="980:986" ph="}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="165" column="70" lean-forward="true" selection-start-line="165" selection-start-column="70" selection-end-line="165" selection-end-column="70" />
           <folding />
         </state>
       </provider>
@@ -1348,7 +1354,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
           <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1368,8 +1373,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/translations/TranslationFieldKeys.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1392,16 +1398,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/translations/Translation.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="1" lean-forward="false" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="3" lean-forward="false" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
-          <folding />
+        <state relative-caret-position="187">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <marker date="1548437226756" expanded="true" signature="172:182" ph="{" />
+            <marker date="1548437226756" expanded="true" signature="202:208" ph="}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1416,8 +1418,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="461">
           <caret line="131" column="0" lean-forward="false" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="190" column="0" lean-forward="false" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
           <folding>
-            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
