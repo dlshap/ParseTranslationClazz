@@ -15,8 +15,6 @@ import translations.Translations
  */
 class UpdateDMTClassFactories {
 
-    //slight change
-
     UpdateDMTClassFactories(args) {
         start(args)
     }
