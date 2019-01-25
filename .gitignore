@@ -2,6 +2,10 @@
 Thumbs.db
 ehthumbs.db
 
+# object file directory
+out
+.class
+
 # Folder config file
 Desktop.ini
 
@@ -54,6 +58,4 @@ Temporary Items
 *.ipr
 *.iws
 *.log
-out
-**out
 .DS_Store
