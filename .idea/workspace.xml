@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/translations/Translations.groovy" afterPath="$PROJECT_DIR$/src/translations/Translations.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -617,13 +616,6 @@
       <workItem from="1547238188585" duration="59000" />
       <workItem from="1547765554262" duration="60000" />
     </task>
-    <task id="LOCAL-00029" summary="A little more cleaning up.">
-      <created>1543604828841</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1543604828841</updated>
-    </task>
     <task id="LOCAL-00030" summary="End of first cleaning.">
       <created>1543609104590</created>
       <option name="number" value="00030" />
@@ -960,11 +952,18 @@
       <option name="project" value="LOCAL" />
       <updated>1547662543654</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="Fixed name on translated library files.">
+      <created>1548437535151</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1548437535151</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="253864000" />
+    <option name="totallyTimeSpent" value="253889000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="5" width="1678" height="995" extended-state="0" />
