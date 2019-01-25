@@ -136,9 +136,9 @@ class UpdateDmtDeTranslatedProperties {
 
     static updateAPropertyFromAnExcelExportRow() {
         def nextExcelExportTranslation = translationsFromExcelExport.next()
-        def nextTranslationKey = nextExcelExportTranslation.get("Message Key").trim()
-        def nextTranslationValue = nextExcelExportTranslation.get(languageName).trim()
-        if ((nextTranslationValue != null) && (nextTranslationValue != "") && (!(nextTranslationKey == "" || nextTranslationKey.charAt(0) == "#")))
+        def nextTranslationKey = nextExcelExportTranslation.get("Message Key")
+        def nextTranslationValue = nextExcelExportTranslation.get(languageName)
+        if ((nextTranslationValue != null)  && (!(nextTranslationKey == null || nextTranslationKey.charAt(0) == "#")))
             replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue)
     }
 
@@ -165,7 +165,7 @@ class UpdateDmtDeTranslatedProperties {
         Log.writeLine("exceptions", "\r\n******* No $languageName translation in Excel export:")
         def noTranslationList = translationsFromExcelExport.getTranslations("$languageName", "")
         if (noTranslationList != null) {
-            noTranslationList.each {
+            noTranslationList.each { Translation it ->
                 def translationKey = it.get("Message Key")
                 if ((translationKey != "") && (translationKey.charAt(0) != "#") && (!(ignorePropertyList.contains(translationKey)))) {
                     Log.writeLine("exceptions", "Property '$translationKey' has no $languageName translation in Excel export.")
@@ -191,8 +191,11 @@ class UpdateDmtDeTranslatedProperties {
             if (matchingExcelExportTranslation == null)
                 Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation Excel export.")
             else {
-                if (matchingExcelExportTranslation.get(languageName) == null)
+                def res = matchingExcelExportTranslation.get(languageName)
+                if (matchingExcelExportTranslation.get(languageName) == null) {
+                    println nextPropertyKey
                     Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")
+                }
             }
         }
     }

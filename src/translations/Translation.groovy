@@ -17,6 +17,7 @@ class Translation {
 //    }
 
     def get(keyName) {
-        transKeyMap.get(keyName)
+        def value = transKeyMap.get(keyName)
+        value == "" ? null : value
     }
 }

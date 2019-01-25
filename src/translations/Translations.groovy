@@ -38,7 +38,7 @@ class Translations {
 //        def keyMap = ["$keyName":keyValue]
 //        TranslationFieldKeys translationFieldKeys = new TranslationFieldKeys(keyMap)
         def translations = getTranslations(keyName, keyValue)
-        (translations == null) ? null : new Translation(translations[0])
+        (translations == null) ? null : translations[0]
     }
 
     def getTranslations(keyName, value) {
