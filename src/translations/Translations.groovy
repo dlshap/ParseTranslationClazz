@@ -16,6 +16,11 @@ class Translations {
         buildTranslations(translationExportFile)
     }
 
+    def buildTranslations(KeyFile translationExportFile) {
+        this.transKeyMapList = translationExportFile.getKeyMaps()
+        this.translationIterator = transKeyMapList.iterator()
+    }
+
     static createTranslationsFromExcelExport(ExcelExport excelExport) {
         //new factory (replaces old constructor)
         KeyFile translationExportFile = excelExport.excelExportFile
@@ -23,21 +28,41 @@ class Translations {
         translations
     }
 
-    def buildTranslations(KeyFile translationExportFile) {
-        this.transKeyMapList = translationExportFile.getKeyMaps()
-        this.translationIterator = transKeyMapList.iterator()
-    }
-
     def getTranslation(keyName, keyValue) {
-        def translations = getTranslationsMap(keyName, keyValue)
+        /* used for Properties files (single key) */
+        def keyMap = ["$keyName":keyValue]
+        TranslationFieldKeys translationFieldKeys = new TranslationFieldKeys(keyMap)
+        def translations = getTranslations(keyName, keyValue)
         if (translations == null)
             null
         else
         // first translation
-            translations[0]
+            new Translation(translations[0], translationFieldKeys)
     }
 
-    def getTranslationsMap(TranslationFieldKeys translationFieldKeys) {
+    def getTranslations(keyName, value) {
+        List translations = transKeyMapList.findAll() { keyMap ->
+            keyMap[keyName] == value
+        }
+        translations
+    }
+
+    def getTranslationsMapFromKeyField(TranslationFieldKeys translationFieldKeys) {
+        /*
+        keys = map of key/value pairs that should be matched against corresponding pairs in transKeyMapList
+        returns all maps in transKeyMapList that match on all keys
+         */
+        def keyMap = translationFieldKeys.getKeys()
+        def translationMap = transKeyMapList
+        keyMap.each { k, v ->
+            translationMap = translationMap.findAll() {
+                it.get(k).trim().toLowerCase() == keyMap.get(k).trim().toLowerCase()
+            }
+        }
+        translationMap
+    }
+
+    def getTranslationsMapFromKeyFields(TranslationFieldKeys translationFieldKeys) {
         /*
         keys = map of key/value pairs that should be matched against corresponding pairs in transKeyMapList
         returns all maps in transKeyMapList that match on all keys
@@ -52,7 +77,7 @@ class Translations {
         translations
     }
 
-    def getTranslationsMap(keyName, value) {
+    def getTranslationsMapFromKeyFields(keyName, value) {
         List translations = transKeyMapList.findAll() { keyMap ->
             keyMap[keyName] == value
         }

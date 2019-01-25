@@ -105,7 +105,7 @@ class UpdateDMTClassFactories {
        */
         def matchingTranslationFromExcelExport = null
         if (translationFieldKeys != null) {
-            def matchingTranslations = translationsFromExcelExport.getTranslationsMap(translationFieldKeys)
+            def matchingTranslations = translationsFromExcelExport.getTranslationsMapFromKeyFields(translationFieldKeys)
             if (singleMatchingTranslationForKeys(matchingTranslations, translationFieldKeys)) {
                 matchingTranslationFromExcelExport = new Translation(matchingTranslations[0], translationFieldKeys)
             }

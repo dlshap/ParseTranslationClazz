@@ -163,7 +163,7 @@ class UpdateDmtDeTranslatedProperties {
     static logTranslationKeysWithNoValues() {
         // write exceptions accumulated while moving translations into properties file
         Log.writeLine("exceptions", "\r\n******* No $languageName translation in Excel export:")
-        def noTranslationList = translationsFromExcelExport.getTranslationsMap("$languageName", "")
+        def noTranslationList = translationsFromExcelExport.getTranslationsMapFromKeyFields("$languageName", "")
         if (noTranslationList != null) {
             noTranslationList.each {
                 def translationKey = it.get("Message Key")
@@ -190,8 +190,11 @@ class UpdateDmtDeTranslatedProperties {
             Translation matchingExcelExportTranslation = translationsFromExcelExport.getTranslation("Message Key", nextPropertyKey)
             if (matchingExcelExportTranslation == null)
                 Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation Excel export.")
-            else if (matchingExcelExportTranslation.get(languageName) == null)
-                Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")
+            else {
+                println matchingExcelExportTranslation.transKeyMap.collect().toString()
+//                if (matchingExcelExportTranslation.get(languageName) == null)
+//                    Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")
+            }
         }
     }
 }

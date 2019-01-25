@@ -47,7 +47,7 @@ class DecodeRMTProperties {
 
     static logTranslationKeysWithNoValues(Translations translations, Properties properties) {
         Log.writeLine("exceptions", "\r\n******* No Japanese translation in spreadsheet:")
-        def noJapaneseList = translations.getTranslationsMap("Japanese", "")
+        def noJapaneseList = translations.getTranslationsMapFromKeyFields("Japanese", "")
         if (noJapaneseList != null) {
             noJapaneseList.each {
                 def tKey = it.get("English")
