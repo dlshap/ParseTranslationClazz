@@ -57,17 +57,4 @@ class LibraryQuestionTranslator {
         }
         translatedTextBlock
     }
-
-//    def putTranslatedValueIntoTextBlock(String translatedTextBlock, String translatedValue, Map fieldsAndRegexes) {
-//        def regex = fieldsAndRegexes.get("regex")
-//        def libraryTextMatcher = translatedTextBlock =~ regex
-//        if (libraryTextMatcher.count == 0) {
-//            Log.writeLine("nocode", "No Class Factory code for: keys: $translationKeyList / $fieldName: '$translatedValue'")
-//        } else {
-//            Log.writeLine("Keys: $translationKeyList / $fieldName: replacing '$originalValue' with '$translatedValue'")
-//            def translationValue = "'" + translatedValue + "'"
-//            translatedTextBlock = libraryTextMatcher[0][1] + translationValue + libraryTextMatcher[0][3]
-//        }
-//        translatedTextBlock
-//    }
 }

@@ -31,8 +31,8 @@
       <file leaf-file-name="LibraryQuestionTranslator.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="39" column="45" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="45" />
+            <state relative-caret-position="499">
+              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -711,14 +711,7 @@
       <workItem from="1548447098036" duration="123000" />
       <workItem from="1548459278360" duration="363000" />
       <workItem from="1548689083660" duration="10000" />
-      <workItem from="1548710591336" duration="4880000" />
-    </task>
-    <task id="LOCAL-00057" summary="Getting closer to using Question Identifier">
-      <created>1544820508036</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1544820508036</updated>
+      <workItem from="1548710591336" duration="4924000" />
     </task>
     <task id="LOCAL-00058" summary="Getting closer to using Question Identifier">
       <created>1544821409135</created>
@@ -1056,11 +1049,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548718639011</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="Need to clean up translateTextForOneFieldUsingRegexMap in LibraryQuestionTranslator">
+      <created>1548718924677</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1548718924677</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="356540000" />
+    <option name="totallyTimeSpent" value="356584000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="4" width="1688" height="1007" extended-state="0" />
@@ -1112,7 +1112,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Need to work on remaining BOM Fields (single key) operations. Convert to TranslationFieldKeys" />
     <MESSAGE value="One more commit before branching to work on multiple language support." />
     <MESSAGE value="Starting object-oriented refactor" />
     <MESSAGE value="Making progress." />
@@ -1137,7 +1136,8 @@
     <MESSAGE value="Fixed .gitignore (I hope)" />
     <MESSAGE value="Check results" />
     <MESSAGE value="All seems to be working...need to do some serious testing. Then test with another language." />
-    <option name="LAST_COMMIT_MESSAGE" value="All seems to be working...need to do some serious testing. Then test with another language." />
+    <MESSAGE value="Need to clean up translateTextForOneFieldUsingRegexMap in LibraryQuestionTranslator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Need to clean up translateTextForOneFieldUsingRegexMap in LibraryQuestionTranslator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1554,8 +1554,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="39" column="45" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="45" />
+        <state relative-caret-position="499">
+          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
           <folding />
         </state>
       </provider>
