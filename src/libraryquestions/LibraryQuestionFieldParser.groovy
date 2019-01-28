@@ -56,7 +56,7 @@ class LibraryQuestionFieldParser {
                 returnVal = returnVal.replaceAll(/^['"]|['"]$/, "")     // trim leading and trailing quotes
             }
         }
-        returnVal
+        returnVal == "null" ? null : returnVal
     }
 }
 

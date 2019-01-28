@@ -3,10 +3,10 @@ import excelExports.ExcelExports
 import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
+import libraryquestions.LibraryLogs
 import libraryquestions.LibraryTextBlock
 import translations.Translation
 import translations.TranslationFieldKeys
-import logging.Dates
 import logging.Log
 import translations.Translations
 
@@ -29,24 +29,15 @@ class UpdateDMTClassFactories {
     }
 
     def performTranslations(libraryArgs) {
-        openLogs(libraryArgs)
+        LibraryLogs.openLogs(libraryArgs)
         def excelExports = new ExcelExports(libraryArgs)
         def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
-        updateLibraryFactoriesFromEachExcelExports(libraryFactoryManager, excelExports)
-        closeLogs()
+        updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)
+        LibraryLogs.closeLogs()
     }
 
-    def openLogs(libraryArgs) {
-        def logsFilePath = libraryArgs.startFilePath + "logs\\\\"
-        Log.open logsFilePath + "log-library-translations.txt"
-        Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "exceptions", logsFilePath + "log-library-exceptions.txt"
-        Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open "nocode", logsFilePath + "log-library-nocode.txt"
-        Log.writeLine "nocode", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-    }
 
-    def updateLibraryFactoriesFromEachExcelExports(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
+    def updateLibraryFactoriesFromEachExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
             ExcelExport nextExcelExport = excelExports.next()
@@ -134,9 +125,4 @@ class UpdateDMTClassFactories {
         translatedLibraryText
     }
 
-    def closeLogs() {
-        Log.writeLine("\r\nDone at: " + Dates.currentDateAndTime())
-        Log.writeLine("exceptions", "\r\nDone at: " + Dates.currentDateAndTime())
-        Log.writeLine("nocode", "\r\nDone at: " + Dates.currentDateAndTime())
-    }
 }
