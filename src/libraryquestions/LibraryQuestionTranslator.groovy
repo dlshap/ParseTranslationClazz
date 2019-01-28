@@ -38,13 +38,12 @@ class LibraryQuestionTranslator {
     }
 
     def translateTextForOneFieldUsingRegexMap(String textBlock, Translation translation, Map fieldsAndRegexes) {
-        def translatedTextBlock = textBlock
         def fieldName = fieldsAndRegexes.get("fieldName")
+        def translatedTextBlock = textBlock
         if (fieldName.toLowerCase().contains("translated")) {
-            def originalValue = libraryQuestionFieldParser.findFieldInLibraryText(translatedTextBlock, fieldName)
+            def originalValue = libraryQuestionFieldParser.findFieldInLibraryText(textBlock, fieldName)
             def translatedValue = translation.get(fieldName)
             if (!(originalValue.equals(translatedValue)) && (translatedValue != null)) {
-//                translatedTextBlock = putTranslatedValueIntoTextBlock(translatedTextBlock, translatedValue, fieldsAndRegexes)
                 def regex = fieldsAndRegexes.get("regex")
                 def libraryTextMatcher = translatedTextBlock =~ regex
                 if (libraryTextMatcher.count == 0) {

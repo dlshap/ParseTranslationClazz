@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryLogs.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionTranslator.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/LibraryQuestions/LibraryQuestionTranslator.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" afterPath="$PROJECT_DIR$/src/UpdateDMTClassFactories.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionFieldParser.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionFieldParser.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" afterPath="$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -34,8 +31,8 @@
       <file leaf-file-name="LibraryQuestionTranslator.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="49" column="39" lean-forward="true" selection-start-line="49" selection-start-column="39" selection-end-line="49" selection-end-column="39" />
+            <state relative-caret-position="274">
+              <caret line="39" column="45" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -714,14 +711,7 @@
       <workItem from="1548447098036" duration="123000" />
       <workItem from="1548459278360" duration="363000" />
       <workItem from="1548689083660" duration="10000" />
-      <workItem from="1548710591336" duration="4582000" />
-    </task>
-    <task id="LOCAL-00056" summary="Getting closer to using Question Identifier">
-      <created>1544817711346</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1544817711346</updated>
+      <workItem from="1548710591336" duration="4880000" />
     </task>
     <task id="LOCAL-00057" summary="Getting closer to using Question Identifier">
       <created>1544820508036</created>
@@ -1059,11 +1049,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548460359086</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="All seems to be working...need to do some serious testing. Then test with another language.">
+      <created>1548718639010</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1548718639011</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="356242000" />
+    <option name="totallyTimeSpent" value="356540000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="4" width="1688" height="1007" extended-state="0" />
@@ -1115,7 +1112,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Working for multiple (concatenated keys). Next make work only when BOM Fields finds dupes." />
     <MESSAGE value="Need to work on remaining BOM Fields (single key) operations. Convert to TranslationFieldKeys" />
     <MESSAGE value="One more commit before branching to work on multiple language support." />
     <MESSAGE value="Starting object-oriented refactor" />
@@ -1140,7 +1136,8 @@
     <MESSAGE value="Need to fix properties (changed Translation object)" />
     <MESSAGE value="Fixed .gitignore (I hope)" />
     <MESSAGE value="Check results" />
-    <option name="LAST_COMMIT_MESSAGE" value="Check results" />
+    <MESSAGE value="All seems to be working...need to do some serious testing. Then test with another language." />
+    <option name="LAST_COMMIT_MESSAGE" value="All seems to be working...need to do some serious testing. Then test with another language." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1557,8 +1554,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/libraryquestions/LibraryQuestionTranslator.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="49" column="39" lean-forward="true" selection-start-line="49" selection-start-column="39" selection-end-line="49" selection-end-column="39" />
+        <state relative-caret-position="274">
+          <caret line="39" column="45" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="45" />
           <folding />
         </state>
       </provider>
