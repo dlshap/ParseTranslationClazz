@@ -39,7 +39,10 @@ class LibraryTranslator {
         Translation matchingTranslationFromExcelExport = null
         if (translationFieldKeys != null) {
             def matchingTranslations = translations.getTranslationsFromKeyFields(translationFieldKeys)
-            if (isSingleMatchingTranslationForKeys(matchingTranslations)) {
+            def matchingTranslationCount = matchingTranslations.size()
+            if (matchingTranslationCount != 1)
+                logExceptionForTranslationCount(matchingTranslationCount)
+            else {
                 matchingTranslationFromExcelExport = matchingTranslations[0]
                 matchingTranslationFromExcelExport.translationFieldKeys = translationFieldKeys  // used for missing value messages
             }
@@ -47,17 +50,11 @@ class LibraryTranslator {
         matchingTranslationFromExcelExport
     }
 
-    def isSingleMatchingTranslationForKeys(matchingTranslations) {
-        def translationCount = matchingTranslations.size()
-        if (translationCount == 1)
-            return true
-        else if (translationCount == 0) {
+    def logExceptionForTranslationCount(translationCount) {
+        if (translationCount == 0)
             Log.writeLine "exceptions", "Missing translation for keys: ${translationFieldKeys.getKeyList()}"
-            return false
-        } else if (translationCount > 1) {
+        else
             Log.writeLine "exceptions", "Multiple translations for keys: ${translationFieldKeys.getKeyList()}"
-            return false
-        }
     }
 
     def applyTranslationToLibraryTextBlock(Translation translation) {

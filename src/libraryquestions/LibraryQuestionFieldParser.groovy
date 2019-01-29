@@ -15,7 +15,9 @@ class LibraryQuestionFieldParser {
 
     def libraryLanguageLabels = [
             "Japanese": "ja_JP",
-            "English" : "en_US"
+            "English" : "en_US",
+            "French-Canadian" : "fr_CA",
+            "Czech" : "cs_CZ"
     ]
 
     def buildLibraryQuestionRegexes(languageLabel) {
