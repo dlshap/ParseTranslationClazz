@@ -8,24 +8,18 @@ class AddJapaneseTranslationsToClassFactory {
 
     static final linebreak = "\r\n             "
 
-    static addJapaneseDescriptionKey(origText) {
-        def findPattern = /(desc.*]).*]]/
-        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $linebreak"ja_JP": ["desc": '']]]/ }
-        result
-    }
-
-    static addJapaneseQuestionKeys(origText) {
-        def findPattern = /(?s)(localizationMap.*?helpText])]/
-        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $linebreak"ja_JP": ["txt": '', "title": '', $linebreak"helpText": '']]/ }
-        result
-    }
-
-    static addJapaneseTranslations(TextFile classFactoryFile) {
-        def origText = classFactoryFile.getText()
-        def newText
-        newText = addJapaneseDescriptionKey(origText)
-        newText = addJapaneseQuestionKeys(newText)
-        newText
+    static main(args) {
+        def fp = getFilePath(args)
+        def factoryPath = fp //+ "\\\\AddToFactoriesTest"
+        def fileName = FileChooser.chooseFile("Select Library Factory to update", factoryPath)
+        if (fileName != null) {
+            TextFile classFactoryFile = new TextFile(fileName)
+            def newText = addJapaneseTranslations(classFactoryFile)
+            if (newText != null) {
+                classFactoryFile.makeBackupFile()
+                classFactoryFile.setText(newText)
+            }
+        }
     }
 
     static getFilePath(args) {
@@ -40,18 +34,25 @@ class AddJapaneseTranslationsToClassFactory {
         fp
     }
 
-    static main(args) {
-        def fp = getFilePath(args)
-        def factoryPath = fp //+ "\\\\AddToFactoriesTest"
-        def fileName = FileChooser.chooseFile("Select Library Factory to update", factoryPath)
-        if (fileName != null) {
-            TextFile classFactoryFile = new TextFile(fileName)
-            def newText = addJapaneseTranslations(classFactoryFile)
-            if (newText != null) {
-                classFactoryFile.makeBackupFile()
-                classFactoryFile.setText(newText)
-            }
-        }
+    static addJapaneseTranslations(TextFile classFactoryFile) {
+        def origText = classFactoryFile.getText()
+        def newText
+        newText = addJapaneseDescriptionKey(origText)
+        newText = addJapaneseQuestionKeys(newText)
+        newText
     }
+
+    static addJapaneseDescriptionKey(origText) {
+        def findPattern = /(desc.*]).*]]/
+        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $linebreak"ja_JP": ["desc": '']]]/ }
+        result
+    }
+
+    static addJapaneseQuestionKeys(origText) {
+        def findPattern = /(?s)(localizationMap.*?helpText])]/
+        def result = origText.replaceAll(findPattern) { m -> /${m[1]}, $linebreak"ja_JP": ["txt": '', "title": '', $linebreak"helpText": '']]/ }
+        result
+    }
+
 }
 

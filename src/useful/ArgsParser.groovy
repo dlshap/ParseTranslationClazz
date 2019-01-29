@@ -3,7 +3,7 @@ package useful
 class ArgsParser {
     def argsMap = [:]
 
-    def ArgsParser (args) {
+    ArgsParser (args) {
         def argsKey, argsValue
         def argCount = args.size()
         args.each {
