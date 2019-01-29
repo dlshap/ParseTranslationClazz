@@ -9,26 +9,21 @@ class LibraryTranslator {
 
     LibraryTextBlock libraryTextBlock
     Translations translations
+    TranslationFieldKeys translationFieldKeys
 
     LibraryTranslator (LibraryTextBlock libraryTextBlock, Translations translations) {
         this.libraryTextBlock = libraryTextBlock
         this.translations = translations
     }
 
-    def getTranslatedText() {
-        def translatedText = getTranslatedTextForNextLibraryTextBlockUsingExcelTranslations()
-        //todo: translate it and generate string
-        translatedText
-    }
-
-    def getTranslatedTextForNextLibraryTextBlockUsingExcelTranslations() {
-        TranslationFieldKeys factoryTranslationKeys = getKeyValuesFromLibraryTextBlock(libraryTextBlock)
-        Translation translation = getTranslationForKeys(translations, factoryTranslationKeys)
-        String translatedLibraryText = applyTranslationToLibraryTextBlock(translation, libraryTextBlock)
+    def getTranslatedLibraryText() {
+        translationFieldKeys = getKeyValuesFromLibraryTextBlock()
+        def translation = getTranslationForKeys()
+        String translatedLibraryText = applyTranslationToLibraryTextBlock(translation)
         translatedLibraryText
     }
 
-    def getKeyValuesFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
+    def getKeyValuesFromLibraryTextBlock() {
         def bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
         def questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
         def translationFieldKeys = null
@@ -37,14 +32,14 @@ class LibraryTranslator {
         translationFieldKeys
     }
 
-    def getTranslationForKeys(Translations translationsFromExcelExport, TranslationFieldKeys translationFieldKeys) {
+    def getTranslationForKeys() {
         /*
       get translations for multiple keys...if not exactly one match, return null
        */
         Translation matchingTranslationFromExcelExport = null
         if (translationFieldKeys != null) {
-            def matchingTranslations = translationsFromExcelExport.getTranslationsFromKeyFields(translationFieldKeys)
-            if (isSingleMatchingTranslationForKeys(matchingTranslations, translationFieldKeys)) {
+            def matchingTranslations = translations.getTranslationsFromKeyFields(translationFieldKeys)
+            if (isSingleMatchingTranslationForKeys(matchingTranslations)) {
                 matchingTranslationFromExcelExport = matchingTranslations[0]
                 matchingTranslationFromExcelExport.translationFieldKeys = translationFieldKeys  // used for missing value messages
             }
@@ -52,7 +47,7 @@ class LibraryTranslator {
         matchingTranslationFromExcelExport
     }
 
-    def isSingleMatchingTranslationForKeys(matchingTranslations, TranslationFieldKeys translationFieldKeys) {
+    def isSingleMatchingTranslationForKeys(matchingTranslations) {
         def translationCount = matchingTranslations.size()
         if (translationCount == 1)
             return true
@@ -65,7 +60,7 @@ class LibraryTranslator {
         }
     }
 
-    def applyTranslationToLibraryTextBlock(Translation translation, LibraryTextBlock libraryTextBlock) {
+    def applyTranslationToLibraryTextBlock(Translation translation) {
         String translatedLibraryText = libraryTextBlock.textBlock
         if (translation != null)
             translatedLibraryText = libraryTextBlock.translateAllFieldsFromTranslation(translation)

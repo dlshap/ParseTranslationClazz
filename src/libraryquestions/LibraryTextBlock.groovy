@@ -13,10 +13,6 @@ class LibraryTextBlock {
         this.libraryQuestionTranslator = new LibraryQuestionTranslator(libraryQuestionFieldFinder)
     }
 
-    def lineContains(String searchText) {
-        libraryQuestionFieldFinder.lineContains(this.textBlock, searchText)
-    }
-
     def findFieldInLibraryText(String searchText) {
         libraryQuestionFieldFinder.findFieldInLibraryText(this.textBlock, searchText)
     }
