@@ -24,7 +24,6 @@ class LibraryQuestionFieldParser {
                 [fieldName: "Question Identifier Translated", regex: /(?s)(.*/ + languageLabel + /.*title.*?:)(.*?)([,\]].*)/],
                 [fieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
                 [fieldName: "Questions and Answers Translated", regex: /(?s)(.*/ + languageLabel + /.*txt.*?:)(.*?)(,.*)/],
-//                [fieldName: "Help Text Translated", regex: /(?s)(.*/ + languageLabel + /.*helpText.*?:\s*?)(\S*?)(\].*\].*)/],
                 [fieldName: "Help Text Translated", regex: /(?s)(.*[defaultQuestion|localizationMap|i18n].*/ + languageLabel + /.*helpText\s*:\s*)(.*?)([],].*)/],
                 [fieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
         ]
@@ -50,8 +49,6 @@ class LibraryQuestionFieldParser {
             }.regex
             def result = theText =~ regex
             if (result.count > 0) {
-                def all = result[0]
-                def before = result[0].collect()
                 returnVal = result[0][2].trim()
                 returnVal = returnVal.replaceAll(/^['"]|['"]$/, "")     // trim leading and trailing quotes
             }
