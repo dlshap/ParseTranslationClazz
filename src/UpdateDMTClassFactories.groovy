@@ -5,8 +5,7 @@ import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
 import libraryquestions.LibraryLogs
 import libraryquestions.LibraryTextBlock
-import translations.Translation
-import translations.TranslationFieldKeys
+import libraryquestions.LibraryTranslator
 import logging.Log
 import translations.Translations
 
@@ -40,7 +39,7 @@ class UpdateDMTClassFactories {
     def updateLibraryFactoriesFromEachExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
         while (excelExports.hasNext()) {
-            ExcelExport nextExcelExport = excelExports.next()
+            def nextExcelExport = excelExports.next()
             addFileNameToLog(nextExcelExport)
             updateLibraryFactoriesFromNextExcelExport(libraryFactoryManager, nextExcelExport)
         }
@@ -68,61 +67,10 @@ class UpdateDMTClassFactories {
 
     def updateLibraryFactoryFromTranslations(LibraryFactory libraryFactory, Translations translationsFromExcelExport) {
         while (libraryFactory.hasNextLibraryTextBlock()) {
-            def nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
-            def nextTranslatedLibraryText = getTranslatedTextForNextLibraryTextBlockUsingExcelTranslations(nextLibraryTextBlock, translationsFromExcelExport)
+            LibraryTextBlock nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
+            LibraryTranslator nextLibraryTranslator = new LibraryTranslator(nextLibraryTextBlock, translationsFromExcelExport)
+            def nextTranslatedLibraryText = nextLibraryTranslator.getTranslatedText()
             libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedLibraryText)
         }
     }
-
-    def getTranslatedTextForNextLibraryTextBlockUsingExcelTranslations(LibraryTextBlock libraryTextBlock, Translations translationsFromExcelExport) {
-        TranslationFieldKeys factoryTranslationKeys = getKeyValuesFromLibraryTextBlock(libraryTextBlock)
-        Translation translation = getTranslationForKeys(translationsFromExcelExport, factoryTranslationKeys)
-        String translatedLibraryText = applyTranslationToLibraryTextBlock(translation, libraryTextBlock)
-        translatedLibraryText
-    }
-
-    def getKeyValuesFromLibraryTextBlock(LibraryTextBlock libraryTextBlock) {
-        def bomFieldName = libraryTextBlock.findFieldInLibraryText("BOM Fields")
-        def questionIdentifier = libraryTextBlock.findFieldInLibraryText("Question Identifier")
-        def translationFieldKeys = null
-        if ((bomFieldName != null) || (questionIdentifier != null))
-            translationFieldKeys = new TranslationFieldKeys(["BOM Fields": bomFieldName, "Question Identifier": questionIdentifier])
-        translationFieldKeys
-    }
-
-    def getTranslationForKeys(Translations translationsFromExcelExport, TranslationFieldKeys translationFieldKeys) {
-        /*
-      get translations for multiple keys...if not exactly one match, return null
-       */
-        Translation matchingTranslationFromExcelExport = null
-        if (translationFieldKeys != null) {
-            def matchingTranslations = translationsFromExcelExport.getTranslationsFromKeyFields(translationFieldKeys)
-            if (isSingleMatchingTranslationForKeys(matchingTranslations, translationFieldKeys)) {
-                matchingTranslationFromExcelExport = matchingTranslations[0]
-                matchingTranslationFromExcelExport.translationFieldKeys = translationFieldKeys  // used for missing value messages
-            }
-        }
-        matchingTranslationFromExcelExport
-    }
-
-    def isSingleMatchingTranslationForKeys(matchingTranslations, TranslationFieldKeys translationFieldKeys) {
-        def translationCount = matchingTranslations.size()
-        if (translationCount == 1)
-            return true
-        else if (translationCount == 0) {
-            Log.writeLine "exceptions", "Missing translation for keys: ${translationFieldKeys.getKeyList()}"
-            return false
-        } else if (translationCount > 1) {
-            Log.writeLine "exceptions", "Multiple translations for keys: ${translationFieldKeys.getKeyList()}"
-            return false
-        }
-    }
-
-    def applyTranslationToLibraryTextBlock(Translation translation, LibraryTextBlock libraryTextBlock) {
-        String translatedLibraryText = libraryTextBlock.textBlock
-        if (translation != null)
-            translatedLibraryText = libraryTextBlock.translateAllFieldsFromTranslation(translation)
-        translatedLibraryText
-    }
-
 }
