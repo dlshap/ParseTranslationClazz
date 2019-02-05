@@ -1,6 +1,6 @@
 import excelfilemanagement.ExcelFile
 import properties.PropertyFile
-import properties.PropertiesExcelExportFile
+import excelExports.PropertiesExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.IgnorePropertyList
@@ -14,19 +14,19 @@ import useful.ArgsParser
  */
 class UpdateDmtDeTranslatedProperties {
 
-    static startFilePath        // "root" filepath
-    static languageName         // language for this translation
+    def startFilePath        // "root" filepath
+    def languageName         // language for this translation
 
-    static componentList = ["DMT", "DE"]       // list for looping through components
-    static componentFilePath                    // filepath for individual component
-    static componentName                        // name of component from component list for translations
+    def componentList = ["DMT", "DE"]       // list for looping through components
+    def componentFilePath                    // filepath for individual component
+    def componentName                        // name of component from component list for translations
 
-    static PropertiesExcelExportFile translationsExcelExportFile
-    static ExcelFile translationsExcelFile
-    static Translations translationsFromExcelExport
-    static PropertyFile propertyFile
-    static Properties propertiesFromPropertyFile
-    static IgnorePropertyList ignorePropertyList
+    def PropertiesExcelExportFile translationsExcelExportFile
+    def ExcelFile translationsExcelFile
+    def Translations translationsFromExcelExport
+    def PropertyFile propertyFile
+    def Properties propertiesFromPropertyFile
+    def IgnorePropertyList ignorePropertyList
 
     static main(args) {
         new UpdateDmtDeTranslatedProperties(args)
@@ -103,12 +103,12 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def buildTranslationsObject() {
-        if (openTranslationsExcelExportFile())
-            buildTranslationsFromExport()
+//        if (openTranslationsExcelExportFile())
+//            buildTranslationsFromExport()
 
-//        translationsExcelFile = openTranslationsExcelFile()
-//        if (translationsExcelFile != null)
-//            buildTranslationsFromExcelFile()
+        translationsExcelFile = openTranslationsExcelFile()
+        if (!(translationsExcelFile.isNull()))
+            buildTranslationsFromExcelFile()
     }
 
     def openTranslationsExcelExportFile() {
@@ -122,11 +122,12 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def openTranslationsExcelFile() {
-        ExcelFile.getPropertiesExcelFileUsingChooser(componentFilePath, componentName)
+        def excelFilePath = startFilePath + "TranslationSpreadsheets\\PropertySpreadsheets\\DMTDE"
+        ExcelFile.getPropertiesExcelFileUsingChooser(excelFilePath, componentName)
     }
 
-    def buildTranslationsFromExcelFile(excelFile) {
-        translationsFromExcelExport = new Translations(translationsExcelExportFile)
+    def buildTranslationsFromExcelFile() {
+        translationsFromExcelExport = Translations.createTranslationsFromExcelPropertiesFile(translationsExcelFile)
     }
 
     def buildPropertiesObject() {

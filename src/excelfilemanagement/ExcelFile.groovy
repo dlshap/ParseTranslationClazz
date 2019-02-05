@@ -49,4 +49,8 @@ class ExcelFile {
         def inputStream = new FileInputStream(file)
         this.workbook = new XSSFWorkbook(inputStream)
     }
+
+    def isNull() {
+        workbook == null
+    }
 }

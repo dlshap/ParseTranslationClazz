@@ -1,4 +1,4 @@
-package properties
+package excelExports
 
 import filemanagement.FileChooser
 import filemanagement.KeyFile

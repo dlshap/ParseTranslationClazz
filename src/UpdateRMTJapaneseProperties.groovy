@@ -1,7 +1,7 @@
 import translations.UnicodeUtil
 
 import properties.PropertyFile
-import properties.PropertiesExcelExportFile
+import excelExports.PropertiesExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.Properties

@@ -2,6 +2,7 @@ package translations
 
 import excelExports.ExcelExport
 import excelfilemanagement.ExcelFile
+import excelfilemanagement.ExcelPropertySheet
 import filemanagement.KeyFile
 
 /**
@@ -12,12 +13,12 @@ class Translations {
     ArrayList<Translation> translations = []
     Iterator translationIterator
 
+    Translations() {
+    }
+
     Translations(KeyFile translationExportFile) {
         //old constructor (deprecate)
         buildTranslations(translationExportFile)
-    }
-
-    Translations() {
     }
 
     def buildTranslations(KeyFile translationExportFile) {
@@ -38,10 +39,21 @@ class Translations {
     }
 
     static createTranslationsFromExcelPropertiesFile(ExcelFile excelFile) {
-        println excelFile.workbook.numberOfSheets
         Translations translations = new Translations()
+        translations.buildTranslationsFromExcelFile(excelFile)
         translations
     }
+
+    def buildTranslationsFromExcelFile(excelFile) {
+        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet(excelFile, "DMT")
+        while (excelPropertySheet.hasNextRow()) {
+            def keyMap = excelPropertySheet.getPropertyMapFromRow(excelPropertySheet.nextRow())
+            Translation translation = new Translation(keyMap)
+            if (translation != null)
+                this.translations.add(translation)
+        }
+    }
+
 
     def getTranslation(keyName, keyValue) {
         /* used for Properties files (single key) */
