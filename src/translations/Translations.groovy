@@ -1,6 +1,7 @@
 package translations
 
 import excelExports.ExcelExport
+import excelfilemanagement.ExcelFile
 import filemanagement.KeyFile
 
 /**
@@ -33,6 +34,10 @@ class Translations {
         translations
     }
 
+    static createTranslationsFromExcelPropertiesFile(ExcelFile excelFile) {
+
+    }
+
     def getTranslation(keyName, keyValue) {
         /* used for Properties files (single key) */
 //        def keyMap = ["$keyName":keyValue]
@@ -47,21 +52,6 @@ class Translations {
         }
         (foundTranslations.size() == 0) ? null : foundTranslations
     }
-
-//    def getTranslationsMapFromKeyField(TranslationFieldKeys translationFieldKeys) {
-//        /*
-//        keys = map of key/value pairs that should be matched against corresponding pairs in translations
-//        returns all maps in translations that match on all keys
-//         */
-//        def keyMap = translationFieldKeys.getKeys()
-//        def translationMap = translations
-//        keyMap.each { k, v ->
-//            translationMap = translationMap.findAll() {
-//                it.get(k).trim().toLowerCase() == keyMap.get(k).trim().toLowerCase()
-//            }
-//        }
-//        translationMap
-//    }
 
     def getTranslationsFromKeyFields(TranslationFieldKeys translationFieldKeys) {
         /*
