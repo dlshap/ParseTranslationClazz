@@ -17,6 +17,9 @@ class Translations {
         buildTranslations(translationExportFile)
     }
 
+    Translations() {
+    }
+
     def buildTranslations(KeyFile translationExportFile) {
         def keyMaps = translationExportFile.getKeyMaps()
         keyMaps.each {
@@ -35,7 +38,9 @@ class Translations {
     }
 
     static createTranslationsFromExcelPropertiesFile(ExcelFile excelFile) {
-
+        println excelFile.workbook.numberOfSheets
+        Translations translations = new Translations()
+        translations
     }
 
     def getTranslation(keyName, keyValue) {
