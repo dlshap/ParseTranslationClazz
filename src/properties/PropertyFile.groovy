@@ -17,7 +17,7 @@ class PropertyFile extends LineFile {
     def PropertyFile(componentName, componentPath) {
         super()
         this.componentName = componentName
-        propFileName = FileChooser.chooseFile("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
+        propFileName = FileChooser.chooseFileAndReturnFilename("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
         openPropFile()
     }
 

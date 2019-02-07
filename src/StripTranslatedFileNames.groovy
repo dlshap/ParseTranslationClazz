@@ -5,9 +5,9 @@ import logging.Log
 class StripTranslatedFileNames {
 
     static main(args) {
-        def fp = getFilePath(args)
+        def pathName = getFilePath(args)
         // pick library folder (translated files)
-        def changeLibrary = FileChooser.chooseFile("Select Directory Folder for Name Changes", fp, FileChooser.selectChoices.DIRECTORIES)
+        def changeLibrary = FileChooser.chooseDirectoryAndReturnDirName("Select Directory Folder for Name Changes", pathName)
         if (changeLibrary != null) {
             def logLibrary = ((changeLibrary =~ /(.*\\)(.*Translated)/)[0][1]) + "logs\\"
             openLogs(logLibrary)

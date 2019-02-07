@@ -40,7 +40,7 @@ class AddAnotherLanguageToClassFactory {
     }
 
     def openFactoryFile(factoryPath) {
-        def fileName = FileChooser.chooseFile("Select Library Factory to update", factoryPath)
+        def fileName = FileChooser.chooseFileAndReturnFilename("Select Library Factory to update", factoryPath)
         if (fileName != null) {
             try {
                 classFactoryFile = new TextFile(fileName)

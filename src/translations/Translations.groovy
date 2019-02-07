@@ -38,20 +38,21 @@ class Translations {
         translations
     }
 
-    static createTranslationsFromExcelPropertiesFile(ExcelFile excelFile) {
+    static createTranslationsFromExcelPropertiesFile(excelFile, componentName) {
         Translations translations = new Translations()
-        translations.buildTranslationsFromExcelFile(excelFile)
+        translations.buildTranslationsFromExcelFileForComponent(excelFile, componentName)
         translations
     }
 
-    def buildTranslationsFromExcelFile(excelFile) {
-        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet(excelFile, "DMT")
+    def buildTranslationsFromExcelFileForComponent(excelFile, componentName) {
+        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet(excelFile, componentName)
         while (excelPropertySheet.hasNextRow()) {
             def keyMap = excelPropertySheet.getPropertyMapFromRow(excelPropertySheet.nextRow())
             Translation translation = new Translation(keyMap)
             if (translation != null)
                 this.translations.add(translation)
         }
+        this.translationIterator = translations.iterator()
     }
 
 

@@ -18,8 +18,8 @@ class UpdateDmtDeTranslatedProperties {
     def languageName         // language for this translation
 
     def componentList = ["DMT", "DE"]       // list for looping through components
-    def componentFilePath                    // filepath for individual component
-    def componentName                        // name of component from component list for translations
+//    def componentFilePath                    // filepath for individual component
+//    def componentName                        // name of component from component list for translations
 
     def PropertiesExcelExportFile translationsExcelExportFile
     def ExcelFile translationsExcelFile
@@ -58,28 +58,27 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def moveTranslationsFromExcelExportToPropertiesFiles() {
-        componentList.each { comp ->
-            componentName = comp
-            doTranslationsForComponent()
+        componentList.each { componentName ->
+            doTranslationsForComponent(componentName)
         }
     }
 
-    def doTranslationsForComponent() {
-        buildFilePathForComponent()
-        buildIgnorePropertyListForComponent()
-        openTranslationLogsForComponent()
-        moveTranslationsToPropertiesForComponent()
+    def doTranslationsForComponent(componentName) {
+        def componentFilePath = buildFilePathForComponent(componentName)
+        buildIgnorePropertyListForComponentFromIgnoreFile(componentName, componentFilePath)
+        openTranslationLogsForComponent(componentName, componentFilePath)
+        moveTranslationsToPropertiesForComponent(componentName, componentFilePath)
     }
 
-    def buildFilePathForComponent() {
-        componentFilePath = startFilePath + componentName + "\\\\"
+    def buildFilePathForComponent(componentName) {
+        startFilePath + componentName + "\\\\"
     }
 
-    def buildIgnorePropertyListForComponent() {
+    def buildIgnorePropertyListForComponentFromIgnoreFile(componentName, componentFilePath) {
         ignorePropertyList = new IgnorePropertyList(componentFilePath + "logs\\\\ignoreMessages.txt")
     }
 
-    def openTranslationLogsForComponent() {
+    def openTranslationLogsForComponent(componentName, componentFilePath) {
         def logsFilePath = componentFilePath + "logs\\\\"
         //default log: property translations (successful) log
         Log.open(logsFilePath + "$componentName log-property-translations.txt")
@@ -89,26 +88,26 @@ class UpdateDmtDeTranslatedProperties {
         Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    def moveTranslationsToPropertiesForComponent() {
-        if (buildPropertiesAndTranslationsObjects()) {
+    def moveTranslationsToPropertiesForComponent(componentName, componentFilePath) {
+        if (buildPropertiesAndTranslationsObjectsForComponent(componentName, componentFilePath)) {
             copyTranslations()
             logMissingTranslations()
         }
     }
 
-    def buildPropertiesAndTranslationsObjects() {
+    def buildPropertiesAndTranslationsObjectsForComponent(componentName, componentFilePath) {
         // first build translations object...if that's ok
-        if (buildTranslationsObject())
-            buildPropertiesObject()
+        if (buildTranslationsObject(componentName))
+            buildPropertiesObject(componentName, componentFilePath)
     }
 
-    def buildTranslationsObject() {
+    def buildTranslationsObject(componentName) {
 //        if (openTranslationsExcelExportFile())
 //            buildTranslationsFromExport()
 
-        translationsExcelFile = openTranslationsExcelFile()
+        translationsExcelFile = openTranslationsExcelFile(componentName)
         if (!(translationsExcelFile.isNull()))
-            buildTranslationsFromExcelFile()
+            buildTranslationsFromExcelFile(componentName)
     }
 
     def openTranslationsExcelExportFile() {
@@ -121,21 +120,21 @@ class UpdateDmtDeTranslatedProperties {
         translationsFromExcelExport = new Translations(translationsExcelExportFile)
     }
 
-    def openTranslationsExcelFile() {
+    def openTranslationsExcelFile(componentName) {
         def excelFilePath = startFilePath + "TranslationSpreadsheets\\PropertySpreadsheets\\DMTDE"
         ExcelFile.getPropertiesExcelFileUsingChooser(excelFilePath, componentName)
     }
 
-    def buildTranslationsFromExcelFile() {
-        translationsFromExcelExport = Translations.createTranslationsFromExcelPropertiesFile(translationsExcelFile)
+    def buildTranslationsFromExcelFile(componentName) {
+        translationsFromExcelExport = Translations.createTranslationsFromExcelPropertiesFile(translationsExcelFile, componentName)
     }
 
-    def buildPropertiesObject() {
-        if (openPropertyFile())
+    def buildPropertiesObject(componentName, componentFilePath) {
+        if (openPropertyFile(componentName, componentFilePath))
             buildPropertiesFromPropertyFile()
     }
 
-    def openPropertyFile() {
+    def openPropertyFile(componentName, componentFilePath) {
         propertyFile = new PropertyFile(componentName, componentFilePath)
         (propertyFile.theFile != null)                      // return true if there is a file (open was successful)
     }
@@ -214,7 +213,7 @@ class UpdateDmtDeTranslatedProperties {
             if (matchingExcelExportTranslation == null)
                 Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation Excel export.")
             else {
-                def res = matchingExcelExportTranslation.get(languageName)
+                def test1 = matchingExcelExportTranslation.get(languageName)
                 if (matchingExcelExportTranslation.get(languageName) == null) {
                     println nextPropertyKey
                     Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")

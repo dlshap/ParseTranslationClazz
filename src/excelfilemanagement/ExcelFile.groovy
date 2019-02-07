@@ -7,8 +7,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 class ExcelFile {
 
-    def filePath
-    def fileName
+    private filePath
+    File file
     Workbook workbook
 
     ExcelFile(filePath) {
@@ -21,10 +21,9 @@ class ExcelFile {
             this.filePath += "\\"
     }
 
-    static getPropertiesExcelFile(filePath, fileName) {
+    static getPropertiesExcelFileFromFileAndPathNames(filePath, fileName) {
         def propertiesExcelFile = new ExcelFile(filePath)
-        propertiesExcelFile.fileName = fileName
-        propertiesExcelFile.openExcelFile()
+        propertiesExcelFile.openExcelFileFromFileName(fileName)
         propertiesExcelFile
     }
 
@@ -34,23 +33,25 @@ class ExcelFile {
         propertiesExcelFile
     }
 
-    def openExcelFileUsingChooser(componentName) {
-        def chooseFileName = FileChooser.chooseFile("Select translation spreadsheet for $componentName", this.filePath)
-        if (chooseFileName != null) {
-            def excelFile = new File(chooseFileName)
-            this.filePath = excelFile.getParent() + "\\"
-            this.fileName = excelFile.name
-            openExcelFile()
+    def openExcelFileFromFileName(fileName) {
+        file = new File(this.filePath + fileName)
+        workbook = getWorkbookFromExcelFile()
+    }
+
+    def getWorkbookFromExcelFile() {
+        if (file != null) {
+            def inputStream = new FileInputStream(file)
+            new XSSFWorkbook(inputStream)
         }
     }
 
-    def openExcelFile() {
-        def file = new File(filePath + fileName)
-        def inputStream = new FileInputStream(file)
-        this.workbook = new XSSFWorkbook(inputStream)
+    def openExcelFileUsingChooser(componentName) {
+        file = FileChooser.chooseFile("Select translation spreadsheet for $componentName", this.filePath)
+        workbook = getWorkbookFromExcelFile()
     }
 
     def isNull() {
         workbook == null
     }
+
 }

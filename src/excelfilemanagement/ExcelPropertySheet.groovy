@@ -31,15 +31,20 @@ class ExcelPropertySheet {
     }
 
     def getPropertyMapFromRow(Row row) {
-        def keyMap = ["row":row.rowNum]
-        row.cellIterator().eachWithIndex { Cell cell, int colNum ->
+        def keyMap = ["row": row.rowNum + 1]
+        row.cellIterator().each { Cell cell ->
+            def colNum = cell.getColumnIndex()
             if (colNum < keyList.size()) {
                 switch (cell.getCellType()) {
                     case "NUMERIC":
-                        keyMap.put(keyList[colNum], cell.getNumericCellValue().toInteger())
+                        def value = cell.getNumericCellValue()
+                        if (value == value.toInteger())
+                            value = value.toInteger()
+                        keyMap.put(keyList[colNum], value.toString())
                         break;
                     case "STRING":
-                        keyMap.put(keyList[colNum], cell.getStringCellValue())
+                    case "BLANK":
+                        keyMap.put(keyList[colNum], cell.getStringCellValue().trim())
                         break;
                     default:
                         keyMap.put(keyList[colNum], "")

@@ -12,7 +12,7 @@ class PropertiesExcelExportFile extends KeyFile {
     def PropertiesExcelExportFile(componentName, componentFilePath) {
         super()
         this.componentName = componentName
-        transFileName = FileChooser.chooseFile("Select Translation.groovy file for $componentName", componentFilePath + "PropertyExports\\\\")
+        transFileName = FileChooser.chooseFileAndReturnFilename("Select Translation.groovy file for $componentName", componentFilePath + "PropertyExports\\\\")
         openTransFile()
     }
 

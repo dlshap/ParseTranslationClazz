@@ -1,4 +1,5 @@
 import excelfilemanagement.ExcelPropertySheet
+import filemanagement.FileChooser
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFSheet
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
@@ -6,7 +7,8 @@ import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
-import excelfilemanagement.ExcelFile;
+import excelfilemanagement.ExcelFile
+import translations.Translations;
 
 class TryExcel {
 
@@ -19,18 +21,34 @@ class TryExcel {
     }
 
     def start() {
+
+        def componentName = "DMT"
+
         def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\TranslationSpreadsheets\\PropertySpreadsheets\\DMTDE"
+
+        ExcelFile excelFile = ExcelFile.getPropertiesExcelFileUsingChooser(filePath, componentName)
+
+//        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet(excelFile, componentName)
+
+        Translations translations = Translations.createTranslationsFromExcelPropertiesFile(excelFile, componentName)
+
+
+//        File file = FileChooser.chooseFile("Open the file", filePath)
+//        if (file != null) {
+//            println file.name
+//            println file.absolutePath
+//        }
+
 //        def testFile = ExcelFile.getPropertiesExcelFileUsingChooser(filePath, "DMT")
-        ExcelFile testFile = ExcelFile.getPropertiesExcelFile(filePath, "DMT message translations-Eng-Spa-Jap.xlsx")
-        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet(testFile, "DMT")
-//        println excelPropertySheet.keyList
-//        Row testRow = excelPropertySheet.sheet.getRow(1)
-//        def keyMap = excelPropertySheet.getPropertyMapFromRow(testRow)
-//        println keyMap
-        while (excelPropertySheet.hasNextRow()) {
-            def keyMap = excelPropertySheet.getPropertyMapFromRow(excelPropertySheet.nextRow())
-            println keyMap
-        }
+////        ExcelFile testFile = ExcelFile.getPropertiesExcelFile(filePath, "DMT message translations-Eng-Spa-Jap.xlsx")
+//
+////
+//        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet(testFile, "DMT")
+//
+//        while (excelPropertySheet.hasNextRow()) {
+//            def keyMap = excelPropertySheet.getPropertyMapFromRow(excelPropertySheet.nextRow())
+//            println keyMap
+//        }
     }
 
 
