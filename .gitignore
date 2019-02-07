@@ -6,15 +6,11 @@ Thumbs.db
 ehthumbs.db
 
 # object file directory
-out
+out.*
 .class
 
 # Folder config file
 Desktop.ini
-
-# object file directory
-out
-.class
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
