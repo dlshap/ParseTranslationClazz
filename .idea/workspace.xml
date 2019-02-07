@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4a95ed6-32d2-4fe1-ae5a-452e76f03e19" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/AddJapaneseTranslationsToClassFactory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" afterPath="$PROJECT_DIR$/out/production/ParseTranslationClazz/FileManagement/FileChooser.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AddAnotherLanguageToClassFactory.groovy" afterPath="$PROJECT_DIR$/src/AddAnotherLanguageToClassFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" afterPath="$PROJECT_DIR$/src/AddJapaneseTranslationsToClassFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/StripTranslatedFileNames.groovy" afterPath="$PROJECT_DIR$/src/StripTranslatedFileNames.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TryExcel.groovy" afterPath="$PROJECT_DIR$/src/TryExcel.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy" afterPath="$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/excelExports/PropertiesExcelExportFile.groovy" afterPath="$PROJECT_DIR$/src/excelExports/PropertiesExcelExportFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/excelfilemanagement/ExcelFile.groovy" afterPath="$PROJECT_DIR$/src/excelfilemanagement/ExcelFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/excelfilemanagement/ExcelPropertySheet.groovy" afterPath="$PROJECT_DIR$/src/excelfilemanagement/ExcelPropertySheet.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/filemanagement/FileChooser.groovy" afterPath="$PROJECT_DIR$/src/filemanagement/FileChooser.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/properties/PropertyFile.groovy" afterPath="$PROJECT_DIR$/src/properties/PropertyFile.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/translations/Translations.groovy" afterPath="$PROJECT_DIR$/src/translations/Translations.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,7 +17,7 @@
       <file leaf-file-name="UpdateDmtDeTranslatedProperties.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
+            <state relative-caret-position="17">
               <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
@@ -43,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="799">
-              <caret line="50" column="46" lean-forward="true" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
+              <caret line="50" column="46" lean-forward="false" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -52,7 +39,7 @@
       <file leaf-file-name="ExcelPropertySheet.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/excelfilemanagement/ExcelPropertySheet.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="663">
               <caret line="42" column="68" lean-forward="false" selection-start-line="42" selection-start-column="68" selection-end-line="42" selection-end-column="68" />
               <folding />
             </state>
@@ -331,8 +318,8 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -776,14 +763,8 @@
       <workItem from="1548784783583" duration="12734000" />
       <workItem from="1549378512253" duration="2902000" />
       <workItem from="1549382716920" duration="24424000" />
-      <workItem from="1549466560382" duration="24918000" />
-    </task>
-    <task id="LOCAL-00069" summary="It appears to be working again!">
-      <created>1546988356785</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1546988356785</updated>
+      <workItem from="1549466560382" duration="24953000" />
+      <workItem from="1549499275686" duration="610000" />
     </task>
     <task id="LOCAL-00070" summary="Making sure properties can accept escape unicode sequences.">
       <created>1546990057633</created>
@@ -1121,11 +1102,18 @@
       <option name="project" value="LOCAL" />
       <updated>1549410901164</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="Seems to be working! Need some more testing.">
+      <created>1549498840153</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1549498840156</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="424857000" />
+    <option name="totallyTimeSpent" value="425502000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1186,7 +1174,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Failing, but weird." />
     <MESSAGE value="Key manager working." />
     <MESSAGE value="Working on translations files" />
     <MESSAGE value="Working on the translations" />
@@ -1211,7 +1198,8 @@
     <MESSAGE value="Working on adding translation prefixes to library question factories" />
     <MESSAGE value="Read translation properties DIRECTLY from Excel file." />
     <MESSAGE value="Might be working with Properties files...we'll see." />
-    <option name="LAST_COMMIT_MESSAGE" value="Might be working with Properties files...we'll see." />
+    <MESSAGE value="Seems to be working! Need some more testing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Seems to be working! Need some more testing." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1398,7 +1386,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" column="79" lean-forward="false" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1406,7 +1393,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="741">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1414,9 +1400,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="724">
           <caret line="56" column="110" lean-forward="false" selection-start-line="56" selection-start-column="110" selection-end-line="56" selection-end-column="110" />
-          <folding>
-            <element signature="e#26#44#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1514,7 +1497,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="829" column="0" lean-forward="false" selection-start-line="829" selection-start-column="0" selection-end-line="829" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1578,7 +1560,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
           <caret line="90" column="13" lean-forward="false" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1612,7 +1593,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1620,7 +1600,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="760" column="0" lean-forward="false" selection-start-line="760" selection-start-column="0" selection-end-line="760" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1628,9 +1607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding>
-            <element signature="e#2138#2139#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1638,7 +1614,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1656,11 +1631,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="202" column="0" lean-forward="false" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
-          <folding>
-            <element signature="e#7261#7262#0" expanded="true" />
-            <element signature="e#15531#15532#0" expanded="true" />
-            <element signature="e#15622#15623#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1668,7 +1638,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1683,14 +1652,14 @@
     <entry file="file://$PROJECT_DIR$/src/translations/Translations.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="799">
-          <caret line="50" column="46" lean-forward="true" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
+          <caret line="50" column="46" lean-forward="false" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/excelfilemanagement/ExcelPropertySheet.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="663">
           <caret line="42" column="68" lean-forward="false" selection-start-line="42" selection-start-column="68" selection-end-line="42" selection-end-column="68" />
           <folding />
         </state>
@@ -1698,7 +1667,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpdateDmtDeTranslatedProperties.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
+        <state relative-caret-position="17">
           <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
