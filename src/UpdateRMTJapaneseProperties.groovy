@@ -1,7 +1,7 @@
 import translations.UnicodeUtil
 
-import filemanagement.PropertyFile
-import filemanagement.TranslationsExcelExportFile
+import properties.PropertyFile
+import excelExports.PropertiesExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.Properties
@@ -62,7 +62,7 @@ class UpdateRMTJapaneseProperties {
 
     static logTranslationKeysWithNoValues(Translations translations, Properties properties) {
         Log.writeLine("exceptions", "\r\n******* No Japanese translation in spreadsheet:")
-        def noJapaneseList = translations.getTranslations("Japanese", "")
+        def noJapaneseList = translations.getTranslationsFromKeyFields("Japanese", "")
         if (noJapaneseList != null) {
             noJapaneseList.each {
                 def tKey = it.get("English")
@@ -96,7 +96,7 @@ class UpdateRMTJapaneseProperties {
         def fp = getFilePath(args)
         openLogs(fp)
         // open translation file
-        TranslationsExcelExportFile translationFile = new TranslationsExcelExportFile(fp)
+        PropertiesExcelExportFile translationFile = new PropertiesExcelExportFile(fp)
         if (translationFile.exists()) {
             Translations translations = new Translations(translationFile)
             // open property file

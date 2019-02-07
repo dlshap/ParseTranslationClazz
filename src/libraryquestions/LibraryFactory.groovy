@@ -4,13 +4,39 @@ import filemanagement.FileMgr
 import filemanagement.TextFile
 
 class LibraryFactory {
-    def libraryFactoryFile
+    LibraryFactoryManager libraryFactoryManager
+    TextFile libraryFactoryFile
+    TextFile translatedLibraryFactoryFile
+    def libraryTextBlocks = []
+    Iterator libraryTextBlockIterator
 
-    def LibraryFactory(libraryFactoryFileName) {
-        libraryFactoryFile = new TextFile(libraryFactoryFileName, FileMgr.createFlag.CREATE)
+    LibraryFactory(String libraryFactoryFileName, String translatedLibraryFactoryFileName, LibraryFactoryManager libraryFactoryManager) {
+        this.libraryFactoryManager = libraryFactoryManager
+        this.libraryFactoryFile = new TextFile(libraryFactoryFileName)
+        this.translatedLibraryFactoryFile = new TextFile(translatedLibraryFactoryFileName, FileMgr.createFlag.CREATE)
+        buildLibraryTextBlocks(libraryFactoryFile)
     }
 
-    def add(nextFactoryTextBlock) {
-        libraryFactoryFile.writeToFile(nextFactoryTextBlock)
+    def buildLibraryTextBlocks(TextFile libraryFactoryFile) {
+        def libraryQuestionFieldFinder = libraryFactoryManager.libraryQuestionFieldFinder
+        def libraryFactoryParser = new LibraryFactoryParser(libraryFactoryFile)
+        while (libraryFactoryParser.hasNextTextBlock()) {
+            def nextTextBlock = new LibraryTextBlock(libraryFactoryParser.nextTextBlock(), libraryQuestionFieldFinder)
+            libraryTextBlocks << nextTextBlock
+        }
+        libraryTextBlockIterator = libraryTextBlocks.iterator()
     }
+
+    def writeTextBlockToTranslatedFile(String libraryText) {
+        translatedLibraryFactoryFile.writeToFile(libraryText)
+    }
+
+    def hasNextLibraryTextBlock() {
+        libraryTextBlockIterator.hasNext()
+    }
+
+    def nextLibraryTextBlock() {
+        libraryTextBlockIterator.next()
+    }
+
 }

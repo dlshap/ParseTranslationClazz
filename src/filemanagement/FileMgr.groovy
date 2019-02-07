@@ -7,11 +7,12 @@ class FileMgr {
 
     enum createFlag {CREATE}
     File theFile
+    String fileName
 
-    def FileMgr() {
+    FileMgr() {
     }
 
-    def FileMgr(fileName) {
+    FileMgr(fileName) {
         openFile(fileName)
     }
 
@@ -30,6 +31,7 @@ class FileMgr {
     }
 
     def openFile(fileName) {
+        this.fileName = fileName
         theFile = new File(fileName)
     }
 

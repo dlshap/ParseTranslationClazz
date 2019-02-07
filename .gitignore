@@ -5,6 +5,10 @@
 Thumbs.db
 ehthumbs.db
 
+# object file directory
+out
+.class
+
 # Folder config file
 Desktop.ini
 
@@ -52,3 +56,13 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Dan says:
+.build.gradle.swp
+.gradle
+.idea
+*.iml
+*.ipr
+*.iws
+*.log
+.DS_Store

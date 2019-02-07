@@ -1,7 +1,7 @@
 package translations
 
 import filemanagement.LineFile
-import filemanagement.PropertyFile
+import properties.PropertyFile
 
 /**
  * Created by s0041664 on 8/25/2017.

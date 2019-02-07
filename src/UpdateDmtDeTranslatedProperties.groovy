@@ -1,5 +1,6 @@
-import filemanagement.PropertyFile
-import filemanagement.TranslationsExcelExportFile
+import excelfilemanagement.ExcelFile
+import properties.PropertyFile
+import excelExports.PropertiesExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.IgnorePropertyList
@@ -13,63 +14,71 @@ import useful.ArgsParser
  */
 class UpdateDmtDeTranslatedProperties {
 
-    static startFilePath        // "root" filepath
-    static languageName         // language for this translation
+    def startFilePath        // "root" filepath
+    def languageName         // language for this translation
 
-    static componentList = ["DMT", "DE"]       // list for looping through components
-    static componentFilePath                    // filepath for individual component
-    static componentName                        // name of component from component list for translations
+    def componentList = ["DMT", "DE"]       // list for looping through components
+//    def componentFilePath                    // filepath for individual component
+//    def componentName                        // name of component from component list for translations
 
-    static TranslationsExcelExportFile translationsExcelExportFile
-    static Translations translationsFromExcelExport
-    static PropertyFile propertyFile
-    static Properties propertiesFromPropertyFile
-    static IgnorePropertyList ignorePropertyList
+    def PropertiesExcelExportFile translationsExcelExportFile
+    def ExcelFile translationsExcelFile
+    def Translations translationsFromExcelExport
+    def PropertyFile propertyFile
+    def Properties propertiesFromPropertyFile
+    def IgnorePropertyList ignorePropertyList
 
     static main(args) {
+        new UpdateDmtDeTranslatedProperties(args)
+    }
+
+    UpdateDmtDeTranslatedProperties(args) {
+        start(args)
+    }
+
+    def start(args) {
         buildArgsAndParameters(args)
         moveTranslationsFromExcelExportToPropertiesFiles()
     }
 
-    static buildArgsAndParameters(args) {
+    def buildArgsAndParameters(args) {
         getArgValues(args)
         getDefaultValuesIfArgsNull()
     }
 
-    static getArgValues(args) {
+    def getArgValues(args) {
         def argsMap = new ArgsParser(args)
         languageName = argsMap.get("language")
         startFilePath = argsMap.get("path")
     }
 
-    static getDefaultValuesIfArgsNull() {
+    def getDefaultValuesIfArgsNull() {
         if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         if (languageName == null) languageName = "Japanese"
     }
 
-    static moveTranslationsFromExcelExportToPropertiesFiles() {
-        componentList.each { comp ->
-            componentName = comp
-            doTranslationsForComponent()
+    def moveTranslationsFromExcelExportToPropertiesFiles() {
+        componentList.each { componentName ->
+            doTranslationsForComponent(componentName)
         }
     }
 
-    static doTranslationsForComponent() {
-        buildFilePathForComponent()
-        buildIgnorePropertyListForComponent()
-        openTranslationLogsForComponent()
-        moveTranslationsToPropertiesForComponent()
+    def doTranslationsForComponent(componentName) {
+        def componentFilePath = buildFilePathForComponent(componentName)
+        buildIgnorePropertyListForComponentFromIgnoreFile(componentName, componentFilePath)
+        openTranslationLogsForComponent(componentName, componentFilePath)
+        moveTranslationsToPropertiesForComponent(componentName, componentFilePath)
     }
 
-    static buildFilePathForComponent() {
-        componentFilePath = startFilePath + componentName + "\\\\"
+    def buildFilePathForComponent(componentName) {
+        startFilePath + componentName + "\\\\"
     }
 
-    static buildIgnorePropertyListForComponent() {
+    def buildIgnorePropertyListForComponentFromIgnoreFile(componentName, componentFilePath) {
         ignorePropertyList = new IgnorePropertyList(componentFilePath + "logs\\\\ignoreMessages.txt")
     }
 
-    static openTranslationLogsForComponent() {
+    def openTranslationLogsForComponent(componentName, componentFilePath) {
         def logsFilePath = componentFilePath + "logs\\\\"
         //default log: property translations (successful) log
         Log.open(logsFilePath + "$componentName log-property-translations.txt")
@@ -79,70 +88,83 @@ class UpdateDmtDeTranslatedProperties {
         Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
-    static moveTranslationsToPropertiesForComponent() {
-        if (buildPropertiesAndTranslationsObjects()) {
+    def moveTranslationsToPropertiesForComponent(componentName, componentFilePath) {
+        if (buildPropertiesAndTranslationsObjectsForComponent(componentName, componentFilePath)) {
             copyTranslations()
             logMissingTranslations()
         }
     }
 
-    static buildPropertiesAndTranslationsObjects() {
+    def buildPropertiesAndTranslationsObjectsForComponent(componentName, componentFilePath) {
         // first build translations object...if that's ok
-        if (buildTranslationsObject())
-            buildPropertiesObject()
+        if (buildTranslationsObject(componentName))
+            buildPropertiesObject(componentName, componentFilePath)
     }
 
-    static buildTranslationsObject() {
-        if (openTranslationsExcelExportFile())
-            buildTranslationsFromExport()
+    def buildTranslationsObject(componentName) {
+//        if (openTranslationsExcelExportFile())
+//            buildTranslationsFromExport()
+
+        translationsExcelFile = openTranslationsExcelFile(componentName)
+        if (!(translationsExcelFile.isNull()))
+            buildTranslationsFromExcelFile(componentName)
     }
 
-    static buildPropertiesObject() {
-        if (openPropertyFile())
-            buildPropertiesFromPropertyFile()
-    }
-
-    static openTranslationsExcelExportFile() {
+    def openTranslationsExcelExportFile() {
         // open property file
-        translationsExcelExportFile = new TranslationsExcelExportFile(componentName, componentFilePath)
+        translationsExcelExportFile = new PropertiesExcelExportFile(componentName, componentFilePath)
         (translationsExcelExportFile.theFile != null)       // return true if there is a file (open was successful)
     }
 
-    static buildTranslationsFromExport() {
+    def buildTranslationsFromExport() {
         translationsFromExcelExport = new Translations(translationsExcelExportFile)
     }
 
-    static openPropertyFile() {
+    def openTranslationsExcelFile(componentName) {
+        def excelFilePath = startFilePath + "TranslationSpreadsheets\\PropertySpreadsheets\\DMTDE"
+        ExcelFile.getPropertiesExcelFileUsingChooser(excelFilePath, componentName)
+    }
+
+    def buildTranslationsFromExcelFile(componentName) {
+        translationsFromExcelExport = Translations.createTranslationsFromExcelPropertiesFile(translationsExcelFile, componentName)
+    }
+
+    def buildPropertiesObject(componentName, componentFilePath) {
+        if (openPropertyFile(componentName, componentFilePath))
+            buildPropertiesFromPropertyFile()
+    }
+
+    def openPropertyFile(componentName, componentFilePath) {
         propertyFile = new PropertyFile(componentName, componentFilePath)
         (propertyFile.theFile != null)                      // return true if there is a file (open was successful)
     }
 
-    static buildPropertiesFromPropertyFile() {
+    def buildPropertiesFromPropertyFile() {
         //get property list
         propertiesFromPropertyFile = new Properties(propertyFile)
     }
 
-    static copyTranslations() {
+    def copyTranslations() {
         updatePropertiesFromTranslations()
         propertiesFromPropertyFile.writePropertiesToTranslatedOutputFile()
     }
 
-    static updatePropertiesFromTranslations() {
+    def updatePropertiesFromTranslations() {
         // loop through property value translations from Excel export
         while (translationsFromExcelExport.hasNext()) {
             updateAPropertyFromAnExcelExportRow()
         }
     }
 
-    static updateAPropertyFromAnExcelExportRow() {
-        def nextExcelExportRow = translationsFromExcelExport.next()
-        def nextTranslationKey = nextExcelExportRow["Message Key"].trim()
-        def nextTranslationValue = nextExcelExportRow[languageName].trim()
-        if ((nextTranslationValue != null) && (nextTranslationValue != "") && (!(nextTranslationKey == "" || nextTranslationKey.charAt(0) == "#")))
+    def updateAPropertyFromAnExcelExportRow() {
+        def nextExcelExportTranslation = translationsFromExcelExport.next()
+        def nextTranslationKey = nextExcelExportTranslation.get("Message Key")
+        def nextTranslationValue = nextExcelExportTranslation.get(languageName)
+        if ((nextTranslationValue != null)  && (!(nextTranslationKey == null || nextTranslationKey.charAt(0) == "#")))
             replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue)
     }
 
-    static replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue) {
+    def replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue) {
         def originalPropertyValue = propertiesFromPropertyFile.get(nextTranslationKey)
         if (originalPropertyValue != null) {
             if (!originalPropertyValue.equals(nextTranslationValue)) {
@@ -154,18 +176,18 @@ class UpdateDmtDeTranslatedProperties {
         }
     }
 
-    static logMissingTranslations() {
+    def logMissingTranslations() {
         Log.writeLine("exceptions", "\r\n******* Missing translation keys or values:")
         logTranslationKeysWithNoValues()
         logPropertiesWithNoTranslations()
     }
 
-    static logTranslationKeysWithNoValues() {
+    def logTranslationKeysWithNoValues() {
         // write exceptions accumulated while moving translations into properties file
         Log.writeLine("exceptions", "\r\n******* No $languageName translation in Excel export:")
         def noTranslationList = translationsFromExcelExport.getTranslations("$languageName", "")
         if (noTranslationList != null) {
-            noTranslationList.each {
+            noTranslationList.each { Translation it ->
                 def translationKey = it.get("Message Key")
                 if ((translationKey != "") && (translationKey.charAt(0) != "#") && (!(ignorePropertyList.contains(translationKey)))) {
                     Log.writeLine("exceptions", "Property '$translationKey' has no $languageName translation in Excel export.")
@@ -174,7 +196,7 @@ class UpdateDmtDeTranslatedProperties {
         }
     }
 
-    static logPropertiesWithNoTranslations() {
+    def logPropertiesWithNoTranslations() {
 //      loop through all properties (iterator), find matching translation from Excel export if it exists; otherwise log missing translation
         propertiesFromPropertyFile.rewind()
         while (propertiesFromPropertyFile.hasNext()) {
@@ -182,7 +204,7 @@ class UpdateDmtDeTranslatedProperties {
         }
     }
 
-    static logIfNoMatchingExcelExportTranslation() {
+    def logIfNoMatchingExcelExportTranslation() {
         def nextProperty = propertiesFromPropertyFile.next()
         String nextPropertyKey = nextProperty.key
         if ((nextPropertyKey.charAt(0) != "*") && (!(ignorePropertyList.contains(nextPropertyKey)))) {
@@ -190,8 +212,13 @@ class UpdateDmtDeTranslatedProperties {
             Translation matchingExcelExportTranslation = translationsFromExcelExport.getTranslation("Message Key", nextPropertyKey)
             if (matchingExcelExportTranslation == null)
                 Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation Excel export.")
-            else if (matchingExcelExportTranslation.get(languageName) == null)
-                Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")
+            else {
+                def test1 = matchingExcelExportTranslation.get(languageName)
+                if (matchingExcelExportTranslation.get(languageName) == null) {
+                    println nextPropertyKey
+                    Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")
+                }
+            }
         }
     }
 }

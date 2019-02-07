@@ -49,5 +49,4 @@ class TextFile extends FileMgr {
             backupFile.text = this.getText()
         }
      }
-
 }
