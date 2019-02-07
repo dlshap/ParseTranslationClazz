@@ -121,7 +121,7 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def openTranslationsExcelFile(componentName) {
-        def excelFilePath = startFilePath + "TranslationSpreadsheets\\PropertySpreadsheets\\DMTDE"
+        def excelFilePath = startFilePath + "Spreadsheets\\PropertySpreadsheets\\DMTDE"
         ExcelFile.getPropertiesExcelFileUsingChooser(excelFilePath, componentName)
     }
 
