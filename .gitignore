@@ -6,7 +6,7 @@ Thumbs.db
 ehthumbs.db
 
 # object file directory
-out.*
+out/
 .class
 
 # Folder config file
