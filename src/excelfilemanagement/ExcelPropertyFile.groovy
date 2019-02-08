@@ -72,6 +72,10 @@ class ExcelPropertyFile extends BaseFile {
         workbook == null
     }
 
+    def exists() {
+        !(isNull())
+    }
+
     def getPropertySheet(String sheetName, int headerRowNum) {
         new ExcelPropertySheet(this, sheetName, headerRowNum)
     }

@@ -25,7 +25,8 @@ class GeneratePropertySpreadsheet {
 
     def generateSpreadsheet(libraryArgs) {
         ExcelPropertyFile excelPropertyFile = getMasterSpreadsheet(libraryArgs)
-        generateNewSpreadsheetFromMasterSpreadsheet(excelPropertyFile)
+        if (excelPropertyFile.exists())
+            generateNewSpreadsheetFromMasterSpreadsheet(excelPropertyFile)
     }
 
     def getMasterSpreadsheet(LibraryArgs libraryArgs) {
@@ -36,7 +37,7 @@ class GeneratePropertySpreadsheet {
 
     def generateNewSpreadsheetFromMasterSpreadsheet(ExcelPropertyFile excelPropertyFile) {
         def filePath = excelPropertyFile.filePath
-        def fileName = "DMT-DE Properties Translations($newLanguage).xlsx"
+        def fileName = "DMT-DE Properties Translations($newLanguage).txt"
 //        ExcelPropertyFile newExcelPropertyFile = ExcelPropertyFile.createPropertiesExcelFileFromFileAndPathNames(filePath, fileName)
         try {
             def newExcelPropertyFile = new BaseFile(filePath + fileName, BaseFile.createFlag.CREATE_ONLY_IF_NO_EXISTING_FILE)
