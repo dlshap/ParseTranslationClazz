@@ -1,7 +1,7 @@
 package translations
 
 import excelExports.ExcelExport
-import excelfilemanagement.ExcelFile
+import excelfilemanagement.ExcelPropertyFile
 import excelfilemanagement.ExcelPropertySheet
 import filemanagement.KeyFile
 
@@ -44,11 +44,11 @@ class Translations {
         translations
     }
 
-    def buildTranslationsFromExcelFileForComponent(excelFile, componentName) {
-        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet(excelFile, componentName)
+    def buildTranslationsFromExcelFileForComponent(ExcelPropertyFile excelFile, componentName) {
+        ExcelPropertySheet excelPropertySheet = excelFile.getPropertySheet(componentName)
         while (excelPropertySheet.hasNextRow()) {
-            def keyMap = excelPropertySheet.getPropertyMapFromRow(excelPropertySheet.nextRow())
-            Translation translation = new Translation(keyMap)
+            def propertyMap = excelPropertySheet.nextRow().getPropertyMap()
+            Translation translation = new Translation(propertyMap)
             if (translation != null)
                 this.translations.add(translation)
         }

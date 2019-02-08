@@ -1,4 +1,4 @@
-import excelfilemanagement.ExcelFile
+import excelfilemanagement.ExcelPropertyFile
 import properties.PropertyFile
 import excelExports.PropertiesExcelExportFile
 import logging.Dates
@@ -8,6 +8,7 @@ import translations.Properties
 import translations.Translations
 import translations.Translation
 import useful.ArgsParser
+import useful.Messages
 
 /**
  * Created by s0041664 on 8/25/2017.
@@ -17,12 +18,14 @@ class UpdateDmtDeTranslatedProperties {
     def startFilePath        // "root" filepath
     def languageName         // language for this translation
 
+    static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for.component"
+
+
     def componentList = ["DMT", "DE"]       // list for looping through components
-//    def componentFilePath                    // filepath for individual component
-//    def componentName                        // name of component from component list for translations
+
 
     def PropertiesExcelExportFile translationsExcelExportFile
-    def ExcelFile translationsExcelFile
+    def ExcelPropertyFile translationsExcelFile
     def Translations translationsFromExcelExport
     def PropertyFile propertyFile
     def Properties propertiesFromPropertyFile
@@ -113,7 +116,7 @@ class UpdateDmtDeTranslatedProperties {
     def openTranslationsExcelExportFile() {
         // open property file
         translationsExcelExportFile = new PropertiesExcelExportFile(componentName, componentFilePath)
-        (translationsExcelExportFile.theFile != null)       // return true if there is a file (open was successful)
+        (translationsExcelExportFile.file != null)       // return true if there is a file (open was successful)
     }
 
     def buildTranslationsFromExport() {
@@ -121,8 +124,9 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def openTranslationsExcelFile(componentName) {
-        def excelFilePath = startFilePath + "TranslationSpreadsheets\\PropertySpreadsheets\\DMTDE"
-        ExcelFile.getPropertiesExcelFileUsingChooser(excelFilePath, componentName)
+        def excelFilePath = startFilePath + "Spreadsheets\\PropertySpreadsheets\\DMTDE"
+        def chooserPrompt = Messages.getString(SPREADSHEET_PROMPT, componentName)
+        ExcelPropertyFile.getPropertiesExcelFileUsingChooser(excelFilePath, chooserPrompt, componentName)
     }
 
     def buildTranslationsFromExcelFile(componentName) {
@@ -136,7 +140,7 @@ class UpdateDmtDeTranslatedProperties {
 
     def openPropertyFile(componentName, componentFilePath) {
         propertyFile = new PropertyFile(componentName, componentFilePath)
-        (propertyFile.theFile != null)                      // return true if there is a file (open was successful)
+        (propertyFile.file != null)                      // return true if there is a file (open was successful)
     }
 
     def buildPropertiesFromPropertyFile() {

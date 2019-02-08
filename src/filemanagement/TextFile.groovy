@@ -3,7 +3,7 @@ package filemanagement
 /**
  * Created by s0041664 on 8/18/2017.
  */
-class TextFile extends FileMgr {
+class TextFile extends BaseFile {
 
     def fileText
 
@@ -11,16 +11,16 @@ class TextFile extends FileMgr {
         super(fileName)
     }
 
-    def TextFile(fileName, FileMgr.createFlag create) {
+    def TextFile(fileName, BaseFile.createFlag create) {
         super(fileName, create)
     }
 
     def openFile(fileName) {
         super.openFile(fileName)
-        if (theFile.length()) {
-            fileText = theFile.text
+        if (file.length()) {
+            fileText = file.text
         }
-        theFile
+        file
     }
 
     def getText() {
@@ -28,8 +28,8 @@ class TextFile extends FileMgr {
     }
 
     def setText(newText) {
-        theFile.delete()
-        theFile.text = newText
+        file.delete()
+        file.text = newText
         fileText = newText
     }
 
@@ -38,12 +38,12 @@ class TextFile extends FileMgr {
     }
 
     def writeToFile(text) {
-        theFile << text
+        file << text
     }
 
     def makeBackupFile() {
-        if (theFile.exists()) {
-            File backupFile = new File(theFile.getPath()+".backup")
+        if (file.exists()) {
+            File backupFile = new File(file.getPath()+".backup")
             if (backupFile.exists())
                 backupFile.delete()
             backupFile.text = this.getText()
