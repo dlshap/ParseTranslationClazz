@@ -11,6 +11,10 @@ class ExcelPropertySheet {
     private headerRowNum
     private Iterator<Row> rowIterator
 
+    ExcelPropertySheet() {
+
+    }
+
     ExcelPropertySheet(ExcelPropertyFile excelFile, String sheetName) {
         new ExcelPropertySheet(excelFile, sheetName, 0)     // usually row 0
     }
@@ -21,6 +25,13 @@ class ExcelPropertySheet {
         this.headerRowNum = headerRowNum
         buildKeyListFromHeaderRow()
         resetRowIterator()
+    }
+
+    static def createNewPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName) {
+        // TODO: Add row, headerRow, etc. (might be done later...not sure yet)
+        def newExcelPropertySheet = new ExcelPropertySheet()
+        newExcelPropertySheet.sheet = excelPropertyFile.workbook.createSheet()
+        newExcelPropertySheet
     }
 
     private buildKeyListFromHeaderRow() {

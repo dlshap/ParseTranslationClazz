@@ -1,7 +1,6 @@
 import excelfilemanagement.ExcelPropertyFile
 import exceptions.OverwriteFileException
 import filemanagement.BaseFile
-import libraryquestions.LibraryArgs
 import useful.Args
 import useful.Messages
 
@@ -22,38 +21,38 @@ class GeneratePropertySpreadsheet {
     def start(args) {
         propertyArgs = new Args(args)
         setDefaultArgs()
-        println propertyArgs.get("language")
-//        generateSpreadsheet()
+        generateSpreadsheet()
     }
 
     def setDefaultArgs() {
         if (propertyArgs.get("language") == null)
-            propertyArgs.set("language","Japanese")
+            propertyArgs.set("language", "Japanese")
+
+        if (propertyArgs.get("path") == null)
+            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project\\Work\\translations\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\")
+
     }
 
     def generateSpreadsheet() {
-        ExcelPropertyFile excelMasterPropertySpreadsheet = getMasterSpreadsheet()
-        if (excelMasterPropertySpreadsheet.exists())
-            generateNewSpreadsheetFromMasterSpreadsheet(excelMasterPropertySpreadsheet)
+        ExcelPropertyFile masterPropertySpreadsheet = getMasterSpreadsheet()
+        ExcelPropertyFile outputPropertySpreadsheet = buildOutputSpreadsheetFromMaster(masterPropertySpreadsheet)
     }
 
     def getMasterSpreadsheet() {
         def chooserPrompt = Messages.getString(SPREADSHEET_PROMPT, "DMT", propertyArgs.get("language"))
-        ExcelPropertyFile.getPropertiesExcelFileUsingChooser(filePath, chooserPrompt, "DMT")
+        ExcelPropertyFile.getPropertiesExcelFileUsingChooser(propertyArgs.get("path"), chooserPrompt, "DMT")
     }
 
-    def generateNewSpreadsheetFromMasterSpreadsheet(ExcelPropertyFile excelPropertyFile) {
-        def filePath = excelPropertyFile.filePath
-        def fileName = "DMT-DE Properties Translations($newLanguage).txt"
-//        ExcelPropertyFile newExcelPropertyFile = ExcelPropertyFile.createPropertiesExcelFileFromFileAndPathNames(filePath, fileName)
+    def buildOutputSpreadsheetFromMaster(ExcelPropertyFile masterPropertySpreadsheet) {
+        ExcelPropertyFile outputPropertySpreadsheet
+        def outputPath = masterPropertySpreadsheet.filePath
+        def outputFileName = "DMT-DE Properties Translations(${propertyArgs.get("language")}).xlsx"
         try {
-            def createFlag = args.get("overwrite") == "yes" ? BaseFile.createFlag.CREATE : BaseFile.createFlag.CREATE_ONLY_IF_NO_EXISTING_FILE
-            def newExcelPropertyFile = new BaseFile(filePath + fileName, createFlag)
-            newExcelPropertyFile.file << "test"
+            def createFlag = propertyArgs.get("overwrite") == "yes" ? BaseFile.createFlag.CREATE : BaseFile.createFlag.CREATE_ONLY_IF_NO_EXISTING_FILE
+            outputPropertySpreadsheet = ExcelPropertyFile.createPropertiesExcelFileFromFileNameAndPathName(outputPath, outputFileName, createFlag)
         } catch (OverwriteFileException e) {
             println "! ${e.information} !"
         }
-
+    outputPropertySpreadsheet
     }
-
 }

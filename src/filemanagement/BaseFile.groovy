@@ -49,10 +49,6 @@ class BaseFile {
         file.getParent()
     }
 
-    def getFullPathName() {
-        file.getPath()
-    }
-
     def getFileName() {
         file.getName()
     }
@@ -62,3 +58,8 @@ class BaseFile {
             file.delete()
     }
 }
+
+//    def getFullPathName() {
+//        file.getPath()
+//    }
+//

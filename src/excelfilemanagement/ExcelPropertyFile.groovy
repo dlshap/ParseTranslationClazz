@@ -5,30 +5,21 @@ import filemanagement.FileChooser
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import useful.Messages;
-
 
 class ExcelPropertyFile extends BaseFile {
 
     private filePath
     Workbook workbook
 
-
     ExcelPropertyFile(filePath) {
         super()
         this.setFilePath(filePath)
     }
 
-    def setFilePath(filePath) {
+    private setFilePath(filePath) {
         this.filePath = filePath
         if (this.filePath[-1] != "\\")
             this.filePath += "\\"
-    }
-
-    static getPropertiesExcelFileFromFileAndPathNames(filePath, fileName) {
-        def excelPropertyFile = new ExcelPropertyFile(filePath)
-        excelPropertyFile.openExcelFileFromFileName(fileName)
-        excelPropertyFile
     }
 
     static getPropertiesExcelFileUsingChooser(filePath, prompt, componentName) {
@@ -37,17 +28,8 @@ class ExcelPropertyFile extends BaseFile {
         excelPropertyFile
     }
 
-    static createPropertiesExcelFileFromFileAndPathNames(filePath, fileName) {
-        def excelPropertyFile = new ExcelPropertyFile(filePath)
-        try {
-            excelPropertyFile.openFile(filePath + fileName, BaseFile.createFlag.CREATE_ONLY_IF_NO_EXISTING_FILE)
-        } catch (Exception e) {
-            println e
-        }
-    }
-
-    def openExcelFileFromFileName(fileName) {
-        openFile(this.filePath + fileName)
+    def openExcelFileUsingChooser(String prompt, componentName) {
+        file = FileChooser.chooseFile(prompt, this.filePath)
         workbook = getWorkbookFromFile()
     }
 
@@ -63,8 +45,17 @@ class ExcelPropertyFile extends BaseFile {
         }
     }
 
-    def openExcelFileUsingChooser(String prompt, componentName) {
-        file = FileChooser.chooseFile(prompt, this.filePath)
+    static createPropertiesExcelFileFromFileNameAndPathName(filePath, fileName, BaseFile.createFlag createFlag) {
+        def excelPropertyFile = new ExcelPropertyFile(filePath)
+        excelPropertyFile.createExcelFileFromFileName(fileName, createFlag)
+    }
+
+    def createExcelFileFromFileName(fileName, BaseFile.createFlag createFlag) {
+        try {
+            openFile(filePath + fileName, createFlag)
+        } catch (Exception e) {
+            println e
+        }
         workbook = getWorkbookFromFile()
     }
 
@@ -76,11 +67,25 @@ class ExcelPropertyFile extends BaseFile {
         !(isNull())
     }
 
-    def getPropertySheet(String sheetName, int headerRowNum) {
+    def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
         new ExcelPropertySheet(this, sheetName, headerRowNum)
     }
 
     def getPropertySheet(String sheetName) {
-        this.getPropertySheet(sheetName, 0)     // usually header in row 0
+        this.getPropertySheetWithHeaderLabelsInHeaderRowNum(sheetName, 0)     // usually header in row 0
     }
 }
+
+
+//    static getPropertiesExcelFileFromFileAndPathNames(filePath, fileName) {
+//        def excelPropertyFile = new ExcelPropertyFile(filePath)
+//        excelPropertyFile.openExcelFileFromFileName(fileName)
+//        excelPropertyFile
+//    }
+//
+//
+//    def openExcelFileFromFileName(fileName) {
+//        openFile(this.filePath + fileName)
+//        workbook = getWorkbookFromFile()
+//    }
+
