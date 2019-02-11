@@ -46,7 +46,7 @@ class TryExcel {
 //        ExcelPropertyFile excelFile = ExcelPropertyFile.getPropertiesExcelFileFromFileAndPathNames(filePath, "test.xlsx")
 
 //        def chooserPrompt = Messages.getString("prompt.for.spreadsheet", "DMT")
-//        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.getPropertiesExcelFileUsingChooser(filePath, chooserPrompt, "DMT")
+//        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.getExcelPropertyFileUsingChooser(filePath, chooserPrompt, "DMT")
 
 //        ExcelPropertySheet sheet = excelPropertyFile.getPropertySheet("DMT")
 //

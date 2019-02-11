@@ -8,29 +8,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 class ExcelPropertyFile extends BaseFile {
 
-    private filePath
+//    private filePath
     Workbook workbook
 
-    ExcelPropertyFile(filePath) {
-        super()
-        this.setFilePath(filePath)
+    ExcelPropertyFile(file) {
+        this.loadExcelPropertyFile(file)
     }
 
-    private setFilePath(filePath) {
-        this.filePath = filePath
-        if (this.filePath[-1] != "\\")
-            this.filePath += "\\"
+    private loadExcelPropertyFile(file) {
+        this.file = file
+        this.workbook = getWorkbookFromFile()
     }
 
-    static getPropertiesExcelFileUsingChooser(filePath, prompt, componentName) {
-        def excelPropertyFile = new ExcelPropertyFile(filePath)
-        excelPropertyFile.openExcelFileUsingChooser(prompt, componentName)
+    static getExcelPropertyFileUsingChooser(filePath, prompt) {
+        ExcelPropertyFile excelPropertyFile = null
+        def excelFile = FileChooser.chooseFile(prompt, filePath)
+        if (excelFile != null) {
+            excelPropertyFile = new ExcelPropertyFile(excelFile)
+        }
         excelPropertyFile
-    }
-
-    def openExcelFileUsingChooser(String prompt, componentName) {
-        file = FileChooser.chooseFile(prompt, this.filePath)
-        workbook = getWorkbookFromFile()
     }
 
     private getWorkbookFromFile() {
@@ -74,8 +70,8 @@ class ExcelPropertyFile extends BaseFile {
     def getPropertySheet(String sheetName) {
         this.getPropertySheetWithHeaderLabelsInHeaderRowNum(sheetName, 0)     // usually header in row 0
     }
-}
 
+}
 
 //    static getPropertiesExcelFileFromFileAndPathNames(filePath, fileName) {
 //        def excelPropertyFile = new ExcelPropertyFile(filePath)
@@ -88,4 +84,15 @@ class ExcelPropertyFile extends BaseFile {
 //        openFile(this.filePath + fileName)
 //        workbook = getWorkbookFromFile()
 //    }
+//    private setFilePath(filePath) {
+//        this.filePath = filePath
+//        if (this.filePath[-1] != "\\")
+//            this.filePath += "\\"
+//    }
+//
+//def openExcelFileUsingChooser(String prompt, componentName) {
+//    file = FileChooser.chooseFile(prompt, this.filePath)
+//    workbook = getWorkbookFromFile()
+//}
+//
 

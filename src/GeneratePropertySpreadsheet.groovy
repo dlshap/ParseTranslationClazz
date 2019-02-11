@@ -40,7 +40,7 @@ class GeneratePropertySpreadsheet {
 
     def getMasterSpreadsheet() {
         def chooserPrompt = Messages.getString(SPREADSHEET_PROMPT, "DMT", propertyArgs.get("language"))
-        ExcelPropertyFile.getPropertiesExcelFileUsingChooser(propertyArgs.get("path"), chooserPrompt, "DMT")
+        ExcelPropertyFile.getExcelPropertyFileUsingChooser(propertyArgs.get("path"), chooserPrompt)
     }
 
     def buildOutputSpreadsheetFromMaster(ExcelPropertyFile masterPropertySpreadsheet) {
