@@ -1,6 +1,6 @@
 import filemanagement.FileChooser
 import filemanagement.TextFile
-import useful.ArgsParser
+import useful.Args
 
 /**
  * Created by s0041664 on 8/24/2017.
@@ -8,7 +8,7 @@ import useful.ArgsParser
 class AddAnotherLanguageToClassFactory {
 
     static final linebreak = "\r\n             "
-    ArgsParser argsParser
+    Args argsParser
     TextFile classFactoryFile
     String newText
 
@@ -20,7 +20,7 @@ class AddAnotherLanguageToClassFactory {
     }
 
     def start(args) {
-        argsParser = new ArgsParser(args)
+        argsParser = new Args(args)
         selectFactoryFile()
         addTranslationFieldsToFactoryFile()
         writeTextToFactoryFile()

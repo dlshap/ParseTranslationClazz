@@ -13,6 +13,7 @@ class BaseFile {
     final enum createFlag {
         CREATE, CREATE_ONLY_IF_NO_EXISTING_FILE
     }
+
     File file
 
     BaseFile() {

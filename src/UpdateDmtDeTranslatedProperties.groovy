@@ -7,7 +7,7 @@ import translations.IgnorePropertyList
 import translations.Properties
 import translations.Translations
 import translations.Translation
-import useful.ArgsParser
+import useful.Args
 import useful.Messages
 
 /**
@@ -50,7 +50,7 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def getArgValues(args) {
-        def argsMap = new ArgsParser(args)
+        def argsMap = new Args(args)
         languageName = argsMap.get("language")
         startFilePath = argsMap.get("path")
     }
