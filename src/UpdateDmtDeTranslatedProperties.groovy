@@ -1,6 +1,5 @@
 import excelfilemanagement.ExcelPropertyFile
 import properties.PropertyFile
-import excelExports.PropertiesExcelExportFile
 import logging.Dates
 import logging.Log
 import translations.IgnorePropertyList
@@ -24,9 +23,8 @@ class UpdateDmtDeTranslatedProperties {
     def componentList = ["DMT", "DE"]       // list for looping through components
 
 
-    def PropertiesExcelExportFile translationsExcelExportFile
     def ExcelPropertyFile translationsExcelFile
-    def Translations translationsFromExcelExport
+    def Translations translationsFromSpreadsheet
     def PropertyFile propertyFile
     def Properties propertiesFromPropertyFile
     def IgnorePropertyList ignorePropertyList
@@ -41,7 +39,7 @@ class UpdateDmtDeTranslatedProperties {
 
     def start(args) {
         buildArgsAndParameters(args)
-        moveTranslationsFromExcelExportToPropertiesFiles()
+        moveTranslationsFromSpreadsheetToPropertiesFiles()
     }
 
     def buildArgsAndParameters(args) {
@@ -60,7 +58,7 @@ class UpdateDmtDeTranslatedProperties {
         if (languageName == null) languageName = "Japanese"
     }
 
-    def moveTranslationsFromExcelExportToPropertiesFiles() {
+    def moveTranslationsFromSpreadsheetToPropertiesFiles() {
         componentList.each { componentName ->
             doTranslationsForComponent(componentName)
         }
@@ -105,22 +103,9 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def buildTranslationsObject(componentName) {
-//        if (openTranslationsExcelExportFile())
-//            buildTranslationsFromExport()
-
         translationsExcelFile = openTranslationsExcelFile(componentName)
         if (translationsExcelFile != null)
             buildTranslationsFromExcelFile(componentName)
-    }
-
-    def openTranslationsExcelExportFile() {
-        // open property file
-        translationsExcelExportFile = new PropertiesExcelExportFile(componentName, componentFilePath)
-        (translationsExcelExportFile.file != null)       // return true if there is a file (open was successful)
-    }
-
-    def buildTranslationsFromExport() {
-        translationsFromExcelExport = new Translations(translationsExcelExportFile)
     }
 
     def openTranslationsExcelFile(componentName) {
@@ -130,7 +115,7 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def buildTranslationsFromExcelFile(componentName) {
-        translationsFromExcelExport = Translations.createTranslationsFromExcelPropertiesFile(translationsExcelFile, componentName)
+        translationsFromSpreadsheet = Translations.createTranslationsFromExcelPropertiesFile(translationsExcelFile, componentName)
     }
 
     def buildPropertiesObject(componentName, componentFilePath) {
@@ -154,16 +139,16 @@ class UpdateDmtDeTranslatedProperties {
     }
 
     def updatePropertiesFromTranslations() {
-        // loop through property value translations from Excel export
-        while (translationsFromExcelExport.hasNext()) {
-            updateAPropertyFromAnExcelExportRow()
+        // loop through property value translations from Spreadsheet
+        while (translationsFromSpreadsheet.hasNext()) {
+            updateAPropertyFromASpreadsheetRow()
         }
     }
 
-    def updateAPropertyFromAnExcelExportRow() {
-        def nextExcelExportTranslation = translationsFromExcelExport.next()
-        def nextTranslationKey = nextExcelExportTranslation.get("Message Key")
-        def nextTranslationValue = nextExcelExportTranslation.get(languageName)
+    def updateAPropertyFromASpreadsheetRow() {
+        def nextSpreadsheetTranslation = translationsFromSpreadsheet.next()
+        def nextTranslationKey = nextSpreadsheetTranslation.get("Message Key")
+        def nextTranslationValue = nextSpreadsheetTranslation.get(languageName)
         if ((nextTranslationValue != null)  && (!(nextTranslationKey == null || nextTranslationKey.charAt(0) == "#")))
             replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue)
     }
@@ -188,39 +173,39 @@ class UpdateDmtDeTranslatedProperties {
 
     def logTranslationKeysWithNoValues() {
         // write exceptions accumulated while moving translations into properties file
-        Log.writeLine("exceptions", "\r\n******* No $languageName translation in Excel export:")
-        def noTranslationList = translationsFromExcelExport.getTranslations("$languageName", "")
+        Log.writeLine("exceptions", "\r\n******* No $languageName translation in Spreadsheet:")
+        def noTranslationList = translationsFromSpreadsheet.getTranslations("$languageName", "")
         if (noTranslationList != null) {
             noTranslationList.each { Translation it ->
                 def translationKey = it.get("Message Key")
                 if ((translationKey != "") && (translationKey.charAt(0) != "#") && (!(ignorePropertyList.contains(translationKey)))) {
-                    Log.writeLine("exceptions", "Property '$translationKey' has no $languageName translation in Excel export.")
+                    Log.writeLine("exceptions", "Property '$translationKey' has no $languageName translation in Spreadsheet.")
                 }
             }
         }
     }
 
     def logPropertiesWithNoTranslations() {
-//      loop through all properties (iterator), find matching translation from Excel export if it exists; otherwise log missing translation
+//      loop through all properties (iterator), find matching translation from Spreadsheet if it exists; otherwise log missing translation
         propertiesFromPropertyFile.rewind()
         while (propertiesFromPropertyFile.hasNext()) {
-            logIfNoMatchingExcelExportTranslation()
+            logIfNoMatchingSpreadsheetTranslation()
         }
     }
 
-    def logIfNoMatchingExcelExportTranslation() {
+    def logIfNoMatchingSpreadsheetTranslation() {
         def nextProperty = propertiesFromPropertyFile.next()
         String nextPropertyKey = nextProperty.key
         if ((nextPropertyKey.charAt(0) != "*") && (!(ignorePropertyList.contains(nextPropertyKey)))) {
             //pseudo-properties (comments) have '*' in first character (maybe should trim left?)
-            Translation matchingExcelExportTranslation = translationsFromExcelExport.getTranslation("Message Key", nextPropertyKey)
-            if (matchingExcelExportTranslation == null)
-                Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation Excel export.")
+            Translation matchingSpreadsheetTranslation = translationsFromSpreadsheet.getTranslation("Message Key", nextPropertyKey)
+            if (matchingSpreadsheetTranslation == null)
+                Log.writeLine("exceptions", "Property '$nextPropertyKey' does not have corresponding 'Message Key' in translation Spreadsheet.")
             else {
-                def test1 = matchingExcelExportTranslation.get(languageName)
-                if (matchingExcelExportTranslation.get(languageName) == null) {
+                def test1 = matchingSpreadsheetTranslation.get(languageName)
+                if (matchingSpreadsheetTranslation.get(languageName) == null) {
                     println nextPropertyKey
-                    Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Excel export.")
+                    Log.writeLine("exceptions", "Property '$nextPropertyKey' in property file, but no $languageName translation in translation Spreadsheet.")
                 }
             }
         }
