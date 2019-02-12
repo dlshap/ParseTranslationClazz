@@ -1,18 +1,13 @@
 package properties
 
+import excelfilemanagement.ExcelSheet
 import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Workbook
 
-class ExcelPropertySheet {
-    Workbook workbook
-    Sheet sheet
+class ExcelPropertySheet extends ExcelSheet {
     private keyList
     private headerRowNum
-    private Iterator<Row> rowIterator
 
     ExcelPropertySheet() {
-
     }
 
     ExcelPropertySheet(ExcelPropertyFile excelFile, String sheetName) {
@@ -45,10 +40,6 @@ class ExcelPropertySheet {
         (0..headerRowNum).each {
             def nextRow = rowIterator.next()
         }
-    }
-
-    def hasNextRow() {
-        rowIterator.hasNext()
     }
 
     def nextRow() {

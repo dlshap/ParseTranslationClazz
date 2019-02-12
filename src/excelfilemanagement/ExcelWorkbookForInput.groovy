@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 class ExcelWorkbookForInput extends ExcelWorkbook {
 
-    ExcelWorkbookForInput(File file) {
+    ExcelWorkbookForInput(file) {
         workbookStream = new FileInputStream(file)
         def fileExtension = file.name.substring(file.name.indexOf("."))
         if (fileExtension == ".xlsx")

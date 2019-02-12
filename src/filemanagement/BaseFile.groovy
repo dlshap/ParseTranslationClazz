@@ -27,6 +27,10 @@ class BaseFile {
         openFile(fileName, create)
     }
 
+    def setFileUsingChooser(prompt, filePath) {
+        file = FileChooser.chooseFile(prompt, filePath)
+    }
+
     def openFile(fileName) {
         file = new File(fileName)
     }
@@ -58,8 +62,3 @@ class BaseFile {
             file.delete()
     }
 }
-
-//    def getFullPathName() {
-//        file.getPath()
-//    }
-//

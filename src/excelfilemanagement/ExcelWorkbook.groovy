@@ -3,6 +3,7 @@ package excelfilemanagement
 import org.apache.poi.ss.usermodel.Workbook
 
 class ExcelWorkbook {
+
     Workbook workbook
     def workbookStream
 
@@ -12,5 +13,9 @@ class ExcelWorkbook {
 
     def close() {
         workbookStream.close()
+    }
+
+    def getExcelSheet(sheetName) {
+        new ExcelSheet(workbook.getSheet(sheetName))
     }
 }

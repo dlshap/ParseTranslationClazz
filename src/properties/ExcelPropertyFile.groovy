@@ -1,38 +1,28 @@
 package properties
 
-import excelfilemanagement.ExcelWorkbook
-import excelfilemanagement.ExcelWorkbookForInput
+import excelfilemanagement.ExcelFile
 import excelfilemanagement.ExcelWorkbookForOutput
 import filemanagement.BaseFile
 import filemanagement.FileChooser
 
-class ExcelPropertyFile extends BaseFile {
+class ExcelPropertyFile extends ExcelFile {
 
-    //inherited: File file
-    ExcelWorkbook excelWorkbook
-    def workbookStream
+    ExcelPropertyFile() {
+    }
 
-    // use static factory, not constructor
-    static getExcelPropertyFileUsingChooser(filePath, prompt) {
-        ExcelPropertyFile excelPropertyFile = null
-        def excelFile = FileChooser.chooseFile(prompt, filePath)
-        if (excelFile != null) {
-            excelPropertyFile = new ExcelPropertyFile(excelFile)
-        }
-        excelPropertyFile
+    static createFileUsingChooser(prompt, filePath) {
+        ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
+        excelPropertyFile.chooseFile(prompt, filePath)
     }
 
     ExcelPropertyFile(file) {
-        this.loadExcelPropertyFile(file)
-    }
-
-    private loadExcelPropertyFile(file) {
         this.file = file
-        this.excelWorkbook = new ExcelWorkbookForInput(file)
+        this.setInputWorkbookFromFile()
     }
 
-    static createExcelPropertyFileFromFileName(fileName, BaseFile.createFlag createFlag) {
+    static createNewExcelPropertyFileFromFileName(fileName, BaseFile.createFlag createFlag) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
+        excelPropertyFile
     }
 
     ExcelPropertyFile(fileName, createFlag) {
@@ -44,11 +34,7 @@ class ExcelPropertyFile extends BaseFile {
         this.excelWorkbook = new ExcelWorkbookForOutput(file)
     }
 
-     /*************** public methods ****************/
-
-    def getWorkbook() {
-        this.excelWorkbook.workbook
-    }
+    /*************** public methods ****************/
 
     def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
         new ExcelPropertySheet(this, sheetName, headerRowNum)
@@ -56,10 +42,5 @@ class ExcelPropertyFile extends BaseFile {
 
     def getPropertySheet(String sheetName) {
         this.getPropertySheetWithHeaderLabelsInHeaderRowNum(sheetName, 0)     // usually header in row 0
-    }
-
-    def writeAndClose() {
-        excelWorkbook.write()
-        excelWorkbook.close()
     }
 }
