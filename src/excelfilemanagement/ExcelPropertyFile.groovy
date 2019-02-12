@@ -8,18 +8,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 class ExcelPropertyFile extends BaseFile {
 
-//    private filePath
-    Workbook workbook
+    //inherited: File file
+    ExcelWorkbook excelWorkbook
+    def workbookStream
 
-    ExcelPropertyFile(file) {
-        this.loadExcelPropertyFile(file)
-    }
-
-    private loadExcelPropertyFile(file) {
-        this.file = file
-        this.workbook = getWorkbookFromFile()
-    }
-
+    // use static factory, not constructor
     static getExcelPropertyFileUsingChooser(filePath, prompt) {
         ExcelPropertyFile excelPropertyFile = null
         def excelFile = FileChooser.chooseFile(prompt, filePath)
@@ -29,38 +22,32 @@ class ExcelPropertyFile extends BaseFile {
         excelPropertyFile
     }
 
-    private getWorkbookFromFile() {
-        if (file != null) {
-            def inputStream = new FileInputStream(file)
-            def fileName = file.name
-            def fileExtension = fileName.substring(fileName.indexOf("."))
-            if (fileExtension == ".xlsx")
-                new XSSFWorkbook(inputStream)
-            else
-                new HSSFWorkbook(inputStream)
-        }
+    ExcelPropertyFile(file) {
+        this.loadExcelPropertyFile(file)
     }
 
-    static createPropertiesExcelFileFromFileNameAndPathName(filePath, fileName, BaseFile.createFlag createFlag) {
-        def excelPropertyFile = new ExcelPropertyFile(filePath)
-        excelPropertyFile.createExcelFileFromFileName(fileName, createFlag)
+    private loadExcelPropertyFile(file) {
+        this.file = file
+        this.excelWorkbook = new ExcelWorkbookForInput(file)
     }
 
-    def createExcelFileFromFileName(fileName, BaseFile.createFlag createFlag) {
-        try {
-            openFile(filePath + fileName, createFlag)
-        } catch (Exception e) {
-            println e
-        }
-        workbook = getWorkbookFromFile()
+    static createExcelPropertyFileFromFileName(fileName, BaseFile.createFlag createFlag) {
+        ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
     }
 
-    def isNull() {
-        workbook == null
+    ExcelPropertyFile(fileName, createFlag) {
+        super(fileName, createFlag)
+        this.buildPropertyFile()
     }
 
-    def exists() {
-        !(isNull())
+    private buildPropertyFile() {
+        this.excelWorkbook = new ExcelWorkbookForOutput(file)
+    }
+
+     /*************** public methods ****************/
+
+    def getWorkbook() {
+        this.excelWorkbook.workbook
     }
 
     def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
@@ -71,28 +58,8 @@ class ExcelPropertyFile extends BaseFile {
         this.getPropertySheetWithHeaderLabelsInHeaderRowNum(sheetName, 0)     // usually header in row 0
     }
 
+    def writeAndClose() {
+        excelWorkbook.write()
+        excelWorkbook.close()
+    }
 }
-
-//    static getPropertiesExcelFileFromFileAndPathNames(filePath, fileName) {
-//        def excelPropertyFile = new ExcelPropertyFile(filePath)
-//        excelPropertyFile.openExcelFileFromFileName(fileName)
-//        excelPropertyFile
-//    }
-//
-//
-//    def openExcelFileFromFileName(fileName) {
-//        openFile(this.filePath + fileName)
-//        workbook = getWorkbookFromFile()
-//    }
-//    private setFilePath(filePath) {
-//        this.filePath = filePath
-//        if (this.filePath[-1] != "\\")
-//            this.filePath += "\\"
-//    }
-//
-//def openExcelFileUsingChooser(String prompt, componentName) {
-//    file = FileChooser.chooseFile(prompt, this.filePath)
-//    workbook = getWorkbookFromFile()
-//}
-//
-

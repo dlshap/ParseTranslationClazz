@@ -1,6 +1,8 @@
 import excelfilemanagement.ExcelPropertyFile
 import excelfilemanagement.ExcelPropertyRow
 import excelfilemanagement.ExcelPropertySheet
+import exceptions.OverwriteFileException
+import filemanagement.BaseFile
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -22,26 +24,37 @@ class TryExcel {
 
         def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
 
-        def fileName = "test.xlsx"
+        def fileName = "test.xls"
 
-        def excelFile = new File(filePath + fileName)
-        def outputStream = new FileOutputStream(excelFile)
-        Workbook workbook = getWorkBookFromFile(excelFile)
+        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.createExcelPropertyFileFromFileName(filePath + fileName, BaseFile.createFlag.CREATE)
+
+        Workbook workbook = excelPropertyFile.workbook
+
         workbook.createSheet("Test")
-        workbook.write(outputStream)
-        outputStream.close()
+        workbook.createSheet("Test2")
+        excelPropertyFile.writeAndClose()
     }
 
-    def getWorkBookFromFile(file) {
-        if (file != null) {
-            def fileName = file.name
-            def fileExtension = fileName.substring(fileName.indexOf("."))
-            if (fileExtension == ".xlsx")
-                new XSSFWorkbook()
-            else
-                new HSSFWorkbook()
-        }
-    }
+//    def useExcelFile() {
+//        def outputFileName = "DMT-DE Properties Translations(${propertyArgs.get("language")}).xlsx"
+//        try {
+//            def createFlag = propertyArgs.get("overwrite") == "yes" ? BaseFile.createFlag.CREATE : BaseFile.createFlag.CREATE_ONLY_IF_NO_EXISTING_FILE
+//            outputPropertySpreadsheet = ExcelPropertyFile.createExcelPropertyFileFromFileName(outputPath, outputFileName, createFlag)
+//        } catch (OverwriteFileException e) {
+//            println "! ${e.toString()} !"
+//        }
+//    }
+//
+//    def getWorkBookFromFile(file) {
+//        if (file != null) {
+//            def fileName = file.name
+//            def fileExtension = fileName.substring(fileName.indexOf("."))
+//            if (fileExtension == ".xlsx")
+//                new XSSFWorkbook()
+//            else
+//                new HSSFWorkbook()
+//        }
+//    }
 
 //        ExcelPropertyFile excelFile = ExcelPropertyFile.getPropertiesExcelFileFromFileAndPathNames(filePath, "test.xlsx")
 

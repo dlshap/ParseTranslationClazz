@@ -49,9 +49,9 @@ class GeneratePropertySpreadsheet {
         def outputFileName = "DMT-DE Properties Translations(${propertyArgs.get("language")}).xlsx"
         try {
             def createFlag = propertyArgs.get("overwrite") == "yes" ? BaseFile.createFlag.CREATE : BaseFile.createFlag.CREATE_ONLY_IF_NO_EXISTING_FILE
-            outputPropertySpreadsheet = ExcelPropertyFile.createPropertiesExcelFileFromFileNameAndPathName(outputPath, outputFileName, createFlag)
+            outputPropertySpreadsheet = ExcelPropertyFile.createExcelPropertyFileFromFileName(outputPath, outputFileName, createFlag)
         } catch (OverwriteFileException e) {
-            println "! ${e.information} !"
+            println "! ${e.toString()} !"
         }
     outputPropertySpreadsheet
     }
