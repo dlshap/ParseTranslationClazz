@@ -9,6 +9,11 @@ class ExcelRow {
     Iterator cellIterator
     CellStyle style
 
+    ExcelRow(Row row) {
+        this.row = row
+        this.cellIterator = row.cellIterator()
+    }
+
     def reset() {
         cellIterator = row.cellIterator()
     }
@@ -18,6 +23,10 @@ class ExcelRow {
     }
 
     def nextCell() {
-        cellIterator.next()
+        new ExcelCell(cellIterator.next())
+    }
+
+    def collectCellsAsStrings() {
+        row.cellIterator().collect() { cell -> new ExcelCell(cell).toString()}
     }
 }

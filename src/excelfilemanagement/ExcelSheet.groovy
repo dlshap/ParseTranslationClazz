@@ -23,8 +23,16 @@ class ExcelSheet {
         rowIterator.hasNext()
     }
 
-    def nextRow() {
-        rowIterator.next()
+    def nextExcelRow() {
+        new ExcelRow(rowIterator.next())
+    }
+
+    def getFirstRowNum() {
+        sheet.getFirstRowNum()
+    }
+
+    def getLastRowNum() {
+        sheet.getLastRowNum()
     }
 
 }

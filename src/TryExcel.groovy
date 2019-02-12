@@ -1,16 +1,7 @@
-import excelfilemanagement.ExcelFile
+import excelfilemanagement.ExcelRow
 import excelfilemanagement.ExcelSheet
-import excelfilemanagement.ExcelWorkbook
-import excelfilemanagement.ExcelWorkbookForInput
-import excelfilemanagement.ExcelWorkbookForOutput
 import properties.ExcelPropertyFile
 import filemanagement.BaseFile
-import org.apache.poi.ss.usermodel.Cell
-import org.apache.poi.ss.usermodel.CellStyle
-import org.apache.poi.ss.usermodel.Font
-import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook
 
 class TryExcel {
 
@@ -35,10 +26,18 @@ class TryExcel {
         ExcelSheet fromSheet1 = fromFile.getExcelSheet("DMT")
         ExcelSheet fromSheet2 = fromFile.getExcelSheet("DE")
 
+        println "DMT From...first row: ${fromSheet1.getFirstRowNum()} last row: ${fromSheet1.getLastRowNum()}"
+        println "DE From...first row: ${fromSheet2.getFirstRowNum()} last row: ${fromSheet2.getLastRowNum()}"
 
-
-
-
+        while (fromSheet1.hasNextRow()) {
+            ExcelRow excelRow = fromSheet1.nextExcelRow()
+//            def x = []
+//            println excelRow.cellIterator.collect() { Cell cell ->
+//                new ExcelCell(cell).toString()
+//            }
+            println excelRow.collectCellsAsStrings()
+//            println x
+        }
 
 //        ExcelPropertyFile fromFile = ExcelPropertyFile.getExcelPropertyFileUsingChooser(filePath, "Gimme some data")
 //        if (fromFile != null) {
@@ -70,8 +69,8 @@ class TryExcel {
 //            }
 //            workbook.createSheet("Test2")
 //            excelPropertyFile.writeAndClose()
-        }
     }
+}
 
 //    def useExcelFile() {
 //        def outputFileName = "DMT-DE Properties Translations(${propertyArgs.get("language")}).xlsx"
