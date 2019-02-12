@@ -4,6 +4,9 @@ import excelfilemanagement.ExcelPropertySheet
 import exceptions.OverwriteFileException
 import filemanagement.BaseFile
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.Font
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook
@@ -31,10 +34,25 @@ class TryExcel {
         ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.createExcelPropertyFileFromFileName(filePath + fileName, BaseFile.createFlag.CREATE)
 
         Workbook workbook = excelPropertyFile.workbook
+        Font font = workbook.createFont()
+        font.setBold(true)
+        CellStyle style = workbook.createCellStyle()
+        style.setFont(font)
 
         Sheet sheet = workbook.createSheet("Test")
-        Row row = sheet.createRow(5)
-        println "first row: ${sheet.getFirstRowNum()}, last row: ${sheet.getLastRowNum()}"
+        int firstRow = sheet.getFirstRowNum()
+        int lastRow = sheet.getLastRowNum()
+//        println "first row: $firstRow, last row: $lastRow"
+        0.upto(5) { int rowNum ->
+            Row row = sheet.createRow(rowNum)
+            println "row: $rowNum divide: ${rowNum % 2}"
+            (0..3).each { cellNum ->
+                Cell cell = row.createCell(cellNum)
+                cell.setCellValue(cellNum)
+                if (rowNum % 2 == 0)
+                    cell.setCellStyle(style)
+            }
+        }
         workbook.createSheet("Test2")
         excelPropertyFile.writeAndClose()
     }
