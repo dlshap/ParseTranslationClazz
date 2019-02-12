@@ -29,4 +29,8 @@ class ExcelRow {
     def collectCellsAsStrings() {
         row.cellIterator().collect() { cell -> new ExcelCell(cell).toString()}
     }
+
+    def collectCells() {
+        row.cellIterator().collect()
+    }
 }

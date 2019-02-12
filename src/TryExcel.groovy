@@ -31,12 +31,8 @@ class TryExcel {
 
         while (fromSheet1.hasNextRow()) {
             ExcelRow excelRow = fromSheet1.nextExcelRow()
-//            def x = []
-//            println excelRow.cellIterator.collect() { Cell cell ->
-//                new ExcelCell(cell).toString()
-//            }
             println excelRow.collectCellsAsStrings()
-//            println x
+            def cellCollection = excelRow.collectCells()
         }
 
 //        ExcelPropertyFile fromFile = ExcelPropertyFile.getExcelPropertyFileUsingChooser(filePath, "Gimme some data")
