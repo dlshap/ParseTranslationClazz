@@ -1,10 +1,10 @@
-package excelfilemanagement
+package properties
 
+import excelfilemanagement.ExcelWorkbook
+import excelfilemanagement.ExcelWorkbookForInput
+import excelfilemanagement.ExcelWorkbookForOutput
 import filemanagement.BaseFile
 import filemanagement.FileChooser
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import org.apache.poi.ss.usermodel.Workbook
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 class ExcelPropertyFile extends BaseFile {
 

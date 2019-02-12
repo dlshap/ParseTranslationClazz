@@ -1,4 +1,4 @@
-import excelfilemanagement.ExcelPropertyFile
+import properties.ExcelPropertyFile
 import exceptions.OverwriteFileException
 import filemanagement.BaseFile
 import useful.Args

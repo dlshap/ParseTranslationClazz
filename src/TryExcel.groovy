@@ -1,17 +1,11 @@
-import excelfilemanagement.ExcelPropertyFile
-import excelfilemanagement.ExcelPropertyRow
-import excelfilemanagement.ExcelPropertySheet
-import exceptions.OverwriteFileException
+import properties.ExcelPropertyFile
 import filemanagement.BaseFile
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Font
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import useful.Messages
 
 class TryExcel {
 
@@ -87,7 +81,7 @@ class TryExcel {
 //
 //        while (sheet.hasNextRow()) {
 //            ExcelPropertyRow excelPropertyRow = sheet.nextRow()
-//            def keyMap = excelPropertyRow.getPropertyMap()
+//            def keyMap = excelPropertyRow.getPropertyValueMap()
 //            println keyMap
 //        }
 }

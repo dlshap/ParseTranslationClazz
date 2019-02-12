@@ -1,4 +1,4 @@
-import excelfilemanagement.ExcelPropertyFile
+import properties.ExcelPropertyFile
 import properties.PropertyFile
 import logging.Dates
 import logging.Log

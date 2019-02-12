@@ -1,11 +1,14 @@
-package excelfilemanagement
+package properties
 
+import excelfilemanagement.ExcelRow
+import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.xssf.streaming.SXSSFRow
 
-class ExcelPropertyRow {
+class ExcelPropertyRow extends ExcelRow {
 
-    Row row
     def keyList = [:]
 
     ExcelPropertyRow(Row row, keyList) {
@@ -13,7 +16,7 @@ class ExcelPropertyRow {
         this.keyList = keyList
     }
 
-    def getPropertyMap() {
+    def getPropertyValueMap() {
         def keyMap = ["row": row.rowNum + 1]
         row.cellIterator().each { Cell cell ->
             def colNum = cell.getColumnIndex()
@@ -36,6 +39,5 @@ class ExcelPropertyRow {
         }
         keyMap
     }
-
 
 }
