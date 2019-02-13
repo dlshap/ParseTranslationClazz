@@ -14,8 +14,4 @@ class ExcelWorkbook {
     def close() {
         workbookStream.close()
     }
-
-    def getExcelSheet(sheetName) {
-        new ExcelSheet(workbook.getSheet(sheetName))
-    }
 }

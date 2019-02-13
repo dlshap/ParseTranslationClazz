@@ -11,18 +11,21 @@ class ExcelUtil {
     static String toStringWithOnlyIntegerNumerics(Cell cell) {
         switch (cell.getCellType()) {
             case "NUMERIC":
-                cell.getNumericCellValue().toInteger().toString()
-                break
+                def cellValue = cell.getNumericCellValue()
+                (cellValue.toInteger() == cellValue) ? cellValue.toInteger().toString() : cellValue.toString()
+                 break
             default:
                 cell.toString()
         }
     }
 
-    static void copySheets(Sheet newSheet, Sheet sheet) {
+    /************************ untested: copySheets *****************************/
+
+    static copySheets(Sheet newSheet, Sheet sheet) {
         copySheets(newSheet, sheet, true);
     }
 
-    static void copySheets(Sheet newSheet, Sheet sheet, boolean copyStyle) {
+    static copySheets(Sheet newSheet, Sheet sheet, boolean copyStyle) {
         int maxColumnNum = 0;
         Map<Integer, CellStyle> styleMap = (copyStyle) ? new HashMap<Integer, CellStyle>() : null;
         for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
@@ -40,7 +43,7 @@ class ExcelUtil {
         }
     }
 
-    static void copyRow(Sheet srcSheet, Sheet destSheet, Row srcRow, Row destRow, Map<Integer, CellStyle> styleMap) {
+    static copyRow(Sheet srcSheet, Sheet destSheet, Row srcRow, Row destRow, Map<Integer, CellStyle> styleMap) {
         Set<CellRangeAddress> mergedRegions = new TreeSet<CellRangeAddress>();
         destRow.setHeight(srcRow.getHeight());
         for (int j = srcRow.getFirstCellNum(); j <= srcRow.getLastCellNum(); j++) {
@@ -113,7 +116,7 @@ class ExcelUtil {
         return null;
     }
 
-    private static boolean isNewMergedRegion(CellRangeAddress newMergedRegion, Collection<CellRangeAddress> mergedRegions) {
+    private static isNewMergedRegion(CellRangeAddress newMergedRegion, Collection<CellRangeAddress> mergedRegions) {
         return !mergedRegions.contains(newMergedRegion);
     }
 

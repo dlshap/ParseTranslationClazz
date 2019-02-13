@@ -1,4 +1,5 @@
 import excelfilemanagement.ExcelFile
+import excelfilemanagement.ExcelUtil
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
@@ -13,12 +14,10 @@ class TryExcel {
     }
 
     static main(args) {
-        def tryExcel = new TryExcel();
+        new TryExcel();
     }
 
     def start() {
-
-        def componentName = "DMT"
 
         def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
 
@@ -38,7 +37,7 @@ class TryExcel {
                 Iterator inCellIterator = inRow.cellIterator()
                 inCellIterator.eachWithIndex { Cell inCell, int cellNum ->
                     Cell outCell = outRow.createCell(cellNum)
-                    outCell.setCellValue(inCell.toString())
+                    outCell.setCellValue(ExcelUtil.toStringWithOnlyIntegerNumerics(inCell))
                 }
             }
         }
@@ -57,8 +56,6 @@ class TryExcel {
 
 //        ExcelPropertyFile fromFile = ExcelPropertyFile.createFileUsingChooser("Gimme a file", filePath)
 //        ExcelPropertyFile toFile = ExcelPropertyFile.createNewExcelPropertyFileFromFileName(filePath + fileName, BaseFile.createFlag.CREATE)
-//        ExcelSheet fromSheet1 = fromFile.getExcelSheet("DMT")
-//        ExcelSheet fromSheet2 = fromFile.getExcelSheet("DE")
 //
 //        println "DMT From...first row: ${fromSheet1.getFirstRowNum()} last row: ${fromSheet1.getLastRowNum()}"
 //        println "DE From...first row: ${fromSheet2.getFirstRowNum()} last row: ${fromSheet2.getLastRowNum()}"

@@ -1,6 +1,5 @@
 package properties
 
-import excelfilemanagement.ExcelSheet
 import org.apache.poi.ss.usermodel.Row
 
 class ExcelPropertySheet {
