@@ -1,8 +1,11 @@
 package properties
 
 import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Workbook
 
 class ExcelPropertySheet {
+
+    Workbook workbook
     private keyList
     private headerRowNum
 
@@ -14,7 +17,7 @@ class ExcelPropertySheet {
     }
 
     ExcelPropertySheet(ExcelPropertyFile excelFile, String sheetName, int headerRowNum) {
-        this.workbook = excelFile.workbook
+        this.workbook = excelFile.excelWorkbook.workbook
         this.sheet = this.workbook.getSheet(sheetName)
         this.headerRowNum = headerRowNum
         buildKeyListFromHeaderRow()
@@ -24,7 +27,7 @@ class ExcelPropertySheet {
     static def createNewPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName) {
         // TODO: Add row, headerRow, etc. (might be done later...not sure yet)
         def newExcelPropertySheet = new ExcelPropertySheet()
-        newExcelPropertySheet.sheet = excelPropertyFile.workbook.createSheet()
+        newExcelPropertySheet.sheet = excelPropertyFile.excelWorkbook.createSheet()
         newExcelPropertySheet
     }
 

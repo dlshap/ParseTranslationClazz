@@ -4,7 +4,7 @@ import filemanagement.BaseFile
 
 class ExcelFile extends BaseFile {
 
-    ExcelWorkbook workbook
+    ExcelWorkbook excelWorkbook
 
     ExcelFile() {
     }
@@ -32,21 +32,21 @@ class ExcelFile extends BaseFile {
     }
 
     private createOutputWorkbookFromBaseFile() {
-        workbook = new ExcelWorkbookForOutput(file)
+        excelWorkbook = new ExcelWorkbookForOutput(file)
     }
 
     def setInputWorkbookFromBaseFile() {
         if (file != null)
-            workbook = new ExcelWorkbookForInput(file)
+            excelWorkbook = new ExcelWorkbookForInput(file)
     }
 
-    def getWorkbook() {
-        workbook.workbook
+    def getExcelWorkbook() {
+        excelWorkbook.workbook
     }
 
     def writeAndClose() {
-        workbook.write()
-        workbook.close()
+        excelWorkbook.write()
+        excelWorkbook.close()
     }
 //
 //    def getSheet(sheetName) {

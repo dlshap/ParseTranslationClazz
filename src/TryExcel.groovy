@@ -26,8 +26,8 @@ class TryExcel {
         ExcelFile inSpreadsheet = ExcelFile.openSpreadsheetUsingChooser("Pick a file", filePath)
         ExcelFile outSpreadsheet = ExcelFile.createNewSpreadsheetFromFileName(filePath+fileName, BaseFile.createFlag.CREATE) // create
 
-        Workbook inWorkbook = inSpreadsheet.workbook
-        Workbook outWorkbook = outSpreadsheet.workbook
+        Workbook inWorkbook = inSpreadsheet.excelWorkbook
+        Workbook outWorkbook = outSpreadsheet.excelWorkbook
         Iterator inSheetIterator = inWorkbook.sheetIterator()
         inSheetIterator.each { Sheet inSheet ->
             Sheet outSheet = outWorkbook.createSheet(inSheet.sheetName)

@@ -3,8 +3,7 @@ package properties
 import excelfilemanagement.ExcelFile
 import excelfilemanagement.ExcelWorkbookForOutput
 import filemanagement.BaseFile
-import filemanagement.FileChooser
-import org.apache.poi.ss.usermodel.Workbook
+
 
 class ExcelPropertyFile extends ExcelFile {
 
@@ -16,10 +15,10 @@ class ExcelPropertyFile extends ExcelFile {
         excelPropertyFile.chooseFile(prompt, filePath)
     }
 
-    ExcelPropertyFile(file) {
-        this.file = file
-//        this.workbook =
-    }
+//    ExcelPropertyFile(file) {
+//        this.file = file
+////        this.workbook =
+//    }
 
     static createNewExcelPropertyFileFromFileName(fileName, BaseFile.createFlag createFlag) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
@@ -37,11 +36,11 @@ class ExcelPropertyFile extends ExcelFile {
 
     /*************** public methods ****************/
 
-//    def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
-//        new ExcelPropertySheet(this, sheetName, headerRowNum)
-//    }
-//
-//    def getPropertySheet(String sheetName) {
-//        this.getPropertySheetWithHeaderLabelsInHeaderRowNum(sheetName, 0)     // usually header in row 0
-//    }
+    def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
+        new ExcelPropertySheet(this, sheetName, headerRowNum)
+    }
+
+    def getPropertySheet(String sheetName) {
+        this.getPropertySheetWithHeaderLabelsInHeaderRowNum(sheetName, 0)     // usually header in row 0
+    }
 }
