@@ -40,8 +40,13 @@ class BaseFile {
         if (file.exists()) {
             if (create == createFlag.CREATE)
                 file.delete()
-            else
-                throw new OverwriteFileException(Messages.getString("exception.message.overwrite.file"))
+            else {
+                def folderPath = new File(file.getDirPath())
+                if (!(folderPath.exists()))
+                    folderPath.mkdir()
+                if (!(folderPath.exists()))
+                    throw new OverwriteFileException(Messages.getString("exception.message.overwrite.file"))
+            }
         }
     }
 
