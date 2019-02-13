@@ -1,6 +1,6 @@
 package libraryquestions
 
-import filemanagement.FileMgr
+import filemanagement.BaseFile
 import filemanagement.TextFile
 
 class LibraryFactory {
@@ -13,7 +13,7 @@ class LibraryFactory {
     LibraryFactory(String libraryFactoryFileName, String translatedLibraryFactoryFileName, LibraryFactoryManager libraryFactoryManager) {
         this.libraryFactoryManager = libraryFactoryManager
         this.libraryFactoryFile = new TextFile(libraryFactoryFileName)
-        this.translatedLibraryFactoryFile = new TextFile(translatedLibraryFactoryFileName, FileMgr.createFlag.CREATE)
+        this.translatedLibraryFactoryFile = new TextFile(translatedLibraryFactoryFileName, BaseFile.createFlag.CREATE)
         buildLibraryTextBlocks(libraryFactoryFile)
     }
 

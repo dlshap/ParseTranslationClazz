@@ -1,11 +1,13 @@
 package libraryquestions
 
-import useful.ArgsParser
+import useful.Args
 
 class LibraryArgs {
     def startFilePath
     def languageName
     def fileNameForTestingSingleFile
+
+    def args = [:]
 
     LibraryArgs(args) {
         getValuesFromCommandLineArgs(args)
@@ -13,7 +15,7 @@ class LibraryArgs {
     }
 
     def getValuesFromCommandLineArgs(args) {
-        def argsMap = new ArgsParser(args)
+        def argsMap = new Args(args)
         startFilePath = argsMap.get("path")
         languageName = argsMap.get("language")
         fileNameForTestingSingleFile = argsMap.get("file")
@@ -23,6 +25,4 @@ class LibraryArgs {
         if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
         if (languageName == null) languageName = "Japanese"
     }
-
-
 }

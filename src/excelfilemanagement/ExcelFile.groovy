@@ -1,57 +1,55 @@
 package excelfilemanagement
 
-import filemanagement.FileChooser
-import org.apache.poi.ss.usermodel.Workbook
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import filemanagement.BaseFile
 
+class ExcelFile extends BaseFile {
 
-class ExcelFile {
+    ExcelWorkbook excelWorkbook
 
-    private filePath
-    File file
-    Workbook workbook
-
-    ExcelFile(filePath) {
-        this.setFilePath(filePath)
+    ExcelFile() {
     }
 
-    def setFilePath(filePath) {
-        this.filePath = filePath
-        if (this.filePath[-1] != "\\")
-            this.filePath += "\\"
+    ExcelFile(fileName, createFlag) {
+        super(fileName, createFlag)
+        this.createOutputWorkbookFromBaseFile()
     }
 
-    static getPropertiesExcelFileFromFileAndPathNames(filePath, fileName) {
-        def propertiesExcelFile = new ExcelFile(filePath)
-        propertiesExcelFile.openExcelFileFromFileName(fileName)
-        propertiesExcelFile
+    static openSpreadsheetUsingChooser(prompt, filePath) {
+        ExcelFile excelFile = new ExcelFile()
+        excelFile.chooseFile(prompt, filePath)
     }
 
-    static getPropertiesExcelFileUsingChooser(filePath, componentName) {
-        def propertiesExcelFile = new ExcelFile(filePath)
-        propertiesExcelFile.openExcelFileUsingChooser(componentName)
-        propertiesExcelFile
+    static createNewSpreadsheetFromFileName(fileName, createFlag) {
+        ExcelFile excelFile = new ExcelFile(fileName, createFlag)
+        excelFile.createOutputWorkbookFromBaseFile()
+        excelFile
     }
 
-    def openExcelFileFromFileName(fileName) {
-        file = new File(this.filePath + fileName)
-        workbook = getWorkbookFromExcelFile()
+    def chooseFile(prompt, filePath) {
+        setFileUsingChooser(prompt, filePath)
+        setInputWorkbookFromBaseFile()
+        file == null ? null : this
     }
 
-    def getWorkbookFromExcelFile() {
-        if (file != null) {
-            def inputStream = new FileInputStream(file)
-            new XSSFWorkbook(inputStream)
-        }
+    private createOutputWorkbookFromBaseFile() {
+        excelWorkbook = new ExcelWorkbookForOutput(file)
     }
 
-    def openExcelFileUsingChooser(componentName) {
-        file = FileChooser.chooseFile("Select translation spreadsheet for $componentName", this.filePath)
-        workbook = getWorkbookFromExcelFile()
+    def setInputWorkbookFromBaseFile() {
+        if (file != null)
+            excelWorkbook = new ExcelWorkbookForInput(file)
     }
 
-    def isNull() {
-        workbook == null
+    def getWorkbook() {
+        excelWorkbook.workbook
     }
 
+    def writeAndClose() {
+        excelWorkbook.write()
+        excelWorkbook.close()
+    }
+//
+//    def getSheet(sheetName) {
+//        workbook.getSheet(sheetName)
+//    }
 }

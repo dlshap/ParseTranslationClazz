@@ -1,8 +1,8 @@
 package properties
 
 import filemanagement.FileChooser
-import filemanagement.FileMgr
 import filemanagement.LineFile
+import filemanagement.BaseFile
 import logging.Log
 
 class PropertyFile extends LineFile {
@@ -37,9 +37,9 @@ class PropertyFile extends LineFile {
 
     def openTranslatedOutputFile() {
         LineFile translatedFile
-        if (theFile != null) {
+        if (file != null) {
             def propertyOutFileName = this.getTranslatedOutputFileName()
-            translatedFile = new LineFile(propertyOutFileName, FileMgr.createFlag.CREATE)
+            translatedFile = new LineFile(propertyOutFileName, BaseFile.createFlag.CREATE)
         }
         translatedFile
     }

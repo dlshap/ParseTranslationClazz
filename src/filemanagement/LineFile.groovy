@@ -2,7 +2,7 @@ package filemanagement
 /**
  * Created by s0041664 on 8/11/2017.
  */
-class LineFile extends FileMgr {
+class LineFile extends BaseFile {
     def lines
     Iterator lineIterator
 
@@ -17,8 +17,8 @@ class LineFile extends FileMgr {
 
     def openFile(fileName) {
         super.openFile(fileName)
-        if (theFile.length()) {
-            lines = theFile.readLines()
+        if (file.length()) {
+            lines = file.readLines()
             lineIterator = lines.iterator()
         }
     }
@@ -44,7 +44,7 @@ class LineFile extends FileMgr {
 
     /* output files */
     def writeLine(aLine) {
-        theFile << aLine + "\r\n"
-//        theFile << aLine + "\n"
+        file << aLine + "\r\n"
+//        file << aLine + "\n"
     }
 }

@@ -1,9 +1,9 @@
 package useful
 
-class ArgsParser {
+class Args {
     def argsMap = [:]
 
-    ArgsParser (args) {
+    Args(args) {
         def argsKey, argsValue
         def argCount = args.size()
         args.each {
@@ -18,5 +18,12 @@ class ArgsParser {
 
     def get(argsKey) {
         argsMap.get(argsKey)
+    }
+
+    def set(key, value) {
+        if (argsMap.get(key) != null)
+            argsMap.replace(key, value)
+        else
+            argsMap.put(key, value)
     }
 }
