@@ -40,7 +40,7 @@ class ExcelFile extends BaseFile {
             excelWorkbook = new ExcelWorkbookForInput(file)
     }
 
-    def getExcelWorkbook() {
+    def getWorkbook() {
         excelWorkbook.workbook
     }
 
