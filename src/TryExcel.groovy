@@ -1,7 +1,10 @@
-import excelfilemanagement.ExcelRow
-import excelfilemanagement.ExcelSheet
-import properties.ExcelPropertyFile
+import excelfilemanagement.ExcelFile
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
 import filemanagement.BaseFile
+
 
 class TryExcel {
 
@@ -21,28 +24,56 @@ class TryExcel {
 
         def fileName = "test.xls"
 
-        ExcelPropertyFile fromFile = ExcelPropertyFile.createFileUsingChooser("Gimme a file", filePath)
-        ExcelPropertyFile toFile = ExcelPropertyFile.createNewExcelPropertyFileFromFileName(filePath + fileName, BaseFile.createFlag.CREATE)
-        ExcelSheet fromSheet1 = fromFile.getExcelSheet("DMT")
-        ExcelSheet fromSheet2 = fromFile.getExcelSheet("DE")
+        ExcelFile inSpreadsheet = ExcelFile.openSpreadsheetUsingChooser("Pick a file", filePath)
+        ExcelFile outSpreadsheet = ExcelFile.createNewSpreadsheetFromFileName(filePath+fileName, BaseFile.createFlag.CREATE) // create
 
-        println "DMT From...first row: ${fromSheet1.getFirstRowNum()} last row: ${fromSheet1.getLastRowNum()}"
-        println "DE From...first row: ${fromSheet2.getFirstRowNum()} last row: ${fromSheet2.getLastRowNum()}"
-
-        while (fromSheet1.hasNextRow()) {
-            ExcelRow excelRow = fromSheet1.nextExcelRow()
-            println excelRow.collectCellsAsStrings()
-            def cellCollection = excelRow.collectCells()
+        Workbook inWorkbook = inSpreadsheet.workbook
+        Workbook outWorkbook = outSpreadsheet.workbook
+        Iterator inSheetIterator = inWorkbook.sheetIterator()
+        inSheetIterator.each { Sheet inSheet ->
+            Sheet outSheet = outWorkbook.createSheet(inSheet.sheetName)
+            Iterator rowIterator = inSheet.rowIterator()
+            rowIterator.eachWithIndex { Row inRow, int rowNum ->
+                Row outRow = outSheet.createRow(rowNum)
+                Iterator inCellIterator = inRow.cellIterator()
+                inCellIterator.eachWithIndex { Cell inCell, int cellNum ->
+                    Cell outCell = outRow.createCell(cellNum)
+                    outCell.setCellValue(inCell.toString())
+                }
+            }
         }
+        outSpreadsheet.writeAndClose()
+    }
+}
 
+//        Sheet inSheet = inWorkbook.getSheet("DMT")
+//        Sheet outSheetDMT = outWorkbook.createSheet("DMT")
+//        Iterator rowIterator = inSheet.rowIterator()
+//        rowIterator.each { Row row ->
+//            Iterator cellIterator = row.cellIterator()
+//            def allCells = cellIterator.collect()
+//            println "Row: ${row.rowNum} Cells: $allCells"
+//        }
+
+//        ExcelPropertyFile fromFile = ExcelPropertyFile.createFileUsingChooser("Gimme a file", filePath)
+//        ExcelPropertyFile toFile = ExcelPropertyFile.createNewExcelPropertyFileFromFileName(filePath + fileName, BaseFile.createFlag.CREATE)
+//        ExcelSheet fromSheet1 = fromFile.getExcelSheet("DMT")
+//        ExcelSheet fromSheet2 = fromFile.getExcelSheet("DE")
+//
+//        println "DMT From...first row: ${fromSheet1.getFirstRowNum()} last row: ${fromSheet1.getLastRowNum()}"
+//        println "DE From...first row: ${fromSheet2.getFirstRowNum()} last row: ${fromSheet2.getLastRowNum()}"
+//
+//        while (fromSheet1.hasNextRow()) {
+//            ExcelRow excelRow = fromSheet1.nextExcelRow()
+//            println excelRow.collectCellsAsStrings()
+//            def cellCollection = excelRow.collectCells()
+//        }
 //        ExcelPropertyFile fromFile = ExcelPropertyFile.getExcelPropertyFileUsingChooser(filePath, "Gimme some data")
 //        if (fromFile != null) {
 //            ExcelPropertyFile toFile = ExcelPropertyFile.createNewExcelPropertyFileFromFileName(filePath + fileName, BaseFile.createFlag.CREATE)
 //            copyFromTo(fromFile, toFile)
 //        }
-    }
-
-    def copyFromTo(fromFile, toFile) {
+//    def copyFromTo(fromFile, toFile) {
 
 //            Font font = workbook.createFont()
 //            font.setBold(true)
@@ -65,8 +96,8 @@ class TryExcel {
 //            }
 //            workbook.createSheet("Test2")
 //            excelPropertyFile.writeAndClose()
-    }
-}
+//    }
+
 
 //    def useExcelFile() {
 //        def outputFileName = "DMT-DE Properties Translations(${propertyArgs.get("language")}).xlsx"

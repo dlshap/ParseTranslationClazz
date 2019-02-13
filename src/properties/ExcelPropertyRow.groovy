@@ -1,12 +1,17 @@
 package properties
 
-import excelfilemanagement.ExcelRow
 import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
 
-class ExcelPropertyRow extends ExcelRow {
+class ExcelPropertyRow {
 
     def keyList = [:]
+
+    Row row
+    Iterator cellIterator
+    CellStyle style
+
 
     ExcelPropertyRow(Row row, keyList) {
         this.row = row

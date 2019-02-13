@@ -4,53 +4,52 @@ import filemanagement.BaseFile
 
 class ExcelFile extends BaseFile {
 
-    ExcelWorkbook excelWorkbook
+    ExcelWorkbook workbook
 
     ExcelFile() {
     }
 
     ExcelFile(fileName, createFlag) {
         super(fileName, createFlag)
-        this.createNewWorkbook()
+        this.createOutputWorkbookFromBaseFile()
     }
 
-    static createFileUsingChooser(prompt, filePath) {
+    static openSpreadsheetUsingChooser(prompt, filePath) {
         ExcelFile excelFile = new ExcelFile()
         excelFile.chooseFile(prompt, filePath)
     }
 
-    def chooseFile(prompt, filePath) {
-        setFileUsingChooser(prompt, filePath)
-        setInputWorkbookFromFile()
-        file == null ? null : this
-    }
-
     static createNewSpreadsheetFromFileName(fileName, createFlag) {
         ExcelFile excelFile = new ExcelFile(fileName, createFlag)
-        excelFile.createNewWorkbook()
+        excelFile.createOutputWorkbookFromBaseFile()
         excelFile
     }
 
-    private createNewWorkbook() {
-        this.excelWorkbook = new ExcelWorkbookForOutput(file)
+    def chooseFile(prompt, filePath) {
+        setFileUsingChooser(prompt, filePath)
+        setInputWorkbookFromBaseFile()
+        file == null ? null : this
     }
 
-    def setInputWorkbookFromFile() {
+    private createOutputWorkbookFromBaseFile() {
+        workbook = new ExcelWorkbookForOutput(file)
+    }
+
+    def setInputWorkbookFromBaseFile() {
         if (file != null)
-            excelWorkbook = new ExcelWorkbookForInput(file)
+            workbook = new ExcelWorkbookForInput(file)
     }
 
     def getWorkbook() {
-        excelWorkbook.workbook
+        workbook.workbook
     }
 
     def writeAndClose() {
-        excelWorkbook.write()
-        excelWorkbook.close()
+        workbook.write()
+        workbook.close()
     }
-
-    def getExcelSheet(sheetName) {
-        excelWorkbook.getExcelSheet(sheetName)
-    }
-
+//
+//    def getSheet(sheetName) {
+//        workbook.getSheet(sheetName)
+//    }
 }

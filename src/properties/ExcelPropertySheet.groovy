@@ -3,7 +3,7 @@ package properties
 import excelfilemanagement.ExcelSheet
 import org.apache.poi.ss.usermodel.Row
 
-class ExcelPropertySheet extends ExcelSheet {
+class ExcelPropertySheet {
     private keyList
     private headerRowNum
 

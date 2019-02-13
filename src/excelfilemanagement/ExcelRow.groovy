@@ -23,11 +23,11 @@ class ExcelRow {
     }
 
     def nextCell() {
-        new ExcelCell(cellIterator.next())
+        new ExcelUtil(cellIterator.next())
     }
 
     def collectCellsAsStrings() {
-        row.cellIterator().collect() { cell -> new ExcelCell(cell).toString()}
+        row.cellIterator().collect() { cell -> new ExcelUtil(cell).toString()}
     }
 
     def collectCells() {

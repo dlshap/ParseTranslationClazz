@@ -1,8 +1,10 @@
-import properties.ExcelPropertyFile
-import exceptions.OverwriteFileException
+import excelfilemanagement.ExcelFile
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
 import filemanagement.BaseFile
 import useful.Args
-import useful.Messages
 
 class GeneratePropertySpreadsheet {
 
@@ -30,29 +32,33 @@ class GeneratePropertySpreadsheet {
 
         if (propertyArgs.get("path") == null)
             propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project\\Work\\translations\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\")
-
     }
 
     def generateSpreadsheet() {
-        ExcelPropertyFile masterPropertySpreadsheet = getMasterSpreadsheet()
-        ExcelPropertyFile outputPropertySpreadsheet = buildOutputSpreadsheetFromMaster(masterPropertySpreadsheet)
-    }
+        def componentName = "DMT"
 
-    def getMasterSpreadsheet() {
-        def chooserPrompt = Messages.getString(SPREADSHEET_PROMPT, "DMT", propertyArgs.get("language"))
-        ExcelPropertyFile.getExcelPropertyFileUsingChooser(propertyArgs.get("path"), chooserPrompt)
-    }
+        def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
 
-    def buildOutputSpreadsheetFromMaster(ExcelPropertyFile masterPropertySpreadsheet) {
-        ExcelPropertyFile outputPropertySpreadsheet
-        def outputPath = masterPropertySpreadsheet.filePath
-        def outputFileName = "DMT-DE Properties Translations(${propertyArgs.get("language")}).xlsx"
-        try {
-            def createFlag = propertyArgs.get("overwrite") == "yes" ? BaseFile.createFlag.CREATE : BaseFile.createFlag.CREATE_ONLY_IF_NO_EXISTING_FILE
-            outputPropertySpreadsheet = ExcelPropertyFile.createNewExcelPropertyFileFromFileName(outputPath, outputFileName, createFlag)
-        } catch (OverwriteFileException e) {
-            println "! ${e.toString()} !"
+        def fileName = "test.xls"
+
+        ExcelFile inSpreadsheet = ExcelFile.openSpreadsheetUsingChooser("Pick a file", filePath)
+        ExcelFile outSpreadsheet = ExcelFile.createNewSpreadsheetFromFileName(filePath+fileName, BaseFile.createFlag.CREATE) // create
+
+        Workbook inWorkbook = inSpreadsheet.workbook
+        Workbook outWorkbook = outSpreadsheet.workbook
+        Iterator inSheetIterator = inWorkbook.sheetIterator()
+        inSheetIterator.each { Sheet inSheet ->
+            Sheet outSheet = outWorkbook.createSheet(inSheet.sheetName)
+            Iterator rowIterator = inSheet.rowIterator()
+            rowIterator.eachWithIndex { Row inRow, int rowNum ->
+                Row outRow = outSheet.createRow(rowNum)
+                Iterator inCellIterator = inRow.cellIterator()
+                inCellIterator.eachWithIndex { Cell inCell, int cellNum ->
+                    Cell outCell = outRow.createCell(cellNum)
+                    outCell.setCellValue(inCell.toString())
+                }
+            }
         }
-    outputPropertySpreadsheet
+        outSpreadsheet.writeAndClose()
     }
 }

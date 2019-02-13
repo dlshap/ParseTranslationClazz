@@ -13,5 +13,4 @@ class ExcelWorkbookForOutput extends ExcelWorkbook {
         else
             workbook = new HSSFWorkbook()
     }
-
 }
