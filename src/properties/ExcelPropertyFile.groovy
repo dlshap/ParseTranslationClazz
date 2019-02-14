@@ -10,15 +10,10 @@ class ExcelPropertyFile extends ExcelFile {
     ExcelPropertyFile() {
     }
 
-    static openSpreadsheetUsingChooser(prompt, filePath) {
+    static openExcelProertyFileUsingChooser(prompt, filePath) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.chooseFile(prompt, filePath)
     }
-
-//    ExcelPropertyFile(file) {
-//        this.file = file
-////        this.workbook =
-//    }
 
     static createNewExcelPropertyFileFromFileName(fileName, BaseFile.createFlag createFlag) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)

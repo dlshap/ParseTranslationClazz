@@ -7,6 +7,7 @@ import libraryquestions.LibraryLogs
 import libraryquestions.LibraryTextBlock
 import libraryquestions.LibraryTranslator
 import logging.Log
+import properties.ExcelPropertyFile
 import translations.Translations
 
 /**
@@ -24,15 +25,31 @@ class UpdateDMTClassFactories {
 
     def start(args) {
         def libraryArgs = new LibraryArgs(args)
+        getDefaultValuesIfArgsNull(libraryArgs)
         performTranslations(libraryArgs)
     }
 
-    def performTranslations(libraryArgs) {
+    def getDefaultValuesIfArgsNull(LibraryArgs libraryArgs) {
+        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+        if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
+    }
+
+    def performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
         def excelExports = new ExcelExports(libraryArgs)
-        def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
-        updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)
+        ExcelPropertyFile excelPropertyFile = chooseExcelPropertyFile(libraryArgs)
+        if (excelPropertyFile != null) {
+            def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
+            updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)
+        }
         LibraryLogs.closeLogs()
+    }
+
+    def chooseExcelPropertyFile(LibraryArgs libraryArgs) {
+        File startDir = new File(libraryArgs.startFilePath)
+        def spreadsheetDirectory = startDir.getParent() + "\\Spreadsheets\\"
+
+        ExcelPropertyFile.openSpreadsheetUsingChooser("Select Spreadsheet for ${libraryArgs.languageName}", libraryArgs.startFilePath)
     }
 
 

@@ -48,8 +48,4 @@ class ExcelFile extends BaseFile {
         excelWorkbook.write()
         excelWorkbook.close()
     }
-//
-//    def getSheet(sheetName) {
-//        workbook.getSheet(sheetName)
-//    }
 }
