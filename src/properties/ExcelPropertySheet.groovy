@@ -44,7 +44,7 @@ class ExcelPropertySheet {
         rowIterator = sheet.rowIterator()
 //        // advance row iterator past header row
         (0..headerRowNum).each {
-            def nextRow = rowIterator.next()
+            rowIterator.next()
         }
     }
 

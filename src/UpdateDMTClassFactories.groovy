@@ -4,16 +4,19 @@ import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
 import libraryquestions.LibraryLogs
-import libraryquestions.LibraryTextBlock
+import libraryquestions.LibraryPropertyFile
 import libraryquestions.LibraryTranslator
 import logging.Log
-import properties.ExcelPropertyFile
+import org.apache.poi.ss.usermodel.Sheet
 import translations.Translations
+import useful.Messages
 
 /**
  * Created by s0041664 on 8/14/2017.
  */
 class UpdateDMTClassFactories {
+
+    static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     UpdateDMTClassFactories(args) {
         start(args)
@@ -30,28 +33,22 @@ class UpdateDMTClassFactories {
     }
 
     def getDefaultValuesIfArgsNull(LibraryArgs libraryArgs) {
-        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\"
         if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
     }
 
     def performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
         def excelExports = new ExcelExports(libraryArgs)
-//        ExcelPropertyFile excelPropertyFile = chooseExcelPropertyFile(libraryArgs)
-//        if (excelPropertyFile != null) {
+        LibraryPropertyFile libraryPropertyFile = LibraryPropertyFile.openLibraryPropertyFileUsingChooser(
+                Messages.getString(SPREADSHEET_PROMPT, "${libraryArgs.languageName}"), libraryArgs.startFilePath)
+        if (libraryPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
-            updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)
-//        }
+//            updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)  // TODO: remove
+            updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
+        }
         LibraryLogs.closeLogs()
     }
-
-    def chooseExcelPropertyFile(LibraryArgs libraryArgs) {
-        File startDir = new File(libraryArgs.startFilePath)
-        def spreadsheetDirectory = startDir.getParent() + "\\Spreadsheets\\"
-
-        ExcelPropertyFile.openSpreadsheetUsingChooser("Select Spreadsheet for ${libraryArgs.languageName}", libraryArgs.startFilePath)
-    }
-
 
     def updateLibraryFactoriesFromEachExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExports excelExports) {
         Log.writeLine("Processing ${excelExports.fileCount()} files: ${excelExports.getFileNameList()}")
@@ -61,6 +58,15 @@ class UpdateDMTClassFactories {
             updateLibraryFactoriesFromNextExcelExport(libraryFactoryManager, nextExcelExport)
         }
     }
+
+    def updateLibraryFactoriesFromLibraryPropertyFile(LibraryFactoryManager libraryFactoryManager, LibraryPropertyFile libraryPropertyFile) {
+        Log.writeLine("Processing ${libraryPropertyFile.getClassNameCount()} classes: ${libraryPropertyFile.getClassNameList()}")
+        libraryPropertyFile.workbook.sheetIterator().each { Sheet sheet ->
+            addClassNameToLogs(sheet.sheetName)
+            updateLibraryFactoriesFromNextPropertySheet(libraryFactoryManager, ExcelPro)
+        }
+    }
+
 
     def updateLibraryFactoriesFromNextExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
         Translations translationsFromExcelExport = Translations.createTranslationsFromExcelExport(excelExport)
@@ -80,6 +86,12 @@ class UpdateDMTClassFactories {
         Log.writeLine "\r\n$classFileName:"
         Log.writeLine("exceptions", "\r\n$classFileName:")
         Log.writeLine("nocode", "\r\n$classFileName:")
+    }
+
+    def addClassNameToLogs(className) {
+        Log.writeLine "\r\n$className:"
+        Log.writeLine("exceptions", "\r\n$className:")
+        Log.writeLine("nocode", "\r\n$className:")
     }
 
     def updateLibraryFactoryFromTranslations(LibraryFactory libraryFactory, Translations translationsFromExcelExport) {

@@ -58,8 +58,6 @@ class Translations {
 
     def getTranslation(keyName, keyValue) {
         /* used for Properties files (single key) */
-//        def keyMap = ["$keyName":keyValue]
-//        TranslationFieldKeys translationFieldKeys = new TranslationFieldKeys(keyMap)
         def translations = getTranslations(keyName, keyValue)
         (translations == null) ? null : translations[0]
     }

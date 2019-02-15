@@ -17,7 +17,7 @@ class UpdateDmtDeTranslatedProperties {
     def startFilePath        // "root" filepath
     def languageName         // language for this translation
 
-    static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for.component"
+    static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
 
     def componentList = ["DMT", "DE"]       // list for looping through components

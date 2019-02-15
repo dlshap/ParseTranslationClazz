@@ -25,20 +25,6 @@ class ExcelPropertyRow {
             def colNum = cell.getColumnIndex()
             if (colNum < keyList.size()) {
                 keyMap.put(keyList[colNum], ExcelUtil.toStringWithOnlyIntegerNumerics(cell))
-//                switch (cell.getCellType()) {
-//                    case "NUMERIC":
-//                        def value = cell.getNumericCellValue()
-//                        if (value == value.toInteger())
-//                            value = value.toInteger()
-//                        keyMap.put(keyList[colNum], value.toString())
-//                        break;
-//                    case "STRING":
-//                    case "BLANK":
-//                        keyMap.put(keyList[colNum], cell.getStringCellValue().trim())
-//                        break;
-//                    default:
-//                        keyMap.put(keyList[colNum], "")
-//                }
             }
         }
         keyMap

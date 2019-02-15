@@ -12,6 +12,7 @@ class LibraryArgs {
     LibraryArgs(args) {
         getValuesFromCommandLineArgs(args)
         getDefaultValuesIfArgsNull()
+        appendSlashToStartFilePath()
     }
 
     def getValuesFromCommandLineArgs(args) {
@@ -22,7 +23,12 @@ class LibraryArgs {
     }
 
     def getDefaultValuesIfArgsNull() {
-        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\DMT\\\\"
+        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         if (languageName == null) languageName = "Japanese"
+    }
+
+    def appendSlashToStartFilePath() {
+        if (startFilePath[-1] != "\\")
+            startFilePath += "\\"
     }
 }
