@@ -37,11 +37,11 @@ class UpdateDMTClassFactories {
     def performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
         def excelExports = new ExcelExports(libraryArgs)
-        ExcelPropertyFile excelPropertyFile = chooseExcelPropertyFile(libraryArgs)
-        if (excelPropertyFile != null) {
+//        ExcelPropertyFile excelPropertyFile = chooseExcelPropertyFile(libraryArgs)
+//        if (excelPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
             updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)
-        }
+//        }
         LibraryLogs.closeLogs()
     }
 
