@@ -1,6 +1,7 @@
 package translations
 
 import excelExports.ExcelExport
+import org.apache.poi.ss.usermodel.Sheet
 import properties.ExcelPropertyFile
 import properties.ExcelPropertySheet
 import filemanagement.KeyFile
@@ -42,6 +43,16 @@ class Translations {
         Translations translations = new Translations()
         translations.buildTranslationsFromExcelFileForComponent(excelFile, componentName)
         translations
+    }
+
+    static createLibraryTranslationsFromExcelSheet(Sheet sheet) {
+        Translations translations = new Translations()
+        translations.buildLibraryTranslationsFromExcelSheet(sheet)
+        translations
+    }
+
+    def buildLibraryTranslationsFromExcelSheet(Sheet sheet) {
+
     }
 
     def buildTranslationsFromExcelFileForComponent(ExcelPropertyFile excelFile, componentName) {

@@ -48,6 +48,4 @@ class LibraryPropertyFile extends ExcelPropertyFile {
     def getSheet(String sheetName) {
         workbook.getSheet(sheetName)
     }
-
-
 }

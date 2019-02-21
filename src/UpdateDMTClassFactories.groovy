@@ -44,8 +44,8 @@ class UpdateDMTClassFactories {
                 Messages.getString(SPREADSHEET_PROMPT, "${libraryArgs.languageName}"), libraryArgs.startFilePath)
         if (libraryPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
-//            updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)  // TODO: remove
-            updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
+            updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)  // TODO: remove
+//            updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
         }
         LibraryLogs.closeLogs()
     }
@@ -61,15 +61,21 @@ class UpdateDMTClassFactories {
 
     def updateLibraryFactoriesFromLibraryPropertyFile(LibraryFactoryManager libraryFactoryManager, LibraryPropertyFile libraryPropertyFile) {
         Log.writeLine("Processing ${libraryPropertyFile.getClassNameCount()} classes: ${libraryPropertyFile.getClassNameList()}")
-        libraryPropertyFile.workbook.sheetIterator().each { Sheet sheet ->
-            addClassNameToLogs(sheet.sheetName)
-            updateLibraryFactoriesFromNextPropertySheet(libraryFactoryManager, ExcelPro)
+        libraryPropertyFile.classNames.each { className ->
+            addClassNameToLogs(className)
+            updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, libraryPropertyFile.getSheet(className))
         }
     }
 
 
     def updateLibraryFactoriesFromNextExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
         Translations translationsFromExcelExport = Translations.createTranslationsFromExcelExport(excelExport)
+        LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelExport(libraryFactoryManager, excelExport)
+        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
+    }
+
+    def updateLibraryFactoriesFromNextExcelSheet(LibraryFactoryManager libraryFactoryManager, Sheet sheet) {
+        Translations translationsFromExcelExport = Translations.createLibraryTranslationsFromExcelSheet(sheet)
         LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelExport(libraryFactoryManager, excelExport)
         updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
     }
