@@ -17,6 +17,8 @@ import useful.Messages
  */
 class UpdateDMTClassFactories {
 
+    def OLDVERSION = false
+
     static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
     static final LIBRARYHEADERROW = 4
 
@@ -46,8 +48,10 @@ class UpdateDMTClassFactories {
                 Messages.getString(SPREADSHEET_PROMPT, "${libraryArgs.languageName}"), libraryArgs.startFilePath)
         if (libraryPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
-            updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)  // TODO: remove
-            updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
+            if (OLDVERSION)
+                updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)  // TODO: remove
+            else
+                updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
         }
         LibraryLogs.closeLogs()
     }
@@ -66,15 +70,14 @@ class UpdateDMTClassFactories {
         libraryPropertyFile.classNames.each { className ->
             addClassNameToLogs(className)
             ExcelPropertySheet excelPropertySheet = libraryPropertyFile.getPropertySheetWithHeaderLabelsInHeaderRowNum(className, LIBRARYHEADERROW)
-            updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, excelPropertySheet )
+            updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, excelPropertySheet)
         }
     }
-
 
     def updateLibraryFactoriesFromNextExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
         Translations translationsFromExcelExport = Translations.createTranslationsFromExcelExport(excelExport)
         LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelExport(libraryFactoryManager, excelExport)
-//        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
+        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
     }
 
     def updateLibraryFactoriesFromNextExcelSheet(LibraryFactoryManager libraryFactoryManager, ExcelPropertySheet excelPropertySheet) {
