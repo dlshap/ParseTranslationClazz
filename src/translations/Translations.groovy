@@ -1,8 +1,10 @@
 package translations
 
 import excelExports.ExcelExport
+import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import properties.ExcelPropertyFile
+import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import filemanagement.KeyFile
 
@@ -19,17 +21,12 @@ class Translations {
 
     Translations(KeyFile translationExportFile) {
         //old constructor (deprecate)
-        buildTranslations(translationExportFile)
+        buildTranslationsFromExcelExportFile(translationExportFile)
     }
 
-    def buildTranslations(KeyFile translationExportFile) {
+    def buildTranslationsFromExcelExportFile(KeyFile translationExportFile) {
         def keyMaps = translationExportFile.getKeyMaps()
-        keyMaps.each {
-            Translation translation = new Translation(it)
-            if (translation != null)
-                this.translations.add(translation)
-        }
-        this.translationIterator = translations.iterator()
+        buildTranslationsFromKeyMaps(keyMaps)
     }
 
     static createTranslationsFromExcelExport(ExcelExport excelExport) {
@@ -39,20 +36,30 @@ class Translations {
         translations
     }
 
+    static createLibraryTranslationsFromExcelSheet(ExcelPropertySheet excelPropertySheet) {
+        Translations translations = new Translations()
+        translations.buildTranslationsFromExcelSheet(excelPropertySheet)
+        translations
+    }
+
+    def buildTranslationsFromExcelSheet(ExcelPropertySheet excelPropertySheet) {
+        def keyMaps = excelPropertySheet.getKeyMaps()
+        buildTranslationsFromKeyMaps(keyMaps)
+    }
+
     static createTranslationsFromExcelPropertiesFile(excelFile, componentName) {
         Translations translations = new Translations()
         translations.buildTranslationsFromExcelFileForComponent(excelFile, componentName)
         translations
     }
 
-    static createLibraryTranslationsFromExcelSheet(Sheet sheet) {
-        Translations translations = new Translations()
-        translations.buildLibraryTranslationsFromExcelSheet(sheet)
-        translations
-    }
-
-    def buildLibraryTranslationsFromExcelSheet(Sheet sheet) {
-
+    def buildTranslationsFromKeyMaps(keyMaps) {
+        keyMaps.each {
+            Translation translation = new Translation(it)
+            if (translation != null)
+                this.translations.add(translation)
+        }
+        this.translationIterator = translations.iterator()
     }
 
     def buildTranslationsFromExcelFileForComponent(ExcelPropertyFile excelFile, componentName) {

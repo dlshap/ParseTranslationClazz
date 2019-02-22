@@ -8,6 +8,7 @@ import libraryquestions.LibraryPropertyFile
 import libraryquestions.LibraryTranslator
 import logging.Log
 import org.apache.poi.ss.usermodel.Sheet
+import properties.ExcelPropertySheet
 import translations.Translations
 import useful.Messages
 
@@ -17,6 +18,7 @@ import useful.Messages
 class UpdateDMTClassFactories {
 
     static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
+    static final LIBRARYHEADERROW = 4
 
     UpdateDMTClassFactories(args) {
         start(args)
@@ -45,7 +47,7 @@ class UpdateDMTClassFactories {
         if (libraryPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
             updateLibraryFactoriesFromEachExcelExport(libraryFactoryManager, excelExports)  // TODO: remove
-//            updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
+            updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
         }
         LibraryLogs.closeLogs()
     }
@@ -63,7 +65,8 @@ class UpdateDMTClassFactories {
         Log.writeLine("Processing ${libraryPropertyFile.getClassNameCount()} classes: ${libraryPropertyFile.getClassNameList()}")
         libraryPropertyFile.classNames.each { className ->
             addClassNameToLogs(className)
-            updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, libraryPropertyFile.getSheet(className))
+            ExcelPropertySheet excelPropertySheet = libraryPropertyFile.getPropertySheetWithHeaderLabelsInHeaderRowNum(className, LIBRARYHEADERROW)
+            updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, excelPropertySheet )
         }
     }
 
@@ -71,18 +74,24 @@ class UpdateDMTClassFactories {
     def updateLibraryFactoriesFromNextExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
         Translations translationsFromExcelExport = Translations.createTranslationsFromExcelExport(excelExport)
         LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelExport(libraryFactoryManager, excelExport)
-        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
+//        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
     }
 
-    def updateLibraryFactoriesFromNextExcelSheet(LibraryFactoryManager libraryFactoryManager, Sheet sheet) {
-        Translations translationsFromExcelExport = Translations.createLibraryTranslationsFromExcelSheet(sheet)
-        LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelExport(libraryFactoryManager, excelExport)
-        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelExport)
+    def updateLibraryFactoriesFromNextExcelSheet(LibraryFactoryManager libraryFactoryManager, ExcelPropertySheet excelPropertySheet) {
+        Translations translationsFromExcelSheet = Translations.createLibraryTranslationsFromExcelSheet(excelPropertySheet)
+        LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelSheet(libraryFactoryManager, excelPropertySheet)
+        updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelSheet)
     }
 
 
     def getCorrespondingLibraryFactoryForExcelExport(LibraryFactoryManager libraryFactoryManager, ExcelExport excelExport) {
         def disclosureClassName = excelExport.getShortName()
+        def libraryFactory = libraryFactoryManager.getLibraryFactoryForFileName(disclosureClassName)
+        libraryFactory
+    }
+
+    def getCorrespondingLibraryFactoryForExcelSheet(LibraryFactoryManager libraryFactoryManager, ExcelPropertySheet excelPropertySheet) {
+        def disclosureClassName = excelPropertySheet.sheetName
         def libraryFactory = libraryFactoryManager.getLibraryFactoryForFileName(disclosureClassName)
         libraryFactory
     }

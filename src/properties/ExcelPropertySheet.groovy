@@ -61,4 +61,18 @@ class ExcelPropertySheet {
         }
         new ExcelPropertyRow(nextRow, keyList)
     }
+
+    def getKeyMaps() {
+        def keyMaps = []
+        while (this.hasNextRow()) {
+            ExcelPropertyRow row = this.nextRow()
+            def rowMap = row.getPropertyValueMap()
+            keyMaps.add(rowMap)
+        }
+        keyMaps
+    }
+
+    def getSheetName() {
+        sheet.sheetName
+    }
 }

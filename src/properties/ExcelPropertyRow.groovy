@@ -24,10 +24,10 @@ class ExcelPropertyRow {
         row.cellIterator().each { Cell cell ->
             def colNum = cell.getColumnIndex()
             if (colNum < keyList.size()) {
-                keyMap.put(keyList[colNum], ExcelUtil.toStringWithOnlyIntegerNumerics(cell))
+                if (keyList[colNum] != "")
+                    keyMap.put(keyList[colNum], ExcelUtil.toStringWithOnlyIntegerNumerics(cell))
             }
         }
         keyMap
     }
-
 }
