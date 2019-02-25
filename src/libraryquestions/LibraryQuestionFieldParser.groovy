@@ -14,20 +14,20 @@ class LibraryQuestionFieldParser {
     }
 
     def libraryLanguageLabels = [
-            "Japanese": "ja_JP",
-            "English" : "en_US",
-            "French-Canadian" : "fr_CA",
-            "Czech" : "cs_CZ"
+            "Japanese"       : "ja_JP",
+            "English"        : "en_US",
+            "French-Canadian": "fr_CA",
+            "Czech"          : "cs_CZ"
     ]
 
     def buildLibraryQuestionRegexes(languageLabel) {
         libraryQuestionRegexes = [
                 [fieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
-                [fieldName: "Question Identifier Translated", regex: /(?s)(.*/ + languageLabel + /.*title.*?:)(.*?)([,\]].*)/],
+                [fieldName: "Question Identifier Translated", regex: /(?s)(.*/ + languageLabel + /.*?title.*?:)(.*?)([,\]].*)/],
                 [fieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
-                [fieldName: "Questions and Answers Translated", regex: /(?s)(.*/ + languageLabel + /.*txt.*?:)(.*?)(,.*)/],
-                [fieldName: "Help Text Translated", regex: /(?s)(.*[defaultQuestion|localizationMap|i18n].*/ + languageLabel + /.*helpText\s*:\s*)(.*?)([],].*)/],
-                [fieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*desc.*?:)(.*?)(]\s*]\s*]?\s*\).*)/]
+                [fieldName: "Questions and Answers Translated", regex: /(?s)(.*/ + languageLabel + /.*?txt.*?:)(.*?)(,.*)/],
+                [fieldName: "Help Text Translated", regex: /(?s)(.*[defaultQuestion|localizationMap|i18n].*/ + languageLabel + /.*?helpText\s*:\s*)(.*?)([],].*)/],
+                [fieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*?desc.*?:)(.*?)(].*)/]
         ]
     }
 
