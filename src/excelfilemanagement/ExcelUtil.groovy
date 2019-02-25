@@ -12,10 +12,10 @@ class ExcelUtil {
         switch (cell.getCellType()) {
             case "NUMERIC":
                 def cellValue = cell.getNumericCellValue()
-                (cellValue.toInteger() == cellValue) ? cellValue.toInteger().toString() : cellValue.toString()
+                (cellValue.toInteger() == cellValue) ? cellValue.toInteger().toString().trim() : cellValue.toString().trim()
                  break
             default:
-                cell.toString()
+                cell.toString().trim()
         }
     }
 
