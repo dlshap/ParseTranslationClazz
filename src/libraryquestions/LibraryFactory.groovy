@@ -7,7 +7,7 @@ class LibraryFactory {
     LibraryFactoryManager libraryFactoryManager
     TextFile libraryFactoryFile
     TextFile translatedLibraryFactoryFile
-    def libraryTextBlocks = []
+    ArrayList<LibraryTextBlock> libraryTextBlocks = []
     Iterator libraryTextBlockIterator
 
     LibraryFactory(String libraryFactoryFileName, String translatedLibraryFactoryFileName, LibraryFactoryManager libraryFactoryManager) {

@@ -2,7 +2,6 @@ package properties
 
 import excelfilemanagement.ExcelFile
 import excelfilemanagement.ExcelWorkbookForOutput
-import filemanagement.BaseFile
 
 
 class ExcelPropertyFile extends ExcelFile {
@@ -13,20 +12,6 @@ class ExcelPropertyFile extends ExcelFile {
     static openExcelProertyFileUsingChooser(prompt, filePath) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.chooseFile(prompt, filePath)
-    }
-
-    static createNewExcelPropertyFileFromFileName(fileName, BaseFile.createFlag createFlag) {
-        ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
-        excelPropertyFile
-    }
-
-    ExcelPropertyFile(fileName, createFlag) {
-        super(fileName, createFlag)
-        this.buildPropertyFile()
-    }
-
-    private buildPropertyFile() {
-        this.excelWorkbook = new ExcelWorkbookForOutput(file)
     }
 
     /*************** public methods ****************/

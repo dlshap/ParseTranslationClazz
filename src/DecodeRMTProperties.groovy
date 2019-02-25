@@ -12,6 +12,8 @@ import translations.UnicodeUtil
  */
 class DecodeRMTProperties {
 
+    /*
+
     static openLogs(fp) {
         Log.open(fp + "log-rmt-property-translations.txt")
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
@@ -84,16 +86,23 @@ class DecodeRMTProperties {
 //        PropertiesExcelExportFile translationFile = new PropertiesExcelExportFile(fp)
         File translationFile // temp (to compile)
         if (translationFile.exists()) {
-            Translations translations = new Translations(translationFile)
+
+//            Change this to use new Excel Spreadsheet translations
+
+//            Translations translations = new Translations(translationFile)
             // open property file
             PropertyFile propertyFile = new PropertyFile(fp)
             if (propertyFile.exists()) {
                 //get property list
                 Properties properties = new Properties(propertyFile)
-                updatePropertyFile(translations, properties)
+
+//                update to use new excel sheet reader
+
+//                updatePropertyFile(translations, properties)
 //                logMissingTranslations(translations, properties)
                 properties.writePropertiesToTranslatedOutputFile()
             }
         }
     }
+    */
 }

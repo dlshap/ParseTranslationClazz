@@ -1,12 +1,7 @@
 package translations
 
-import excelExports.ExcelExport
-import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.ss.usermodel.Sheet
 import properties.ExcelPropertyFile
-import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
-import filemanagement.KeyFile
 
 /**
  * Created by s0041664 on 8/15/2017.
@@ -17,23 +12,6 @@ class Translations {
     Iterator translationIterator
 
     Translations() {
-    }
-
-    Translations(KeyFile translationExportFile) {
-        //old constructor (deprecate)
-        buildTranslationsFromExcelExportFile(translationExportFile)
-    }
-
-    def buildTranslationsFromExcelExportFile(KeyFile translationExportFile) {
-        def keyMaps = translationExportFile.getKeyMaps()
-        buildTranslationsFromKeyMaps(keyMaps)
-    }
-
-    static createTranslationsFromExcelExport(ExcelExport excelExport) {
-        //new factory for ExcelExports (the object not the file...replaces old constructor)
-        KeyFile translationExportFile = excelExport.excelExportFile
-        Translations translations = new Translations(translationExportFile)
-        translations
     }
 
     static createLibraryTranslationsFromExcelSheet(ExcelPropertySheet excelPropertySheet) {
