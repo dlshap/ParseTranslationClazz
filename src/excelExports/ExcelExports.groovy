@@ -23,7 +23,7 @@ class ExcelExports {
 
     def addFilesToExcelExports(libraryArgs) {
         if (libraryArgs.fileNameForTestingSingleFile != null) {
-            this.addFile(libraryArgs.fileNameForTestingSingleFile)
+            this.addFile(libraryArgs.fileNameForTestingSingleFile + ".txt")
         } else {
             def excelExportDirectoryFileList = new FileDirectoryMgr(excelExportFilePath).getFileList()
             excelExportDirectoryFileList.each {this.addFile(it)}

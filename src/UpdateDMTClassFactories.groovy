@@ -45,7 +45,7 @@ class UpdateDMTClassFactories {
         LibraryLogs.openLogs(libraryArgs)
         def excelExports = new ExcelExports(libraryArgs)
         LibraryPropertyFile libraryPropertyFile = LibraryPropertyFile.openLibraryPropertyFileUsingChooser(
-                Messages.getString(SPREADSHEET_PROMPT, "${libraryArgs.languageName}"), libraryArgs.startFilePath)
+                Messages.getString(SPREADSHEET_PROMPT, "${libraryArgs.languageName}"), libraryArgs)
         if (libraryPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
             if (OLDVERSION)

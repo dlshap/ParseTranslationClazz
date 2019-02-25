@@ -15,15 +15,15 @@ class LibraryPropertyFile extends ExcelPropertyFile {
     LibraryPropertyFile() {
     }
 
-    static openLibraryPropertyFileUsingChooser(prompt, filePath) {
+    static openLibraryPropertyFileUsingChooser(String prompt, LibraryArgs libraryArgs) {
         LibraryPropertyFile libraryPropertyFile = new LibraryPropertyFile()
-        libraryPropertyFile.buildLibraryPropertyFile(prompt, filePath)
+        libraryPropertyFile.buildLibraryPropertyFile(prompt, libraryArgs)
         libraryPropertyFile
     }
 
-    def buildLibraryPropertyFile(prompt, filePath) {
-        chooseLibraryPropertyFile(prompt, filePath)
-        loadClassNamesFromSheets()
+    def buildLibraryPropertyFile(String prompt, LibraryArgs libraryArgs) {
+        chooseLibraryPropertyFile(prompt, libraryArgs.startFilePath)
+        loadClassNamesFromSheets(libraryArgs.fileNameForTestingSingleFile)
     }
 
     def chooseLibraryPropertyFile(prompt, filePath) {
@@ -32,9 +32,12 @@ class LibraryPropertyFile extends ExcelPropertyFile {
         chooseFile(prompt, spreadsheetDirectory)
     }
 
-    def loadClassNamesFromSheets() {
+    def loadClassNamesFromSheets(String fileNameForTestingSingleFile) {
         classNames = workbook.sheetIterator().collect() {it.sheetName}
         classNames.removeAll() {it.contains("Table of Contents")}
+        if (fileNameForTestingSingleFile != null)
+            classNames.removeAll() {(!(it.equals(fileNameForTestingSingleFile)))}
+        println classNames.size()
     }
 
     def getClassNameList() {
