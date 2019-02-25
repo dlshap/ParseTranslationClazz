@@ -35,7 +35,7 @@ class LibraryFactory {
         libraryTextBlockIterator.hasNext()
     }
 
-    def nextLibraryTextBlock() {
+    LibraryTextBlock nextLibraryTextBlock() {
         libraryTextBlockIterator.next()
     }
 

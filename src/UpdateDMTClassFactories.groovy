@@ -37,7 +37,7 @@ class UpdateDMTClassFactories {
         if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
     }
 
-    def performTranslations(LibraryArgs libraryArgs) {
+    static performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
         LibraryPropertyFile libraryPropertyFile = LibraryPropertyFile.openLibraryPropertyFileUsingChooser(
                 Messages.getString(SPREADSHEET_PROMPT, "${libraryArgs.languageName}"), libraryArgs)
@@ -77,7 +77,7 @@ class UpdateDMTClassFactories {
 
     static updateLibraryFactoryFromTranslations(LibraryFactory libraryFactory, Translations translationsFromExcelSheet) {
         while (libraryFactory.hasNextLibraryTextBlock()) {
-            def nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
+            LibraryTextBlock nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
             LibraryTranslator nextLibraryTranslator = new LibraryTranslator(nextLibraryTextBlock, translationsFromExcelSheet)
             def nextTranslatedLibraryText = nextLibraryTranslator.getTranslatedLibraryText()
             libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedLibraryText)
