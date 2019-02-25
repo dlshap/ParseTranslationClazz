@@ -1,7 +1,6 @@
 package properties
 
 import excelfilemanagement.ExcelFile
-import excelfilemanagement.ExcelWorkbookForOutput
 
 
 class ExcelPropertyFile extends ExcelFile {
