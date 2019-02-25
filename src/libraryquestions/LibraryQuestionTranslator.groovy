@@ -51,6 +51,9 @@ class LibraryQuestionTranslator {
                 } else {
                     Log.writeLine("Keys: $translationKeyList / $fieldName: replacing '$originalValue' with '$translatedValue'")
                     def translationValue = "'" + translatedValue + "'"
+                    def match1 = libraryTextMatcher[0][1]
+                    def match2 = libraryTextMatcher[0][2]
+                    def match3 = libraryTextMatcher[0][3]
                     translatedTextBlock = libraryTextMatcher[0][1] + translationValue + libraryTextMatcher[0][3]
                 }
             }
