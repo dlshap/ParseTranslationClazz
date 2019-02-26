@@ -20,26 +20,14 @@ class LibraryQuestionFieldParser {
     def buildLibraryQuestionRegexes(languageLabel) {
         libraryQuestionRegexes = [
                 [fieldName: "Question Identifier", regex: /(?s)(.*en_US.*?title.*?:)(.*?)([,\]].*)/],
-                [fieldName: "Question Identifier Translated", regex: /(?s)(.*localizationMap.*/ + languageLabel + /.*?title.*?:)(.*?)([,\]].*)/],
+                [fieldName: "Question Identifier Translated", regex: /(?s)(.*(?:localizationMap|i18n|quests.push).*/ + languageLabel + /.*?title\s*:\s*)(.*?)([,\]].*)/],
                 [fieldName: "BOM Fields", regex: /(?s)(.* new ClazzAttr.*name\s*:\s*?)(.*?)([,\]].*)/],
-                [fieldName: "Questions and Answers Translated", regex: /(?s)(.*localizationMap.*/ + languageLabel + /.*?txt.*?:)(.*?)(,.*)/],
-                [fieldName: "Help Text Translated", regex: /(?s)(.*?defaultQuestion.*/ + languageLabel + /.*?helpText\s*:\s*)(.*?)([,\]].*)/],
-                [fieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*?desc.*?:)(.*?)(].*)/]
+                [fieldName: "Questions and Answers Translated", regex: /(?s)(.*(?:localizationMap|i18n|quests.push).*/ + languageLabel + /.*?txt\s*:\s*)(.*?)(,.*)/],
+                [fieldName: "Help Text Translated", regex: /(?s)(.*?(?:localizationMap|i18n|quests.push).*/ + languageLabel + /.*?helpText\s*:\s*)(.*?)([,\]].*)/],
+                [fieldName: "Description Text Translated", regex: /(?s)(.*/ + languageLabel + /.*?desc\s*:\s*)(.*?)(].*)/]
         ]
     }
 
-//    def lineContains(aLine, fieldName) {
-//        if (libraryQuestionRegexes.find { it.fieldName == fieldName } == null)
-//            return false
-//        else {
-//            def findRegex = libraryQuestionRegexes.find { map ->
-//                map.get("fieldName") == fieldName
-//            }.get("regex")
-//            def findMatch = aLine =~ findRegex
-//            (findMatch.count > 0)
-//        }
-//    }
-//
     def findFieldInLibraryText(theText, fieldName) {
         def returnVal = null
         if (libraryQuestionRegexes.find { it.fieldName == fieldName } != null) {

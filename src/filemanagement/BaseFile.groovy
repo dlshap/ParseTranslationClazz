@@ -59,7 +59,7 @@ class BaseFile {
     }
 
     def getFileName() {
-        file.getName()
+        file == null ? null : file.getName()
     }
 
     def delete() {

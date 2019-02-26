@@ -1,12 +1,6 @@
 package libraryquestions
 
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
-
-import java.lang.reflect.Array
 
 class LibraryPropertyFile extends ExcelPropertyFile {
 
@@ -17,13 +11,14 @@ class LibraryPropertyFile extends ExcelPropertyFile {
 
     static openLibraryPropertyFileUsingChooser(String prompt, LibraryArgs libraryArgs) {
         LibraryPropertyFile libraryPropertyFile = new LibraryPropertyFile()
-        libraryPropertyFile.buildLibraryPropertyFile(prompt, libraryArgs)
-        libraryPropertyFile
+        libraryPropertyFile.buildLibraryPropertyFileUsingChooser(prompt, libraryArgs)
+        libraryPropertyFile.fileName == null ? null : libraryPropertyFile
     }
 
-    def buildLibraryPropertyFile(String prompt, LibraryArgs libraryArgs) {
-        chooseLibraryPropertyFile(prompt, libraryArgs.startFilePath)
-        loadClassNamesFromSheets(libraryArgs.fileNameForTestingSingleFile)
+    def buildLibraryPropertyFileUsingChooser(String prompt, LibraryArgs libraryArgs) {
+        this.chooseLibraryPropertyFile(prompt, libraryArgs.startFilePath)
+        if (this.fileName != null)
+            loadClassNamesFromSheets(libraryArgs.fileNameForTestingSingleFile)
     }
 
     def chooseLibraryPropertyFile(prompt, filePath) {
@@ -33,11 +28,10 @@ class LibraryPropertyFile extends ExcelPropertyFile {
     }
 
     def loadClassNamesFromSheets(String fileNameForTestingSingleFile) {
-        classNames = workbook.sheetIterator().collect() {it.sheetName}
-        classNames.removeAll() {it.contains("Table of Contents")}
+        classNames = workbook.sheetIterator().collect() { it.sheetName }
+        classNames.removeAll() { it.contains("Table of Contents") }
         if (fileNameForTestingSingleFile != null)
-            classNames.removeAll() {(!(it.equals(fileNameForTestingSingleFile)))}
-        println classNames.size()
+            classNames.removeAll() { (!(it.equals(fileNameForTestingSingleFile))) }
     }
 
     def getClassNameList() {
