@@ -17,7 +17,7 @@ class UpdateDmtDeTranslatedProperties {
     def startFilePath        // "root" filepath
     def languageName         // language for this translation
 
-    static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
+    static final SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.component"
 
 
     def componentList = ["DMT", "DE"]       // list for looping through components
@@ -110,7 +110,7 @@ class UpdateDmtDeTranslatedProperties {
 
     def openTranslationsExcelFile(componentName) {
         def excelFilePath = startFilePath + "Spreadsheets\\PropertySpreadsheets\\DMTDE"
-        def chooserPrompt = Messages.getString(SPREADSHEET_PROMPT, componentName)
+        def chooserPrompt = Messages.getString(SPREADSHEET_PROMPT, componentName, languageName)
 //        ExcelPropertyFile.getExcelPropertyFileUsingChooser(chooserPrompt, excelFilePath)
         ExcelPropertyFile.openExcelProertyFileUsingChooser(chooserPrompt, excelFilePath)
     }
