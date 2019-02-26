@@ -1,5 +1,9 @@
 package libraryquestions
 
+import i18n.LanguageLabels
+
+import static i18n.LanguageLabels.getLanguageLabel
+
 /**
  * Created by s0041664 on 8/14/2017.
  */
@@ -10,15 +14,8 @@ class LibraryQuestionFieldParser {
 
     LibraryQuestionFieldParser(languageName) {
         this.languageName = languageName
-        buildLibraryQuestionRegexes(libraryLanguageLabels[languageName])
+        buildLibraryQuestionRegexes(getLanguageLabel(languageName))
     }
-
-    def libraryLanguageLabels = [
-            "Japanese"       : "ja_JP",
-            "English"        : "en_US",
-            "French-Canadian": "fr_CA",
-            "Czech"          : "cs_CZ"
-    ]
 
     def buildLibraryQuestionRegexes(languageLabel) {
         libraryQuestionRegexes = [
@@ -31,18 +28,18 @@ class LibraryQuestionFieldParser {
         ]
     }
 
-    def lineContains(aLine, fieldName) {
-        if (libraryQuestionRegexes.find { it.fieldName == fieldName } == null)
-            return false
-        else {
-            def findRegex = libraryQuestionRegexes.find { map ->
-                map.get("fieldName") == fieldName
-            }.get("regex")
-            def findMatch = aLine =~ findRegex
-            (findMatch.count > 0)
-        }
-    }
-
+//    def lineContains(aLine, fieldName) {
+//        if (libraryQuestionRegexes.find { it.fieldName == fieldName } == null)
+//            return false
+//        else {
+//            def findRegex = libraryQuestionRegexes.find { map ->
+//                map.get("fieldName") == fieldName
+//            }.get("regex")
+//            def findMatch = aLine =~ findRegex
+//            (findMatch.count > 0)
+//        }
+//    }
+//
     def findFieldInLibraryText(theText, fieldName) {
         def returnVal = null
         if (libraryQuestionRegexes.find { it.fieldName == fieldName } != null) {
