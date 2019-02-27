@@ -6,34 +6,33 @@ import org.apache.poi.ss.usermodel.Workbook
 
 class ExcelPropertySheet {
 
-    Workbook workbook
     Sheet sheet
     Iterator rowIterator
 
     private keyList
     private headerRowNum
 
-    ExcelPropertySheet() {
-    }
-
-    ExcelPropertySheet(ExcelPropertyFile excelFile, String sheetName) {
-        new ExcelPropertySheet(excelFile, sheetName, 0)     // usually row 0
-    }
-
-    ExcelPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
-        this.workbook = excelPropertyFile.workbook
-        this.sheet = this.workbook.getSheet(sheetName)
-        this.headerRowNum = headerRowNum
-        resetRowIterator()
+    ExcelPropertySheet(Sheet sheet) {
+        this.sheet = sheet
+        this.headerRowNum = 0
+        this.resetRowIterator()
         buildKeyListFromHeaderRow()
     }
 
-    static def createNewPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName) {
-        // TODO: Add row, headerRow, etc. (might be done later...not sure yet)
-        def newExcelPropertySheet = new ExcelPropertySheet()
-        newExcelPropertySheet.sheet = excelPropertyFile.excelWorkbook.createSheet()
-        newExcelPropertySheet
+    ExcelPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
+        def workbook = excelPropertyFile.workbook
+        this.sheet = workbook.getSheet(sheetName)
+        this.headerRowNum = headerRowNum
+        this.resetRowIterator()
+        buildKeyListFromHeaderRow()
     }
+
+//    static def createNewPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName) {
+//        // TODO: Add row, headerRow, etc. (might be done later...not sure yet)
+//        def newExcelPropertySheet = new ExcelPropertySheet()
+//        newExcelPropertySheet.sheet = excelPropertyFile.excelWorkbook.createSheet()
+//        newExcelPropertySheet
+//    }
 
     private buildKeyListFromHeaderRow() {
         Row headerRow = sheet.getRow(headerRowNum)
@@ -52,7 +51,7 @@ class ExcelPropertySheet {
         rowIterator.hasNext()
     }
 
-    def nextRow() {
+    ExcelPropertyRow nextRow() {
         Row nextRow
         if (rowIterator.hasNext()) {
             nextRow = rowIterator.next()

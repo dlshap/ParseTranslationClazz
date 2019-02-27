@@ -12,6 +12,5 @@ class ExcelWorkbookForInput extends ExcelWorkbook {
             workbook = new XSSFWorkbook(workbookStream)
         else
             workbook = new HSSFWorkbook(workbookStream)
-        resetSheetIterator()
     }
 }

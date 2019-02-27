@@ -3,6 +3,7 @@ import filemanagement.FileChooser
 import logging.Dates
 import logging.Log
 import properties.ExcelPropertyFile
+import properties.ExcelPropertySheet
 import properties.PropertyFile
 import translations.IgnorePropertyList
 import translations.Properties
@@ -52,22 +53,29 @@ class GeneratePropertiesFiles {
     }
 
     def generateTranslationsFromSpreadsheetToPropertiesFiles() {
-        ExcelPropertyFile excelPropertyFile = choosePropertiesSpreadsheet(startFilePath)
-        movePropertiesFromSpreadsheetToPropertiesFiles(excelPropertyFile, startFilePath)
+        ExcelPropertyFile excelPropertyFile = choosePropertiesSpreadsheet()
+        if (excelPropertyFile != null)
+            movePropertiesFromSpreadsheetsToPropertiesFiles(excelPropertyFile)
     }
 
-    def choosePropertiesSpreadsheet(String startFilePath) {
+    def choosePropertiesSpreadsheet() {
         def prompt = Messages.getString(SPREADSHEET_PROMPT, languageName)
-        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser(prompt, startFilePath)
+        def excelPath = startFilePath + "\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
+        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser(prompt, excelPath)
         excelPropertyFile
     }
 
-    def movePropertiesFromSpreadsheetToPropertiesFiles(ExcelPropertyFile excelPropertyFile, String startFilePath) {
-        ExcelWorkbook excelWorkbook = excelPropertyFile.excelWorkbook
-
+    def movePropertiesFromSpreadsheetsToPropertiesFiles(ExcelPropertyFile excelPropertyFile) {
+        while (excelPropertyFile.hasNextExcelPropertySheet()) {
+            movePropertiesFromSpreadsheetToPropertiesFile(excelPropertyFile.nextExcelPropertySheet())
+        }
     }
 
-     /****************************************************************************************************************/
+    def movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {
+        println "${excelPropertySheet.sheetName}: ${excelPropertySheet.sheet.size()}"
+    }
+
+    /** **************************************************************************************************************/
 
     def moveTranslationsFromSpreadsheetToPropertiesFiles() {
         componentList.each { componentName ->
@@ -161,7 +169,7 @@ class GeneratePropertiesFiles {
         def nextSpreadsheetTranslation = translationsFromSpreadsheet.next()
         def nextTranslationKey = nextSpreadsheetTranslation.get("Message Key")
         def nextTranslationValue = nextSpreadsheetTranslation.get(languageName)
-        if ((nextTranslationValue != null)  && (!(nextTranslationKey == null || nextTranslationKey.charAt(0) == "#")))
+        if ((nextTranslationValue != null) && (!(nextTranslationKey == null || nextTranslationKey.charAt(0) == "#")))
             replaceOriginalValueWithNewValue(nextTranslationKey, nextTranslationValue)
     }
 
