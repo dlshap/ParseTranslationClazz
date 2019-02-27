@@ -7,11 +7,10 @@ class KeyFile extends LineFile {
     def keyMaps = []
     def keyMapIterator
 
-    def KeyFile() {
-        super()
+    KeyFile() {
     }
 
-    def KeyFile(fileName) {
+    KeyFile(fileName) {
         super()
         openFile(fileName)
     }

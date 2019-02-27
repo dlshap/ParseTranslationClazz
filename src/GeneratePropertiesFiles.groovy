@@ -1,5 +1,3 @@
-import excelfilemanagement.ExcelWorkbook
-import filemanagement.FileChooser
 import logging.Dates
 import logging.Log
 import properties.ExcelPropertyFile
@@ -72,7 +70,18 @@ class GeneratePropertiesFiles {
     }
 
     def movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {
-        println "${excelPropertySheet.sheetName}: ${excelPropertySheet.sheet.size()}"
+        Properties propertyFile = openPropertyFileForSheetName(excelPropertySheet.sheetName)
+        while (excelPropertySheet.hasNextRow()) {
+            writePropertyRowToPropertyFile(excelPropertySheet.nextRow(), propertyFile)
+        }
+    }
+
+    def openPropertyFileForSheetName(String sheetName) {
+//        PropertyFile propertyFile = PropertyFile.
+    }
+
+    def writePropertyRowToPropertyFile(ExcelPropertySheet excelPropertySheet, ExcelPropertyFile excelPropertyFile) {
+
     }
 
     /** **************************************************************************************************************/

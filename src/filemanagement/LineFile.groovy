@@ -6,13 +6,15 @@ class LineFile extends BaseFile {
     def lines
     Iterator lineIterator
 
-    def LineFile() {
-        super()
+    LineFile() {
     }
 
-    def LineFile(fileName) {
-        super()
-        openFile(fileName)
+//    LineFile(fileName) {
+//        openFile(fileName)
+//    }
+
+    LineFile(String fileName, createFlag create) {
+        super(fileName, create)
     }
 
     def openFile(fileName) {
@@ -21,10 +23,6 @@ class LineFile extends BaseFile {
             lines = file.readLines()
             lineIterator = lines.iterator()
         }
-    }
-
-    def LineFile(String fileName, createFlag create) {
-        super(fileName, create)
     }
 
     def next() {
@@ -43,6 +41,7 @@ class LineFile extends BaseFile {
     }
 
     /* output files */
+
     def writeLine(aLine) {
         file << aLine + "\r\n"
 //        file << aLine + "\n"

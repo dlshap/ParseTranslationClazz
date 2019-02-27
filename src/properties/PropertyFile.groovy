@@ -10,12 +10,10 @@ class PropertyFile extends LineFile {
     def componentName
     def propFileName
 
-    def PropertyFile() {
-        super()
+    PropertyFile() {
     }
 
-    def PropertyFile(componentName, componentPath) {
-        super()
+    PropertyFile(componentName, componentPath) {
         this.componentName = componentName
         propFileName = FileChooser.chooseFileAndReturnFilename("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
         openPropFile()
@@ -31,7 +29,7 @@ class PropertyFile extends LineFile {
 
     def getTranslatedOutputFileName() {
         def parentDir = new File(getDirPath()).getParent()
-        def propertyOutFileName = parentDir + "\\\\PropertyFilesTranslated\\\\" + getFileName() + ".translated"
+        def propertyOutFileName = parentDir + "\\PropertyFilesTranslated\\" + fileName + ".translated"
         propertyOutFileName
     }
 
