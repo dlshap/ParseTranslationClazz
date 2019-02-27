@@ -5,16 +5,15 @@ import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import properties.PropertyFile
-import translations.IgnorePropertyList
-import translations.Properties
-import translations.Translation
-import translations.Translations
 import useful.Args
 import i18n.Messages
 
 /**
  * Created by s0041664 on 8/25/2017.
  */
+
+// Todo: Add logging and exceptions
+
 class GeneratePropertiesFiles {
 
     def startFilePath        // "root" filepath
@@ -79,11 +78,22 @@ class GeneratePropertiesFiles {
     }
 
     def openPropertyFileForSheetName(String sheetName) {
-        def propFilePath = startFilePath + "\\${sheetName}"
+        def propFilePath = startFilePath + "\\${sheetName}\\"
         def languageLabel = LanguageLabels.getLanguageLabel(languageName)
         def fileName = "messages_${languageLabel}.properties"
+        openTranslationLogsForComponent(sheetName, propFilePath)
         PropertyFile propertyFile = PropertyFile.createNewTranslationPropertyFile(propFilePath, fileName)
         propertyFile
+    }
+
+    def openTranslationLogsForComponent(componentName, componentFilePath) {
+        def logsFilePath = componentFilePath + "logs\\\\"
+        //default log: property translations (successful) log
+        Log.open(logsFilePath + "$componentName log-property-translations.txt")
+        Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        //exceptions log: property exceptions log
+        Log.open("exceptions", logsFilePath + "$componentName log-property-exceptions.txt")
+        Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     def writePropertyRowToPropertyFile(ExcelPropertyRow excelPropertyRow, PropertyFile propertyFile) {
@@ -121,16 +131,6 @@ class GeneratePropertiesFiles {
 //
 //    def buildIgnorePropertyListForComponentFromIgnoreFile(componentName, componentFilePath) {
 //        ignorePropertyList = new IgnorePropertyList(componentFilePath + "logs\\\\ignoreMessages.txt")
-//    }
-//
-//    def openTranslationLogsForComponent(componentName, componentFilePath) {
-//        def logsFilePath = componentFilePath + "logs\\\\"
-//        //default log: property translations (successful) log
-//        Log.open(logsFilePath + "$componentName log-property-translations.txt")
-//        Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-//        //exceptions log: property exceptions log
-//        Log.open("exceptions", logsFilePath + "$componentName log-property-exceptions.txt")
-//        Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
 //    }
 //
 //    def moveTranslationsToPropertiesForComponent(componentName, componentFilePath) {
