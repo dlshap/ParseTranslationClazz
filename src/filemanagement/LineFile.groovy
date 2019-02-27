@@ -9,6 +9,7 @@ class LineFile extends BaseFile {
     LineFile() {
     }
 
+//    Todo: remove
 //    LineFile(fileName) {
 //        openFile(fileName)
 //    }

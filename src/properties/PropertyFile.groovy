@@ -5,6 +5,8 @@ import filemanagement.LineFile
 import filemanagement.BaseFile
 import logging.Log
 
+import static filemanagement.BaseFile.createFlag.CREATE
+
 class PropertyFile extends LineFile {
 
     def componentName
@@ -13,10 +15,31 @@ class PropertyFile extends LineFile {
     PropertyFile() {
     }
 
-    PropertyFile(componentName, componentPath) {
-        this.componentName = componentName
-        propFileName = FileChooser.chooseFileAndReturnFilename("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
-        openPropFile()
+    static createNewTranslationPropertyFile(String filePath, String fileName) {
+        PropertyFile propertyFile = new PropertyFile()
+        String transFileName = outputFileName(filePath, fileName)
+        propertyFile.openFile(transFileName, CREATE)
+        propertyFile
+    }
+
+    private static outputFileName(String filePath, String fileName) {
+        filePath + "\\PropertyFilesTranslated\\" + fileName + ".translated"
+    }
+
+//    ToDo: remove
+//    PropertyFile(componentName, componentPath) {
+//        this.componentName = componentName
+//        propFileName = FileChooser.chooseFileAndReturnFilename("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
+//        openPropFile()
+//    }
+//
+
+    static createPropertyFileForComponentUsingChooser(componentName, componentPath) {
+        PropertyFile propertyFile = new PropertyFile()
+        propertyFile.componentName = componentName
+        propertyFile.propFileName = FileChooser.chooseFileAndReturnFilename("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
+        propertyFile.openPropFile()
+        propertyFile
     }
 
     def openPropFile() {
@@ -29,7 +52,7 @@ class PropertyFile extends LineFile {
 
     def getTranslatedOutputFileName() {
         def parentDir = new File(getDirPath()).getParent()
-        def propertyOutFileName = parentDir + "\\PropertyFilesTranslated\\" + fileName + ".translated"
+        def propertyOutFileName = outputFileName(parentDir, fileName)
         propertyOutFileName
     }
 
@@ -37,7 +60,7 @@ class PropertyFile extends LineFile {
         LineFile translatedFile
         if (file != null) {
             def propertyOutFileName = this.getTranslatedOutputFileName()
-            translatedFile = new LineFile(propertyOutFileName, BaseFile.createFlag.CREATE)
+            translatedFile = new LineFile(propertyOutFileName, CREATE)
         }
         translatedFile
     }
