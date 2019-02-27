@@ -20,8 +20,8 @@ class ExcelPropertySheet {
         new ExcelPropertySheet(excelFile, sheetName, 0)     // usually row 0
     }
 
-    ExcelPropertySheet(ExcelPropertyFile excelFile, String sheetName, int headerRowNum) {
-        this.workbook = excelFile.workbook
+    ExcelPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
+        this.workbook = excelPropertyFile.workbook
         this.sheet = this.workbook.getSheet(sheetName)
         this.headerRowNum = headerRowNum
         resetRowIterator()

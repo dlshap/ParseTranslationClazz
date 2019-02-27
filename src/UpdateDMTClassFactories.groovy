@@ -8,7 +8,7 @@ import libraryquestions.LibraryTranslator
 import logging.Log
 import properties.ExcelPropertySheet
 import translations.Translations
-import useful.Messages
+import i18n.Messages
 
 /**
  * Created by s0041664 on 8/14/2017.

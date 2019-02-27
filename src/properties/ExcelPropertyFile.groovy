@@ -8,7 +8,7 @@ class ExcelPropertyFile extends ExcelFile {
     ExcelPropertyFile() {
     }
 
-    static openExcelProertyFileUsingChooser(prompt, filePath) {
+    static openExcelPropertyFileUsingChooser(prompt, filePath) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.chooseFile(prompt, filePath)
     }
@@ -21,4 +21,12 @@ class ExcelPropertyFile extends ExcelFile {
     def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
         new ExcelPropertySheet(this, sheetName, headerRowNum)
     }
+
+//    def hasNextSheet() {
+//        excelWorkbook.hasNextSheet()
+//    }
+//
+//    def nextSheet() {
+//
+//    }
 }

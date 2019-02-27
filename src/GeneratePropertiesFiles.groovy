@@ -1,45 +1,38 @@
-import properties.ExcelPropertyFile
-import properties.PropertyFile
+import excelfilemanagement.ExcelWorkbook
+import filemanagement.FileChooser
 import logging.Dates
 import logging.Log
+import properties.ExcelPropertyFile
+import properties.PropertyFile
 import translations.IgnorePropertyList
 import translations.Properties
-import translations.Translations
 import translations.Translation
+import translations.Translations
 import useful.Args
 import i18n.Messages
 
 /**
  * Created by s0041664 on 8/25/2017.
  */
-class UpdateDmtDeTranslatedProperties {
+class GeneratePropertiesFiles {
 
     def startFilePath        // "root" filepath
     def languageName         // language for this translation
 
-    static final SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.component"
-
-
-    def componentList = ["DMT", "DE"]       // list for looping through components
-
-
-    def ExcelPropertyFile translationsExcelFile
-    def Translations translationsFromSpreadsheet
-    def PropertyFile propertyFile
-    def Properties propertiesFromPropertyFile
-    def IgnorePropertyList ignorePropertyList
+    static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
+    static final PROP_DIR_PROMPT = "prompt.for.directory.for"
 
     static main(args) {
-        new UpdateDmtDeTranslatedProperties(args)
+        new GeneratePropertiesFiles(args)
     }
 
-    UpdateDmtDeTranslatedProperties(args) {
+    GeneratePropertiesFiles(args) {
         start(args)
     }
 
     def start(args) {
         buildArgsAndParameters(args)
-        moveTranslationsFromSpreadsheetToPropertiesFiles()
+        generateTranslationsFromSpreadsheetToPropertiesFiles()
     }
 
     def buildArgsAndParameters(args) {
@@ -57,6 +50,24 @@ class UpdateDmtDeTranslatedProperties {
         if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         if (languageName == null) languageName = "Japanese"
     }
+
+    def generateTranslationsFromSpreadsheetToPropertiesFiles() {
+        ExcelPropertyFile excelPropertyFile = choosePropertiesSpreadsheet(startFilePath)
+        movePropertiesFromSpreadsheetToPropertiesFiles(excelPropertyFile, startFilePath)
+    }
+
+    def choosePropertiesSpreadsheet(String startFilePath) {
+        def prompt = Messages.getString(SPREADSHEET_PROMPT, languageName)
+        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser(prompt, startFilePath)
+        excelPropertyFile
+    }
+
+    def movePropertiesFromSpreadsheetToPropertiesFiles(ExcelPropertyFile excelPropertyFile, String startFilePath) {
+        ExcelWorkbook excelWorkbook = excelPropertyFile.excelWorkbook
+
+    }
+
+     /****************************************************************************************************************/
 
     def moveTranslationsFromSpreadsheetToPropertiesFiles() {
         componentList.each { componentName ->

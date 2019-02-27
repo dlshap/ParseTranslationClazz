@@ -1,4 +1,4 @@
-package useful
+package i18n
 
 import java.text.MessageFormat
 
