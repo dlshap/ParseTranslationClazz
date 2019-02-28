@@ -64,25 +64,6 @@ class BaseFile {
         file = new File(fileName)
     }
 
-//    def openFile(fileName, CreateFlag create) {
-//        openFile(fileName)
-//        if (file.exists()) {
-//            if (create == CreateFlag.CREATE)
-//                file.delete()
-//            else {
-//                def folderPath = new File(file.getDirPath())
-//                if (!(folderPath.exists()))
-//                    folderPath.mkdir()
-//                if (!(folderPath.exists()))
-//                    throw new OverwriteFileException(Messages.getString("exception.message.overwrite.file"))
-//            }
-//        }
-//    }
-
-    def exists() {
-        ((file.exists()) && (file != null))
-    }
-
     def getDirPath() {
         file.getParent()
     }
