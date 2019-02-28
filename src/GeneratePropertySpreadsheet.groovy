@@ -42,7 +42,7 @@ class GeneratePropertySpreadsheet {
         def fileName = "test.xls"
 
         ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a file", filePath)
-        ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath+fileName, CREATE) // create
+//        ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath+fileName, CREATE) // create
 
 
 //
