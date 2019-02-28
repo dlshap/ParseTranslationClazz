@@ -10,7 +10,7 @@ class Log {
     static file = [:]
 
     static open(logName, fileName) {
-        file[logName] = new LineFile(fileName, BaseFile.createFlag.CREATE)
+        file[logName] = new LineFile(fileName, BaseFile.CreateFlag.CREATE)
     }
 
     static open(fileName) {

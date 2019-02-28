@@ -12,12 +12,6 @@ class Properties {
     Map allProperties = [:]
     Iterator<Map> propertyIterator
 
-//    ToDo: Remove
-//    Properties() {
-//        // no property file
-//    }
-//
-
     Properties(propertyFile) {
         this.propertyFile = propertyFile
         allProperties = buildAllPropertiesMap(this.propertyFile)
@@ -45,16 +39,6 @@ class Properties {
         }
         property
     }
-
-    //todo: Remove
-//    def getProperties() {
-//        allProperties
-//    }
-
-//  ToDo: Remove
-//    def setProperties(Map properties) {
-//        this.allProperties = properties
-//    }
 
     def writePropertiesToTranslatedOutputFile() {
         LineFile translatedFile = propertyFile.openTranslatedOutputFile()

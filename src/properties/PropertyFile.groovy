@@ -2,10 +2,9 @@ package properties
 
 import filemanagement.FileChooser
 import filemanagement.LineFile
-import filemanagement.BaseFile
 import logging.Log
 
-import static filemanagement.BaseFile.createFlag.CREATE
+import static filemanagement.BaseFile.CreateFlag.CREATE
 
 class PropertyFile extends LineFile {
 
@@ -25,14 +24,6 @@ class PropertyFile extends LineFile {
     private static outputFileName(String filePath, String fileName) {
         filePath + "\\PropertyFilesTranslated\\" + fileName + ".translated"
     }
-
-//    ToDo: remove
-//    PropertyFile(componentName, componentPath) {
-//        this.componentName = componentName
-//        propFileName = FileChooser.chooseFileAndReturnFilename("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
-//        openPropFile()
-//    }
-//
 
     static createPropertyFileForComponentUsingChooser(componentName, componentPath) {
         PropertyFile propertyFile = new PropertyFile()

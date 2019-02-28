@@ -10,8 +10,8 @@ class ExcelPropertyRow {
     def keyList = [:]
 
     Row row
-    Iterator cellIterator
-    CellStyle style
+//    Iterator cellIterator
+//    CellStyle style
 
 
     ExcelPropertyRow(Row row, keyList) {

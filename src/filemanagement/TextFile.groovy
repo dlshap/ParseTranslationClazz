@@ -11,7 +11,7 @@ class TextFile extends BaseFile {
         super(fileName)
     }
 
-    def TextFile(fileName, BaseFile.createFlag create) {
+    def TextFile(fileName, CreateFlag create) {
         super(fileName, create)
     }
 

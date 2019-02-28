@@ -9,12 +9,7 @@ class LineFile extends BaseFile {
     LineFile() {
     }
 
-//    Todo: remove
-//    LineFile(fileName) {
-//        openFile(fileName)
-//    }
-
-    LineFile(String fileName, createFlag create) {
+    LineFile(String fileName, CreateFlag create) {
         super(fileName, create)
     }
 

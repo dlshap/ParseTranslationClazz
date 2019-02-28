@@ -1,11 +1,7 @@
-import excelfilemanagement.ExcelFile
-import excelfilemanagement.ExcelUtil
-import libraryquestions.LibraryPropertyFile
-import org.apache.poi.ss.usermodel.Cell
-import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Workbook
 import filemanagement.BaseFile
+
+import static filemanagement.BaseFile.createFile
+import static filemanagement.BaseFile.CreateFlag.CREATE
 
 
 class TryExcel {
@@ -20,22 +16,23 @@ class TryExcel {
 
     def start() {
 
-        def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\DMT\\"
-        LibraryPropertyFile libraryPropertyFile = LibraryPropertyFile.openLibraryPropertyFileUsingChooser("Pick a sheet", filePath)
-        if (libraryPropertyFile != null) {
-            println libraryPropertyFile.classNameList
-            Sheet sheet = libraryPropertyFile.getSheet("BusinessOrganization")
-            println sheet.sheetName
-            println sheet.size()
-//            println libraryPropertyFile.sheets
-        }
+        def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\DMT\\doofus\\doofus\\"
+
+        def file = BaseFile.createFile(filePath + "test.txt", BaseFile.CreateFlag.CREATE)
+
+        file.file << "test45"
+
+//        BaseFile baseFile = createFile(filePath + "test.txt", CREATE)
+
+//        LineFile lineFile = new LineFile(filePath+"\\doofus\\test.txt", CREATE)
+//        lineFile.writeLine("test")
     }
 }
 
 //        def fileName = "test.xls"
 //
 //        ExcelFile inSpreadsheet = ExcelFile.openSpreadsheetUsingChooser("Pick a file", filePath)
-//        ExcelFile outSpreadsheet = ExcelFile.createNewSpreadsheetFromFileName(filePath+fileName, BaseFile.createFlag.CREATE) // create
+//        ExcelFile outSpreadsheet = ExcelFile.createNewSpreadsheetFromFileName(filePath+fileName, BaseFile.CreateFlag.CREATE) // create
 //
 //        Workbook inWorkbook = inSpreadsheet.excelWorkbook
 //        Workbook outWorkbook = outSpreadsheet.excelWorkbook

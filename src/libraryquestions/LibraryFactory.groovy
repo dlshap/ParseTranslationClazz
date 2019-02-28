@@ -13,7 +13,7 @@ class LibraryFactory {
     LibraryFactory(String libraryFactoryFileName, String translatedLibraryFactoryFileName, LibraryFactoryManager libraryFactoryManager) {
         this.libraryFactoryManager = libraryFactoryManager
         this.libraryFactoryFile = new TextFile(libraryFactoryFileName)
-        this.translatedLibraryFactoryFile = new TextFile(translatedLibraryFactoryFileName, BaseFile.createFlag.CREATE)
+        this.translatedLibraryFactoryFile = new TextFile(translatedLibraryFactoryFileName, BaseFile.CreateFlag.CREATE)
         buildLibraryTextBlocks(libraryFactoryFile)
     }
 
