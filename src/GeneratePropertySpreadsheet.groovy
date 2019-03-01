@@ -1,4 +1,5 @@
 import properties.ExcelPropertyFile
+import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import useful.Args
 
@@ -48,6 +49,9 @@ class GeneratePropertySpreadsheet {
 
         ExcelPropertySheet testOutSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, testInSheet.sheetName)
         testOutSheet.addHeaderRow(headerRowNum, keyList)
+        ExcelPropertyRow excelPropertyRow = testInSheet.nextRow()
+        def valueMap = excelPropertyRow.getPropertyMap()
+        testInSheet.addRow(1,valueMap)
 
 
 
@@ -57,7 +61,7 @@ class GeneratePropertySpreadsheet {
 //            ExcelPropertySheet outSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, inSheet.sheetName)
 ////            while (inSheet.hasNextRow()) {
 ////                ExcelPropertyRow excelPropertyRow = inSheet.nextRow()
-////                def rowValues = excelPropertyRow.getPropertyValueMap()
+////                def rowValues = excelPropertyRow.getPropertyMap()
 ////                outSheet.addRow(rowValues)
 ////            }
 //        }

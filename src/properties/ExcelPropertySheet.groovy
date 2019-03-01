@@ -5,7 +5,6 @@ import exceptions.NoHeaderRowException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Workbook
 
 class ExcelPropertySheet {
 
@@ -75,7 +74,7 @@ class ExcelPropertySheet {
         def keyMaps = []
         while (this.hasNextRow()) {
             ExcelPropertyRow row = this.nextRow()
-            def rowMap = row.getPropertyValueMap()
+            def rowMap = row.getPropertyMap()
             keyMaps.add(rowMap)
         }
         keyMaps
@@ -95,8 +94,13 @@ class ExcelPropertySheet {
         }
     }
 
-    def addRow(valueMap) {
+    def addRow(int rowNumber, valueMap) {
         if (keyList == null)
             throw new NoHeaderRowException()
+        else {
+            Row row = new Row(rowNumber)
+            ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, keyList)
+            excelPropertyRow.putPropertyMapIntoRow(valueMap)
+        }
     }
 }

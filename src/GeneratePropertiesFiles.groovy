@@ -83,7 +83,7 @@ class GeneratePropertiesFiles {
 
     def writePropertyRowToPropertyFile(ExcelPropertyRow excelPropertyRow, PropertyFile propertyFile) {
         String outLine
-        def propertyValueMap = excelPropertyRow.propertyValueMap
+        def propertyValueMap = excelPropertyRow.propertyMap
         def propertyId = propertyValueMap.get("Message Key")
         def propertyValue = propertyValueMap.get(languageName)
         if (propertyId == null)

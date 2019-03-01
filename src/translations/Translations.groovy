@@ -44,7 +44,7 @@ class Translations {
     def buildTranslationsFromExcelFileForComponent(ExcelPropertyFile excelFile, String componentName) {
         ExcelPropertySheet excelPropertySheet = excelFile.getPropertySheet(componentName)
         while (excelPropertySheet.hasNextRow()) {
-            def propertyMap = excelPropertySheet.nextRow().getPropertyValueMap()
+            def propertyMap = excelPropertySheet.nextRow().getPropertyMap()
             Translation translation = new Translation(propertyMap)
             if (translation != null)
                 this.translations.add(translation)
