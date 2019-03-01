@@ -1,5 +1,8 @@
 package properties
 
+import excelfilemanagement.ExcelWorkbook
+import exceptions.NoHeaderRowException
+import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
@@ -9,14 +12,30 @@ class ExcelPropertySheet {
     Sheet sheet
     Iterator rowIterator
 
-    private keyList
-    private headerRowNum
+    def keyList
+    def headerRowNum
+
+    ExcelPropertySheet() {
+    }
 
     ExcelPropertySheet(Sheet sheet) {
         this.sheet = sheet
         this.headerRowNum = 0
         this.resetRowIterator()
         buildKeyListFromHeaderRow()
+    }
+
+    private resetRowIterator() {
+        rowIterator = sheet.rowIterator()
+        // advance row iterator past header row
+        (0..headerRowNum).each {
+            rowIterator.next()
+        }
+    }
+
+    private buildKeyListFromHeaderRow() {
+        Row headerRow = sheet.getRow(headerRowNum)
+        keyList = headerRow.cellIterator().collect() { it.getStringCellValue() }
     }
 
     ExcelPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
@@ -27,24 +46,15 @@ class ExcelPropertySheet {
         buildKeyListFromHeaderRow()
     }
 
-//    static def createNewPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName) {
-//        // TODO: Add row, headerRow, etc. (might be done later...not sure yet)
-//        def newExcelPropertySheet = new ExcelPropertySheet()
-//        newExcelPropertySheet.sheet = excelPropertyFile.excelWorkbook.createSheet()
-//        newExcelPropertySheet
-//    }
-
-    private buildKeyListFromHeaderRow() {
-        Row headerRow = sheet.getRow(headerRowNum)
-        keyList = headerRow.cellIterator().collect() { it.getStringCellValue() }
+    static createPropertySheetInExcelPropertyFile(ExcelPropertyFile excelPropertyFile, String sheetName) {
+        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
+        excelPropertySheet.initializeSheet(excelPropertyFile, sheetName)
+        excelPropertySheet
     }
 
-    def resetRowIterator() {
-        rowIterator = sheet.rowIterator()
-//        // advance row iterator past header row
-        (0..headerRowNum).each {
-            rowIterator.next()
-        }
+    private initializeSheet(ExcelPropertyFile excelPropertyFile, String sheetName) {
+        ExcelWorkbook excelWorkbook = excelPropertyFile.excelWorkbook
+        sheet = excelWorkbook.create(sheetName)
     }
 
     def hasNextRow() {
@@ -73,5 +83,20 @@ class ExcelPropertySheet {
 
     def getSheetName() {
         sheet.sheetName
+    }
+
+    def addHeaderRow(int headerRowNum, keyList) {
+        this.headerRowNum = headerRowNum
+        this.keyList = keyList
+        Row row = sheet.createRow(headerRowNum)
+        keyList.eachWithIndex { keyName, columnNumber ->
+            Cell cell = row.createCell(columnNumber)
+            cell.setCellValue(keyList[columnNumber])
+        }
+    }
+
+    def addRow(valueMap) {
+        if (keyList == null)
+            throw new NoHeaderRowException()
     }
 }

@@ -14,10 +14,15 @@ class ExcelFile extends BaseFile {
         super(fileName, createFlag)
     }
 
-    static createNewSpreadsheetFromFileName(fileName, createFlag) {
-        ExcelFile excelFile = new ExcelFile(fileName, createFlag)
-        excelFile.createOutputWorkbookFromBaseFile()
-        excelFile
+//    ToDo: remove
+//    static createNewSpreadsheetFromFileName(String fileName, CreateFlag createFlag) {
+//        ExcelFile excelFile = new ExcelFile(fileName, createFlag)
+//        excelFile.initializeNewSpreadsheet()
+//        excelFile
+//    }
+
+    def initializeNewSpreadsheet() {
+        createOutputWorkbookFromBaseFile()
     }
 
     private createOutputWorkbookFromBaseFile() {
@@ -47,12 +52,4 @@ class ExcelFile extends BaseFile {
         excelWorkbook.write()
         excelWorkbook.close()
     }
-
-//    Todo: remove
-//    static openSpreadsheetUsingChooser(prompt, filePath) {
-//        ExcelFile excelFile = new ExcelFile()
-//        excelFile.chooseFile(prompt, filePath)
-//    }
-
-
 }

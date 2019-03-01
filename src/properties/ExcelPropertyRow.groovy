@@ -8,11 +8,7 @@ import org.apache.poi.ss.usermodel.Row
 class ExcelPropertyRow {
 
     def keyList = [:]
-
     Row row
-//    Iterator cellIterator
-//    CellStyle style
-
 
     ExcelPropertyRow(Row row, keyList) {
         this.row = row
@@ -30,4 +26,5 @@ class ExcelPropertyRow {
         }
         keyMap
     }
+
 }

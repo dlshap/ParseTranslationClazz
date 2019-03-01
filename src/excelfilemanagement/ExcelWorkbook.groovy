@@ -15,4 +15,8 @@ class ExcelWorkbook {
     def close() {
         workbookStream.close()
     }
+
+    def create(String sheetName) {
+        workbook.createSheet(sheetName)
+    }
 }

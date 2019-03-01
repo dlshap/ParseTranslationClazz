@@ -1,4 +1,5 @@
 import properties.ExcelPropertyFile
+import properties.ExcelPropertySheet
 import useful.Args
 
 import static filemanagement.BaseFile.CreateFlag.*
@@ -41,23 +42,25 @@ class GeneratePropertySpreadsheet {
         ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openUsingChooser("Pick a file", filePath)
         ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath+fileName, CREATE) // create
 
+        ExcelPropertySheet testInSheet = inSpreadsheet.nextExcelPropertySheet()
+        def headerRowNum = testInSheet.headerRowNum
+        def keyList = testInSheet.keyList
 
-//
-//        Workbook inWorkbook = inSpreadsheet.excelWorkbook
-//        Workbook outWorkbook = outSpreadsheet.excelWorkbook
-//        Iterator inSheetIterator = inWorkbook.sheetIterator()
-//        inSheetIterator.each { Sheet inSheet ->
-//            Sheet outSheet = outWorkbook.createSheet(inSheet.sheetName)
-//            Iterator rowIterator = inSheet.rowIterator()
-//            rowIterator.eachWithIndex { Row inRow, int rowNum ->
-//                Row outRow = outSheet.createRow(rowNum)
-//                Iterator inCellIterator = inRow.cellIterator()
-//                inCellIterator.eachWithIndex { Cell inCell, int cellNum ->
-//                    Cell outCell = outRow.createCell(cellNum)
-//                    outCell.setCellValue(inCell.toString())
-//                }
-//            }
+        ExcelPropertySheet testOutSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, testInSheet.sheetName)
+        testOutSheet.addHeaderRow(headerRowNum, keyList)
+
+
+
+//        while (inSpreadsheet.hasNextExcelPropertySheet()) {
+//            ExcelPropertySheet inSheet = inSpreadsheet.nextExcelPropertySheet()
+//            println "Row number: ${inSheet.headerRowNum} Values: ${inSheet.keyList}"
+//            ExcelPropertySheet outSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, inSheet.sheetName)
+////            while (inSheet.hasNextRow()) {
+////                ExcelPropertyRow excelPropertyRow = inSheet.nextRow()
+////                def rowValues = excelPropertyRow.getPropertyValueMap()
+////                outSheet.addRow(rowValues)
+////            }
 //        }
-//        outSpreadsheet.writeAndClose()
+        outSpreadsheet.writeAndClose()
     }
 }
