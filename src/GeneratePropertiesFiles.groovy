@@ -69,7 +69,7 @@ class GeneratePropertiesFiles {
     def movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {
         PropertyFile propertyFile = openPropertyFileForSheetName(excelPropertySheet.sheetName)
         while (excelPropertySheet.hasNextRow()) {
-            writePropertyRowToPropertyFile(excelPropertySheet.nextRow(), propertyFile)
+            writePropertyRowToPropertyFile(excelPropertySheet.nextExcelPropertyRow(), propertyFile)
         }
     }
 

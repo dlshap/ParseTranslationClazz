@@ -37,4 +37,8 @@ class ExcelPropertyRow {
         }
     }
 
+    def getRowNum() {
+        this.row.rowNum
+    }
+
 }

@@ -60,7 +60,7 @@ class ExcelPropertySheet {
         rowIterator.hasNext()
     }
 
-    ExcelPropertyRow nextRow() {
+    ExcelPropertyRow nextExcelPropertyRow() {
         Row nextRow
         if (rowIterator.hasNext()) {
             nextRow = rowIterator.next()
@@ -73,7 +73,7 @@ class ExcelPropertySheet {
     def getKeyMaps() {
         def keyMaps = []
         while (this.hasNextRow()) {
-            ExcelPropertyRow row = this.nextRow()
+            ExcelPropertyRow row = this.nextExcelPropertyRow()
             def rowMap = row.getPropertyMap()
             keyMaps.add(rowMap)
         }
@@ -94,11 +94,11 @@ class ExcelPropertySheet {
         }
     }
 
-    def addRow(int rowNumber, valueMap) {
+    def addRow(rowNum, valueMap) {
         if (keyList == null)
             throw new NoHeaderRowException()
         else {
-            Row row = new Row(rowNumber)
+            Row row = sheet.createRow(rowNum)
             ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, keyList)
             excelPropertyRow.putPropertyMapIntoRow(valueMap)
         }
