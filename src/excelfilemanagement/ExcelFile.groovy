@@ -1,6 +1,7 @@
 package excelfilemanagement
 
 import filemanagement.BaseFile
+import filemanagement.FileChooser
 
 class ExcelFile extends BaseFile {
 
@@ -11,12 +12,6 @@ class ExcelFile extends BaseFile {
 
     ExcelFile(fileName, createFlag) {
         super(fileName, createFlag)
-        this.createOutputWorkbookFromBaseFile()
-    }
-
-    static openSpreadsheetUsingChooser(prompt, filePath) {
-        ExcelFile excelFile = new ExcelFile()
-        excelFile.chooseFile(prompt, filePath)
     }
 
     static createNewSpreadsheetFromFileName(fileName, createFlag) {
@@ -25,17 +20,21 @@ class ExcelFile extends BaseFile {
         excelFile
     }
 
+    private createOutputWorkbookFromBaseFile() {
+        excelWorkbook = new ExcelWorkbookForOutput(file)
+    }
+
     def chooseFile(prompt, filePath) {
         setFileUsingChooser(prompt, filePath)
         setInputWorkbookFromBaseFile()
         file == null ? null : this
     }
 
-    private createOutputWorkbookFromBaseFile() {
-        excelWorkbook = new ExcelWorkbookForOutput(file)
+    private setFileUsingChooser(prompt, filePath) {
+        file = FileChooser.chooseFile(prompt, filePath)
     }
 
-    def setInputWorkbookFromBaseFile() {
+    private setInputWorkbookFromBaseFile() {
         if (file != null)
             excelWorkbook = new ExcelWorkbookForInput(file)
     }
@@ -48,4 +47,12 @@ class ExcelFile extends BaseFile {
         excelWorkbook.write()
         excelWorkbook.close()
     }
+
+//    Todo: remove
+//    static openSpreadsheetUsingChooser(prompt, filePath) {
+//        ExcelFile excelFile = new ExcelFile()
+//        excelFile.chooseFile(prompt, filePath)
+//    }
+
+
 }

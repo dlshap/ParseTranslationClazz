@@ -1,9 +1,6 @@
-import excelfilemanagement.ExcelFile
-import filemanagement.BaseFile
 import properties.ExcelPropertyFile
 import useful.Args
 
-import static excelfilemanagement.ExcelFile.createNewSpreadsheetFromFileName
 import static filemanagement.BaseFile.CreateFlag.*
 
 class GeneratePropertySpreadsheet {
@@ -41,7 +38,7 @@ class GeneratePropertySpreadsheet {
 
         def fileName = "test.xls"
 
-        ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a file", filePath)
+        ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openUsingChooser("Pick a file", filePath)
         ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath+fileName, CREATE) // create
 
 

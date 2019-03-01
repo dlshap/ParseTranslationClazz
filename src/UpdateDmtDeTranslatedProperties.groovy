@@ -112,7 +112,7 @@ class UpdateDmtDeTranslatedProperties {
         def excelFilePath = startFilePath + "Spreadsheets\\PropertySpreadsheets\\DMTDE"
         def chooserPrompt = Messages.getString(SPREADSHEET_PROMPT, componentName, languageName)
 //        ExcelPropertyFile.getExcelPropertyFileUsingChooser(chooserPrompt, excelFilePath)
-        ExcelPropertyFile.openExcelPropertyFileUsingChooser(chooserPrompt, excelFilePath)
+        ExcelPropertyFile.openUsingChooser(chooserPrompt, excelFilePath)
     }
 
     def buildTranslationsFromExcelFile(componentName) {

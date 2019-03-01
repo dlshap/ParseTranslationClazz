@@ -10,7 +10,7 @@ class ExcelPropertyFile extends ExcelFile {
     ExcelPropertyFile() {
     }
 
-    static openExcelPropertyFileUsingChooser(prompt, filePath) {
+    static openUsingChooser(prompt, filePath) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.chooseFile(prompt, filePath)
         excelPropertyFile.buildSheetIterator()

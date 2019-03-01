@@ -27,11 +27,6 @@ class BaseFile {
         baseFile
     }
 
-    def openFile(String fileName, CreateFlag createFlag) {
-        this.fileName = fileName
-        createOrOverwriteFile(createFlag)
-    }
-
     private createOrOverwriteFile(CreateFlag createFlag) {
         makeDirectories()
         if (file.exists() && createFlag != CreateFlag.CREATE_ONLY_IF_NO_EXISTING_FILE)
@@ -47,6 +42,11 @@ class BaseFile {
         }
     }
 
+    def openFile(String fileName, CreateFlag createFlag) {
+        this.fileName = fileName
+        createOrOverwriteFile(createFlag)
+    }
+
     BaseFile(fileName) {
         openFile(fileName)
     }
@@ -54,10 +54,6 @@ class BaseFile {
     BaseFile(fileName, CreateFlag createFlag) {
         this.fileName = fileName
         this.createOrOverwriteFile(createFlag)
-    }
-
-    def setFileUsingChooser(prompt, filePath) {
-        file = FileChooser.chooseFile(prompt, filePath)
     }
 
     def openFile(fileName) {
