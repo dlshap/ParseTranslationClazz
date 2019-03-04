@@ -125,7 +125,7 @@ class UpdateDmtDeTranslatedProperties_old {
     }
 
     def openPropertyFile(componentName, componentFilePath) {
-        propertyFile = PropertyFile.createPropertyFileForComponentUsingChooser(componentName, componentFilePath)
+        propertyFile = PropertyFile.openPropertyFileForComponentUsingChooser(componentName, componentFilePath)
         (propertyFile.file != null)                      // return true if there is a file (open was successful)
     }
 

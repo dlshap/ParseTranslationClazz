@@ -2,19 +2,22 @@ package properties
 
 import filemanagement.FileChooser
 import filemanagement.LineFile
+import i18n.Messages
 import logging.Log
 
 import static filemanagement.BaseFile.CreateFlag.CREATE
 
 class PropertyFile extends LineFile {
 
+    static final PROPERTY_FILE_PROMPT = "prompt.for.message.properties.file.for"
+
     def componentName
-    def propFileName
+    def propertyFileName
 
     PropertyFile() {
     }
 
-    static createNewTranslationPropertyFile(String filePath, String fileName) {
+    static createNewTranslationPropertyFileFromPathAndFile(String filePath, String fileName) {
         PropertyFile propertyFile = new PropertyFile()
         String transFileName = outputFileName(filePath, fileName)
         propertyFile.openFile(transFileName, CREATE)
@@ -25,19 +28,20 @@ class PropertyFile extends LineFile {
         filePath + "\\PropertyFilesTranslated\\" + fileName + ".translated"
     }
 
-    static createPropertyFileForComponentUsingChooser(componentName, componentPath) {
+    static openPropertyFileForComponentUsingChooser(componentName, componentPath) {
         PropertyFile propertyFile = new PropertyFile()
         propertyFile.componentName = componentName
-        propertyFile.propFileName = FileChooser.chooseFileAndReturnFilename("Select Property file for $componentName", componentPath + "PropertyFiles\\\\")
-        propertyFile.openPropFile()
+        def prompt = Messages.getString(PROPERTY_FILE_PROMPT, componentName)
+        propertyFile.propertyFileName = FileChooser.chooseFileAndReturnFilename(prompt, componentPath + "PropertyFiles\\\\")
+        propertyFile.openPropertyFilefromFileName()
         propertyFile
     }
 
-    def openPropFile() {
-        if (propFileName == null) {
+    def openPropertyFilefromFileName() {
+        if (propertyFileName == null) {
             Log.writeLine("exceptions", "No properties file selected for $componentName.")
         } else {
-            openFile(propFileName)
+            openFile(propertyFileName)
         }
     }
 

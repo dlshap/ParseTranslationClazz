@@ -1,15 +1,21 @@
+import filemanagement.BaseFile
+import i18n.Messages
 import properties.ExcelPropertyFile
-import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
+import properties.PropertyFile
+import translations.TranslationProperties
 import useful.Args
 
-import static filemanagement.BaseFile.CreateFlag.*
+import static properties.ExcelPropertyFile.createNewSpreadsheetFromFileName
 
 class GeneratePropertySpreadsheet {
 
-    static final SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.component"
+
+    static final PROPERTIES_FILE_PROMPT = "prompt.for.message.properties.file.for"
+    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.component.into"
 
     Args propertyArgs
+    String language, path       // args
 
     GeneratePropertySpreadsheet(args) {
         start(args)
@@ -26,51 +32,49 @@ class GeneratePropertySpreadsheet {
     }
 
     def setDefaultArgs() {
-        if (propertyArgs.get("language") == null)
-            propertyArgs.set("language", "Japanese")
-
-        if (propertyArgs.get("path") == null)
-            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project\\Work\\translations\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\")
+        language = propertyArgs.get("language")
+        if (language == null)
+            language = "Japanese"
+        path = propertyArgs.get("path")
+        if (path == null)
+            path = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\"
     }
 
     def generateSpreadsheet() {
-        def componentName = "DMT"
+        ExcelPropertyFile modelExcelPropertyFile = chooseModelPropertySpreadsheet()
+        if (modelExcelPropertyFile != null) {
+            ExcelPropertyFile outputExcelPropertyFile = createOutputExcelPropertyFileInModelDirectory(modelExcelPropertyFile)
+            generateOutputSheetsFromModelSheets(outputExcelPropertyFile, modelExcelPropertyFile)
+        }
+    }
 
-        def filePath = propertyArgs.get("path")
+    def chooseModelPropertySpreadsheet() {
+        def modelSpreadsheetPath = propertyArgs.get("path") + "Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
+        def language = propertyArgs.get("language")
+        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, language)
+        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openUsingChooser(MODEL_SPREADSHEET_PROMPT, modelSpreadsheetPath)
+        modelExcelPropertyFile
+    }
 
-        def fileName = "test.xls"
+    def createOutputExcelPropertyFileInModelDirectory(ExcelPropertyFile modelExcelPropertyFile) {
+        String outputFileName = buildOutputFileName(modelExcelPropertyFile)
+        ExcelPropertyFile outputExcelPropertyFile = createNewSpreadsheetFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
+        outputExcelPropertyFile
+    }
 
-        ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openUsingChooser("Pick a file", filePath)
-        ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath + fileName, CREATE)
+    def buildOutputFileName(ExcelPropertyFile modelFile) {
+        def outputPath = modelFile.getDirPath()
+        def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language).new.xlsx"
+    }
 
-        while (inSpreadsheet.hasNextExcelPropertySheet()) {
-            ExcelPropertySheet inSheet = inSpreadsheet.nextExcelPropertySheet()
-            def headerRowNum = inSheet.headerRowNum
-            def keyList = inSheet.keyList
-
-            ExcelPropertySheet outSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, inSheet.sheetName)
-            outSheet.addHeaderRow(headerRowNum, keyList)
-            while (inSheet.hasNextRow()) {
-                ExcelPropertyRow inPropertyRow = inSheet.nextExcelPropertyRow()
-                def valueMap = inPropertyRow.getPropertyMap()
-                outSheet.addRow(inPropertyRow.rowNum,valueMap)
+    ExcelPropertyFile generateOutputSheetsFromModelSheets(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertyFile modelExcelPropertyFile) {
+        if (modelExcelPropertyFile != null) {
+            while (modelExcelPropertyFile.hasNextExcelPropertySheet()) {
+                ExcelPropertySheet modelExcelPropertySheet = modelExcelPropertyFile.nextExcelPropertySheet()
+                def sheetName = modelExcelPropertySheet.sheetName
+                def propertyFilePath = path + sheetName + "\\"
+                PropertyFile propertyFile = PropertyFile.openPropertyFileForComponentUsingChooser(modelExcelPropertySheet.sheetName, propertyFilePath)
             }
         }
-        outSpreadsheet.writeAndClose()
     }
 }
-
-// create
-//
-//        ExcelPropertySheet testInSheet = inSpreadsheet.nextExcelPropertySheet()
-//        def headerRowNum = testInSheet.headerRowNum
-//        def keyList = testInSheet.keyList
-//
-//        ExcelPropertySheet testOutSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, testInSheet.sheetName)
-//        testOutSheet.addHeaderRow(headerRowNum, keyList)
-//
-//
-//        ExcelPropertyRow excelPropertyRow = testInSheet.nextExcelPropertyRow()
-//        def valueMap = excelPropertyRow.getPropertyMap()
-//        testOutSheet.addRow(1, valueMap)
-

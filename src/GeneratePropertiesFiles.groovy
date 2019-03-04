@@ -16,7 +16,7 @@ class GeneratePropertiesFiles {
     def languageName         // language for this translation
 
     static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
-    static final PROP_DIR_PROMPT = "prompt.for.directory.for"
+//    static final PROP_DIR_PROMPT = "prompt.for.directory.for"
 
     static main(args) {
         new GeneratePropertiesFiles(args)
@@ -77,7 +77,7 @@ class GeneratePropertiesFiles {
         def propFilePath = startFilePath + "\\${sheetName}\\"
         def languageLabel = LanguageLabels.getLanguageLabel(languageName)
         def fileName = "messages_${languageLabel}.properties"
-        PropertyFile propertyFile = PropertyFile.createNewTranslationPropertyFile(propFilePath, fileName)
+        PropertyFile propertyFile = PropertyFile.createNewTranslationPropertyFileFromPathAndFile(propFilePath, fileName)
         propertyFile
     }
 
