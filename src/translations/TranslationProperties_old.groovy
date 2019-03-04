@@ -6,13 +6,13 @@ import properties.PropertyFile
 /**
  * Created by s0041664 on 8/25/2017.
  */
-class Properties {
+class TranslationProperties_old {
 
     PropertyFile propertyFile
     Map allProperties = [:]
     Iterator<Map> propertyIterator
 
-    Properties(propertyFile) {
+    TranslationProperties_old(propertyFile) {
         this.propertyFile = propertyFile
         allProperties = buildAllPropertiesMap(this.propertyFile)
         propertyIterator = allProperties.iterator()

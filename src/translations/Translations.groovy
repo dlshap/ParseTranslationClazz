@@ -54,7 +54,7 @@ class Translations {
 
 
     def getTranslation(keyName, keyValue) {
-        /* used for Properties files (single key) */
+        /* used for properties files (single key) */
         def translations = getTranslations(keyName, keyValue)
         (translations == null) ? null : translations[0]
     }

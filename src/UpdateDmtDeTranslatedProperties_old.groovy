@@ -3,7 +3,7 @@ import properties.PropertyFile
 import logging.Dates
 import logging.Log
 import translations.IgnorePropertyList
-import translations.Properties
+import translations.TranslationProperties_old
 import translations.Translations
 import translations.Translation
 import useful.Args
@@ -12,7 +12,7 @@ import i18n.Messages
 /**
  * Created by s0041664 on 8/25/2017.
  */
-class UpdateDmtDeTranslatedProperties {
+class UpdateDmtDeTranslatedProperties_old {
 
     def startFilePath        // "root" filepath
     def languageName         // language for this translation
@@ -26,14 +26,14 @@ class UpdateDmtDeTranslatedProperties {
     def ExcelPropertyFile translationsExcelFile
     def Translations translationsFromSpreadsheet
     def PropertyFile propertyFile
-    def Properties propertiesFromPropertyFile
+    def TranslationProperties_old propertiesFromPropertyFile
     def IgnorePropertyList ignorePropertyList
 
     static main(args) {
-        new UpdateDmtDeTranslatedProperties(args)
+        new UpdateDmtDeTranslatedProperties_old(args)
     }
 
-    UpdateDmtDeTranslatedProperties(args) {
+    UpdateDmtDeTranslatedProperties_old(args) {
         start(args)
     }
 
@@ -131,7 +131,7 @@ class UpdateDmtDeTranslatedProperties {
 
     def buildPropertiesFromPropertyFile() {
         //get property list
-        propertiesFromPropertyFile = new Properties(propertyFile)
+        propertiesFromPropertyFile = new TranslationProperties_old(propertyFile)
     }
 
     def copyTranslations() {
