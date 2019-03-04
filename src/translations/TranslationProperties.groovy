@@ -1,71 +1,44 @@
 package translations
-
-import filemanagement.LineFile
-import properties.PropertyFile
-
 /**
  * Created by s0041664 on 8/25/2017.
  */
 class TranslationProperties {
 
-//    PropertyFile propertyFile
-    Map allProperties = [:]
+    Map propertyMap = [:]
     Iterator<Map> propertyIterator
 
-    TranslationProperties() {
+    TranslationProperties(ArrayList<String> propertyLines) {
+        this.buildAllPropertiesMap(propertyLines)
     }
 
-    static createTranslationPropertiesFromPropertyFile(propertyFile) {
-        TranslationProperties translationProperties = new TranslationProperties()
-        translationProperties.allProperties = buildAllPropertiesMap(propertyFile)
-        translationProperties.propertyIterator = translationProperties.allProperties.iterator()
-    }
-
-    static buildAllPropertiesMap(PropertyFile propFile) {
-        Map property = [:]
+    def buildAllPropertiesMap(ArrayList<String> propertyLines) {
         def lastOtherPropertyIndex = 1
         def propKey
 
-        while (propFile.hasNext()) {
-            String nextPropLine = propFile.next()
+        def propertyLineIter = propertyLines.iterator()
+        while (propertyLineIter.hasNext()) {
+            String nextPropLine = propertyLineIter.next()
 
             if ((nextPropLine.indexOf("=") == -1) || (nextPropLine[0] == "#")) {
                 propKey = "*OTHER" + lastOtherPropertyIndex++
-                property[propKey] = nextPropLine
+                propertyMap[propKey] = nextPropLine
             } else {
                 def parsedProp = nextPropLine.split("=")
                 if (parsedProp.size() >= 2) {
-                    property[parsedProp[0].trim()] = parsedProp[1]
+                    propertyMap[parsedProp[0].trim()] = parsedProp[1]
                 } else
-                    property[parsedProp[0].trim()] = ""
+                    propertyMap[parsedProp[0].trim()] = ""
             }
         }
-        property
-    }
-
-    def writePropertiesToTranslatedOutputFile() {
-        LineFile translatedFile = propertyFile.openTranslatedOutputFile()
-        if (propertyFile != null) {
-            allProperties.each { propKey, propValue ->
-                if (propKey[0] == "*") {
-                    translatedFile.writeLine(propValue)
-                } else {
-                    translatedFile.writeLine(propKey + "=" + propValue)
-                }
-            }
-        }
+        propertyIterator = propertyMap.iterator()
     }
 
     def get(keyName) {
-        allProperties[keyName]
+        propertyMap[keyName]
     }
 
     def set(keyName, newValue) {
-        allProperties[keyName] = newValue
-    }
-
-    def rewind() {
-        propertyIterator = allProperties.iterator()
+        propertyMap[keyName] = newValue
     }
 
     def hasNext() {

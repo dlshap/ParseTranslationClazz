@@ -3,7 +3,7 @@ package filemanagement
  * Created by s0041664 on 8/11/2017.
  */
 class LineFile extends BaseFile {
-    def lines
+    ArrayList<String> lines
     Iterator lineIterator
 
     LineFile() {
