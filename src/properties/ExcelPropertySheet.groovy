@@ -101,6 +101,7 @@ class ExcelPropertySheet {
             Row row = sheet.createRow(rowNum)
             ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, keyList)
             excelPropertyRow.putPropertyMapIntoRow(valueMap)
+            row
         }
     }
 }

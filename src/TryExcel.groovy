@@ -1,4 +1,11 @@
+import excelfilemanagement.ExcelFile
+import excelfilemanagement.ExcelUtil
 import filemanagement.BaseFile
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
+import properties.ExcelPropertyFile
 
 import static filemanagement.BaseFile.createFile
 import static filemanagement.BaseFile.CreateFlag.CREATE
@@ -16,38 +23,30 @@ class TryExcel {
 
     def start() {
 
-        def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\DMT\\doofus\\doofus\\"
+        def filePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\DMT\\doofus\\"
 
-        def file = BaseFile.createFile(filePath + "test.txt", BaseFile.CreateFlag.CREATE)
+        def fileName = "test.xls"
 
-        file.file << "test45"
+        ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openUsingChooser("Pick a file", filePath)
+        ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath+fileName, CREATE) // create
 
-//        BaseFile baseFile = createFile(filePath + "test.txt", CREATE)
-
-//        LineFile lineFile = new LineFile(filePath+"\\doofus\\test.txt", CREATE)
-//        lineFile.writeLine("test")
+        Workbook inWorkbook = inSpreadsheet.excelWorkbook
+        Workbook outWorkbook = outSpreadsheet.excelWorkbook
+        Iterator inSheetIterator = inWorkbook.sheetIterator()
+        inSheetIterator.each { Sheet inSheet ->
+            Sheet outSheet = outWorkbook.createSheet(inSheet.sheetName)
+            Iterator rowIterator = inSheet.rowIterator()
+            rowIterator.eachWithIndex { Row inRow, int rowNum ->
+                Row outRow = outSheet.createRow(rowNum)
+                Iterator inCellIterator = inRow.cellIterator()
+                inCellIterator.eachWithIndex { Cell inCell, int cellNum ->
+                    Cell outCell = outRow.createCell(cellNum)
+                    outCell.setCellValue(ExcelUtil.toStringWithOnlyIntegerNumerics(inCell))
+                }
+            }
+        }
+        outSpreadsheet.writeAndClose()
     }
 }
 
-//        def fileName = "test.xls"
-//
-//        ExcelFile inSpreadsheet = ExcelFile.openSpreadsheetUsingChooser("Pick a file", filePath)
-//        ExcelFile outSpreadsheet = ExcelFile.createNewSpreadsheetFromFileName(filePath+fileName, BaseFile.CreateFlag.CREATE) // create
-//
-//        Workbook inWorkbook = inSpreadsheet.excelWorkbook
-//        Workbook outWorkbook = outSpreadsheet.excelWorkbook
-//        Iterator inSheetIterator = inWorkbook.sheetIterator()
-//        inSheetIterator.each { Sheet inSheet ->
-//            Sheet outSheet = outWorkbook.createSheet(inSheet.sheetName)
-//            Iterator rowIterator = inSheet.rowIterator()
-//            rowIterator.eachWithIndex { Row inRow, int rowNum ->
-//                Row outRow = outSheet.createRow(rowNum)
-//                Iterator inCellIterator = inRow.cellIterator()
-//                inCellIterator.eachWithIndex { Cell inCell, int cellNum ->
-//                    Cell outCell = outRow.createCell(cellNum)
-//                    outCell.setCellValue(ExcelUtil.toStringWithOnlyIntegerNumerics(inCell))
-//                }
-//            }
-//        }
-//        outSpreadsheet.writeAndClose()
-//    }
+

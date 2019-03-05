@@ -1,6 +1,7 @@
 import filemanagement.BaseFile
 import i18n.Messages
 import properties.ExcelPropertyFile
+import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import properties.PropertyFile
 import translations.TranslationProperties
@@ -12,7 +13,7 @@ class GeneratePropertySpreadsheet {
 
 
     static final PROPERTIES_FILE_PROMPT = "prompt.for.message.properties.file.for"
-    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.component.into"
+    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.language"
 
     Args propertyArgs
     String language, path       // args
@@ -53,7 +54,7 @@ class GeneratePropertySpreadsheet {
         def modelSpreadsheetPath = propertyArgs.get("path") + "Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
         def language = propertyArgs.get("language")
         def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, language)
-        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openUsingChooser(MODEL_SPREADSHEET_PROMPT, modelSpreadsheetPath)
+        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openUsingChooser(prompt, modelSpreadsheetPath)
         modelExcelPropertyFile
     }
 
@@ -90,6 +91,13 @@ class GeneratePropertySpreadsheet {
     def generateOutputSheetFromPropertiesAndModel(TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
         while (translationProperties.hasNext()) {
             // use getKey() and getValue() and populate the spreadsheet
+            def translationProperty = translationProperties.next()
+            def propertyKey = translationProperty.getKey()
+            def propertyValue = translationProperty.getValue()
+            while (modelPropertySheet.hasNextRow()) {
+                ExcelPropertyRow row = modelPropertySheet.nextExcelPropertyRow()
+                println row.toString()
+            }
         }
     }
 }
