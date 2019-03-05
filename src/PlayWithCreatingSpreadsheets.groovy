@@ -53,19 +53,12 @@ class PlayWithCreatingSpreadsheets {
 
             ExcelPropertySheet outSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, inSheet.sheetName)
             outSheet.addHeaderRow(headerRowNum, keyList)
-            while (inSheet.hasNextRow()) {
+            while (inSheet.hasNextExcelPropertyRow()) {
                 ExcelPropertyRow inPropertyRow = inSheet.nextExcelPropertyRow()
                 def valueMap = inPropertyRow.getPropertyMap()
                 def rowNum = inPropertyRow.rowNum
                 outSheet.addRow(rowNum,valueMap)
-//                applyStylesToRow(rowNum, inSheet, outSheet)
             }
-            applyStyleToRowOne(inSheet, outSheet, 0)
-            applyStyleToRowOne(inSheet, outSheet, 1)
-            setWidthToRowOne(inSheet, outSheet, 0)
-            setWidthToRowOne(inSheet, outSheet, 1)
-            setWidthToRowOne(inSheet, outSheet, 2)
-            setWidthToRowOne(inSheet, outSheet, 3)
         }
         outSpreadsheet.writeAndClose()
     }

@@ -12,4 +12,8 @@ class LanguageLabels {
     static getLanguageLabel(String languageName) {
         libraryLanguageLabels.get(languageName)
     }
+
+    static getLanguageList() {
+        libraryLanguageLabels.collect {it.key}
+    }
 }

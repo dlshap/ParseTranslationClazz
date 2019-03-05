@@ -43,7 +43,7 @@ class ExcelPropertyFile extends ExcelFile {
     }
 
     def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
-        new ExcelPropertySheet(this, sheetName, headerRowNum)
+        ExcelPropertySheet.createExcelPropertySheetFromSheetInExcelPropertyFile(this, sheetName, headerRowNum)
     }
 
     def hasNextExcelPropertySheet() {
@@ -52,6 +52,6 @@ class ExcelPropertyFile extends ExcelFile {
 
     def nextExcelPropertySheet() {
         Sheet sheet = sheetIterator.next()
-        new ExcelPropertySheet(sheet)
+        ExcelPropertySheet.createExcelPropertySheetFromExcelSheet(sheet)
     }
 }

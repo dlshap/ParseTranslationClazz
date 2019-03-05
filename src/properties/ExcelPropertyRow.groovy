@@ -27,14 +27,27 @@ class ExcelPropertyRow {
         keyMap
     }
 
-    def putPropertyMapIntoRow(keyMap) {
+    def putPropertyMapIntoRow(Map<String, String> keyMap) {
         keyMap.each { key, value ->
-            def colNum = keyList.indexOf(key)
+            def colNum = getColumnNumber(key)
             if (colNum >= 0) {
                 Cell cell = row.createCell(colNum)
                 cell.setCellValue(value)
             }
         }
+    }
+
+    def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {
+        styleMap.each { key, value ->
+            def colNum = getColumnNumber(key)
+            if (colNum >= 0) {
+                row.getCell(colNum).setCellStyle(value)
+            }
+        }
+    }
+
+    def getColumnNumber(String key) {
+        keyList.indexOf(key)
     }
 
     def getRowNum() {

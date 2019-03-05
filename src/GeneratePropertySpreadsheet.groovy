@@ -7,8 +7,6 @@ import properties.PropertyFile
 import translations.TranslationProperties
 import useful.Args
 
-import static properties.ExcelPropertyFile.createNewSpreadsheetFromFileName
-
 class GeneratePropertySpreadsheet {
 
 
@@ -60,7 +58,7 @@ class GeneratePropertySpreadsheet {
 
     def createOutputExcelPropertyFileInModelDirectory(ExcelPropertyFile modelExcelPropertyFile) {
         String outputFileName = buildOutputFileName(modelExcelPropertyFile)
-        ExcelPropertyFile outputExcelPropertyFile = createNewSpreadsheetFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
+        ExcelPropertyFile outputExcelPropertyFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
         outputExcelPropertyFile
     }
 
@@ -89,14 +87,26 @@ class GeneratePropertySpreadsheet {
     }
 
     def generateOutputSheetFromPropertiesAndModel(TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
+        /*
+        Get model spreadsheet language
+        Get model spreadsheet styles
+        Setup header row and apply header style
+
+        For each property
+        If model has property
+            If same language, write the line, including translation, otherwise leave translation cell blank
+        else
+            Create line with blank translation
+        Apply data line styling
+         */
+
+        def modelLanguage = modelPropertySheet.language
         while (translationProperties.hasNext()) {
-            // use getKey() and getValue() and populate the spreadsheet
             def translationProperty = translationProperties.next()
             def propertyKey = translationProperty.getKey()
             def propertyValue = translationProperty.getValue()
-            while (modelPropertySheet.hasNextRow()) {
+            while (modelPropertySheet.hasNextExcelPropertyRow()) {
                 ExcelPropertyRow row = modelPropertySheet.nextExcelPropertyRow()
-                println row.toString()
             }
         }
     }

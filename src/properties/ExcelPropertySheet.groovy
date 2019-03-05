@@ -5,23 +5,44 @@ import exceptions.NoHeaderRowException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
 
 class ExcelPropertySheet {
 
     Sheet sheet
     Iterator rowIterator
+    ExcelPropertySheetProperties sheetProperties
 
-    def keyList
     def headerRowNum
-
     ExcelPropertySheet() {
     }
 
-    ExcelPropertySheet(Sheet sheet) {
-        this.sheet = sheet
-        this.headerRowNum = 0
-        this.resetRowIterator()
-        buildKeyListFromHeaderRow()
+    static createExcelPropertySheetFromSheetInExcelPropertyFile(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
+        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
+        Workbook workbook = excelPropertyFile.workbook
+        excelPropertySheet.sheet = workbook.getSheet(sheetName)
+        excelPropertySheet.setupSheet(headerRowNum)
+        excelPropertySheet
+    }
+
+    static createExcelPropertySheetFromExcelSheet(Sheet sheet) {
+        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
+        excelPropertySheet.sheet = sheet
+        excelPropertySheet.setupSheet(0)
+        excelPropertySheet
+    }
+
+//    static createPropertySheetInExcelPropertyFile(ExcelPropertyFile excelPropertyFile, String sheetName) {
+//        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
+//        excelPropertySheet.initializeSheet(excelPropertyFile, sheetName)
+//        excelPropertySheet
+//    }
+//
+
+    private setupSheet(int headerRowNum) {
+        this.headerRowNum = headerRowNum
+        sheetProperties = new ExcelPropertySheetProperties(this)
+        resetRowIterator()
     }
 
     private resetRowIterator() {
@@ -32,47 +53,19 @@ class ExcelPropertySheet {
         }
     }
 
-    private buildKeyListFromHeaderRow() {
-        Row headerRow = sheet.getRow(headerRowNum)
-        keyList = headerRow.cellIterator().collect() { it.getStringCellValue() }
-    }
-
-    ExcelPropertySheet(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
-        def workbook = excelPropertyFile.workbook
-        this.sheet = workbook.getSheet(sheetName)
-        this.headerRowNum = headerRowNum
-        this.resetRowIterator()
-        buildKeyListFromHeaderRow()
-    }
-
-    static createPropertySheetInExcelPropertyFile(ExcelPropertyFile excelPropertyFile, String sheetName) {
-        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
-        excelPropertySheet.initializeSheet(excelPropertyFile, sheetName)
-        excelPropertySheet
-    }
-
-    private initializeSheet(ExcelPropertyFile excelPropertyFile, String sheetName) {
-        ExcelWorkbook excelWorkbook = excelPropertyFile.excelWorkbook
-        sheet = excelWorkbook.create(sheetName)
-    }
-
-    def hasNextRow() {
+    def hasNextExcelPropertyRow() {
         rowIterator.hasNext()
     }
 
-    ExcelPropertyRow nextExcelPropertyRow() {
-        Row nextRow
-        if (rowIterator.hasNext()) {
-            nextRow = rowIterator.next()
-            if (nextRow.rowNum == headerRowNum)
-                nextRow = rowIterator.next()
-        }
-        new ExcelPropertyRow(nextRow, keyList)
-    }
+    def nextExcelPropertyRow() {
+        ExcelPropertyRow excelPropertyRow
+        if (rowIterator.hasNext())
+            excelPropertyRow = new ExcelPropertyRow(rowIterator.next(), sheetProperties.keyList)
+        excelPropertyRow
 
     def getKeyMaps() {
         def keyMaps = []
-        while (this.hasNextRow()) {
+        while (this.hasNextExcelPropertyRow()) {
             ExcelPropertyRow row = this.nextExcelPropertyRow()
             def rowMap = row.getPropertyMap()
             keyMaps.add(rowMap)
@@ -99,9 +92,13 @@ class ExcelPropertySheet {
             throw new NoHeaderRowException()
         else {
             Row row = sheet.createRow(rowNum)
-            ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, keyList)
+            ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
             excelPropertyRow.putPropertyMapIntoRow(valueMap)
             row
         }
+    }
+
+    def getLanguage() {
+        sheetProperties.getLanguage()
     }
 }
