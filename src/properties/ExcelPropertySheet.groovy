@@ -93,12 +93,12 @@ class ExcelPropertySheet {
 
     def addHeaderRow(int headerRowNum, keyList) {
         this.headerRowNum = headerRowNum
-        this.keyList = keyList
         Row row = sheet.createRow(headerRowNum)
         keyList.eachWithIndex { keyName, columnNumber ->
             Cell cell = row.createCell(columnNumber)
             cell.setCellValue(keyList[columnNumber])
         }
+        sheetProperties.buildPropertySheetPropertiesFromHeaderRow()
     }
 
     def addRow(rowNum, valueMap) {
