@@ -1,6 +1,5 @@
 package properties
 
-import excelfilemanagement.ExcelWorkbook
 import exceptions.NoHeaderRowException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
@@ -14,6 +13,7 @@ class ExcelPropertySheet {
     ExcelPropertySheetProperties sheetProperties
 
     def headerRowNum
+
     ExcelPropertySheet() {
     }
 
@@ -62,6 +62,7 @@ class ExcelPropertySheet {
         if (rowIterator.hasNext())
             excelPropertyRow = new ExcelPropertyRow(rowIterator.next(), sheetProperties.keyList)
         excelPropertyRow
+    }
 
     def getKeyMaps() {
         def keyMaps = []

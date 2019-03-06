@@ -76,7 +76,7 @@ class GeneratePropertiesFiles {
 
     def openPropertyFileForSheetName(String sheetName) {
         def propFilePath = startFilePath + "\\${sheetName}\\"
-        def languageLabel = LanguageLabels.getLanguageLabel(languageName)
+        def languageLabel = LanguageLabels.getPropertiesLabel(languageName)
         def fileName = "messages_${languageLabel}.properties"
         PropertyFile propertyFile = PropertyFile.createNewTranslationPropertyFileFromPathAndFile(propFilePath, fileName)
         propertyFile
