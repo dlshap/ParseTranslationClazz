@@ -42,14 +42,12 @@ class GeneratePropertySpreadsheet {
     def generateSpreadsheet() {
         ExcelPropertyFile modelExcelPropertyFile = chooseModelPropertySpreadsheet()
         if (modelExcelPropertyFile != null) {
-            ExcelPropertyFile outputExcelPropertyFile = createOutputExcelPropertyFileInModelDirectory(modelExcelPropertyFile)
+            ExcelPropertyFile outputExcelPropertyFile = createOutputExcelPropertyFile(modelExcelPropertyFile)
             while (modelExcelPropertyFile.hasNextExcelPropertySheet()) {
                 ExcelPropertySheet modelPropertySheet = modelExcelPropertyFile.nextExcelPropertySheet()
                 ExcelPropertySheet newPropertySheet = createPropertySheetFromPropertiesFileUsingModel(outputExcelPropertyFile, modelPropertySheet)
                 movePropertiesIntoPropertySheetUsingModelSheet(newPropertySheet, modelPropertySheet)
             }
-//            generateOutputSheetsFromModelSheets(outputExcelPropertyFile, modelExcelPropertyFile)
-//            movePropertiesFromPropertyFileIntoSpreadsheet(outputExcelPropertyFile)
             outputExcelPropertyFile.writeAndClose()
         }
     }
@@ -62,10 +60,26 @@ class GeneratePropertySpreadsheet {
         modelExcelPropertyFile
     }
 
-    def createOutputExcelPropertyFileInModelDirectory(ExcelPropertyFile modelExcelPropertyFile) {
+    def createOutputExcelPropertyFile(ExcelPropertyFile modelExcelPropertyFile) {
         String outputFileName = buildOutputFileName(modelExcelPropertyFile)
         ExcelPropertyFile outputExcelPropertyFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
         outputExcelPropertyFile
+    }
+
+    def createPropertySheetFromPropertiesFileUsingModel(outputExcelPropertyFile, modelPropertySheet) {
+        ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
+        outputPropertySheet
+    }
+
+    def movePropertiesIntoPropertySheetUsingModelSheet(ExcelPropertySheet newPropertySheet, ExcelPropertySheet modelPropertySheet) {
+        def propertyFileName = buildPropertyFileName(modelPropertySheet)
+        PropertyFile propertyFile = PropertyFile.openPropertyFileFromFileName(propertyFileName)
+        TranslationProperties translationProperties = propertyFile.translationProperties
+    }
+
+    def buildPropertyFileName(ExcelPropertySheet excelPropertySheet) {
+        def component = excelPropertySheet.sheetName
+        def fileName = path + "\\$component\\PropertyFiles\\messages.properties"
     }
 
     def buildOutputFileName(ExcelPropertyFile modelFile) {
@@ -74,46 +88,37 @@ class GeneratePropertySpreadsheet {
         outputFileName
     }
 
-    def generateOutputSheetsFromModelSheets(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertyFile modelExcelPropertyFile) {
-        if (modelExcelPropertyFile != null) {
-            while (modelExcelPropertyFile.hasNextExcelPropertySheet()) {
-                ExcelPropertySheet modelPropertySheet = modelExcelPropertyFile.nextExcelPropertySheet()
-                ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
-            }
-        }
-    }
+//    def movePropertiesFromPropertyFileIntoSpreadsheet(ExcelPropertyFile modelExcelPropertyFile, ExcelPropertyFile outputExcelPropertyFile) {
+//        TranslationProperties properties
+//        def sheetName = modelExcelPropertySheet.sheetName
+//        def propertyFilePath = path + sheetName + "\\"
+//        PropertyFile propertyFile = PropertyFile.openPropertyFileForComponentUsingChooser(sheetName, propertyFilePath)
+//        TranslationProperties translationProperties = propertyFile.getTranslationProperties()
+//    }
 
-    def movePropertiesFromPropertyFileIntoSpreadsheet(ExcelPropertyFile modelExcelPropertyFile, ExcelPropertyFile outputExcelPropertyFile) {
-        TranslationProperties properties
-        def sheetName = modelExcelPropertySheet.sheetName
-        def propertyFilePath = path + sheetName + "\\"
-        PropertyFile propertyFile = PropertyFile.openPropertyFileForComponentUsingChooser(sheetName, propertyFilePath)
-        TranslationProperties translationProperties = propertyFile.getTranslationProperties()
-    }
-
-    def generateOutputSheetFromPropertiesAndModel(TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
-        /*
-        Get model spreadsheet language
-        Get model spreadsheet styles
-        Setup header row
-        Apply header style (later)
-
-        For each property
-        If model has property
-            If same language, write the line, including translation, otherwise leave translation cell blank
-        else
-            Create line with blank translation
-        Apply data line styling (later)
-         */
-
-        def modelLanguage = modelPropertySheet.language
-        while (translationProperties.hasNext()) {
-            def translationProperty = translationProperties.next()
-            def propertyKey = translationProperty.getKey()
-            def propertyValue = translationProperty.getValue()
-            while (modelPropertySheet.hasNextExcelPropertyRow()) {
-                ExcelPropertyRow row = modelPropertySheet.nextExcelPropertyRow()
-            }
-        }
-    }
+//    def generateOutputSheetFromPropertiesAndModel(TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
+//        /*
+//        Get model spreadsheet language
+//        Get model spreadsheet styles
+//        Setup header row
+//        Apply header style (later)
+//
+//        For each property
+//        If model has property
+//            If same language, write the line, including translation, otherwise leave translation cell blank
+//        else
+//            Create line with blank translation
+//        Apply data line styling (later)
+//         */
+//
+//        def modelLanguage = modelPropertySheet.language
+//        while (translationProperties.hasNext()) {
+//            def translationProperty = translationProperties.next()
+//            def propertyKey = translationProperty.getKey()
+//            def propertyValue = translationProperty.getValue()
+//            while (modelPropertySheet.hasNextExcelPropertyRow()) {
+//                ExcelPropertyRow row = modelPropertySheet.nextExcelPropertyRow()
+//            }
+//        }
+//    }
 }

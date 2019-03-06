@@ -15,7 +15,7 @@ class LineFile extends BaseFile {
 
     def openFile(fileName) {
         super.openFile(fileName)
-        if (file.length()) {
+        if (file.length() > 0) {
             lines = file.readLines()
             lineIterator = lines.iterator()
         }

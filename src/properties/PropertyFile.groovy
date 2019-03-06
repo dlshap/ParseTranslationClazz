@@ -3,7 +3,6 @@ package properties
 import filemanagement.FileChooser
 import filemanagement.LineFile
 import i18n.Messages
-import logging.Log
 import translations.TranslationProperties
 
 import static filemanagement.BaseFile.CreateFlag.CREATE
@@ -11,8 +10,6 @@ import static filemanagement.BaseFile.CreateFlag.CREATE
 class PropertyFile extends LineFile {
 
     static final PROPERTY_FILE_PROMPT = "prompt.for.message.properties.file.for"
-
-    def propertyFileName
 
     PropertyFile() {
     }
@@ -31,17 +28,14 @@ class PropertyFile extends LineFile {
     static openPropertyFileForComponentUsingChooser(componentName, componentPath) {
         PropertyFile propertyFile = new PropertyFile()
         def prompt = Messages.getString(PROPERTY_FILE_PROMPT, componentName)
-        propertyFile.propertyFileName = FileChooser.chooseFileAndReturnFilename(prompt, componentPath + "PropertyFiles\\\\")
-        propertyFile.openPropertyFilefromFileName(componentName)
+        propertyFile.openFile(FileChooser.chooseFile(prompt, componentPath))
         propertyFile
     }
 
-    def openPropertyFilefromFileName(componentName) {
-        if (propertyFileName == null) {
-            Log.writeLine("exceptions", "No properties file selected for $componentName.")
-        } else {
-            openFile(propertyFileName)
-        }
+    static openPropertyFileFromFileName(String fileName) {
+        PropertyFile propertyFile = new PropertyFile()
+        propertyFile.openFile(fileName)
+        propertyFile
     }
 
     def getTranslatedOutputFileName() {
