@@ -1,6 +1,8 @@
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
@@ -41,57 +43,71 @@ class PlayWithCreatingSpreadsheets {
 
         def filePath = propertyArgs.get("path")
 
-        def fileName = "test.xlsx"
+        def fileName = "new\\DMT-DE Properties Translations (French-Canadian)_new.xlsx"
 
         ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openUsingChooser("Pick a file", filePath)
         ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath + fileName, CREATE)
 
         while (inSpreadsheet.hasNextExcelPropertySheet()) {
             ExcelPropertySheet inSheet = inSpreadsheet.nextExcelPropertySheet()
-            def headerRowNum = inSheet.headerRowNum
-            def keyList = inSheet.keyList
-
-            ExcelPropertySheet outSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, inSheet.sheetName)
-            outSheet.addHeaderRow(headerRowNum, keyList)
-            while (inSheet.hasNextExcelPropertyRow()) {
-                ExcelPropertyRow inPropertyRow = inSheet.nextExcelPropertyRow()
-                def valueMap = inPropertyRow.getPropertyMap()
-                def rowNum = inPropertyRow.rowNum
-                outSheet.addRow(rowNum,valueMap)
-            }
+            def headerRow = inSheet.headerRow
+            Workbook workbook = outSpreadsheet.workbook
+            ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(workbook, inSheet)
+//            Sheet outSheet = workbook.createSheet()
+//            Row row = outSheet.createRow(0)
+//            Cell cell = row.createCell(0)
+//            cell.setCellValue("test")
         }
+
         outSpreadsheet.writeAndClose()
     }
 
-    def applyStyleToRowOne(ExcelPropertySheet inSheet, ExcelPropertySheet outSheet, int cellNumber) {
-        CellStyle inCellStyle = inSheet.sheet.getRow(0).getCell(cellNumber).getCellStyle()
-        Cell outCell = outSheet.sheet.getRow(0).getCell(cellNumber)
-        CellStyle outCellStyle = outSheet.sheet.getWorkbook().createCellStyle()
-        outCellStyle.cloneStyleFrom(inCellStyle)
-        outCell.setCellStyle(outCellStyle)
-    }
-
-    def setWidthToRowOne(ExcelPropertySheet inSheet, ExcelPropertySheet outSheet, int columnNumber) {
-        int columnWidth = inSheet.sheet.getColumnWidth(columnNumber)
-        outSheet.sheet.setColumnWidth(columnNumber, columnWidth)
-    }
-
-    def applyStylesToRow(int rowNum, ExcelPropertySheet inSheet, ExcelPropertySheet outSheet) {
-        Row inRow = inSheet.sheet.getRow(rowNum)
-        Row outRow = outSheet.sheet.getRow(rowNum)
-        Iterator<Cell> cellIterator = inRow.cellIterator()
-        while (cellIterator.hasNext()) {
-            Cell inCell = cellIterator.next()
-            Cell outCell = outRow.getCell(inCell.columnIndex)
-            CellStyle inCellStyle = inCell.getCellStyle()
-            CellStyle outCellStyle = convertStyleForOutSheet(inCellStyle, outSheet)
-            outCell.setCellStyle(outCellStyle)
-        }
-    }
-
-    def convertStyleForOutSheet(inCellStyle, ExcelPropertySheet outSheet) {
-        CellStyle outCellStyle = outSheet.sheet.getWorkbook().createCellStyle();
-        outCellStyle.cloneStyleFrom(inCellStyle);
-        outCellStyle
-    }
+//        while (inSpreadsheet.hasNextExcelPropertySheet()) {
+//            ExcelPropertySheet inSheet = inSpreadsheet.nextExcelPropertySheet()
+//            def headerRowNum = inSheet.headerRowNum
+//            def keyList = inSheet.headerRow
+//
+//            ExcelPropertySheet outSheet = ExcelPropertySheet.createPropertySheetInExcelPropertyFile(outSpreadsheet, inSheet.sheetName)
+//            outSheet.addHeaderRow(headerRowNum, keyList)
+//            while (inSheet.hasNextExcelPropertyRow()) {
+//                ExcelPropertyRow inPropertyRow = inSheet.nextExcelPropertyRow()
+//                def valueMap = inPropertyRow.getPropertyMap()
+//                def rowNum = inPropertyRow.rowNum
+//                outSheet.addRow(rowNum,valueMap)
+//            }
+//        }
+//        outSpreadsheet.writeAndClose()
+//    }
+//
+//    def applyStyleToRowOne(ExcelPropertySheet inSheet, ExcelPropertySheet outSheet, int cellNumber) {
+//        CellStyle inCellStyle = inSheet.sheet.getRow(0).getCell(cellNumber).getCellStyle()
+//        Cell outCell = outSheet.sheet.getRow(0).getCell(cellNumber)
+//        CellStyle outCellStyle = outSheet.sheet.getWorkbook().createCellStyle()
+//        outCellStyle.cloneStyleFrom(inCellStyle)
+//        outCell.setCellStyle(outCellStyle)
+//    }
+//
+//    def setWidthToRowOne(ExcelPropertySheet inSheet, ExcelPropertySheet outSheet, int columnNumber) {
+//        int columnWidth = inSheet.sheet.getColumnWidth(columnNumber)
+//        outSheet.sheet.setColumnWidth(columnNumber, columnWidth)
+//    }
+//
+//    def applyStylesToRow(int rowNum, ExcelPropertySheet inSheet, ExcelPropertySheet outSheet) {
+//        Row inRow = inSheet.sheet.getRow(rowNum)
+//        Row outRow = outSheet.sheet.getRow(rowNum)
+//        Iterator<Cell> cellIterator = inRow.cellIterator()
+//        while (cellIterator.hasNext()) {
+//            Cell inCell = cellIterator.next()
+//            Cell outCell = outRow.getCell(inCell.columnIndex)
+//            CellStyle inCellStyle = inCell.getCellStyle()
+//            CellStyle outCellStyle = convertStyleForOutSheet(inCellStyle, outSheet)
+//            outCell.setCellStyle(outCellStyle)
+//        }
+//    }
+//
+//    def convertStyleForOutSheet(inCellStyle, ExcelPropertySheet outSheet) {
+//        CellStyle outCellStyle = outSheet.sheet.getWorkbook().createCellStyle();
+//        outCellStyle.cloneStyleFrom(inCellStyle);
+//        outCellStyle
+//    }
 }

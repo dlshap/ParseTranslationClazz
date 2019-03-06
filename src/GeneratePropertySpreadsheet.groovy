@@ -44,7 +44,7 @@ class GeneratePropertySpreadsheet {
         if (modelExcelPropertyFile != null) {
             ExcelPropertyFile outputExcelPropertyFile = createOutputExcelPropertyFileInModelDirectory(modelExcelPropertyFile)
             generateOutputSheetsFromModelSheets(outputExcelPropertyFile, modelExcelPropertyFile)
-            movePropertiesFromPropertyFileIntoSpreadsheet(outputExcelPropertyFile)
+//            movePropertiesFromPropertyFileIntoSpreadsheet(outputExcelPropertyFile)
             outputExcelPropertyFile.writeAndClose()
         }
     }
@@ -65,7 +65,7 @@ class GeneratePropertySpreadsheet {
 
     def buildOutputFileName(ExcelPropertyFile modelFile) {
         def outputPath = modelFile.getDirPath()
-        def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language).new.xlsx"
+        def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language)_new.xlsx"
         outputFileName
     }
 
@@ -73,11 +73,7 @@ class GeneratePropertySpreadsheet {
         if (modelExcelPropertyFile != null) {
             while (modelExcelPropertyFile.hasNextExcelPropertySheet()) {
                 ExcelPropertySheet modelPropertySheet = modelExcelPropertyFile.nextExcelPropertySheet()
-                def sheetName = modelPropertySheet.sheetName
-                def headerRowNum = modelPropertySheet.headerRowNum
-                ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheet(sheetName, headerRowNum)
-                def newName = outputPropertySheet.sheetName
-//                outputExcelPropertyFile.cloneHeaderRowFromAnotherSheet(modelPropertySheet)
+                ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
             }
         }
     }

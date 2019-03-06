@@ -39,15 +39,4 @@ class ExcelPropertySheetProperties {
         buildLanguageFromHeaderRow()
     }
 
-    def buildColumnWidths() {
-        Row row = sheet.getRow(headerRowNum)
-        columnWidths = row.cellIterator().collect() { Cell it ->
-            sheet.getColumnWidth(it.getColumnIndex())
-        }
-    }
-
-    private buildRowStyles(int rowNum) {
-        Row row = sheet.getRow(rowNum)
-        row.cellIterator().collect() {it.getCellStyle()}
-    }
 }

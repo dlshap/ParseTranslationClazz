@@ -37,8 +37,8 @@ class ExcelPropertyFile extends ExcelFile {
         buildSheetIterator()
     }
 
-    def createNewExcelPropertySheet(String sheetName, int headerRowNum) {
-        ExcelPropertySheet.createExcelPropertySheetInExcelPropertyFileWithHeaderRow(this, sheetName, headerRowNum)
+    def createNewExcelPropertySheetFromModel(ExcelPropertySheet modelPropertySheet) {
+        ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(this.workbook, modelPropertySheet)
     }
 
     def getPropertySheet(String sheetName) {

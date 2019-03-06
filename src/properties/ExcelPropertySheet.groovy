@@ -1,6 +1,5 @@
 package properties
 
-import exceptions.NoHeaderRowException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
@@ -30,20 +29,25 @@ class ExcelPropertySheet {
         excelPropertySheet
     }
 
-    static createExcelPropertySheetInExcelPropertyFileWithHeaderRow(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
-        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
-        Workbook workbook = excelPropertyFile.workbook
-        excelPropertySheet.sheet = workbook.createSheet(sheetName)
-        excelPropertySheet.setupSheet(headerRowNum)
-        excelPropertySheet
-    }
-
-//    static createPropertySheetInExcelPropertyFile(ExcelPropertyFile excelPropertyFile, String sheetName) {
+//    static createExcelPropertySheetInExcelPropertyFileWithHeaderRow(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum, ArrayList<String> keyList) {
 //        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
-//        excelPropertySheet.initializeSheet(excelPropertyFile, sheetName)
+//        Workbook workbook = excelPropertyFile.workbook
+//        excelPropertySheet.sheet = workbook.createSheet(sheetName)
+//        excelPropertySheet.setupSheet(headerRowNum)
 //        excelPropertySheet
 //    }
 //
+
+    static createExcelPropertySheetInWorkbookFromModelSheet(Workbook workbook, ExcelPropertySheet modelPropertySheet) {
+        ExcelPropertySheet newPropertySheet = new ExcelPropertySheet()
+        newPropertySheet.sheet = workbook.createSheet(modelPropertySheet.sheetName)
+        def headerRow = modelPropertySheet.headerRow
+        def headerRowNum = modelPropertySheet.headerRowNum
+        newPropertySheet.addHeaderRow(headerRowNum, headerRow)
+        newPropertySheet.setupSheet(headerRowNum)
+        newPropertySheet.setColumnWidths(modelPropertySheet.getColumnWidths())
+        newPropertySheet
+    }
 
     private setupSheet(int headerRowNum) {
         sheetProperties = new ExcelPropertySheetProperties(this, headerRowNum)
@@ -58,12 +62,17 @@ class ExcelPropertySheet {
         }
     }
 
-    def setHeaderRowNum(int headerRowNum) {
-        sheetProperties.headerRowNum = headerRowNum
-    }
+    // ToDo: remove
+//    def setHeaderRowNum(int headerRowNum) {
+//        sheetProperties.headerRowNum = headerRowNum
+//    }
 
     def getHeaderRowNum() {
         sheetProperties.headerRowNum
+    }
+
+    def getHeaderRow() {
+        sheetProperties.keyList
     }
 
     def hasNextExcelPropertyRow() {
@@ -92,27 +101,34 @@ class ExcelPropertySheet {
     }
 
     def addHeaderRow(int headerRowNum, keyList) {
-        this.headerRowNum = headerRowNum
         Row row = sheet.createRow(headerRowNum)
         keyList.eachWithIndex { keyName, columnNumber ->
             Cell cell = row.createCell(columnNumber)
             cell.setCellValue(keyList[columnNumber])
-        }
-        sheetProperties.buildPropertySheetPropertiesFromHeaderRow()
-    }
-
-    def addRow(rowNum, valueMap) {
-        if (keyList == null)
-            throw new NoHeaderRowException()
-        else {
-            Row row = sheet.createRow(rowNum)
-            ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
-            excelPropertyRow.putPropertyMapIntoRow(valueMap)
-            row
         }
     }
 
     def getLanguage() {
         sheetProperties.getLanguage()
     }
+
+    def getColumnWidths() {
+        Row row = sheet.getRow(headerRowNum)
+        def columnWidths = row.cellIterator().collect() { Cell it ->
+            sheet.getColumnWidth(it.getColumnIndex())
+        }
+        columnWidths
+    }
+
+    def setColumnWidths(columnWidths) {
+        columnWidths.eachWithIndex { columnWidth, columnNumber ->
+            sheet.setColumnWidth(columnNumber, columnWidth)
+        }
+    }
+
+    private getRowStyles(int rowNum) {
+        Row row = sheet.getRow(rowNum)
+        row.cellIterator().collect() {it.getCellStyle()}
+    }
+
 }
