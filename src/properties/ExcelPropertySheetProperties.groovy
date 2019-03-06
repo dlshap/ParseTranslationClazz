@@ -17,16 +17,15 @@ class ExcelPropertySheetProperties {
     def columnWidths
     def language
 
-    ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet) {
+    ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet, headerRowNum) {
+        this.headerRowNum = headerRowNum
         this.excelPropertySheet = excelPropertySheet
-        this.headerRowNum = excelPropertySheet.headerRowNum
         this.sheet = excelPropertySheet.sheet
         this.buildKeyList()
         this.buildLanguage()
     }
 
     private buildKeyList() {
-        this.headerRowNum = headerRowNum
         buildKeyListFromHeaderRow()
     }
 

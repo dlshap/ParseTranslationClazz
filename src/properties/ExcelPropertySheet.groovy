@@ -12,8 +12,6 @@ class ExcelPropertySheet {
     Iterator rowIterator
     ExcelPropertySheetProperties sheetProperties
 
-    def headerRowNum
-
     ExcelPropertySheet() {
     }
 
@@ -32,6 +30,14 @@ class ExcelPropertySheet {
         excelPropertySheet
     }
 
+    static createExcelPropertySheetInExcelPropertyFileWithHeaderRow(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum) {
+        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
+        Workbook workbook = excelPropertyFile.workbook
+        excelPropertySheet.sheet = workbook.createSheet(sheetName)
+        excelPropertySheet.setupSheet(headerRowNum)
+        excelPropertySheet
+    }
+
 //    static createPropertySheetInExcelPropertyFile(ExcelPropertyFile excelPropertyFile, String sheetName) {
 //        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
 //        excelPropertySheet.initializeSheet(excelPropertyFile, sheetName)
@@ -40,8 +46,7 @@ class ExcelPropertySheet {
 //
 
     private setupSheet(int headerRowNum) {
-        this.headerRowNum = headerRowNum
-        sheetProperties = new ExcelPropertySheetProperties(this)
+        sheetProperties = new ExcelPropertySheetProperties(this, headerRowNum)
         resetRowIterator()
     }
 
@@ -51,6 +56,14 @@ class ExcelPropertySheet {
         (0..headerRowNum).each {
             rowIterator.next()
         }
+    }
+
+    def setHeaderRowNum(int headerRowNum) {
+        sheetProperties.headerRowNum = headerRowNum
+    }
+
+    def getHeaderRowNum() {
+        sheetProperties.headerRowNum
     }
 
     def hasNextExcelPropertyRow() {

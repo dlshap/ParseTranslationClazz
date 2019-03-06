@@ -44,6 +44,7 @@ class GeneratePropertySpreadsheet {
         if (modelExcelPropertyFile != null) {
             ExcelPropertyFile outputExcelPropertyFile = createOutputExcelPropertyFileInModelDirectory(modelExcelPropertyFile)
             generateOutputSheetsFromModelSheets(outputExcelPropertyFile, modelExcelPropertyFile)
+            movePropertiesFromPropertyFileIntoSpreadsheet(outputExcelPropertyFile)
             outputExcelPropertyFile.writeAndClose()
         }
     }
@@ -72,10 +73,17 @@ class GeneratePropertySpreadsheet {
         if (modelExcelPropertyFile != null) {
             while (modelExcelPropertyFile.hasNextExcelPropertySheet()) {
                 ExcelPropertySheet modelPropertySheet = modelExcelPropertyFile.nextExcelPropertySheet()
-                TranslationProperties translationProperties = getPropertiesFromPropertyFileForPropertySheet(modelPropertySheet)
-                generateOutputSheetFromPropertiesAndModel(translationProperties, modelPropertySheet)
+                def sheetName = modelPropertySheet.sheetName
+                def headerRowNum = modelPropertySheet.headerRowNum
+                ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheet(sheetName, headerRowNum)
+                def newName = outputPropertySheet.sheetName
+//                outputExcelPropertyFile.cloneHeaderRowFromAnotherSheet(modelPropertySheet)
             }
         }
+    }
+
+    def movePropertiesFromPropertyFileIntoSpreadsheet(ExcelPropertyFile outputExcelPropertyFile) {
+        TranslationProperties translationProperties = getPropertiesFromPropertyFileForPropertySheet(modelPropertySheet)
     }
 
     def getPropertiesFromPropertyFileForPropertySheet(ExcelPropertySheet modelExcelPropertySheet) {
@@ -90,14 +98,15 @@ class GeneratePropertySpreadsheet {
         /*
         Get model spreadsheet language
         Get model spreadsheet styles
-        Setup header row and apply header style
+        Setup header row
+        Apply header style (later)
 
         For each property
         If model has property
             If same language, write the line, including translation, otherwise leave translation cell blank
         else
             Create line with blank translation
-        Apply data line styling
+        Apply data line styling (later)
          */
 
         def modelLanguage = modelPropertySheet.language
