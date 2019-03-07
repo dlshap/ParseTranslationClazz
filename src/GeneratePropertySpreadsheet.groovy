@@ -66,7 +66,7 @@ class GeneratePropertySpreadsheet {
         outputExcelPropertyFile
     }
 
-    def createPropertySheetFromPropertiesFileUsingModel(outputExcelPropertyFile, modelPropertySheet) {
+    def createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
         ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
         outputPropertySheet
     }
@@ -75,6 +75,7 @@ class GeneratePropertySpreadsheet {
         def propertyFileName = buildPropertyFileName(modelPropertySheet)
         PropertyFile propertyFile = PropertyFile.openPropertyFileFromFileName(propertyFileName)
         TranslationProperties translationProperties = propertyFile.translationProperties
+        updateNewSheetFromPropertiesFileAndModel(newPropertySheet, translationProperties, modelPropertySheet)
     }
 
     def buildPropertyFileName(ExcelPropertySheet excelPropertySheet) {
@@ -86,6 +87,17 @@ class GeneratePropertySpreadsheet {
         def outputPath = modelFile.getDirPath()
         def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language)_new.xlsx"
         outputFileName
+    }
+
+    def updateNewSheetFromPropertiesFileAndModel(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
+
+        while (translationProperties.hasNext()) {
+            def property = translationProperties.next()
+            def propertyKey = property.getKey()
+            def row = modelPropertySheet.getKeyMaps()
+            def modelRow = row.find {it.get("Message Key") == propertyKey}
+
+        }
     }
 
 //    def movePropertiesFromPropertyFileIntoSpreadsheet(ExcelPropertyFile modelExcelPropertyFile, ExcelPropertyFile outputExcelPropertyFile) {

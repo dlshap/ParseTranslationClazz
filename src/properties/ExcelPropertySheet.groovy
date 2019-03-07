@@ -62,11 +62,6 @@ class ExcelPropertySheet {
         }
     }
 
-    // ToDo: remove
-//    def setHeaderRowNum(int headerRowNum) {
-//        sheetProperties.headerRowNum = headerRowNum
-//    }
-
     def getHeaderRowNum() {
         sheetProperties.headerRowNum
     }
@@ -100,13 +95,21 @@ class ExcelPropertySheet {
         sheet.sheetName
     }
 
-    def addHeaderRow(int headerRowNum, keyList) {
+    def addHeaderRow(int headerRowNum, ArrayList keyList) {
         Row row = sheet.createRow(headerRowNum)
         keyList.eachWithIndex { keyName, columnNumber ->
             Cell cell = row.createCell(columnNumber)
             cell.setCellValue(keyList[columnNumber])
         }
+        /* add Date Changed Column */
+        if (!(keyList.contains("Date Changed"))) {
+            def columnNumber = keyList.size()
+            Cell cell = row.createCell(columnNumber)
+            cell.setCellValue("Date Changed")
+            sheet.setColumnWidth(columnNumber, 3500)
+        }
     }
+
 
     def getLanguage() {
         sheetProperties.getLanguage()

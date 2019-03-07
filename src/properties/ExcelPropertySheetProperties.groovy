@@ -24,6 +24,11 @@ class ExcelPropertySheetProperties {
         this.buildPropertySheetPropertiesFromHeaderRow()
     }
 
+    def buildPropertySheetPropertiesFromHeaderRow() {
+        buildKeyListFromHeaderRow()
+        buildLanguageFromHeaderRow()
+    }
+
     private buildLanguageFromHeaderRow() {
         def languageList = LanguageLabels.getLanguageList()
         language = keyList.find {languageList.contains(it.toString()) && (it.toString() != "English")}
@@ -32,11 +37,6 @@ class ExcelPropertySheetProperties {
     private buildKeyListFromHeaderRow() {
         Row row = sheet.getRow(headerRowNum)
         keyList = row.cellIterator().collect() { it.getStringCellValue() }
-    }
-
-    def buildPropertySheetPropertiesFromHeaderRow() {
-        buildKeyListFromHeaderRow()
-        buildLanguageFromHeaderRow()
     }
 
 }
