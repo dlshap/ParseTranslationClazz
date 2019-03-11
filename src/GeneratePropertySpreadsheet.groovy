@@ -90,47 +90,36 @@ class GeneratePropertySpreadsheet {
     }
 
     def updateNewSheetFromPropertiesFileAndModel(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
-
+        int propIndex = 1
         while (translationProperties.hasNext()) {
             def property = translationProperties.next()
             def propertyKey = property.getKey()
-            def row = modelPropertySheet.getKeyMaps()
-            def modelRow = row.find {it.get("Message Key") == propertyKey}
-
+            ExcelPropertyRow modelPropertyRow = modelPropertySheet.getFirstExcelPropertyRowMatchingKeys(["Message Key": propertyKey])
+            if (modelPropertyRow != null)
+                updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
+            else
+                populateNewRowFromTranslation(newPropertySheet, property, propIndex)
         }
     }
 
-//    def movePropertiesFromPropertyFileIntoSpreadsheet(ExcelPropertyFile modelExcelPropertyFile, ExcelPropertyFile outputExcelPropertyFile) {
-//        TranslationProperties properties
-//        def sheetName = modelExcelPropertySheet.sheetName
-//        def propertyFilePath = path + sheetName + "\\"
-//        PropertyFile propertyFile = PropertyFile.openPropertyFileForComponentUsingChooser(sheetName, propertyFilePath)
-//        TranslationProperties translationProperties = propertyFile.getTranslationProperties()
-//    }
-
-//    def generateOutputSheetFromPropertiesAndModel(TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
-//        /*
-//        Get model spreadsheet language
-//        Get model spreadsheet styles
-//        Setup header row
-//        Apply header style (later)
-//
-//        For each property
-//        If model has property
-//            If same language, write the line, including translation, otherwise leave translation cell blank
-//        else
-//            Create line with blank translation
-//        Apply data line styling (later)
-//         */
-//
-//        def modelLanguage = modelPropertySheet.language
-//        while (translationProperties.hasNext()) {
-//            def translationProperty = translationProperties.next()
-//            def propertyKey = translationProperty.getKey()
-//            def propertyValue = translationProperty.getValue()
-//            while (modelPropertySheet.hasNextExcelPropertyRow()) {
-//                ExcelPropertyRow row = modelPropertySheet.nextExcelPropertyRow()
-//            }
+    def updateTranslationInRow(ExcelPropertySheet newPropertySheet, property, ExcelPropertyRow modelPropertyRow, int propIndex ) {
+        println "updating property for ${newPropertySheet.sheetName} = ${property.getKey()} : value = ${property.getValue()}"
+//        ExcelPropertyRow newPropertyRow = newPropertySheet.cloneExcelPropertyRow(propIndex, modelPropertyRow)
+//        def oldEnglishValue = modelPropertyRow.getValue("English")
+//        def newEnglishValue = property.getValue()
+//        if (oldEnglishValue != newEnglishValue) {
+//            newPropertyRow.setValue("English", newEnglishValue)
+//            newPropertyRow.setValue("Date Changed", new Date().format('yyyyMMdd'))
 //        }
-//    }
+    }
+
+    def populateNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
+        println "new property for ${newPropertySheet.sheetName} = ${property.getKey()} : value = ${property.getValue()}"
+        def propertyMap = [:]
+        propertyMap.put("Index", propIndex)
+        propertyMap.put("Message Key", property.getKey())
+        propertyMap.put("English", property.getValue())
+        propertyMap.put(newPropertySheet.getLanguage(), "")
+        newPropertySheet.addRow(propIndex, propertyMap)
+    }
 }

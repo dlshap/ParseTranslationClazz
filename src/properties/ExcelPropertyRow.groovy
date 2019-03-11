@@ -15,6 +15,16 @@ class ExcelPropertyRow {
         this.keyList = keyList
     }
 
+    def keysMatch(Map<String, String> matchKeyList) {
+        def propertyMap = this.getPropertyMap()
+        def match = true
+        matchKeyList.each {
+            if (propertyMap.get(it.getKey()) != it.getValue())
+                match = false
+        }
+        match
+    }
+
     def getPropertyMap() {
         def keyMap = ["row": row.rowNum + 1]
         row.cellIterator().each { Cell cell ->
@@ -27,7 +37,7 @@ class ExcelPropertyRow {
         keyMap
     }
 
-    def putPropertyMapIntoRow(Map<String, String> keyMap) {
+    def putPropertyMap(Map<String, String> keyMap) {
         keyMap.each { key, value ->
             def colNum = getColumnNumber(key)
             if (colNum >= 0) {
@@ -37,6 +47,10 @@ class ExcelPropertyRow {
         }
     }
 
+    def getColumnNumber(String key) {
+        keyList.indexOf(key)
+    }
+
     def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {
         styleMap.each { key, value ->
             def colNum = getColumnNumber(key)
@@ -44,10 +58,6 @@ class ExcelPropertyRow {
                 row.getCell(colNum).setCellStyle(value)
             }
         }
-    }
-
-    def getColumnNumber(String key) {
-        keyList.indexOf(key)
     }
 
     def getRowNum() {

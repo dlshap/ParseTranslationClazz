@@ -8,10 +8,10 @@ class TranslationProperties {
     Iterator<Map> propertyIterator
 
     TranslationProperties(ArrayList<String> propertyLines) {
-        this.buildAllPropertiesMap(propertyLines)
+        this.buildPropertyMapForAllProperties(propertyLines)
     }
 
-    def buildAllPropertiesMap(ArrayList<String> propertyLines) {
+    def buildPropertyMapForAllProperties(ArrayList<String> propertyLines) {
         def lastOtherPropertyIndex = 1
         def propKey
 

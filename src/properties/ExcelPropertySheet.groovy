@@ -1,5 +1,6 @@
 package properties
 
+import exceptions.RowAlreadyExistsException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
@@ -8,7 +9,7 @@ import org.apache.poi.ss.usermodel.Workbook
 class ExcelPropertySheet {
 
     Sheet sheet
-    Iterator rowIterator
+    Iterator rowIterator            // sheet rowIterator
     ExcelPropertySheetProperties sheetProperties
 
     ExcelPropertySheet() {
@@ -28,15 +29,6 @@ class ExcelPropertySheet {
         excelPropertySheet.setupSheet(0)
         excelPropertySheet
     }
-
-//    static createExcelPropertySheetInExcelPropertyFileWithHeaderRow(ExcelPropertyFile excelPropertyFile, String sheetName, int headerRowNum, ArrayList<String> keyList) {
-//        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
-//        Workbook workbook = excelPropertyFile.workbook
-//        excelPropertySheet.sheet = workbook.createSheet(sheetName)
-//        excelPropertySheet.setupSheet(headerRowNum)
-//        excelPropertySheet
-//    }
-//
 
     static createExcelPropertySheetInWorkbookFromModelSheet(Workbook workbook, ExcelPropertySheet modelPropertySheet) {
         ExcelPropertySheet newPropertySheet = new ExcelPropertySheet()
@@ -62,6 +54,21 @@ class ExcelPropertySheet {
         }
     }
 
+    def getFirstExcelPropertyRowMatchingKeys(Map<String, String> matchKeyList) {
+        // get FIRST property row with matching property keys
+        ExcelPropertyRow excelPropertyRow
+        Iterator localRowIterator = sheet.rowIterator()
+        while (localRowIterator.hasNext()) {
+            Row row = localRowIterator.next()
+            ExcelPropertyRow matchPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
+            if (matchPropertyRow.keysMatch(matchKeyList)) {
+                excelPropertyRow = matchPropertyRow         //first match
+                break
+            }
+        }
+        excelPropertyRow
+    }
+
     def getHeaderRowNum() {
         sheetProperties.headerRowNum
     }
@@ -83,10 +90,15 @@ class ExcelPropertySheet {
 
     def getKeyMaps() {
         def keyMaps = []
-        while (this.hasNextExcelPropertyRow()) {
-            ExcelPropertyRow row = this.nextExcelPropertyRow()
-            def rowMap = row.getPropertyMap()
-            keyMaps.add(rowMap)
+        Iterator localRowIterator = sheet.rowIterator()
+
+        while (localRowIterator.hasNext()) {
+            def nextRow = localRowIterator.next()
+            if (nextRow.getRowNum() > headerRowNum) {
+                ExcelPropertyRow row = new ExcelPropertyRow(nextRow, sheetProperties.keyList)
+                def rowMap = row.getPropertyMap()
+                keyMaps.add(rowMap)
+            }
         }
         keyMaps
     }
@@ -107,6 +119,17 @@ class ExcelPropertySheet {
             Cell cell = row.createCell(columnNumber)
             cell.setCellValue("Date Changed")
             sheet.setColumnWidth(columnNumber, 3500)
+        }
+    }
+
+    def addRow(int rowNum, propertyMap) {
+        Row row = sheet.getRow(rowNum)
+        if (row != null)
+            throw new RowAlreadyExistsException("$rowNum already exists in ${this.sheetName}")
+        else {
+            row = sheet.createRow(rowNum)
+            ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
+            excelPropertyRow.putPropertyMap(propertyMap)
         }
     }
 
@@ -131,7 +154,6 @@ class ExcelPropertySheet {
 
     private getRowStyles(int rowNum) {
         Row row = sheet.getRow(rowNum)
-        row.cellIterator().collect() {it.getCellStyle()}
+        row.cellIterator().collect() { it.getCellStyle() }
     }
-
 }

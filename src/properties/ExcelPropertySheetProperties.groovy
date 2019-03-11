@@ -36,7 +36,8 @@ class ExcelPropertySheetProperties {
 
     private buildKeyListFromHeaderRow() {
         Row row = sheet.getRow(headerRowNum)
-        keyList = row.cellIterator().collect() { it.getStringCellValue() }
+        def cellList = row.cellIterator().collect {it.getStringCellValue().trim()}
+        keyList = cellList.findResults { it != "" ? it : null }
     }
 
 }
