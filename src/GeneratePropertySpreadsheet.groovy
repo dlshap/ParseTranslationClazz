@@ -108,7 +108,7 @@ class GeneratePropertySpreadsheet {
         }
     }
 
-    def updateTranslationInRow(ExcelPropertySheet newPropertySheet, property, ExcelPropertyRow modelPropertyRow, int propIndex ) {
+    def updateTranslationInRow(ExcelPropertySheet newPropertySheet, property, ExcelPropertyRow modelPropertyRow, int propIndex) {
         println "updating property for ${newPropertySheet.sheetName} = ${property.getKey()} : value = ${property.getValue()}"
         ExcelPropertyRow newPropertyRow = newPropertySheet.cloneExcelPropertyRow(propIndex, modelPropertyRow)
         def oldEnglishValue = modelPropertyRow.getValue("English")
@@ -134,7 +134,8 @@ class GeneratePropertySpreadsheet {
         println "new property for ${newPropertySheet.sheetName} = ${property.getKey()} : value = ${property.getValue()}"
         def propertyMap = [:]
         propertyMap.put("Index", propIndex)
-        propertyMap.put("Message Key", property.getKey())
+        def propertyId = (property.getKey())[0] == "*" ? "" : property.getKey()
+        propertyMap.put("Message Key", propertyId)
         propertyMap.put("English", property.getValue())
         propertyMap.put(newPropertySheet.getLanguage(), "")
         newPropertySheet.addRow(propIndex, propertyMap)

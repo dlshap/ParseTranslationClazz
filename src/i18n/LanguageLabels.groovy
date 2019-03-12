@@ -6,14 +6,16 @@ class LanguageLabels {
             "Japanese"       : "ja_JP",
             "English"        : "en_US",
             "French-Canadian": "fr_CA",
-            "Czech"          : "cs_CZ"
+            "Czech"          : "cs_CZ",
+            "Slovak"         : "sv"
     ]
 
     static final def propertiesFileLabels = [
             "Japanese"       : "ja",
             "English"        : "en_US",
             "French-Canadian": "fr_CA",
-            "Czech"          : "cs_CZ"
+            "Czech"          : "cs_CZ",
+            "Slovak"         : "sv"
     ]
 
     static getLanguageLabel(String languageName) {
