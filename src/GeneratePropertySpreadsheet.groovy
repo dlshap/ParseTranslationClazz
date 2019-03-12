@@ -1,5 +1,7 @@
 import filemanagement.BaseFile
 import i18n.Messages
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
@@ -43,12 +45,14 @@ class GeneratePropertySpreadsheet {
         ExcelPropertyFile modelExcelPropertyFile = chooseModelPropertySpreadsheet()
         if (modelExcelPropertyFile != null) {
             ExcelPropertyFile outputExcelPropertyFile = createOutputExcelPropertyFile(modelExcelPropertyFile)
-            while (modelExcelPropertyFile.hasNextExcelPropertySheet()) {
-                ExcelPropertySheet modelPropertySheet = modelExcelPropertyFile.nextExcelPropertySheet()
-                ExcelPropertySheet newPropertySheet = createPropertySheetFromPropertiesFileUsingModel(outputExcelPropertyFile, modelPropertySheet)
-                movePropertiesIntoPropertySheetUsingModelSheet(newPropertySheet, modelPropertySheet)
+            if (outputExcelPropertyFile != null) {
+                while (modelExcelPropertyFile.hasNextExcelPropertySheet()) {
+                    ExcelPropertySheet modelPropertySheet = modelExcelPropertyFile.nextExcelPropertySheet()
+                    ExcelPropertySheet newPropertySheet = createPropertySheetFromPropertiesFileUsingModel(outputExcelPropertyFile, modelPropertySheet)
+                    movePropertiesIntoPropertySheetUsingModelSheet(newPropertySheet, modelPropertySheet)
+                }
+                outputExcelPropertyFile.writeAndClose()
             }
-            outputExcelPropertyFile.writeAndClose()
         }
     }
 
@@ -99,18 +103,31 @@ class GeneratePropertySpreadsheet {
                 updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
             else
                 populateNewRowFromTranslation(newPropertySheet, property, propIndex)
+            def sheetName = newPropertySheet.sheetName
+            propIndex++
         }
     }
 
     def updateTranslationInRow(ExcelPropertySheet newPropertySheet, property, ExcelPropertyRow modelPropertyRow, int propIndex ) {
         println "updating property for ${newPropertySheet.sheetName} = ${property.getKey()} : value = ${property.getValue()}"
-//        ExcelPropertyRow newPropertyRow = newPropertySheet.cloneExcelPropertyRow(propIndex, modelPropertyRow)
-//        def oldEnglishValue = modelPropertyRow.getValue("English")
-//        def newEnglishValue = property.getValue()
-//        if (oldEnglishValue != newEnglishValue) {
-//            newPropertyRow.setValue("English", newEnglishValue)
-//            newPropertyRow.setValue("Date Changed", new Date().format('yyyyMMdd'))
-//        }
+        ExcelPropertyRow newPropertyRow = newPropertySheet.cloneExcelPropertyRow(propIndex, modelPropertyRow)
+        def oldEnglishValue = modelPropertyRow.getValue("English")
+        def newEnglishValue = property.getValue()
+        newPropertyRow.setValue("Index", propIndex)
+        if (oldEnglishValue != newEnglishValue) {
+            newPropertyRow.setValue("English", newEnglishValue)
+            def today = Calendar.getInstance().time
+            newPropertyRow.setValue("Date Changed", today)
+            newPropertyRow.setStyle("Date Changed", getDateStyle(newPropertySheet))
+        }
+    }
+
+    def getDateStyle(ExcelPropertySheet excelPropertySheet) {
+        Workbook wb = excelPropertySheet.workbook
+        CellStyle dateCellStyle = wb.createCellStyle()
+        short dateFormat = wb.createDataFormat().getFormat("mm/dd/yyyy")
+        dateCellStyle.setDataFormat(dateFormat)
+        dateCellStyle
     }
 
     def populateNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {

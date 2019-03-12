@@ -51,6 +51,32 @@ class ExcelPropertyRow {
         keyList.indexOf(key)
     }
 
+    def setValue(String key, value) {
+        def colNum = getColumnNumber(key)
+        if (colNum >= 0) {
+            Cell cell = row.getCell(colNum)
+            if (cell == null)
+                cell = row.createCell(colNum)
+            cell.setCellValue(value)
+        }
+    }
+
+    def setStyle(String key, CellStyle cellStyle) {
+        def colNum = getColumnNumber(key)
+        if (colNum >= 0) {
+            Cell cell = row.getCell(colNum)
+            if (cell == null)
+                cell = row.createCell(colNum)
+            cell.setCellStyle(cellStyle)
+        }
+    }
+
+    def getValue(String key) {
+        def colNum = getColumnNumber(key)
+        Cell cell = row.getCell(colNum)
+        ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
+    }
+
     def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {
         styleMap.each { key, value ->
             def colNum = getColumnNumber(key)
