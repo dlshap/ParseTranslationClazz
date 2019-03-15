@@ -86,7 +86,7 @@ class ExcelPropertyRow {
         }
     }
 
-    def getRowNum() {
-        this.row.rowNum
-    }
+//    def getRowNum() {
+//        this.row.rowNum
+//    }
 }
