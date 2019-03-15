@@ -76,7 +76,6 @@ class GeneratePropertySpreadsheet {
     }
 
     String buildOutputFileName(ExcelPropertyFile modelFile) {
-//        def outputPath = modelFile.getDirPath()
         def outputPath = path + "\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
         def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language)_new.xlsx"
         outputFileName
