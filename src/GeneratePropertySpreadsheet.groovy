@@ -1,5 +1,7 @@
 import filemanagement.BaseFile
 import i18n.Messages
+import logging.Dates
+import logging.Log
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
@@ -35,7 +37,7 @@ class GeneratePropertySpreadsheet {
     def setDefaultArgs() {
         language = propertyArgs.get("language")
         if (language == null)
-            language = "Japanese"
+            language = "All"
         path = propertyArgs.get("path")
         if (path == null)
             path = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\"
@@ -56,7 +58,7 @@ class GeneratePropertySpreadsheet {
         }
     }
 
-    def chooseModelPropertySpreadsheet() {
+    ExcelPropertyFile chooseModelPropertySpreadsheet() {
         def modelSpreadsheetPath = propertyArgs.get("path") + "Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
         def language = propertyArgs.get("language")
         def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, language)
@@ -64,15 +66,26 @@ class GeneratePropertySpreadsheet {
         modelExcelPropertyFile
     }
 
-    def createOutputExcelPropertyFile(ExcelPropertyFile modelExcelPropertyFile) {
+    ExcelPropertyFile createOutputExcelPropertyFile(ExcelPropertyFile modelExcelPropertyFile) {
         String outputFileName = buildOutputFileName(modelExcelPropertyFile)
         ExcelPropertyFile outputExcelPropertyFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
         outputExcelPropertyFile
     }
 
-    def createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
+    ExcelPropertySheet createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
+        openTranslationLogsForSheet(modelPropertySheet.sheetName)
         ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
         outputPropertySheet
+    }
+
+    def openTranslationLogsForSheet(String sheetName) {
+        def logsFilePath = path + "$sheetName\\logs\\"
+        //default log: property translations (successful) log
+        Log.open(logsFilePath + "$sheetName log-property-translations.txt")
+        Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        //exceptions log: property exceptions log
+        Log.open("exceptions", logsFilePath + "$sheetName log-property-exceptions.txt")
+        Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     def movePropertiesIntoPropertySheetUsingModelSheet(ExcelPropertySheet newPropertySheet, ExcelPropertySheet modelPropertySheet) {
@@ -87,7 +100,7 @@ class GeneratePropertySpreadsheet {
         def fileName = path + "\\$component\\PropertyFiles\\messages.properties"
     }
 
-    def buildOutputFileName(ExcelPropertyFile modelFile) {
+    String buildOutputFileName(ExcelPropertyFile modelFile) {
         def outputPath = modelFile.getDirPath()
         def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language)_new.xlsx"
         outputFileName
@@ -109,12 +122,12 @@ class GeneratePropertySpreadsheet {
     }
 
     def updateTranslationInRow(ExcelPropertySheet newPropertySheet, property, ExcelPropertyRow modelPropertyRow, int propIndex) {
-        println "updating property for ${newPropertySheet.sheetName} = ${property.getKey()} : value = ${property.getValue()}"
         ExcelPropertyRow newPropertyRow = newPropertySheet.cloneExcelPropertyRow(propIndex, modelPropertyRow)
-        def oldEnglishValue = modelPropertyRow.getValue("English")
-        def newEnglishValue = property.getValue()
+        def oldEnglishValue = modelPropertyRow.getValue("English").trim()
+        def newEnglishValue = property.getValue().trim()
         newPropertyRow.setValue("Index", propIndex)
         if (oldEnglishValue != newEnglishValue) {
+            Log.writeLine "Changing property for ${newPropertySheet.sheetName} = ${property.getKey()}: Old value: $oldEnglishValue New value: $newEnglishValue "
             newPropertyRow.setValue("English", newEnglishValue)
             def today = Calendar.getInstance().time
             newPropertyRow.setValue("Date Changed", today)
@@ -122,7 +135,7 @@ class GeneratePropertySpreadsheet {
         }
     }
 
-    def getDateStyle(ExcelPropertySheet excelPropertySheet) {
+    CellStyle getDateStyle(ExcelPropertySheet excelPropertySheet) {
         Workbook wb = excelPropertySheet.workbook
         CellStyle dateCellStyle = wb.createCellStyle()
         short dateFormat = wb.createDataFormat().getFormat("mm/dd/yyyy")
@@ -131,7 +144,8 @@ class GeneratePropertySpreadsheet {
     }
 
     def populateNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
-        println "new property for ${newPropertySheet.sheetName} = ${property.getKey()} : value = ${property.getValue()}"
+        if ((property.getKey())[0] != "*")
+        Log.writeLine "New property added: ${property.getKey()}"
         def propertyMap = [:]
         propertyMap.put("Index", propIndex)
         def propertyId = (property.getKey())[0] == "*" ? "" : property.getKey()
