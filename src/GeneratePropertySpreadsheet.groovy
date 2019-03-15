@@ -13,8 +13,6 @@ import useful.Args
 
 class GeneratePropertySpreadsheet {
 
-
-    static final PROPERTIES_FILE_PROMPT = "prompt.for.message.properties.file.for"
     static final MODEL_SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.language"
 
     Args propertyArgs
@@ -80,12 +78,12 @@ class GeneratePropertySpreadsheet {
 
     def openTranslationLogsForSheet(String sheetName) {
         def logsFilePath = path + "$sheetName\\logs\\"
-        //default log: property translations (successful) log
-        Log.open(logsFilePath + "$sheetName log-property-translations.txt")
-        Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        //exceptions log: property exceptions log
-        Log.open("exceptions", logsFilePath + "$sheetName log-property-exceptions.txt")
-        Log.writeLine "exceptions", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open("adds", logsFilePath + "$sheetName log-property-adds.txt")
+        Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open("updates", logsFilePath + "$sheetName log-property-changes.txt")
+        Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open("deletes", logsFilePath + "$sheetName log-property-deletes.txt")
+        Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     def movePropertiesIntoPropertySheetUsingModelSheet(ExcelPropertySheet newPropertySheet, ExcelPropertySheet modelPropertySheet) {
@@ -93,6 +91,7 @@ class GeneratePropertySpreadsheet {
         PropertyFile propertyFile = PropertyFile.openPropertyFileFromFileName(propertyFileName)
         TranslationProperties translationProperties = propertyFile.translationProperties
         updateNewSheetFromPropertiesFileAndModel(newPropertySheet, translationProperties, modelPropertySheet)
+        logDeletedProperties(modelPropertySheet, translationProperties)
     }
 
     def buildPropertyFileName(ExcelPropertySheet excelPropertySheet) {
@@ -127,7 +126,7 @@ class GeneratePropertySpreadsheet {
         def newEnglishValue = property.getValue().trim()
         newPropertyRow.setValue("Index", propIndex)
         if (oldEnglishValue != newEnglishValue) {
-            Log.writeLine "Changing property for ${newPropertySheet.sheetName} = ${property.getKey()}: Old value: $oldEnglishValue New value: $newEnglishValue "
+            Log.writeLine "updates", "Changing property ${property.getKey()}: Old: $oldEnglishValue New: $newEnglishValue "
             newPropertyRow.setValue("English", newEnglishValue)
             def today = Calendar.getInstance().time
             newPropertyRow.setValue("Date Changed", today)
@@ -145,7 +144,7 @@ class GeneratePropertySpreadsheet {
 
     def populateNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
         if ((property.getKey())[0] != "*")
-        Log.writeLine "New property added: ${property.getKey()}"
+        Log.writeLine "adds","New property added: ${property.getKey()}"
         def propertyMap = [:]
         propertyMap.put("Index", propIndex)
         def propertyId = (property.getKey())[0] == "*" ? "" : property.getKey()
@@ -153,5 +152,16 @@ class GeneratePropertySpreadsheet {
         propertyMap.put("English", property.getValue())
         propertyMap.put(newPropertySheet.getLanguage(), "")
         newPropertySheet.addRow(propIndex, propertyMap)
+    }
+
+    def logDeletedProperties(ExcelPropertySheet modelPropertySheet, TranslationProperties translationProperties) {
+        modelPropertySheet.resetRows()
+        while (modelPropertySheet.hasNextExcelPropertyRow()) {
+            ExcelPropertyRow modelRow = modelPropertySheet.nextExcelPropertyRow()
+            String propertyKey = modelRow.getValue("Message Key")
+            if (propertyKey != null && propertyKey != "" && propertyKey[0] != "#" && translationProperties.get(propertyKey) == null) {
+                Log.writeLine("deletes","Removed property: $propertyKey:${modelRow.getValue("English")}")
+            }
+        }
     }
 }

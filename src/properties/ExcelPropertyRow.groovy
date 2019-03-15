@@ -74,7 +74,7 @@ class ExcelPropertyRow {
     def getValue(String key) {
         def colNum = getColumnNumber(key)
         Cell cell = row.getCell(colNum)
-        ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
+        cell == null ? null : ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
     }
 
     def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {

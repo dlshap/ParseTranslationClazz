@@ -70,10 +70,10 @@ class ExcelPropertySheet {
 
     private setupSheet(int headerRowNum) {
         sheetProperties = new ExcelPropertySheetProperties(this, headerRowNum)
-        resetRowIterator()
+        resetRows()
     }
 
-    private resetRowIterator() {
+    def resetRows() {
         rowIterator = sheet.rowIterator()
         // advance row iterator past header row
         (0..headerRowNum).each {
