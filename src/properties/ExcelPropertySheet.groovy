@@ -163,13 +163,30 @@ class ExcelPropertySheet {
     def cloneExcelPropertyRow(int rowNum, ExcelPropertyRow modelPropertyRow) {
         Row row = sheet.createRow(rowNum)
         ExcelPropertyRow newPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
-        def propertyMap = modelPropertyRow.getPropertyMap()
+        Map<String, String> propertyMap = modelPropertyRow.getPropertyMap()
+        if (sheetProperties.isNewLanguage) {
+            propertyMap.put(getLanguage(), "")
+            propertyMap.put("Date Changed", "")
+        }
         newPropertyRow.putPropertyMap(propertyMap)
         newPropertyRow
     }
 
+    def setLanguage(language) {
+        if (sheetProperties.language != language) {
+            Row row = sheet.getRow(headerRowNum)
+            int languageColumn = getLanguageColumn()
+            Cell newLanguageHeaderCell = row.getCell(languageColumn)
+            newLanguageHeaderCell.setCellValue(language)
+            sheetProperties.isNewLanguage = true
+        }
+    }
 
-    def getLanguage() {
+    int getLanguageColumn() {
+        (getHeaderRow()).indexOf(sheetProperties.language)
+    }
+
+    String getLanguage() {
         sheetProperties.getLanguage()
     }
 

@@ -7,7 +7,8 @@ class LanguageLabels {
             "English"        : "en_US",
             "French-Canadian": "fr_CA",
             "Czech"          : "cs_CZ",
-            "Slovak"         : "sv"
+            "Slovak"         : "sv",
+            "Spanish"        : "es"
     ]
 
     static final def propertiesFileLabels = [
@@ -15,7 +16,8 @@ class LanguageLabels {
             "English"        : "en_US",
             "French-Canadian": "fr_CA",
             "Czech"          : "cs_CZ",
-            "Slovak"         : "sv"
+            "Slovak"         : "sv",
+            "Spanish"        : "es"
     ]
 
     static getLanguageLabel(String languageName) {
@@ -28,5 +30,9 @@ class LanguageLabels {
 
     static getLanguageList() {
         libraryLanguageLabels.collect {it.key}
+    }
+
+    static isLanguageInList(String language) {
+        libraryLanguageLabels.get(language) != null
     }
 }

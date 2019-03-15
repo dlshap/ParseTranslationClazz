@@ -1,7 +1,9 @@
 import filemanagement.BaseFile
+import i18n.LanguageLabels
 import i18n.Messages
 import logging.Dates
 import logging.Log
+import org.apache.commons.codec.language.bm.Lang
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
@@ -29,7 +31,10 @@ class GeneratePropertySpreadsheet {
     def start(args) {
         propertyArgs = new Args(args)
         setDefaultArgs()
-        generateSpreadsheet()
+        if (!(LanguageLabels.isLanguageInList(language)))
+            println "Error: $language is not in language list"
+        else
+            generateSpreadsheet()
     }
 
     def setDefaultArgs() {
@@ -70,6 +75,13 @@ class GeneratePropertySpreadsheet {
         outputExcelPropertyFile
     }
 
+    String buildOutputFileName(ExcelPropertyFile modelFile) {
+//        def outputPath = modelFile.getDirPath()
+        def outputPath = path + "\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
+        def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language)_new.xlsx"
+        outputFileName
+    }
+
     ExcelPropertySheet createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
         openTranslationLogsForSheet(modelPropertySheet.sheetName)
         ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
@@ -90,6 +102,7 @@ class GeneratePropertySpreadsheet {
         def propertyFileName = buildPropertyFileName(modelPropertySheet)
         PropertyFile propertyFile = PropertyFile.openPropertyFileFromFileName(propertyFileName)
         TranslationProperties translationProperties = propertyFile.translationProperties
+        newPropertySheet.setLanguage(language)
         updateNewSheetFromPropertiesFileAndModel(newPropertySheet, translationProperties, modelPropertySheet)
         logDeletedProperties(modelPropertySheet, translationProperties)
     }
@@ -97,12 +110,6 @@ class GeneratePropertySpreadsheet {
     def buildPropertyFileName(ExcelPropertySheet excelPropertySheet) {
         def component = excelPropertySheet.sheetName
         def fileName = path + "\\$component\\PropertyFiles\\messages.properties"
-    }
-
-    String buildOutputFileName(ExcelPropertyFile modelFile) {
-        def outputPath = modelFile.getDirPath()
-        def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language)_new.xlsx"
-        outputFileName
     }
 
     def updateNewSheetFromPropertiesFileAndModel(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
@@ -115,7 +122,6 @@ class GeneratePropertySpreadsheet {
                 updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
             else
                 populateNewRowFromTranslation(newPropertySheet, property, propIndex)
-            def sheetName = newPropertySheet.sheetName
             propIndex++
         }
     }
@@ -144,7 +150,7 @@ class GeneratePropertySpreadsheet {
 
     def populateNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
         if ((property.getKey())[0] != "*")
-        Log.writeLine "adds","New property added: ${property.getKey()}"
+            Log.writeLine "adds", "New property added: ${property.getKey()}"
         def propertyMap = [:]
         propertyMap.put("Index", propIndex)
         def propertyId = (property.getKey())[0] == "*" ? "" : property.getKey()
@@ -160,7 +166,7 @@ class GeneratePropertySpreadsheet {
             ExcelPropertyRow modelRow = modelPropertySheet.nextExcelPropertyRow()
             String propertyKey = modelRow.getValue("Message Key")
             if (propertyKey != null && propertyKey != "" && propertyKey[0] != "#" && translationProperties.get(propertyKey) == null) {
-                Log.writeLine("deletes","Removed property: $propertyKey:${modelRow.getValue("English")}")
+                Log.writeLine("deletes", "Removed property: $propertyKey:${modelRow.getValue("English")}")
             }
         }
     }

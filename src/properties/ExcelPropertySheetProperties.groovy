@@ -1,5 +1,6 @@
 package properties
 
+import exceptions.NewLanguageNotInLanguageListException
 import i18n.LanguageLabels
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
@@ -12,10 +13,8 @@ class ExcelPropertySheetProperties {
     def keyList
     def headerRowNum
     Sheet sheet
-    def headerRowStyles
-    def dataRowStyles
-    def columnWidths
     def language
+    def isNewLanguage = false
 
     ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet, headerRowNum) {
         this.headerRowNum = headerRowNum
@@ -31,12 +30,12 @@ class ExcelPropertySheetProperties {
 
     private buildLanguageFromHeaderRow() {
         def languageList = LanguageLabels.getLanguageList()
-        language = keyList.find {languageList.contains(it.toString()) && (it.toString() != "English")}
+        language = keyList.find { languageList.contains(it.toString()) && (it.toString() != "English") }
     }
 
     private buildKeyListFromHeaderRow() {
         Row row = sheet.getRow(headerRowNum)
-        def cellList = row.cellIterator().collect {it.getStringCellValue().trim()}
+        def cellList = row.cellIterator().collect { it.getStringCellValue().trim() }
         keyList = cellList.findResults { it != "" ? it : null }
     }
 
