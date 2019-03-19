@@ -86,13 +86,12 @@ class GeneratePropertiesFiles {
         String outLine
         def propertyValueMap = excelPropertyRow.propertyMap
         def propertyId = propertyValueMap.get("Message Key")
-        def propertyEnglish = propertyValueMap.get("English")
         def propertyValue = propertyValueMap.get(languageName)
 
-        if ((propertyId != null) && (propertyId.trim() != ""))
+        if ((propertyId != null) && (propertyId.trim() != "") && (propertyId[0] != "#"))
             outLine = "$propertyId=${propertyValue == null ? '' : propertyValue}"
         else
-            outLine = "${propertyEnglish == null ? '' : propertyEnglish}"
+            outLine = "${propertyId == null ? '' : propertyId}"
 
         propertyFile.writeLine(outLine)
     }

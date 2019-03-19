@@ -14,13 +14,6 @@ class ExcelFile extends BaseFile {
         super(fileName, createFlag)
     }
 
-//    ToDo: remove
-//    static createNewSpreadsheetFromFileName(String fileName, CreateFlag createFlag) {
-//        ExcelFile excelFile = new ExcelFile(fileName, createFlag)
-//        excelFile.initializeNewSpreadsheet()
-//        excelFile
-//    }
-
     def initializeNewSpreadsheet() {
         createOutputWorkbookFromBaseFile()
     }

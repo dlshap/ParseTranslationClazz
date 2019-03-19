@@ -151,9 +151,10 @@ class GeneratePropertySpreadsheet {
             Log.writeLine "adds", "New property added: ${property.getKey()}"
         def propertyMap = [:]
         propertyMap.put("Index", propIndex)
-        def propertyId = (property.getKey())[0] == "*" ? "" : property.getKey()
+        def propertyId = (property.getKey())[0] == "*" ? property.getValue() : property.getKey()
+        def propertyValue = (property.getKey())[0] == "*" ? "" : property.getValue()
         propertyMap.put("Message Key", propertyId)
-        propertyMap.put("English", property.getValue())
+        propertyMap.put("English", propertyValue)
         propertyMap.put(newPropertySheet.getLanguage(), "")
         newPropertySheet.addRow(propIndex, propertyMap)
     }

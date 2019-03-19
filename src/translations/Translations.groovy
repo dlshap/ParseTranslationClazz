@@ -26,11 +26,11 @@ class Translations {
         buildTranslationsFromKeyMaps(keyMaps)
     }
 
-    static createTranslationsFromExcelPropertiesFile(ExcelFile excelFile, String componentName) {
-        Translations translations = new Translations()
-        translations.buildTranslationsFromExcelFileForComponent(excelFile, componentName)
-        translations
-    }
+//    static createTranslationsFromExcelPropertiesFile(ExcelFile excelFile, String componentName) {
+//        Translations translations = new Translations()
+//        translations.buildTranslationsFromExcelFileForComponent(excelFile, componentName)
+//        translations
+//    }
 
     def buildTranslationsFromKeyMaps(keyMaps) {
         keyMaps.each {
@@ -41,23 +41,23 @@ class Translations {
         this.translationIterator = translations.iterator()
     }
 
-    def buildTranslationsFromExcelFileForComponent(ExcelPropertyFile excelFile, String componentName) {
-        ExcelPropertySheet excelPropertySheet = excelFile.getPropertySheet(componentName)
-        while (excelPropertySheet.hasNextExcelPropertyRow()) {
-            def propertyMap = excelPropertySheet.nextExcelPropertyRow().getPropertyMap()
-            Translation translation = new Translation(propertyMap)
-            if (translation != null)
-                this.translations.add(translation)
-        }
-        this.translationIterator = translations.iterator()
-    }
+//    def buildTranslationsFromExcelFileForComponent(ExcelPropertyFile excelFile, String componentName) {
+//        ExcelPropertySheet excelPropertySheet = excelFile.getPropertySheet(componentName)
+//        while (excelPropertySheet.hasNextExcelPropertyRow()) {
+//            def propertyMap = excelPropertySheet.nextExcelPropertyRow().getPropertyMap()
+//            Translation translation = new Translation(propertyMap)
+//            if (translation != null)
+//                this.translations.add(translation)
+//        }
+//        this.translationIterator = translations.iterator()
+//    }
 
 
-    def getTranslation(keyName, keyValue) {
-        /* used for properties files (single key) */
-        def translations = getTranslations(keyName, keyValue)
-        (translations == null) ? null : translations[0]
-    }
+//    def getTranslation(keyName, keyValue) {
+//        /* used for properties files (single key) */
+//        def translations = getTranslations(keyName, keyValue)
+//        (translations == null) ? null : translations[0]
+//    }
 
     def getTranslations(keyName, value) {
         List foundTranslations = translations.findAll() { translation ->
@@ -82,12 +82,12 @@ class Translations {
         translations
     }
 
-    def getTranslationsFromKeyFields(keyName, value) {
-        List translations = translations.findAll() { keyMap ->
-            keyMap[keyName] == value
-        }
-        translations
-    }
+//    def getTranslationsFromKeyFields(keyName, value) {
+//        List translations = translations.findAll() { keyMap ->
+//            keyMap[keyName] == value
+//        }
+//        translations
+//    }
 
     def hasNext() {
         if (translationIterator != null)

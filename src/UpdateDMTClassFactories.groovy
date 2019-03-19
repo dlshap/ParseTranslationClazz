@@ -52,7 +52,7 @@ class UpdateDMTClassFactories {
         Log.writeLine("Processing ${libraryPropertyFile.getClassNameCount()} classes: ${libraryPropertyFile.getClassNameList()}")
         libraryPropertyFile.classNames.each { className ->
             addClassNameToLogs(className)
-            ExcelPropertySheet excelPropertySheet = libraryPropertyFile.getPropertySheetWithHeaderLabelsInHeaderRowNum(className, LIBRARYHEADERROW)
+            ExcelPropertySheet excelPropertySheet = libraryPropertyFile.getPropertySheetWithHeaderLabelsInHeaderRow(className, LIBRARYHEADERROW)
             updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, excelPropertySheet)
         }
     }

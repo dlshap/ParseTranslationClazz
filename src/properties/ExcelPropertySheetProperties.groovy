@@ -1,12 +1,8 @@
 package properties
 
-import exceptions.NewLanguageNotInLanguageListException
 import i18n.LanguageLabels
-import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Workbook
 
 class ExcelPropertySheetProperties {
 
@@ -14,27 +10,26 @@ class ExcelPropertySheetProperties {
 
     def keyList
     def headerRowNum
-    Sheet sheet
     def language
     def isNewLanguage = false
     ArrayList<CellStyle> headerRowStyles
     ArrayList<CellStyle> dataRowStyles
 
-    ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet, headerRowNum) {
+    ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet, int headerRowNum, ArrayList<CellStyle> dataRowStyles) {
         this.headerRowNum = headerRowNum
+        this.dataRowStyles = dataRowStyles
         this.excelPropertySheet = excelPropertySheet
-        this.sheet = excelPropertySheet.sheet
-        this.buildPropertySheetPropertiesFromHeaderRow()
+        this.buildHeaderRowPropertiesFromHeaderRow()
     }
 
-    def buildPropertySheetPropertiesFromHeaderRow() {
+    def buildHeaderRowPropertiesFromHeaderRow() {
         buildKeyListFromHeaderRow()
         buildLanguageFromHeaderRow()
         buildRowStylesFromHeaderRow()
     }
 
     private buildKeyListFromHeaderRow() {
-        Row row = sheet.getRow(headerRowNum)
+        Row row = excelPropertySheet.sheet.getRow(headerRowNum)
         def cellList = row.cellIterator().collect { it.getStringCellValue().trim() }
         keyList = cellList.findResults { it != "" ? it : null }
     }
@@ -45,20 +40,7 @@ class ExcelPropertySheetProperties {
     }
 
     private buildRowStylesFromHeaderRow() {
-        headerRowStyles = getRowStylesForRowNumber(headerRowNum)
-        dataRowStyles = getRowStylesForRowNumber(headerRowNum+1)
+        Row row = excelPropertySheet.sheet.getRow(headerRowNum)
+        headerRowStyles = row.cellIterator().collect {it.getCellStyle()}
     }
-
-
-    private getRowStylesForRowNumber(int rowNum) {
-        Workbook workbook = excelPropertySheet.workbook
-        Row row = sheet.getRow(rowNum)
-        ArrayList<CellStyle> rowStyles = row.cellIterator().collect { Cell cell ->
-            CellStyle cellStyle = workbook.createCellStyle()
-            cellStyle.cloneStyleFrom(cell.getCellStyle())
-            cellStyle
-        }
-        rowStyles
-    }
-
 }

@@ -41,12 +41,13 @@ class ExcelPropertyFile extends ExcelFile {
         ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(this.workbook, modelPropertySheet)
     }
 
-    def getPropertySheet(String sheetName) {
-        this.getPropertySheetWithHeaderLabelsInHeaderRowNum(sheetName, 0)     // usually header in row 0
-    }
+//    def getPropertySheet(String sheetName) {
+//        this.getPropertySheetWithHeaderLabelsInHeaderRow(sheetName, 0)     // usually header in row 0
+//    }
 
-    def getPropertySheetWithHeaderLabelsInHeaderRowNum(String sheetName, int headerRowNum) {
-        ExcelPropertySheet.createExcelPropertySheetFromSheetInExcelPropertyFile(this.workbook, sheetName, headerRowNum)
+    def getPropertySheetWithHeaderLabelsInHeaderRow(String sheetName, int headerRowNum) {
+        Sheet sheet = this.workbook.getSheet(sheetName)
+        ExcelPropertySheet.createExcelPropertySheetFromAWorkbookSheet(this.workbook, sheet, headerRowNum)
     }
 
     def hasNextExcelPropertySheet() {
@@ -55,6 +56,7 @@ class ExcelPropertyFile extends ExcelFile {
 
     def nextExcelPropertySheet() {
         Sheet sheet = sheetIterator.next()
-        ExcelPropertySheet.createExcelPropertySheetFromExcelSheet(this.workbook, sheet)
+//        ExcelPropertySheet.createExcelPropertySheetFromExcelSheet(this.workbook, sheet)
+        ExcelPropertySheet.createExcelPropertySheetFromAWorkbookSheet(this.workbook, sheet, 0)
     }
 }
