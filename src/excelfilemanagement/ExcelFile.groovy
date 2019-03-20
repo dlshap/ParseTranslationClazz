@@ -12,6 +12,34 @@ class ExcelFile extends BaseFile {
 
     ExcelFile(fileName, createFlag) {
         super(fileName, createFlag)
+        this.initializeNewSpreadsheet()
+    }
+
+    static getExcelFileUsingChooser(prompt, path) {
+        ExcelFile excelFile = new ExcelFile()
+        excelFile.openExcelFileUsingChooser(prompt, path)
+        excelFile.file == null ? null : excelFile
+    }
+
+    def openExcelFileUsingChooser(String prompt, String path) {
+        this.chooseFile(prompt, path)
+        this.setFileName()
+        this.setInputWorkbook()
+    }
+
+    private setFileName() {
+        if (file != null)
+            fileName = file.getName()
+    }
+
+    private setInputWorkbook() {
+        if (file != null)
+            excelWorkbook = new ExcelWorkbookForInput(file)
+    }
+
+    static ExcelFile createFile(fileName, createFlag) {
+        ExcelFile excelFile = new ExcelFile(fileName, createFlag)
+        excelFile
     }
 
     def initializeNewSpreadsheet() {
@@ -20,21 +48,6 @@ class ExcelFile extends BaseFile {
 
     private createOutputWorkbookFromBaseFile() {
         excelWorkbook = new ExcelWorkbookForOutput(file)
-    }
-
-    def chooseFile(prompt, filePath) {
-        setFileUsingChooser(prompt, filePath)
-        setInputWorkbookFromBaseFile()
-        file == null ? null : this
-    }
-
-    private setFileUsingChooser(prompt, filePath) {
-        file = FileChooser.chooseFile(prompt, filePath)
-    }
-
-    private setInputWorkbookFromBaseFile() {
-        if (file != null)
-            excelWorkbook = new ExcelWorkbookForInput(file)
     }
 
     def getWorkbook() {

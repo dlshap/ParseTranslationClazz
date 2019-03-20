@@ -1,5 +1,6 @@
 package properties
 
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH
 import exceptions.RowAlreadyExistsException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
@@ -22,7 +23,8 @@ class ExcelPropertySheet {
         ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
         excelPropertySheet.workbook = workbook
         excelPropertySheet.sheet = sheet
-        ArrayList<CellStyle> dataRowStyles = excelPropertySheet.getRowStyles(excelPropertySheet.getRow(headerRowNum+1))
+//        ArrayList<CellStyle> dataRowStyles = excelPropertySheet.getRowStyles(excelPropertySheet.getRow(headerRowNum+1))
+        def dataRowStyles
         excelPropertySheet.setupSheet(headerRowNum, dataRowStyles)
         excelPropertySheet
     }
@@ -34,14 +36,15 @@ class ExcelPropertySheet {
         newPropertySheet.workbook = workbook
         newPropertySheet.sheet = workbook.createSheet(modelPropertySheet.sheetName)
         newPropertySheet.copyHeaderRowFromModel(modelPropertySheet)
-        ArrayList<CellStyle> dataRowStyles = newPropertySheet.getDataRowStylesFromModel(modelPropertySheet)
+//        ArrayList<CellStyle> dataRowStyles = newPropertySheet.getDataRowStylesFromModel(modelPropertySheet)
+        def dataRowStyles
         newPropertySheet.setupSheet(headerRowNum, dataRowStyles)
         newPropertySheet
     }
 
     private getDataRowStylesFromModel(ExcelPropertySheet modelPropertySheet) {
         ArrayList<CellStyle> modelDataRowStyles = getRowStyles(modelPropertySheet.getRow(modelPropertySheet.headerRowNum + 1))
-        cloneStylesFromModelStyles(modelDataRowStyles)
+        this.cloneStylesFromModelStyles(modelDataRowStyles)
     }
 
     private copyHeaderRowFromModel(ExcelPropertySheet modelPropertySheet) {
@@ -54,10 +57,14 @@ class ExcelPropertySheet {
         applyStylesToRow(headerRowStyles, headerRowNum)
     }
 
-     private ArrayList<CellStyle> cloneStylesFromModelStyles(ArrayList<CellStyle> modelRowStyles) {
+    private ArrayList<CellStyle> getRowStyles(Row row) {
+        row.cellIterator().collect() { it.getCellStyle() }
+    }
+
+    private ArrayList<CellStyle> cloneStylesFromModelStyles(ArrayList<CellStyle> modelRowStyles) {
          ArrayList<CellStyle> cellStyles = []
          modelRowStyles.each { CellStyle cellStyle ->
-             CellStyle newCellStyle = workbook.createCellStyle()
+             CellStyle newCellStyle = this.workbook.createCellStyle()
              newCellStyle.cloneStyleFrom(cellStyle)
              cellStyles << newCellStyle
          }
@@ -66,9 +73,8 @@ class ExcelPropertySheet {
     private applyStylesToRow(ArrayList<CellStyle> rowStyles, int rowNum) {
         Row row = sheet.getRow(rowNum)
         rowStyles.eachWithIndex { CellStyle cellStyle, int columnNum ->
-            CellStyle newCellStyle = workbook.createCellStyle()
             Cell cell = row.getCell(columnNum)
-            cell.setCellStyle(newCellStyle)
+            cell.setCellStyle(cellStyle)
         }
     }
 
@@ -210,10 +216,6 @@ class ExcelPropertySheet {
         columnWidths.eachWithIndex { columnWidth, columnNumber ->
             sheet.setColumnWidth(columnNumber, columnWidth)
         }
-    }
-
-    private getRowStyles(Row row) {
-        row.cellIterator().collect() { it.getCellStyle() }
     }
 }
 

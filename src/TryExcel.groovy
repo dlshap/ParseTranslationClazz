@@ -1,13 +1,10 @@
-import excelfilemanagement.ExcelFile
 import excelfilemanagement.ExcelUtil
-import filemanagement.BaseFile
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
 
-import static filemanagement.BaseFile.createFile
 import static filemanagement.BaseFile.CreateFlag.CREATE
 
 
@@ -27,7 +24,7 @@ class TryExcel {
 
         def fileName = "test.xls"
 
-        ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openUsingChooser("Pick a file", filePath)
+        ExcelPropertyFile inSpreadsheet = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a file", filePath)
         ExcelPropertyFile outSpreadsheet = ExcelPropertyFile.createNewSpreadsheetFromFileName(filePath+fileName, CREATE) // create
 
         Workbook inWorkbook = inSpreadsheet.excelWorkbook

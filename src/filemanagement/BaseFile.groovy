@@ -20,11 +20,23 @@ class BaseFile {
     BaseFile() {
     }
 
-    static createFile(String fileName, CreateFlag createFlag) {
-        BaseFile baseFile = new BaseFile()
-        baseFile.fileName = fileName
-        baseFile.createOrOverwriteFile(createFlag)
-        baseFile
+    BaseFile(fileName) {
+        openFile(fileName)
+    }
+
+    BaseFile(fileName, CreateFlag createFlag) {
+        openFile(fileName, createFlag)
+    }
+
+    def openFile(fileName) {
+        file = new File(fileName)
+        if (file != null)
+            this.fileName = fileName
+    }
+
+    def openFile(String fileName, CreateFlag createFlag) {
+        this.fileName = fileName
+        createOrOverwriteFile(createFlag)
     }
 
     private createOrOverwriteFile(CreateFlag createFlag) {
@@ -42,29 +54,15 @@ class BaseFile {
         }
     }
 
-    def openFile(String fileName, CreateFlag createFlag) {
-        this.fileName = fileName
-        createOrOverwriteFile(createFlag)
+    File chooseFile(prompt, filePath) {
+        file = FileChooser.chooseFile(prompt, filePath)
     }
 
-    BaseFile(fileName) {
-        openFile(fileName)
-    }
-
-    BaseFile(fileName, CreateFlag createFlag) {
-        this.fileName = fileName
-        this.createOrOverwriteFile(createFlag)
-    }
-
-    def openFile(fileName) {
-        file = new File(fileName)
-    }
-
-    def getDirPath() {
+    String getDirPath() {
         file.getParent()
     }
 
-    def getFileName() {
+    String getFileName() {
         file == null ? null : file.getName()
     }
 
@@ -73,3 +71,12 @@ class BaseFile {
             file.delete()
     }
 }
+
+//    static createFile(String fileName, CreateFlag createFlag) {
+//        BaseFile baseFile = new BaseFile()
+//        baseFile.fileName = fileName
+//        baseFile.createOrOverwriteFile(createFlag)
+//        baseFile
+//    }
+
+

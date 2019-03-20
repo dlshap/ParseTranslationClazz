@@ -14,9 +14,9 @@ class ExcelPropertyFile extends ExcelFile {
         super(fileName, createFlag)
     }
 
-    static openUsingChooser(prompt, filePath) {
+    static openExcelPropertyFileUsingChooser(prompt, filePath) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
-        excelPropertyFile.chooseFile(prompt, filePath)
+        excelPropertyFile.openExcelFileUsingChooser(prompt, filePath)
         excelPropertyFile.buildSheetIterator()
         excelPropertyFile.fileName == null ? null : excelPropertyFile
     }
@@ -28,22 +28,13 @@ class ExcelPropertyFile extends ExcelFile {
 
     static createNewSpreadsheetFromFileName(String fileName, CreateFlag createFlag) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
-        excelPropertyFile.initializeNewSpreadsheet()
+        excelPropertyFile.buildSheetIterator()
         excelPropertyFile
-    }
-
-    def initializeNewSpreadsheet() {
-        super.initializeNewSpreadsheet()
-        buildSheetIterator()
     }
 
     def createNewExcelPropertySheetFromModel(ExcelPropertySheet modelPropertySheet) {
         ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(this.workbook, modelPropertySheet)
     }
-
-//    def getPropertySheet(String sheetName) {
-//        this.getPropertySheetWithHeaderLabelsInHeaderRow(sheetName, 0)     // usually header in row 0
-//    }
 
     def getPropertySheetWithHeaderLabelsInHeaderRow(String sheetName, int headerRowNum) {
         Sheet sheet = this.workbook.getSheet(sheetName)

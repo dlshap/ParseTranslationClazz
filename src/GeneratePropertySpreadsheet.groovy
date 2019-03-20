@@ -64,7 +64,7 @@ class GeneratePropertySpreadsheet {
         def modelSpreadsheetPath = propertyArgs.get("path") + "Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
         def language = propertyArgs.get("language")
         def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, language)
-        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openUsingChooser(prompt, modelSpreadsheetPath)
+        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser(prompt, modelSpreadsheetPath)
         modelExcelPropertyFile
     }
 
