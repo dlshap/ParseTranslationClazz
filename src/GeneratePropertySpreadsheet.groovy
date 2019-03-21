@@ -14,7 +14,7 @@ import useful.Args
 
 class GeneratePropertySpreadsheet {
 
-    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.language"
+    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     Args propertyArgs
     String language, path       // args
@@ -63,7 +63,7 @@ class GeneratePropertySpreadsheet {
     ExcelPropertyFile chooseModelPropertySpreadsheet() {
         def modelSpreadsheetPath = propertyArgs.get("path") + "Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
         def language = propertyArgs.get("language")
-        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, language)
+        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "Master Properties", language)
         ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser(prompt, modelSpreadsheetPath)
         modelExcelPropertyFile
     }

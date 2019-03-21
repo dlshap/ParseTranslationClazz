@@ -15,8 +15,6 @@ import static filemanagement.BaseFile.CreateFlag.*
 
 class PlayWithCreatingSpreadsheets {
 
-    static final SPREADSHEET_PROMPT = "prompt.for.master.spreadsheet.for.component"
-
     Args propertyArgs
 
     PlayWithCreatingSpreadsheets(args) {

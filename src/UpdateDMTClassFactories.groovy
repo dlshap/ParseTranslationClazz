@@ -40,7 +40,7 @@ class UpdateDMTClassFactories {
     static performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
         LibraryPropertyFile libraryPropertyFile = LibraryPropertyFile.openLibraryPropertyFileUsingChooser(
-                Messages.getString(SPREADSHEET_PROMPT, "${libraryArgs.languageName}"), libraryArgs)
+                Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "${libraryArgs.languageName}"), libraryArgs)
         if (libraryPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
             updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
