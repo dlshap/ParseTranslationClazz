@@ -26,15 +26,13 @@ class ExcelPropertyRow {
     }
 
     def getPropertyMap() {
-        def keyMap = ["row": row.rowNum + 1]
-        row.cellIterator().each { Cell cell ->
-            def colNum = cell.getColumnIndex()
-            if (colNum < headerRowNames.size()) {
-                if (headerRowNames[colNum] != "")
-                    keyMap.put(headerRowNames[colNum], ExcelUtil.toStringWithOnlyIntegerNumerics(cell))
-            }
+        Map<String, String> propertyMap = ["row" : row.rowNum+1]
+        headerRowNames.eachWithIndex{ String colName, int colNum ->
+            Cell cell = row.getCell(colNum)
+            String cellValue = ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
+            propertyMap.put(colName, cellValue)
         }
-        keyMap
+        propertyMap
     }
 
     def putPropertyMap(Map<String, String> keyMap) {
@@ -71,10 +69,10 @@ class ExcelPropertyRow {
         }
     }
 
-    def getValue(String key) {
+    String getValue(String key) {
         def colNum = getColumnNumber(key)
         Cell cell = row.getCell(colNum)
-        cell == null ? null : ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
+        ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
     }
 
     def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {

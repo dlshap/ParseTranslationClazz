@@ -107,7 +107,7 @@ class GeneratePropertySpreadsheet {
 
     def buildPropertyFileName(ExcelPropertySheet excelPropertySheet) {
         def component = excelPropertySheet.sheetName
-        def fileName = path + "\\$component\\PropertyFiles\\messages.properties"
+        path + "\\$component\\PropertyFiles\\messages.properties"
     }
 
     def updateNewSheetFromPropertiesFileAndModel(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
@@ -119,7 +119,7 @@ class GeneratePropertySpreadsheet {
             if (modelPropertyRow != null)
                 updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
             else
-                populateNewRowFromTranslation(newPropertySheet, property, propIndex)
+                addNewRowFromTranslation(newPropertySheet, property, propIndex)
             propIndex++
         }
     }
@@ -139,14 +139,14 @@ class GeneratePropertySpreadsheet {
     }
 
     CellStyle getDateStyle(ExcelPropertySheet excelPropertySheet) {
-        Workbook wb = excelPropertySheet.workbook
-        CellStyle dateCellStyle = wb.createCellStyle()
-        short dateFormat = wb.createDataFormat().getFormat("mm/dd/yyyy")
+        Workbook workbook = excelPropertySheet.workbook
+        CellStyle dateCellStyle = workbook.createCellStyle()
+        short dateFormat = workbook.createDataFormat().getFormat("mm/dd/yyyy")
         dateCellStyle.setDataFormat(dateFormat)
         dateCellStyle
     }
 
-    def populateNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
+    def addNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
         if ((property.getKey())[0] != "*")
             Log.writeLine "adds", "New property added: ${property.getKey()}"
         def propertyMap = [:]

@@ -9,14 +9,18 @@ import org.apache.poi.ss.util.CellRangeAddress
 class ExcelUtil {
 
     static String toStringWithOnlyIntegerNumerics(Cell cell) {
-        switch (cell.getCellType()) {
-            case "NUMERIC":
-                def cellValue = cell.getNumericCellValue()
-                (cellValue.toInteger() == cellValue) ? cellValue.toInteger().toString().trim() : cellValue.toString().trim()
-                 break
-            default:
-                cell.toString().trim()
+        String cellStringValue = ""
+        if (cell != null) {
+            switch (cell.getCellType()) {
+                case "NUMERIC":
+                    def cellValue = cell.getNumericCellValue()
+                    cellStringValue = (cellValue.toInteger() == cellValue) ? cellValue.toInteger().toString().trim() : cellValue.toString().trim()
+                    break
+                default:
+                    cellStringValue = cell.toString().trim()
+            }
         }
+        cellStringValue
     }
 
     /************************ untested: copySheets *****************************/
