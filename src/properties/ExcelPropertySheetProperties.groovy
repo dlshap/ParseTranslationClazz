@@ -8,16 +8,15 @@ class ExcelPropertySheetProperties {
 
     ExcelPropertySheet excelPropertySheet
 
-    def keyList
-    def headerRowNum
-    def language
-    def isNewLanguage = false
-    ArrayList<CellStyle> headerRowStyles
-    ArrayList<CellStyle> dataRowStyles
+    ArrayList<String> headerRowNames
+    int headerRowNum
+    String language
+    boolean isNewLanguage = false
+    ArrayList<CellStyle> dataCellStyles
 
-    ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet, int headerRowNum, ArrayList<CellStyle> dataRowStyles) {
+    ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet, int headerRowNum, ArrayList<CellStyle> dataCellStyles) {
         this.headerRowNum = headerRowNum
-        this.dataRowStyles = dataRowStyles
+        this.dataCellStyles = dataCellStyles
         this.excelPropertySheet = excelPropertySheet
         this.buildHeaderRowPropertiesFromHeaderRow()
     }
@@ -25,22 +24,16 @@ class ExcelPropertySheetProperties {
     def buildHeaderRowPropertiesFromHeaderRow() {
         buildKeyListFromHeaderRow()
         buildLanguageFromHeaderRow()
-        buildRowStylesFromHeaderRow()
     }
 
     private buildKeyListFromHeaderRow() {
         Row row = excelPropertySheet.sheet.getRow(headerRowNum)
         def cellList = row.cellIterator().collect { it.getStringCellValue().trim() }
-        keyList = cellList.findResults { it != "" ? it : null }
+        headerRowNames = cellList.findResults { it != "" ? it : null }
     }
 
     private buildLanguageFromHeaderRow() {
         def languageList = LanguageLabels.getLanguageList()
-        language = keyList.find { languageList.contains(it.toString()) && (it.toString() != "English") }
-    }
-
-    private buildRowStylesFromHeaderRow() {
-        Row row = excelPropertySheet.sheet.getRow(headerRowNum)
-        headerRowStyles = row.cellIterator().collect {it.getCellStyle()}
+        language = headerRowNames.find { languageList.contains(it.toString()) && (it.toString() != "English") }
     }
 }

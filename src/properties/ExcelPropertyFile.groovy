@@ -32,7 +32,7 @@ class ExcelPropertyFile extends ExcelFile {
         excelPropertyFile
     }
 
-    def createNewExcelPropertySheetFromModel(ExcelPropertySheet modelPropertySheet) {
+    ExcelPropertySheet createNewExcelPropertySheetFromModel(ExcelPropertySheet modelPropertySheet) {
         ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(this.workbook, modelPropertySheet)
     }
 

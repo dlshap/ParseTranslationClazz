@@ -9,6 +9,8 @@ import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import useful.Args
 
+import javax.print.attribute.standard.SheetCollate
+
 import static filemanagement.BaseFile.CreateFlag.*
 
 class PlayWithCreatingSpreadsheets {
@@ -40,55 +42,17 @@ class PlayWithCreatingSpreadsheets {
     }
 
     def generateSpreadsheet() {
+        String path = propertyArgs.get("path")
         ExcelPropertyFile fromFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
-
-        getMyStyles(fromFile)
-    }
-    
-    def getMyStyles(ExcelPropertyFile fromFile) {
-        
-        Row fromRow = fromFile.workbook.getSheetAt(0).getRow(0)
-        ArrayList<CellStyle> styles = [], styles2 = []
-        for (int i = fromRow.getFirstCellNum(); i < fromRow.getLastCellNum(); i++) {
-            CellStyle cellStyle = fromRow.getCell(i).getCellStyle()
-            styles << cellStyle
+        if (fromFile != null) {
+            ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "test.xlsx", CREATE)
+            ExcelPropertySheet fromSheet = fromFile.nextExcelPropertySheet()
+            ExcelPropertySheet toSheet = toFile.createNewExcelPropertySheetFromModel(fromSheet)
+            toSheet.cloneExcelPropertyRow(1, fromSheet.getExcelPropertyRow(1))
+            toFile.writeAndClose()
         }
-        for (int i = fromRow.getFirstCellNum(); i < fromRow.getLastCellNum(); i++) {
-            CellStyle cellStyle = fromRow.getCell(i).getCellStyle()
-            styles2 << cellStyle
-        }
-
-        println styles
-//        if (fromFile != null) {
-//            ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "test.xlsx", CREATE)
-
-//            copyHeaderRow(fromFile, toFile)
-//            copyHeaderStyles(fromFile, toFile)
-//        }
     }
 
-//    def copyHeaderRow(ExcelPropertyFile fromFile, ExcelPropertyFile toFile) {
-//        ExcelPropertySheet fromExcelPropertySheet = fromFile.nextExcelPropertySheet()
-//        Sheet toSheet = toFile.workbook.createSheet("Test")
-//        Row toRow = toSheet.createRow(0)
-//        Row fromRow = fromExcelPropertySheet.getRow(0)
-//        fromRow.eachWithIndex { Cell cell, int i ->
-//            Cell toCell = toRow.createCell(i)
-//        }
-//    }
 }
 
-//            Cell fromCell = fromExcelPropertyFile.workbook.sheetIterator().next().getRow(0).getCell(0)
-//            String fromValue = fromCell.getStringCellValue()
-//            CellStyle fromStyle = fromCell.getCellStyle()
-
-//            ExcelPropertyFile toExcelFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(propertyArgs.get("path") + "test.xlsx", CREATE)
-//            Sheet toSheet = toExcelFile.workbook.createSheet("Test")
-//            Row toRow = toSheet.createRow(0)
-//            Cell toCell = toRow.createCell(0)
-//            toCell.setCellValue(fromValue)
-//            CellStyle toStyle = toSheet.workbook.createCellStyle()
-//            toStyle.cloneStyleFrom(fromStyle)
-//            toCell.setCellStyle(toStyle)
-//            toExcelFile.writeAndClose()
-
+//

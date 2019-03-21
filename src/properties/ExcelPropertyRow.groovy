@@ -7,12 +7,12 @@ import org.apache.poi.ss.usermodel.Row
 
 class ExcelPropertyRow {
 
-    ArrayList keyList
+    ArrayList headerRowNames
     Row row
 
-    ExcelPropertyRow(Row row, keyList) {
+    ExcelPropertyRow(Row row, headerRowNames) {
         this.row = row
-        this.keyList = keyList
+        this.headerRowNames = headerRowNames
     }
 
     def keysMatch(Map<String, String> matchKeyList) {
@@ -29,9 +29,9 @@ class ExcelPropertyRow {
         def keyMap = ["row": row.rowNum + 1]
         row.cellIterator().each { Cell cell ->
             def colNum = cell.getColumnIndex()
-            if (colNum < keyList.size()) {
-                if (keyList[colNum] != "")
-                    keyMap.put(keyList[colNum], ExcelUtil.toStringWithOnlyIntegerNumerics(cell))
+            if (colNum < headerRowNames.size()) {
+                if (headerRowNames[colNum] != "")
+                    keyMap.put(headerRowNames[colNum], ExcelUtil.toStringWithOnlyIntegerNumerics(cell))
             }
         }
         keyMap
@@ -48,7 +48,7 @@ class ExcelPropertyRow {
     }
 
     def getColumnNumber(String key) {
-        keyList.indexOf(key)
+        headerRowNames.indexOf(key)
     }
 
     def setValue(String key, value) {

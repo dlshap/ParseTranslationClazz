@@ -1,6 +1,5 @@
 package properties
 
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH
 import exceptions.RowAlreadyExistsException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
@@ -23,132 +22,68 @@ class ExcelPropertySheet {
         ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
         excelPropertySheet.workbook = workbook
         excelPropertySheet.sheet = sheet
-//        ArrayList<CellStyle> dataRowStyles = excelPropertySheet.getRowStyles(excelPropertySheet.getRow(headerRowNum+1))
-        def dataRowStyles
-        excelPropertySheet.setupSheet(headerRowNum, dataRowStyles)
+        excelPropertySheet.setupSheetFromSheetWithStyles(excelPropertySheet, headerRowNum)
         excelPropertySheet
     }
 
-    static createExcelPropertySheetInWorkbookFromModelSheet(Workbook workbook, ExcelPropertySheet modelPropertySheet) {
-        //copy from model spreadsheet
-        ExcelPropertySheet newPropertySheet = new ExcelPropertySheet()
-        def headerRowNum = modelPropertySheet.headerRowNum
-        newPropertySheet.workbook = workbook
-        newPropertySheet.sheet = workbook.createSheet(modelPropertySheet.sheetName)
-        newPropertySheet.copyHeaderRowFromModel(modelPropertySheet)
-//        ArrayList<CellStyle> dataRowStyles = newPropertySheet.getDataRowStylesFromModel(modelPropertySheet)
-        def dataRowStyles
-        newPropertySheet.setupSheet(headerRowNum, dataRowStyles)
-        newPropertySheet
-    }
-
-    private getDataRowStylesFromModel(ExcelPropertySheet modelPropertySheet) {
-        ArrayList<CellStyle> modelDataRowStyles = getRowStyles(modelPropertySheet.getRow(modelPropertySheet.headerRowNum + 1))
-        this.cloneStylesFromModelStyles(modelDataRowStyles)
-    }
-
-    private copyHeaderRowFromModel(ExcelPropertySheet modelPropertySheet) {
-        def headerRowNames = modelPropertySheet.headerRowNames
-        def headerRowNum = modelPropertySheet.headerRowNum
-        addHeaderRow(headerRowNum, headerRowNames)
-        setColumnWidths(modelPropertySheet.getColumnWidths())
-        ArrayList<CellStyle> modelHeaderRowStyles = getRowStyles(modelPropertySheet.getRow(headerRowNum))
-        ArrayList<CellStyle> headerRowStyles = cloneStylesFromModelStyles(modelHeaderRowStyles)
-        applyStylesToRow(headerRowStyles, headerRowNum)
-    }
-
-    private ArrayList<CellStyle> getRowStyles(Row row) {
-        row.cellIterator().collect() { it.getCellStyle() }
-    }
-
-    private ArrayList<CellStyle> cloneStylesFromModelStyles(ArrayList<CellStyle> modelRowStyles) {
-         ArrayList<CellStyle> cellStyles = []
-         modelRowStyles.each { CellStyle cellStyle ->
-             CellStyle newCellStyle = this.workbook.createCellStyle()
-             newCellStyle.cloneStyleFrom(cellStyle)
-             cellStyles << newCellStyle
-         }
-     }
-
-    private applyStylesToRow(ArrayList<CellStyle> rowStyles, int rowNum) {
-        Row row = sheet.getRow(rowNum)
-        rowStyles.eachWithIndex { CellStyle cellStyle, int columnNum ->
-            Cell cell = row.getCell(columnNum)
-            cell.setCellStyle(cellStyle)
-        }
-    }
-
-    private setupSheet(int headerRowNum, ArrayList<CellStyle> dataRowStyles) {
-        sheetProperties = new ExcelPropertySheetProperties(this, headerRowNum, dataRowStyles)
+    private setupSheetFromSheetWithStyles(ExcelPropertySheet stylesSourceSheet, int headerRowNum) {
+        ArrayList<CellStyle> dataCellStyles = cloneStylesFromSheetWithStyles(stylesSourceSheet, headerRowNum + 1)
+        sheetProperties = new ExcelPropertySheetProperties(this, headerRowNum, dataCellStyles)
         resetRows()
     }
 
-    def resetRows() {
-        rowIterator = sheet.rowIterator()
-        // advance row iterator past header row
-        (0..headerRowNum).each {
-            rowIterator.next()
+    private ArrayList<CellStyle> cloneStylesFromSheetWithStyles(ExcelPropertySheet stylesSourceSheet, int rowNum) {
+        ArrayList<CellStyle> cellStyles = []
+        Row modelRow = stylesSourceSheet.getRow(rowNum)
+        modelRow.cellIterator().eachWithIndex { Cell modelCell, int colNum ->
+            CellStyle modelCellStyle = modelCell.getCellStyle()
+            CellStyle cellStyle = workbook.createCellStyle()
+            cellStyle.cloneStyleFrom(modelCellStyle)
+            cellStyles << cellStyle
         }
+        cellStyles
     }
 
     Row getRow(int rowNum) {
         sheet.getRow(rowNum)
     }
 
-    def getFirstExcelPropertyRowMatchingKeys(Map<String, String> matchKeyList) {
-        // get FIRST property row with matching property keys
-        ExcelPropertyRow excelPropertyRow
-        Iterator localRowIterator = sheet.rowIterator()
-        while (localRowIterator.hasNext()) {
-            Row row = localRowIterator.next()
-            ExcelPropertyRow matchPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
-            if (matchPropertyRow.keysMatch(matchKeyList)) {
-                excelPropertyRow = matchPropertyRow         //first match
-                break
-            }
-        }
-        excelPropertyRow
+    static createExcelPropertySheetInWorkbookFromModelSheet(Workbook workbook, ExcelPropertySheet modelPropertySheet) {
+        //copy from model spreadsheet
+        ExcelPropertySheet newPropertySheet = new ExcelPropertySheet()
+        newPropertySheet.workbook = workbook
+        newPropertySheet.sheet = workbook.createSheet(modelPropertySheet.sheetName)
+        newPropertySheet.copyHeaderRowFromModel(modelPropertySheet)
+        newPropertySheet.setupSheetFromSheetWithStyles(modelPropertySheet, modelPropertySheet.headerRowNum)
+        newPropertySheet
     }
 
-    def getHeaderRowNum() {
-        sheetProperties.headerRowNum
-    }
-
-    def getHeaderRowNames() {
-        sheetProperties.keyList
-    }
-
-    def hasNextExcelPropertyRow() {
-        rowIterator.hasNext()
-    }
-
-    def nextExcelPropertyRow() {
-        ExcelPropertyRow excelPropertyRow
-        if (rowIterator.hasNext())
-            excelPropertyRow = new ExcelPropertyRow(rowIterator.next(), sheetProperties.keyList)
-        excelPropertyRow
-    }
-
-    def getKeyMaps() {
-        def keyMaps = []
-        Iterator localRowIterator = sheet.rowIterator()
-
-        while (localRowIterator.hasNext()) {
-            def nextRow = localRowIterator.next()
-            if (nextRow.getRowNum() > headerRowNum) {
-                ExcelPropertyRow row = new ExcelPropertyRow(nextRow, sheetProperties.keyList)
-                def rowMap = row.getPropertyMap()
-                keyMaps.add(rowMap)
-            }
-        }
-        keyMaps
-    }
-
-    def getSheetName() {
+    String getSheetName() {
         sheet.sheetName
     }
 
-    def addHeaderRow(int headerRowNum, ArrayList keyList) {
+    private int getHeaderRowNum() {
+        sheetProperties.headerRowNum
+    }
+
+    private copyHeaderRowFromModel(ExcelPropertySheet modelPropertySheet) {
+        def headerRowNames = modelPropertySheet.sheetProperties.headerRowNames
+        def headerRowNum = modelPropertySheet.headerRowNum
+        addHeaderRow(headerRowNum, headerRowNames)
+        setColumnWidths(modelPropertySheet.getColumnWidths())
+        ArrayList<CellStyle> headerRowStyles = cloneStylesFromSheetWithStyles(modelPropertySheet, headerRowNum)
+        applyStylesToRow(headerRowStyles, headerRowNum)
+    }
+
+    private getColumnWidths() {
+        Row row = sheet.getRow(headerRowNum)
+        def columnWidths = row.cellIterator().collect() { Cell it ->
+            sheet.getColumnWidth(it.getColumnIndex())
+        }
+        columnWidths
+    }
+
+    private addHeaderRow(int headerRowNum, ArrayList keyList) {
         Row row = sheet.createRow(headerRowNum)
         keyList.eachWithIndex { keyName, columnNumber ->
             Cell cell = row.createCell(columnNumber)
@@ -163,53 +98,38 @@ class ExcelPropertySheet {
         }
     }
 
-    def addRow(int rowNum, propertyMap) {
+    private applyStylesToRow(ArrayList<CellStyle> cellStyles, int rowNum) {
         Row row = sheet.getRow(rowNum)
-        if (row != null)
-            throw new RowAlreadyExistsException("$rowNum already exists in ${this.sheetName}")
-        else {
-            row = sheet.createRow(rowNum)
-            ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
-            excelPropertyRow.putPropertyMap(propertyMap)
+        cellStyles.eachWithIndex { CellStyle cellStyle, int columnNum ->
+            Cell cell = row.getCell(columnNum)
+            cell.setCellStyle(cellStyle)
         }
     }
 
-    def cloneExcelPropertyRow(int rowNum, ExcelPropertyRow modelPropertyRow) {
-        Row row = sheet.createRow(rowNum)
-        ExcelPropertyRow newPropertyRow = new ExcelPropertyRow(row, sheetProperties.keyList)
-        Map<String, String> propertyMap = modelPropertyRow.getPropertyMap()
-        if (sheetProperties.isNewLanguage) {
-            propertyMap.put(getLanguage(), "")
-            propertyMap.put("Date Changed", "")
+    boolean hasNextExcelPropertyRow() {
+        rowIterator.hasNext()
+    }
+
+    ExcelPropertyRow nextExcelPropertyRow() {
+        ExcelPropertyRow excelPropertyRow
+        if (rowIterator.hasNext())
+            excelPropertyRow = new ExcelPropertyRow(rowIterator.next(), sheetProperties.headerRowNames)
+        excelPropertyRow
+    }
+
+    ArrayList<String> getKeyMaps() {
+        def keyMaps = []
+        Iterator localRowIterator = sheet.rowIterator()
+
+        while (localRowIterator.hasNext()) {
+            def nextRow = localRowIterator.next()
+            if (nextRow.getRowNum() > headerRowNum) {
+                ExcelPropertyRow row = new ExcelPropertyRow(nextRow, sheetProperties.headerRowNames)
+                def rowMap = row.getPropertyMap()
+                keyMaps.add(rowMap)
+            }
         }
-        newPropertyRow.putPropertyMap(propertyMap)
-        newPropertyRow
-    }
-
-    def setLanguage(language) {
-        if (sheetProperties.language != language) {
-            Row row = sheet.getRow(headerRowNum)
-            int languageColumn = getLanguageColumn()
-            Cell newLanguageHeaderCell = row.getCell(languageColumn)
-            newLanguageHeaderCell.setCellValue(language)
-            sheetProperties.isNewLanguage = true
-        }
-    }
-
-    int getLanguageColumn() {
-        (getHeaderRowNames()).indexOf(sheetProperties.language)
-    }
-
-    String getLanguage() {
-        sheetProperties.getLanguage()
-    }
-
-    private getColumnWidths() {
-        Row row = sheet.getRow(headerRowNum)
-        def columnWidths = row.cellIterator().collect() { Cell it ->
-            sheet.getColumnWidth(it.getColumnIndex())
-        }
-        columnWidths
+        keyMaps
     }
 
     private setColumnWidths(columnWidths) {
@@ -217,34 +137,70 @@ class ExcelPropertySheet {
             sheet.setColumnWidth(columnNumber, columnWidth)
         }
     }
+
+    def resetRows() {
+        rowIterator = sheet.rowIterator()
+        // advance row iterator past header row
+        (0..headerRowNum).each {
+            rowIterator.next()
+        }
+    }
+
+    String getLanguage() {
+        sheetProperties.getLanguage()
+    }
+
+    def setLanguage(language) {
+        if (sheetProperties.language != language) {
+            Row row = sheet.getRow(headerRowNum)
+            ArrayList<String> headerRowNames = sheetProperties.headerRowNames
+            int languageColumn = headerRowNames.indexOf(sheetProperties.language)
+            Cell newLanguageHeaderCell = row.getCell(languageColumn)
+            newLanguageHeaderCell.setCellValue(language)
+            sheetProperties.isNewLanguage = true
+        }
+    }
+
+    ExcelPropertyRow getFirstExcelPropertyRowMatchingKeys(Map<String, String> matchKeyList) {
+        // get FIRST property row with matching property keys
+        ExcelPropertyRow excelPropertyRow
+        Iterator localRowIterator = sheet.rowIterator()
+        while (localRowIterator.hasNext()) {
+            Row row = localRowIterator.next()
+            ExcelPropertyRow matchPropertyRow = new ExcelPropertyRow(row, sheetProperties.headerRowNames)
+            if (matchPropertyRow.keysMatch(matchKeyList)) {
+                excelPropertyRow = matchPropertyRow         //first match
+                break
+            }
+        }
+        excelPropertyRow
+    }
+
+    def cloneExcelPropertyRow(int rowNum, ExcelPropertyRow modelPropertyRow) {
+        Row row = sheet.createRow(rowNum)
+        ExcelPropertyRow newPropertyRow = new ExcelPropertyRow(row, sheetProperties.headerRowNames)
+        Map<String, String> propertyMap = modelPropertyRow.getPropertyMap()
+        if (sheetProperties.isNewLanguage) {
+            propertyMap.put(getLanguage(), "")
+            propertyMap.put("Date Changed", "")
+        }
+        newPropertyRow.putPropertyMap(propertyMap)
+        applyStylesToRow(sheetProperties.dataCellStyles, rowNum)
+        newPropertyRow
+    }
+
+    def addRow(int rowNum, propertyMap) {
+        Row row = sheet.getRow(rowNum)
+        if (row != null)
+            throw new RowAlreadyExistsException("$rowNum already exists in ${this.sheetName}")
+        else {
+            row = sheet.createRow(rowNum)
+            ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, sheetProperties.headerRowNames)
+            excelPropertyRow.putPropertyMap(propertyMap)
+        }
+    }
+
+    ExcelPropertyRow getExcelPropertyRow(int rowNum) {
+        new ExcelPropertyRow(getRow(rowNum), sheetProperties.headerRowNames)
+    }
 }
-
-
-//    static createExcelPropertySheetFromExcelSheet(Workbook workbook, Sheet sheet) {
-//        //from sheet in ExcelPropertyFile
-//        ExcelPropertySheet excelPropertySheet = new ExcelPropertySheet()
-//        excelPropertySheet.workbook = workbook
-//        excelPropertySheet.sheet = sheet
-//        ArrayList<CellStyle> dataRowStyles = excelPropertySheet.getRowStyles(excelPropertySheet.getRow(1))
-//        excelPropertySheet.setupSheet(0, dataRowStyles)
-//        excelPropertySheet
-//    }
-
-//    ArrayList<CellStyle> getRowStylesForRowNumber(int rowNum) {
-//        Workbook workbook = excelPropertySheet.workbook
-//        Row row = sheet.getRow(rowNum)
-//        ArrayList<CellStyle> rowStyles = row.cellIterator().collect { Cell cell ->
-//            CellStyle cellStyle = workbook.createCellStyle()
-//            cellStyle.cloneStyleFrom(cell.getCellStyle())
-//            cellStyle
-//        }
-//        rowStyles
-//    }
-//    private moveHeaderRowStylesFromModelToNewSheet(ExcelPropertySheet modelPropertySheet) {
-//        def headerRowNum = modelPropertySheet.headerRowNum
-//        Row modelHeaderRow = modelPropertySheet.sheet.getRow(headerRowNum)
-//        def modelHeaderRowStyles = modelPropertySheet.getRowStyles(modelHeaderRow)
-//        sheetProperties.headerRowStyles = cloneStylesFromModelStyles(modelHeaderRowStyles)
-//    }
-
-
