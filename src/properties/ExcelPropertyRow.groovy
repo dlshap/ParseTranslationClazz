@@ -75,12 +75,12 @@ class ExcelPropertyRow {
         ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
     }
 
-    def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {
-        styleMap.each { key, value ->
-            def colNum = getColumnNumber(key)
-            if (colNum >= 0) {
-                row.getCell(colNum).setCellStyle(value)
-            }
-        }
-    }
+//    def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {
+//        styleMap.each { key, value ->
+//            def colNum = getColumnNumber(key)
+//            if (colNum >= 0) {
+//                row.getCell(colNum).setCellStyle(value)
+//            }
+//        }
+//    }
 }

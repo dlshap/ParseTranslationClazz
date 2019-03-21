@@ -196,8 +196,12 @@ class ExcelPropertySheet {
             propertyMap.put("Date Changed", "")
         }
         newPropertyRow.putPropertyMap(propertyMap)
-        applyStylesToRow(sheetProperties.dataCellStyles, rowNum)
+        applyStylesToRow(dataCellStyles, rowNum)
         newPropertyRow
+    }
+
+    private ArrayList<CellStyle> getDataCellStyles() {
+        sheetProperties.dataCellStyles
     }
 
     def addRow(int rowNum, propertyMap) {
@@ -208,6 +212,7 @@ class ExcelPropertySheet {
             row = sheet.createRow(rowNum)
             ExcelPropertyRow excelPropertyRow = new ExcelPropertyRow(row, headerRowNames)
             excelPropertyRow.putPropertyMap(propertyMap)
+            applyStylesToRow(dataCellStyles, rowNum)
         }
     }
 

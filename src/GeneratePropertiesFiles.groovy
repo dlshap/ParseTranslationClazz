@@ -16,7 +16,6 @@ class GeneratePropertiesFiles {
     def languageName         // language for this translation
 
     static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
-//    static final PROP_DIR_PROMPT = "prompt.for.directory.for"
 
     static main(args) {
         new GeneratePropertiesFiles(args)
