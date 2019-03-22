@@ -53,7 +53,7 @@ class GeneratePropertiesFiles {
     }
 
     def choosePropertiesSpreadsheet() {
-        def prompt = Messages.getString(SPREADSHEET_PROMPT, languageName)
+        def prompt = Messages.getString(SPREADSHEET_PROMPT, "Properties Spreadsheet", languageName)
         def excelPath = startFilePath + "\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
         ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser(prompt, excelPath)
         excelPropertyFile
