@@ -6,6 +6,7 @@ import filemanagement.FileChooser
 class ExcelFile extends BaseFile {
 
     ExcelWorkbook excelWorkbook
+    Iterator sheetIterator
 
     ExcelFile() {
     }
@@ -15,10 +16,13 @@ class ExcelFile extends BaseFile {
         this.initializeNewSpreadsheet()
     }
 
-    static getExcelFileUsingChooser(prompt, path) {
-        ExcelFile excelFile = new ExcelFile()
-        excelFile.openExcelFileUsingChooser(prompt, path)
-        excelFile.file == null ? null : excelFile
+    def buildSheetIterator() {
+        if (this.fileName != null)
+            this.sheetIterator = workbook.sheetIterator()
+    }
+
+    def hasNextExcelPropertySheet() {
+        sheetIterator.hasNext()
     }
 
     def openExcelFileUsingChooser(String prompt, String path) {
@@ -35,11 +39,6 @@ class ExcelFile extends BaseFile {
     private setInputWorkbook() {
         if (file != null)
             excelWorkbook = new ExcelWorkbookForInput(file)
-    }
-
-    static ExcelFile createFile(fileName, createFlag) {
-        ExcelFile excelFile = new ExcelFile(fileName, createFlag)
-        excelFile
     }
 
     def initializeNewSpreadsheet() {
@@ -59,3 +58,16 @@ class ExcelFile extends BaseFile {
         excelWorkbook.close()
     }
 }
+
+//    static getExcelFileUsingChooser(prompt, path) {
+//        ExcelFile excelFile = new ExcelFile()
+//        excelFile.openExcelFileUsingChooser(prompt, path)
+//        excelFile.file == null ? null : excelFile
+//    }
+
+//static ExcelFile createFile(fileName, createFlag) {
+//    ExcelFile excelFile = new ExcelFile(fileName, createFlag)
+//    excelFile
+//}
+
+

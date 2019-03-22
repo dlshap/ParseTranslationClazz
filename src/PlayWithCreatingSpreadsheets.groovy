@@ -63,10 +63,7 @@ class PlayWithCreatingSpreadsheets {
     ExcelPropertyRow cloneModelRowAddingTranslatedColumns(ExcelPropertyRow fromRow, ExcelPropertySheet toPropertySheet) {
         Iterator cellIterator = fromRow.row.cellIterator()
         while (cellIterator.hasNext()) {
-
+            cellIterator.next()
         }
     }
-
 }
-
-//

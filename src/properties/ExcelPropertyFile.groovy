@@ -5,8 +5,6 @@ import org.apache.poi.ss.usermodel.Sheet
 
 class ExcelPropertyFile extends ExcelFile {
 
-    Iterator sheetIterator
-
     ExcelPropertyFile() {
     }
 
@@ -19,11 +17,6 @@ class ExcelPropertyFile extends ExcelFile {
         excelPropertyFile.openExcelFileUsingChooser(prompt, filePath)
         excelPropertyFile.buildSheetIterator()
         excelPropertyFile.fileName == null ? null : excelPropertyFile
-    }
-
-    private buildSheetIterator() {
-        if (this.fileName != null)
-            this.sheetIterator = workbook.sheetIterator()
     }
 
     static createNewSpreadsheetFromFileName(String fileName, CreateFlag createFlag) {
@@ -41,13 +34,8 @@ class ExcelPropertyFile extends ExcelFile {
         ExcelPropertySheet.createExcelPropertySheetFromAWorkbookSheet(this.workbook, sheet, headerRowNum)
     }
 
-    def hasNextExcelPropertySheet() {
-        sheetIterator.hasNext()
-    }
-
     def nextExcelPropertySheet() {
         Sheet sheet = sheetIterator.next()
-//        ExcelPropertySheet.createExcelPropertySheetFromExcelSheet(this.workbook, sheet)
         ExcelPropertySheet.createExcelPropertySheetFromAWorkbookSheet(this.workbook, sheet, 0)
     }
 }
