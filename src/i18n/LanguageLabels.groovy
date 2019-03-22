@@ -2,15 +2,6 @@ package i18n
 
 class LanguageLabels {
 
-    static final def libraryLanguageLabels = [
-            "Japanese"       : "ja_JP",
-            "English"        : "en_US",
-            "French-Canadian": "fr_CA",
-            "Czech"          : "cs_CZ",
-            "Slovak"         : "sv",
-            "Spanish"        : "es"
-    ]
-
     static final def propertiesFileLabels = [
             "Japanese"       : "ja",
             "English"        : "en_US",
@@ -18,6 +9,15 @@ class LanguageLabels {
             "Czech"          : "cs_CZ",
             "Slovak"         : "sv",
             "Spanish"        : "es"
+    ]
+
+    static final def libraryLanguageLabels = [
+            "Japanese"       : "ja_JP",
+            "English"        : "en_US",
+            "French-Canadian": "fr_CA",
+            "Czech"          : "cs_CZ",
+            "Slovak"         : "sv",
+            "Spanish"        : "es",
     ]
 
     static getLanguageLabel(String languageName) {
@@ -33,6 +33,6 @@ class LanguageLabels {
     }
 
     static isLanguageInList(String language) {
-        libraryLanguageLabels.get(language) != null
+        propertiesFileLabels.get(language) != null
     }
 }

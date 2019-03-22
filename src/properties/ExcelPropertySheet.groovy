@@ -84,12 +84,6 @@ class ExcelPropertySheet {
         int modelHeaderRowNum = modelPropertySheet.headerRowNum
         ArrayList<String> modelHeaderRowNames = modelPropertySheet.headerRowNames
         ArrayList<CellStyle> headerRowStyles = cloneStylesFromSheetWithStyles(modelPropertySheet, modelHeaderRowNum)
-        if (!(modelHeaderRowNames.contains("Date Changed"))) {
-            int dateColumn = modelHeaderRowNames.size()
-            CellStyle dateHeaderStyle = workbook.createCellStyle()
-            dateHeaderStyle.cloneStyleFrom(modelPropertySheet.getRow(modelHeaderRowNum).getCell(dateColumn-1).getCellStyle())
-            headerRowStyles.add(dateHeaderStyle)
-        }
         applyStylesToRow(headerRowStyles, modelHeaderRowNum)
     }
 
@@ -99,13 +93,6 @@ class ExcelPropertySheet {
         modelPropertySheet.headerRowNames.eachWithIndex { String keyName, int columnNumber ->
             Cell cell = row.createCell(columnNumber)
             cell.setCellValue(headerRowNames[columnNumber])
-        }
-        /* add Date Changed Column */
-        if (!(headerRowNames.contains("Date Changed"))) {
-            def columnNumber = headerRowNames.size()
-            Cell cell = row.createCell(columnNumber)
-            cell.setCellValue("Date Changed")
-            sheet.setColumnWidth(columnNumber, 3500)
         }
     }
 
@@ -164,7 +151,6 @@ class ExcelPropertySheet {
     def setLanguage(language) {
         if (sheetProperties.language != language) {
             Row row = sheet.getRow(headerRowNum)
-//            ArrayList<String> headerRowNames = sheetProperties.headerRowNames
             int languageColumn = headerRowNames.indexOf(sheetProperties.language)
             Cell newLanguageHeaderCell = row.getCell(languageColumn)
             newLanguageHeaderCell.setCellValue(language)

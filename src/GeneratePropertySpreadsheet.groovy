@@ -31,7 +31,7 @@ class GeneratePropertySpreadsheet {
         propertyArgs = new Args(args)
         setDefaultArgs()
         if (!(LanguageLabels.isLanguageInList(language)))
-            println "Error: $language is not in language list"
+            println "ERROR: \"$language\" is not in language list"
         else
             generateSpreadsheet()
     }
