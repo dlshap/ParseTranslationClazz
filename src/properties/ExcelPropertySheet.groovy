@@ -1,7 +1,7 @@
 package properties
 
 import excelfilemanagement.ExcelSheet
-import excelfilemanagement.ExcelUtil
+import excelfilemanagement.ExcelSheetProperties
 import exceptions.RowAlreadyExistsException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
@@ -30,7 +30,7 @@ class ExcelPropertySheet extends ExcelSheet {
 
     private setupSheetFromSheetWithStyles(ExcelPropertySheet stylesSourceSheet, int headerRowNum) {
         ArrayList<CellStyle> dataCellStyles = cloneStylesFromSheetWithStyles(stylesSourceSheet, headerRowNum + 1, OnBlankCell.NOSTOP)
-        sheetProperties = new ExcelPropertySheetProperties(this, headerRowNum, dataCellStyles)
+        sheetProperties = new ExcelSheetProperties(this, headerRowNum, dataCellStyles)
         resetRows()
     }
 

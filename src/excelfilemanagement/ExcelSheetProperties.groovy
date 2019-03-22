@@ -1,12 +1,14 @@
-package properties
+package excelfilemanagement
 
+import excelfilemanagement.ExcelSheet
 import i18n.LanguageLabels
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
+import properties.ExcelPropertySheet
 
-class ExcelPropertySheetProperties {
+class ExcelSheetProperties {
 
-    ExcelPropertySheet excelPropertySheet
+    ExcelSheet excelSheet
 
     ArrayList<String> headerRowNames
     int headerRowNum
@@ -14,10 +16,10 @@ class ExcelPropertySheetProperties {
     boolean isNewLanguage = false
     ArrayList<CellStyle> dataCellStyles
 
-    ExcelPropertySheetProperties(ExcelPropertySheet excelPropertySheet, int headerRowNum, ArrayList<CellStyle> dataCellStyles) {
+    ExcelSheetProperties(ExcelPropertySheet excelPropertySheet, int headerRowNum, ArrayList<CellStyle> dataCellStyles) {
         this.headerRowNum = headerRowNum
         this.dataCellStyles = dataCellStyles
-        this.excelPropertySheet = excelPropertySheet
+        this.excelSheet = excelPropertySheet
         this.buildHeaderRowPropertiesFromHeaderRow()
     }
 
@@ -27,7 +29,7 @@ class ExcelPropertySheetProperties {
     }
 
     private buildKeyListFromHeaderRow() {
-        Row row = excelPropertySheet.sheet.getRow(headerRowNum)
+        Row row = excelSheet.sheet.getRow(headerRowNum)
         def cellList = row.cellIterator().collect { it.getStringCellValue().trim() }
         headerRowNames = cellList.findResults { it != "" ? it : null }
     }
