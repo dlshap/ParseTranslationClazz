@@ -1,5 +1,6 @@
 package properties
 
+import excelfilemanagement.ExcelSheet
 import excelfilemanagement.ExcelUtil
 import exceptions.RowAlreadyExistsException
 import org.apache.poi.ss.usermodel.Cell
@@ -8,17 +9,12 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 
-class ExcelPropertySheet {
+class ExcelPropertySheet extends ExcelSheet {
 
     private static enum OnBlankCell {
         STOP,
         NOSTOP
     }
-
-    Sheet sheet
-    Workbook workbook
-    Iterator rowIterator            // sheet rowIterator
-    ExcelPropertySheetProperties sheetProperties
 
     ExcelPropertySheet() {
     }
@@ -71,26 +67,10 @@ class ExcelPropertySheet {
         newPropertySheet
     }
 
-    String getSheetName() {
-        sheet.sheetName
-    }
-
-    private int getHeaderRowNum() {
-        sheetProperties.headerRowNum
-    }
-
     private copyHeaderRowFromModel(ExcelPropertySheet modelPropertySheet) {
         addHeaderRowFromPropertySheet(modelPropertySheet)
         setColumnWidths(modelPropertySheet.getColumnWidths())
         cloneStylesToHeaderRowFromPropertySheet(modelPropertySheet)
-    }
-
-    private getColumnWidths() {
-        Row row = sheet.getRow(headerRowNum)
-        def columnWidths = row.cellIterator().collect() { Cell it ->
-            sheet.getColumnWidth(it.getColumnIndex())
-        }
-        columnWidths
     }
 
     private cloneStylesToHeaderRowFromPropertySheet(ExcelPropertySheet modelPropertySheet) {
@@ -129,8 +109,8 @@ class ExcelPropertySheet {
         excelPropertyRow
     }
 
-    ArrayList<String> getKeyMaps() {
-        def keyMaps = []
+    ArrayList<String> getAllRowsInSheet() {
+        def allRows = []
         Iterator localRowIterator = sheet.rowIterator()
 
         while (localRowIterator.hasNext()) {
@@ -138,10 +118,10 @@ class ExcelPropertySheet {
             if (nextRow.getRowNum() > headerRowNum) {
                 ExcelPropertyRow row = new ExcelPropertyRow(nextRow, headerRowNames)
                 def rowMap = row.getPropertyMap()
-                keyMaps.add(rowMap)
+                allRows.add(rowMap)
             }
         }
-        keyMaps
+        allRows
     }
 
     private setColumnWidths(columnWidths) {

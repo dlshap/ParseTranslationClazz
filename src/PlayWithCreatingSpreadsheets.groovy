@@ -42,7 +42,7 @@ class PlayWithCreatingSpreadsheets {
     def generateSpreadsheet() {
         String path = propertyArgs.get("path")
         ExcelPropertyFile fromFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
-        ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "\\new\\QuestionAnswerLibrary(${propertyArgs.get("language")}).xlsx",CREATE)
+        ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "\\new\\QuestionAnswerLibrary(${propertyArgs.get("language")}).xlsx", CREATE)
         while (fromFile.hasNextExcelPropertySheet()) {
             ExcelPropertySheet modelPropertySheet = fromFile.nextExcelPropertySheet()
             ExcelPropertySheet toPropertySheet = toFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
@@ -53,10 +53,17 @@ class PlayWithCreatingSpreadsheets {
 
     def duplicateModelInNewFile(ExcelPropertySheet modelPropertySheet, ExcelPropertySheet toPropertySheet) {
         modelPropertySheet.resetRows()
-        while(modelPropertySheet.hasNextExcelPropertyRow()) {
-            ExcelPropertyRow fromRow = modelPropertySheet.nextExcelPropertyRow()
+        while (modelPropertySheet.hasNextExcelPropertyRow()) {
             print "."
-            ExcelPropertyRow toRow = toPropertySheet.cloneExcelPropertyRow(fromRow.row.getRowNum(),fromRow)
+            ExcelPropertyRow fromRow = modelPropertySheet.nextExcelPropertyRow()
+            ExcelPropertyRow toRow = cloneModelRowAddingTranslatedColumns(fromRow, toPropertySheet)
+        }
+    }
+
+    ExcelPropertyRow cloneModelRowAddingTranslatedColumns(ExcelPropertyRow fromRow, ExcelPropertySheet toPropertySheet) {
+        Iterator cellIterator = fromRow.row.cellIterator()
+        while (cellIterator.hasNext()) {
+
         }
     }
 
