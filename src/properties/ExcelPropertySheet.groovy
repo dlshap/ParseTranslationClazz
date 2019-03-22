@@ -1,5 +1,6 @@
 package properties
 
+import excelfilemanagement.ExcelUtil
 import exceptions.RowAlreadyExistsException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
@@ -8,6 +9,11 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 
 class ExcelPropertySheet {
+
+    private static enum OnBlankCell {
+        STOP,
+        NOSTOP
+    }
 
     Sheet sheet
     Workbook workbook
@@ -27,19 +33,26 @@ class ExcelPropertySheet {
     }
 
     private setupSheetFromSheetWithStyles(ExcelPropertySheet stylesSourceSheet, int headerRowNum) {
-        ArrayList<CellStyle> dataCellStyles = cloneStylesFromSheetWithStyles(stylesSourceSheet, headerRowNum + 1)
+        ArrayList<CellStyle> dataCellStyles = cloneStylesFromSheetWithStyles(stylesSourceSheet, headerRowNum + 1, OnBlankCell.NOSTOP)
         sheetProperties = new ExcelPropertySheetProperties(this, headerRowNum, dataCellStyles)
         resetRows()
     }
 
-    private ArrayList<CellStyle> cloneStylesFromSheetWithStyles(ExcelPropertySheet stylesSourceSheet, int rowNum) {
+    private ArrayList<CellStyle> cloneStylesFromSheetWithStyles(ExcelPropertySheet stylesSourceSheet, int rowNum, OnBlankCell onBlankCell) {
         ArrayList<CellStyle> cellStyles = []
         Row modelRow = stylesSourceSheet.getRow(rowNum)
-        modelRow.cellIterator().eachWithIndex { Cell modelCell, int colNum ->
-            CellStyle modelCellStyle = modelCell.getCellStyle()
-            CellStyle cellStyle = workbook.createCellStyle()
-            cellStyle.cloneStyleFrom(modelCellStyle)
-            cellStyles << cellStyle
+        for (int colNum = 0; colNum < modelRow.getLastCellNum(); colNum++) {
+//        modelRow.cellIterator().eachWithIndex { Cell modelCell, int colNum ->
+            Cell modelCell = modelRow.getCell(colNum)
+            String cellValue = modelCell.toString().trim()
+            if ((onBlankCell == OnBlankCell.STOP) && ((cellValue == null) || (cellValue == "")))
+                break
+            else {
+                CellStyle modelCellStyle = modelCell.getCellStyle()
+                CellStyle cellStyle = workbook.createCellStyle()
+                cellStyle.cloneStyleFrom(modelCellStyle)
+                cellStyles << cellStyle
+            }
         }
         cellStyles
     }
@@ -67,9 +80,9 @@ class ExcelPropertySheet {
     }
 
     private copyHeaderRowFromModel(ExcelPropertySheet modelPropertySheet) {
-        addHeaderRowFromPropertySheetPlusDateChanged(modelPropertySheet)
+        addHeaderRowFromPropertySheet(modelPropertySheet)
         setColumnWidths(modelPropertySheet.getColumnWidths())
-        cloneStylesToHeaderRowFromPropertySheetPlusDateChangedStyle(modelPropertySheet)
+        cloneStylesToHeaderRowFromPropertySheet(modelPropertySheet)
     }
 
     private getColumnWidths() {
@@ -80,14 +93,14 @@ class ExcelPropertySheet {
         columnWidths
     }
 
-    private cloneStylesToHeaderRowFromPropertySheetPlusDateChangedStyle(ExcelPropertySheet modelPropertySheet) {
+    private cloneStylesToHeaderRowFromPropertySheet(ExcelPropertySheet modelPropertySheet) {
         int modelHeaderRowNum = modelPropertySheet.headerRowNum
-        ArrayList<String> modelHeaderRowNames = modelPropertySheet.headerRowNames
-        ArrayList<CellStyle> headerRowStyles = cloneStylesFromSheetWithStyles(modelPropertySheet, modelHeaderRowNum)
+//        ArrayList<String> modelHeaderRowNames = modelPropertySheet.headerRowNames
+        ArrayList<CellStyle> headerRowStyles = cloneStylesFromSheetWithStyles(modelPropertySheet, modelHeaderRowNum, OnBlankCell.STOP)
         applyStylesToRow(headerRowStyles, modelHeaderRowNum)
     }
 
-    private addHeaderRowFromPropertySheetPlusDateChanged(ExcelPropertySheet modelPropertySheet) {
+    private addHeaderRowFromPropertySheet(ExcelPropertySheet modelPropertySheet) {
         Row row = sheet.createRow(modelPropertySheet.headerRowNum)
         ArrayList<String> headerRowNames = modelPropertySheet.headerRowNames
         modelPropertySheet.headerRowNames.eachWithIndex { String keyName, int columnNumber ->
@@ -100,7 +113,8 @@ class ExcelPropertySheet {
         Row row = sheet.getRow(rowNum)
         cellStyles.eachWithIndex { CellStyle cellStyle, int columnNum ->
             Cell cell = row.getCell(columnNum)
-            cell.setCellStyle(cellStyle)
+            if (cell != null)
+                cell.setCellStyle(cellStyle)
         }
     }
 

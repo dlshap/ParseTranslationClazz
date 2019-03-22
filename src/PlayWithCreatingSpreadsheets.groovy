@@ -36,18 +36,27 @@ class PlayWithCreatingSpreadsheets {
             propertyArgs.set("language", "Japanese")
 
         if (propertyArgs.get("path") == null)
-            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project\\Work\\translations\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\")
+            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\")
     }
 
     def generateSpreadsheet() {
         String path = propertyArgs.get("path")
         ExcelPropertyFile fromFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
-        if (fromFile != null) {
-            ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "test.xlsx", CREATE)
-            ExcelPropertySheet fromSheet = fromFile.nextExcelPropertySheet()
-            ExcelPropertySheet toSheet = toFile.createNewExcelPropertySheetFromModel(fromSheet)
-            toSheet.cloneExcelPropertyRow(1, fromSheet.getExcelPropertyRow(1))
-            toFile.writeAndClose()
+        ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "\\new\\QuestionAnswerLibrary(${propertyArgs.get("language")}).xlsx",CREATE)
+        while (fromFile.hasNextExcelPropertySheet()) {
+            ExcelPropertySheet modelPropertySheet = fromFile.nextExcelPropertySheet()
+            ExcelPropertySheet toPropertySheet = toFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
+            duplicateModelInNewFile(modelPropertySheet, toPropertySheet)
+        }
+        toFile.writeAndClose()
+    }
+
+    def duplicateModelInNewFile(ExcelPropertySheet modelPropertySheet, ExcelPropertySheet toPropertySheet) {
+        modelPropertySheet.resetRows()
+        while(modelPropertySheet.hasNextExcelPropertyRow()) {
+            ExcelPropertyRow fromRow = modelPropertySheet.nextExcelPropertyRow()
+            print "."
+            ExcelPropertyRow toRow = toPropertySheet.cloneExcelPropertyRow(fromRow.row.getRowNum(),fromRow)
         }
     }
 
