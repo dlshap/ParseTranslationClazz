@@ -17,10 +17,7 @@ class LibraryExcelPropertyFile extends ExcelPropertyFile {
         this.chooseLibraryPropertyFile(prompt, path)
     }
 
-    private chooseLibraryPropertyFile(prompt, filePath) {
-        def startDir = new File(filePath)
-        def spreadsheetDirectory = startDir.getParent() + "\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\"
-        openExcelFileUsingChooser(prompt, spreadsheetDirectory)
+    private chooseLibraryPropertyFile(String prompt, String path) {
+        openExcelFileUsingChooser(prompt, path)
     }
-
 }

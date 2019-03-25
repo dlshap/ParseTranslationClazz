@@ -1,14 +1,15 @@
 import i18n.LanguageLabels
 import i18n.Messages
 import libraryquestions.LibraryExcelPropertyFile
-import properties.ExcelPropertyFile
 import useful.Args
+import useful.Config
 
 class GenerateLibrarySpreadsheet {
     static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     Args propertyArgs
-    String language, path       // args
+    String language, configPath, spreadsheetPath
+    Config config
 
     GenerateLibrarySpreadsheet(args) {
         start(args)
@@ -20,67 +21,70 @@ class GenerateLibrarySpreadsheet {
 
     def start(args) {
         propertyArgs = new Args(args)
-        setDefaultArgs()
+        setLanguageAndConfigPath()
+        getConfig()
         if (!(LanguageLabels.isLanguageInList(language)))
             println "ERROR: \"$language\" is not in language list"
         else
             generateSpreadsheet()
     }
 
-    def setDefaultArgs() {
+    def setLanguageAndConfigPath() {
         language = propertyArgs.get("language")
         if (language == null)
             language = "All"
-        path = propertyArgs.get("path")
-        if (path == null)
-            path = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\"
+        configPath = propertyArgs.get("path")
+        if (configPath == null)
+            configPath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\"
+    }
+
+    def getConfig() {
+        config = new Config(configPath)
+        spreadsheetPath = configPath + config.get("library.question.spreadsheet.relative.path")
     }
 
     def generateSpreadsheet() {
-        /*
-        Open English spreadsheet
-        Try to open language spreadsheet
-        if language spreadsheet exists
-            loop through english spreadsheet
-                if matching row, update the english and mark date changed
-                if no match, create row with english
-            end loop
-            loop through language spreadsheet
-                if no matching english row, delete it and log it
-            end loop
-        else (new language spreadsheet)
-            loop through english spreadsheet
-                create row in language spreadsheet, creating new columns modeled after english column
-            end loop
-         */
-
         LibraryExcelPropertyFile modelLibraryExcelFile = getModelFile()
         LibraryExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
         if (languageLibraryExcelFile == null)
             languageLibraryExcelFile = createNewLanguageLibraryExcelFile(modelLibraryExcelFile)
         else
             updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile)
-        languageLibraryExcelFile.writeAndClose()
+        if (languageLibraryExcelFile != null)
+            languageLibraryExcelFile.writeAndClose()
     }
 
     LibraryExcelPropertyFile getModelFile() {
         def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "Master Properties", language)
-        LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(prompt, path + "\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\")
+        LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(prompt, spreadsheetPath)
     }
 
     LibraryExcelPropertyFile getLibraryFile() {
-
+        buildLibraryFileNameForLanguage()
     }
 
     LibraryExcelPropertyFile createNewLanguageLibraryExcelFile(LibraryExcelPropertyFile modelLibraryExcelFile) {
+        /*
+            loop through english spreadsheet
+                create row in language spreadsheet, creating new columns modeled after english column
+            end loop
+         */
+
 
     }
 
     private updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile) {
+       /*
+        loop through english spreadsheet
+        if matching row, update the english and mark date changed
+        if no match, create row with english
+        end loop
+        loop through language spreadsheet
+        if no matching english row, delete it and log it
+        end loop
+        */
 
     }
-
-
 
 
 }

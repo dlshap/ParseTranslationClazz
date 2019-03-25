@@ -8,14 +8,14 @@ import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import useful.Args
-
-import javax.print.attribute.standard.SheetCollate
+import useful.Config
 
 import static filemanagement.BaseFile.CreateFlag.*
 
 class PlayWithCreatingSpreadsheets {
 
     Args propertyArgs
+    Config config
 
     PlayWithCreatingSpreadsheets(args) {
         start(args)
@@ -28,6 +28,7 @@ class PlayWithCreatingSpreadsheets {
     def start(args) {
         propertyArgs = new Args(args)
         setDefaultArgs()
+        getConfig(propertyArgs.get("path"))
         generateSpreadsheet()
     }
 
@@ -36,19 +37,18 @@ class PlayWithCreatingSpreadsheets {
             propertyArgs.set("language", "Japanese")
 
         if (propertyArgs.get("path") == null)
-            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\")
+            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\")
     }
 
     def generateSpreadsheet() {
-        String path = propertyArgs.get("path")
-        ExcelPropertyFile fromFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
-        ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "\\new\\QuestionAnswerLibrary(${propertyArgs.get("language")}).xlsx", CREATE)
-        while (fromFile.hasNextExcelPropertySheet()) {
-            ExcelPropertySheet modelPropertySheet = fromFile.nextExcelPropertySheet()
-            ExcelPropertySheet toPropertySheet = toFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
-            duplicateModelInNewFile(modelPropertySheet, toPropertySheet)
-        }
-        toFile.writeAndClose()
+//        ExcelPropertyFile fromFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
+//        ExcelPropertyFile toFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(path + "\\new\\QuestionAnswerLibrary(${propertyArgs.get("language")}).xlsx", CREATE)
+//        while (fromFile.hasNextExcelPropertySheet()) {
+//            ExcelPropertySheet modelPropertySheet = fromFile.nextExcelPropertySheet()
+//            ExcelPropertySheet toPropertySheet = toFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
+//            duplicateModelInNewFile(modelPropertySheet, toPropertySheet)
+//        }
+//        toFile.writeAndClose()
     }
 
     def duplicateModelInNewFile(ExcelPropertySheet modelPropertySheet, ExcelPropertySheet toPropertySheet) {

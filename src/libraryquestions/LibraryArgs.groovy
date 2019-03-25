@@ -1,18 +1,19 @@
 package libraryquestions
 
 import useful.Args
+import useful.Config
 
 class LibraryArgs {
-    def startFilePath
-    def languageName
+    String startFilePath
+    String spreadsheetPath
+    String languageName
     def fileNameForTestingSingleFile
-
-    def args = [:]
 
     LibraryArgs(args) {
         getValuesFromCommandLineArgs(args)
-        getDefaultValuesIfArgsNull()
+        setDefaultValuesIfArgsNull()
         appendSlashToStartFilePath()
+        getConfigValues()
     }
 
     def getValuesFromCommandLineArgs(args) {
@@ -22,7 +23,7 @@ class LibraryArgs {
         fileNameForTestingSingleFile = argsMap.get("file")
     }
 
-    def getDefaultValuesIfArgsNull() {
+    def setDefaultValuesIfArgsNull() {
         if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         if (languageName == null) languageName = "Japanese"
     }
@@ -30,5 +31,10 @@ class LibraryArgs {
     def appendSlashToStartFilePath() {
         if (startFilePath[-1] != "\\")
             startFilePath += "\\"
+    }
+
+    private getConfigValues() {
+        Config config = new Config(startFilePath)
+        spreadsheetPath = config.get(startFilePath + "library.question.spreadsheet.relative.path")
     }
 }

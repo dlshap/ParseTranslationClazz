@@ -1,6 +1,6 @@
-package config
+package libraryquestions
 
-class Config {
+class LibraryColumns {
 
     static final libraryTranslatedColumns = [
             "Question Identifier" : "Question Identifier Translated",

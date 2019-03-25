@@ -5,7 +5,6 @@ class Args {
 
     Args(args) {
         def argsKey, argsValue
-        def argCount = args.size()
         args.each {
             def argsMatch = it =~ /(.*?)=(.*)/
             if (argsMatch[0].size() > 0) {
