@@ -13,11 +13,13 @@ class LibraryExcelPropertyFile extends ExcelPropertyFile {
         libraryPropertyFile.fileName == null ? null : libraryPropertyFile
     }
 
+    static openLibraryProperty
+
     private buildLibraryPropertyFileUsingChooser(String prompt, String path) {
         this.chooseLibraryPropertyFile(prompt, path)
     }
 
     private chooseLibraryPropertyFile(String prompt, String path) {
-        openExcelFileUsingChooser(prompt, path)
+        super.openExcelFileUsingChooser(prompt, path)
     }
 }

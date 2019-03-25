@@ -1,15 +1,12 @@
 import i18n.LanguageLabels
 import i18n.Messages
+import libraryquestions.LibraryArgs
 import libraryquestions.LibraryExcelPropertyFile
-import useful.Args
-import useful.Config
 
 class GenerateLibrarySpreadsheet {
-    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
+    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet"
 
-    Args propertyArgs
-    String language, configPath, spreadsheetPath
-    Config config
+    LibraryArgs libraryArgs
 
     GenerateLibrarySpreadsheet(args) {
         start(args)
@@ -20,27 +17,12 @@ class GenerateLibrarySpreadsheet {
     }
 
     def start(args) {
-        propertyArgs = new Args(args)
-        setLanguageAndConfigPath()
-        getConfig()
+        libraryArgs = new LibraryArgs(args)
+        def language = libraryArgs.languageName
         if (!(LanguageLabels.isLanguageInList(language)))
             println "ERROR: \"$language\" is not in language list"
         else
             generateSpreadsheet()
-    }
-
-    def setLanguageAndConfigPath() {
-        language = propertyArgs.get("language")
-        if (language == null)
-            language = "All"
-        configPath = propertyArgs.get("path")
-        if (configPath == null)
-            configPath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\"
-    }
-
-    def getConfig() {
-        config = new Config(configPath)
-        spreadsheetPath = configPath + config.get("library.question.spreadsheet.relative.path")
     }
 
     def generateSpreadsheet() {
@@ -55,13 +37,25 @@ class GenerateLibrarySpreadsheet {
     }
 
     LibraryExcelPropertyFile getModelFile() {
-        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "Master Properties", language)
-        LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(prompt, spreadsheetPath)
+        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "master", libraryArgs.languageName)
+        LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(prompt, libraryArgs.spreadsheetPath)
     }
 
     LibraryExcelPropertyFile getLibraryFile() {
-        buildLibraryFileNameForLanguage()
+        String libraryFileName = getLibraryFileNameForLanguage()
+        openLibrarySpreadsheet(libraryArgs.spreadsheetPath + libraryFileName)
     }
+
+    String getLibraryFileNameForLanguage() {
+        "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
+    }
+
+    LibraryExcelPropertyFile openLibrarySpreadsheet(fileName) {
+//        LibraryExcelPropertyFile
+        null
+    }
+
+
 
     LibraryExcelPropertyFile createNewLanguageLibraryExcelFile(LibraryExcelPropertyFile modelLibraryExcelFile) {
         /*

@@ -28,21 +28,15 @@ class UpdateDMTClassFactories {
 
     def start(args) {
         def libraryArgs = new LibraryArgs(args)
-        getDefaultValuesIfArgsNull(libraryArgs)
         performTranslations(libraryArgs)
-    }
-
-    static getDefaultValuesIfArgsNull(LibraryArgs libraryArgs) {
-        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\"
-        if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
     }
 
     static performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
         def language = libraryArgs.languageName
-        def path = libraryArgs.startFilePath
+        def spreadsheetPath = libraryArgs.spreadsheetPath
         LibraryExcelPropertyFile libraryPropertyFile = LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(
-                Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "$language"), path)
+                Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "$language"), spreadsheetPath)
         if (libraryPropertyFile != null) {
             def libraryFactoryManager = new LibraryFactoryManager(libraryArgs, libraryPropertyFile)
             updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)

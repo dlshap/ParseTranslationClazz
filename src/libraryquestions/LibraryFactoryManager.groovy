@@ -40,8 +40,8 @@ class LibraryFactoryManager {
     }
 
     def buildLibraryFactoryFilePaths(libraryArgs) {
-        libraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactories\\"
-        translatedLibraryFactoryFilePath = libraryArgs.startFilePath + "LibraryFactoriesTranslated\\"
+        libraryFactoryFilePath = libraryArgs.libraryFilePath + "LibraryFactories\\"
+        translatedLibraryFactoryFilePath = libraryArgs.libraryFilePath + "LibraryFactoriesTranslated\\"
     }
 
     def createLibraryFactoryOutputDirectory() {
