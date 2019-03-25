@@ -44,8 +44,6 @@ class ExcelLibrarySheet extends ExcelSheet {
         cellStyles
     }
 
-
-
     def nextExcelLibrarySheet() {
         Sheet sheet = sheetIterator.next()
         ExcelLibrarySheet.createExcelLibrarySheetFromAWorkbookSheet(this.workbook, sheet, 0)

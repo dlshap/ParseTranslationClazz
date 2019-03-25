@@ -2,7 +2,7 @@ import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
 import libraryquestions.LibraryLogs
-import libraryquestions.LibraryPropertyFile
+import libraryquestions.LibraryExcelPropertyFile
 import libraryquestions.LibraryTextBlock
 import libraryquestions.LibraryTranslator
 import logging.Log
@@ -39,18 +39,20 @@ class UpdateDMTClassFactories {
 
     static performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
-        LibraryPropertyFile libraryPropertyFile = LibraryPropertyFile.openLibraryPropertyFileUsingChooser(
-                Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "${libraryArgs.languageName}"), libraryArgs)
+        def language = libraryArgs.languageName
+        def path = libraryArgs.startFilePath
+        LibraryExcelPropertyFile libraryPropertyFile = LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(
+                Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "$language"), path)
         if (libraryPropertyFile != null) {
-            def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
+            def libraryFactoryManager = new LibraryFactoryManager(libraryArgs, libraryPropertyFile)
             updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
         }
         LibraryLogs.closeLogs()
     }
 
-    static updateLibraryFactoriesFromLibraryPropertyFile(LibraryFactoryManager libraryFactoryManager, LibraryPropertyFile libraryPropertyFile) {
-        Log.writeLine("Processing ${libraryPropertyFile.getClassNameCount()} classes: ${libraryPropertyFile.getClassNameList()}")
-        libraryPropertyFile.classNames.each { className ->
+    static updateLibraryFactoriesFromLibraryPropertyFile(LibraryFactoryManager libraryFactoryManager, LibraryExcelPropertyFile libraryPropertyFile) {
+        Log.writeLine("Processing ${libraryFactoryManager.getClassNameCount()} classes: ${libraryFactoryManager.getClassNameList()}")
+        libraryFactoryManager.classNames.each { className ->
             addClassNameToLogs(className)
             ExcelPropertySheet excelPropertySheet = libraryPropertyFile.getPropertySheetWithHeaderLabelsInHeaderRow(className, LIBRARYHEADERROW)
             updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, excelPropertySheet)
