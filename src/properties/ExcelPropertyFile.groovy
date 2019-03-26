@@ -15,13 +15,11 @@ class ExcelPropertyFile extends ExcelFile {
     static openExcelPropertyFileUsingChooser(prompt, filePath) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.openExcelFileUsingChooser(prompt, filePath)
-        excelPropertyFile.buildSheetIterator()
         excelPropertyFile.fileName == null ? null : excelPropertyFile
     }
 
-    static createNewSpreadsheetFromFileName(String fileName, CreateFlag createFlag) {
+    static createNewExcelPropertyFileFromFileName(String fileName, CreateFlag createFlag) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
-        excelPropertyFile.buildSheetIterator()
         excelPropertyFile
     }
 

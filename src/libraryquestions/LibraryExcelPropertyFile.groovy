@@ -9,14 +9,8 @@ class LibraryExcelPropertyFile extends ExcelPropertyFile {
 
     static openLibraryPropertyFileUsingChooser(String prompt, String path) {
         LibraryExcelPropertyFile libraryPropertyFile = new LibraryExcelPropertyFile()
-        libraryPropertyFile.buildLibraryPropertyFileUsingChooser(prompt, path)
+        libraryPropertyFile.chooseLibraryPropertyFile(prompt, path)
         libraryPropertyFile.fileName == null ? null : libraryPropertyFile
-    }
-
-    static openLibraryProperty
-
-    private buildLibraryPropertyFileUsingChooser(String prompt, String path) {
-        this.chooseLibraryPropertyFile(prompt, path)
     }
 
     private chooseLibraryPropertyFile(String prompt, String path) {

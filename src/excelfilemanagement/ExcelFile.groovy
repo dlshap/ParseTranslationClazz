@@ -16,6 +16,15 @@ class ExcelFile extends BaseFile {
         this.initializeNewSpreadsheet()
     }
 
+    def initializeNewSpreadsheet() {
+        createOutputWorkbookFromBaseFile()
+        buildSheetIterator()
+    }
+
+    private createOutputWorkbookFromBaseFile() {
+        excelWorkbook = new ExcelWorkbookForOutput(file)
+    }
+
     def buildSheetIterator() {
         if (this.fileName != null)
             this.sheetIterator = workbook.sheetIterator()
@@ -29,6 +38,7 @@ class ExcelFile extends BaseFile {
         this.chooseFile(prompt, path)
         this.setFileName()
         this.setInputWorkbook()
+        this.buildSheetIterator()
     }
 
     private setFileName() {
@@ -41,14 +51,6 @@ class ExcelFile extends BaseFile {
             excelWorkbook = new ExcelWorkbookForInput(file)
     }
 
-    def initializeNewSpreadsheet() {
-        createOutputWorkbookFromBaseFile()
-    }
-
-    private createOutputWorkbookFromBaseFile() {
-        excelWorkbook = new ExcelWorkbookForOutput(file)
-    }
-
     def getWorkbook() {
         excelWorkbook.workbook
     }
@@ -58,16 +60,3 @@ class ExcelFile extends BaseFile {
         excelWorkbook.close()
     }
 }
-
-//    static getExcelFileUsingChooser(prompt, path) {
-//        ExcelFile excelFile = new ExcelFile()
-//        excelFile.openExcelFileUsingChooser(prompt, path)
-//        excelFile.file == null ? null : excelFile
-//    }
-
-//static ExcelFile createFile(fileName, createFlag) {
-//    ExcelFile excelFile = new ExcelFile(fileName, createFlag)
-//    excelFile
-//}
-
-
