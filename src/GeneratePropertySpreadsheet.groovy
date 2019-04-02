@@ -70,7 +70,7 @@ class GeneratePropertySpreadsheet {
 
     ExcelPropertyFile createOutputExcelPropertyFile(ExcelPropertyFile modelExcelPropertyFile) {
         String outputFileName = buildOutputFileName(modelExcelPropertyFile)
-        ExcelPropertyFile outputExcelPropertyFile = ExcelPropertyFile.createNewExcelPropertyFileFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
+        ExcelPropertyFile outputExcelPropertyFile = ExcelPropertyFile.createNewFileFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
         outputExcelPropertyFile
     }
 

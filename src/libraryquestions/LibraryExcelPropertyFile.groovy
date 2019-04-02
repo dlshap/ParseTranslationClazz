@@ -7,6 +7,10 @@ class LibraryExcelPropertyFile extends ExcelPropertyFile {
     LibraryExcelPropertyFile() {
     }
 
+    LibraryExcelPropertyFile(String fileName, CreateFlag createFlag) {
+        super(fileName, createFlag)
+    }
+
     static openLibraryPropertyFileUsingChooser(String prompt, String path) {
         LibraryExcelPropertyFile libraryPropertyFile = new LibraryExcelPropertyFile()
         libraryPropertyFile.chooseLibraryPropertyFile(prompt, path)
@@ -21,5 +25,10 @@ class LibraryExcelPropertyFile extends ExcelPropertyFile {
         LibraryExcelPropertyFile libraryExcelPropertyFile = new LibraryExcelPropertyFile()
         libraryExcelPropertyFile.openExcelFileUsingFileName(fileName)
         libraryExcelPropertyFile.file.exists() ? libraryExcelPropertyFile : null
+    }
+
+    static LibraryExcelPropertyFile createNewFileFromFileName(String fileName, CreateFlag createFlag) {
+        LibraryExcelPropertyFile libraryExcelPropertyFile = new LibraryExcelPropertyFile(fileName, createFlag)
+        libraryExcelPropertyFile
     }
 }

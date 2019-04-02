@@ -18,7 +18,7 @@ class ExcelPropertyFile extends ExcelFile {
         excelPropertyFile.fileName == null ? null : excelPropertyFile
     }
 
-    static ExcelPropertyFile createNewExcelPropertyFileFromFileName(String fileName, CreateFlag createFlag) {
+    static ExcelPropertyFile createNewFileFromFileName(String fileName, CreateFlag createFlag) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
         excelPropertyFile
     }

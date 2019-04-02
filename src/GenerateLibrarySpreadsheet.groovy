@@ -6,7 +6,7 @@ import libraryquestions.LibraryExcelPropertyFile
 import org.apache.poi.ss.usermodel.Sheet
 
 class GenerateLibrarySpreadsheet {
-    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet"
+    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     LibraryArgs libraryArgs
     String path, language
@@ -57,10 +57,10 @@ class GenerateLibrarySpreadsheet {
     }
 
     LibraryExcelPropertyFile createNewLanguageLibraryExcelFileUsingModel(LibraryExcelPropertyFile modelLibraryExcelFile) {
-        LibraryExcelPropertyFile libraryExcelPropertyFile = LibraryExcelPropertyFile.createNewExcelPropertyFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
+        LibraryExcelPropertyFile libraryExcelPropertyFile = LibraryExcelPropertyFile.createNewFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
         Sheet sheet = libraryExcelPropertyFile.workbook.createSheet("test")
         sheet.createRow(0)
-        libraryExcelPropertyFile.writeAndClose()
+        libraryExcelPropertyFile
     }
 
     private updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile) {
