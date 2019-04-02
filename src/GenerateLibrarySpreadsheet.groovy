@@ -1,12 +1,16 @@
+import filemanagement.BaseFile
 import i18n.LanguageLabels
 import i18n.Messages
 import libraryquestions.LibraryArgs
 import libraryquestions.LibraryExcelPropertyFile
+import org.apache.poi.ss.usermodel.Sheet
 
 class GenerateLibrarySpreadsheet {
     static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet"
 
     LibraryArgs libraryArgs
+    String path, language
+    String languageLibraryFileName
 
     GenerateLibrarySpreadsheet(args) {
         start(args)
@@ -18,65 +22,57 @@ class GenerateLibrarySpreadsheet {
 
     def start(args) {
         libraryArgs = new LibraryArgs(args)
-        def language = libraryArgs.languageName
+        setupPathsAndNames()
         if (!(LanguageLabels.isLanguageInList(language)))
+        //todo: change to exception
             println "ERROR: \"$language\" is not in language list"
         else
             generateSpreadsheet()
+    }
+
+    def setupPathsAndNames() {
+        language = libraryArgs.languageName
+        path = libraryArgs.spreadsheetPath
+        languageLibraryFileName = path + "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
     }
 
     def generateSpreadsheet() {
         LibraryExcelPropertyFile modelLibraryExcelFile = getModelFile()
         LibraryExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
         if (languageLibraryExcelFile == null)
-            languageLibraryExcelFile = createNewLanguageLibraryExcelFile(modelLibraryExcelFile)
+            languageLibraryExcelFile = createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
         else
             updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile)
         if (languageLibraryExcelFile != null)
             languageLibraryExcelFile.writeAndClose()
     }
 
-    LibraryExcelPropertyFile getModelFile() {
-        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "master", libraryArgs.languageName)
+   LibraryExcelPropertyFile getModelFile() {
+        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "master", language)
         LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(prompt, libraryArgs.spreadsheetPath)
     }
 
     LibraryExcelPropertyFile getLibraryFile() {
-        String libraryFileName = getLibraryFileNameForLanguage()
-        openLibrarySpreadsheet(libraryArgs.spreadsheetPath + libraryFileName)
+        LibraryExcelPropertyFile.openLibraryPropertyFileUsingFileName(languageLibraryFileName)
     }
 
-    String getLibraryFileNameForLanguage() {
-        "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
-    }
-
-    LibraryExcelPropertyFile openLibrarySpreadsheet(fileName) {
-//        LibraryExcelPropertyFile.
-        null
-    }
-
-
-
-    LibraryExcelPropertyFile createNewLanguageLibraryExcelFile(LibraryExcelPropertyFile modelLibraryExcelFile) {
-        /*
-            loop through english spreadsheet
-                create row in language spreadsheet, creating new columns modeled after english column
-            end loop
-         */
-
-
+    LibraryExcelPropertyFile createNewLanguageLibraryExcelFileUsingModel(LibraryExcelPropertyFile modelLibraryExcelFile) {
+        LibraryExcelPropertyFile libraryExcelPropertyFile = LibraryExcelPropertyFile.createNewExcelPropertyFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
+        Sheet sheet = libraryExcelPropertyFile.workbook.createSheet("test")
+        sheet.createRow(0)
+        libraryExcelPropertyFile.writeAndClose()
     }
 
     private updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile) {
-       /*
-        loop through english spreadsheet
-        if matching row, update the english and mark date changed
-        if no match, create row with english
-        end loop
-        loop through language spreadsheet
-        if no matching english row, delete it and log it
-        end loop
-        */
+        /*
+         loop through english spreadsheet
+         if matching row, update the english and mark date changed
+         if no match, create row with english
+         end loop
+         loop through language spreadsheet
+         if no matching english row, delete it and log it
+         end loop
+         */
 
     }
 

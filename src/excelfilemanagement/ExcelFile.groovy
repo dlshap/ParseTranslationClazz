@@ -36,9 +36,19 @@ class ExcelFile extends BaseFile {
 
     def openExcelFileUsingChooser(String prompt, String path) {
         this.chooseFile(prompt, path)
+        this.setupFile()
+    }
+
+    def setupFile() {
         this.setFileName()
         this.setInputWorkbook()
         this.buildSheetIterator()
+    }
+
+    def openExcelFileUsingFileName(String fileName) {
+        super.openFile(fileName)
+        if (this.file.exists())
+            this.setupFile()
     }
 
     private setFileName() {
