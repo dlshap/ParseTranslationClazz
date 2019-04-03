@@ -12,7 +12,7 @@ class ExcelPropertyFile extends ExcelFile {
         super(fileName, createFlag)
     }
 
-    static openExcelPropertyFileUsingChooser(prompt, filePath) {
+    static openFileUsingChooser(prompt, filePath) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.openExcelFileUsingChooser(prompt, filePath)
         excelPropertyFile.fileName == null ? null : excelPropertyFile
@@ -21,6 +21,12 @@ class ExcelPropertyFile extends ExcelFile {
     static ExcelPropertyFile createNewFileFromFileName(String fileName, CreateFlag createFlag) {
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile(fileName, createFlag)
         excelPropertyFile
+    }
+
+    static openFileUsingFileName(String fileName) {
+        ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
+        excelPropertyFile.openExcelFileUsingFileName(fileName)
+        excelPropertyFile.file.exists() ? excelPropertyFile : null
     }
 
     ExcelPropertySheet createNewExcelPropertySheetFromModel(ExcelPropertySheet modelPropertySheet) {

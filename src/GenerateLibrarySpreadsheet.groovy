@@ -2,8 +2,8 @@ import filemanagement.BaseFile
 import i18n.LanguageLabels
 import i18n.Messages
 import libraryquestions.LibraryArgs
-import libraryquestions.LibraryExcelPropertyFile
 import org.apache.poi.ss.usermodel.Sheet
+import properties.ExcelPropertyFile
 
 class GenerateLibrarySpreadsheet {
     static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
@@ -37,30 +37,29 @@ class GenerateLibrarySpreadsheet {
     }
 
     def generateSpreadsheet() {
-        LibraryExcelPropertyFile modelLibraryExcelFile = getModelFile()
-        LibraryExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
+        ExcelPropertyFile modelLibraryExcelFile = getModelFile()
+        ExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
         if (languageLibraryExcelFile == null)
             languageLibraryExcelFile = createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
         else
             updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile)
-        if (languageLibraryExcelFile != null)
-            languageLibraryExcelFile.writeAndClose()
     }
 
-   LibraryExcelPropertyFile getModelFile() {
+   ExcelPropertyFile getModelFile() {
         def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "master", language)
-        LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(prompt, libraryArgs.spreadsheetPath)
+        ExcelPropertyFile.openFileUsingChooser(prompt, libraryArgs.spreadsheetPath)
     }
 
-    LibraryExcelPropertyFile getLibraryFile() {
-        LibraryExcelPropertyFile.openLibraryPropertyFileUsingFileName(languageLibraryFileName)
+    ExcelPropertyFile getLibraryFile() {
+        ExcelPropertyFile.openFileUsingFileName(languageLibraryFileName)
     }
 
-    LibraryExcelPropertyFile createNewLanguageLibraryExcelFileUsingModel(LibraryExcelPropertyFile modelLibraryExcelFile) {
-        LibraryExcelPropertyFile libraryExcelPropertyFile = LibraryExcelPropertyFile.createNewFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
-        Sheet sheet = libraryExcelPropertyFile.workbook.createSheet("test")
+    ExcelPropertyFile createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
+        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.createNewFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
+        Sheet sheet = excelPropertyFile.workbook.createSheet("test")
         sheet.createRow(0)
-        libraryExcelPropertyFile
+        excelPropertyFile.writeAndClose()
+        excelPropertyFile
     }
 
     private updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile) {

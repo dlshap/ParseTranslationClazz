@@ -41,7 +41,7 @@ class PlayWithCreatingSpreadsheets {
     }
 
     def generateSpreadsheet() {
-//        ExcelPropertyFile fromFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
+//        ExcelPropertyFile fromFile = ExcelPropertyFile.openFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
 //        ExcelPropertyFile toFile = ExcelPropertyFile.createNewFileFromFileName(path + "\\new\\QuestionAnswerLibrary(${propertyArgs.get("language")}).xlsx", CREATE)
 //        while (fromFile.hasNextExcelPropertySheet()) {
 //            ExcelPropertySheet modelPropertySheet = fromFile.nextExcelPropertySheet()
