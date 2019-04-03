@@ -2,6 +2,7 @@ import filemanagement.BaseFile
 import i18n.LanguageLabels
 import i18n.Messages
 import libraryquestions.LibraryArgs
+import libraryquestions.LibrarySpreadsheetBuilder
 import org.apache.poi.ss.usermodel.Sheet
 import properties.ExcelPropertyFile
 
@@ -40,7 +41,7 @@ class GenerateLibrarySpreadsheet {
         ExcelPropertyFile modelLibraryExcelFile = getModelFile()
         ExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
         if (languageLibraryExcelFile == null)
-            languageLibraryExcelFile = createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
+            createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
         else
             updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile)
     }
@@ -54,12 +55,9 @@ class GenerateLibrarySpreadsheet {
         ExcelPropertyFile.openFileUsingFileName(languageLibraryFileName)
     }
 
-    ExcelPropertyFile createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
-        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.createNewFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
-        Sheet sheet = excelPropertyFile.workbook.createSheet("test")
-        sheet.createRow(0)
-        excelPropertyFile.writeAndClose()
-        excelPropertyFile
+    def createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
+        LibrarySpreadsheetBuilder librarySpreadsheetBuilder = new LibrarySpreadsheetBuilder(languageLibraryFileName)
+        librarySpreadsheetBuilder.buildNewSpreadsheetFromModel(modelLibraryExcelFile)
     }
 
     private updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile) {
