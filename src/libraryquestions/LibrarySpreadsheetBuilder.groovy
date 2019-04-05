@@ -1,8 +1,9 @@
 package libraryquestions
 
 import filemanagement.BaseFile
-import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
+import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 
 class LibrarySpreadsheetBuilder {
@@ -15,16 +16,23 @@ class LibrarySpreadsheetBuilder {
 
     def buildNewSpreadsheetFromModel(ExcelPropertyFile modelLibraryExcelFile) {
         while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
-            ExcelPropertySheet excelPropertySheet = modelLibraryExcelFile.nextExcelPropertySheet()
-            buildLanguageSheetFromModelSheet(excelPropertySheet)
+            ExcelPropertySheet modelPropertySheet = modelLibraryExcelFile.nextExcelPropertySheet()
+            buildLanguageSheetFromModelSheet(modelPropertySheet)
         }
         languageLibraryExcelFile.writeAndClose()
     }
 
     private buildLanguageSheetFromModelSheet(ExcelPropertySheet modelPropertySheet) {
-        String sheetName = modelPropertySheet.getSheetName()
-        languageLibraryExcelFile.createSheet(sheetName)
+        Workbook languageWorkbook = languageLibraryExcelFile.workbook
+        ExcelPropertySheet languagePropertySheet = ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(languageWorkbook, modelPropertySheet)
+        buildDataRowsFromModel(languagePropertySheet, modelPropertySheet)
     }
 
+     private buildDataRowsFromModel(ExcelPropertySheet languagePropertySheet, ExcelPropertySheet modelPropertySheet) {
+        while (modelPropertySheet.hasNextExcelPropertyRow()) {
+            ExcelPropertyRow modelPropertyRow = modelPropertySheet.nextExcelPropertyRow()
+            languagePropertySheet.cloneExcelRow(modelPropertyRow.row.getRowNum(), modelPropertyRow)
+        }
+    }
 
 }

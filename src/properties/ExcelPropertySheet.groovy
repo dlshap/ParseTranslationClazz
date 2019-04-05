@@ -167,6 +167,15 @@ class ExcelPropertySheet extends ExcelSheet {
         excelPropertyRow
     }
 
+    def cloneExcelRow(int rowNum, ExcelPropertyRow modelPropertyRow) {
+        Row row = sheet.createRow(rowNum)
+        ExcelPropertyRow newPropertyRow = new ExcelPropertyRow(row, headerRowNames)
+        Map<String, String> propertyMap = modelPropertyRow.getPropertyMap()
+        newPropertyRow.putPropertyMap(propertyMap)
+        applyStylesToRow(dataCellStyles, rowNum)
+        newPropertyRow
+    }
+
     def cloneExcelPropertyRow(int rowNum, ExcelPropertyRow modelPropertyRow) {
         Row row = sheet.createRow(rowNum)
         ExcelPropertyRow newPropertyRow = new ExcelPropertyRow(row, headerRowNames)
