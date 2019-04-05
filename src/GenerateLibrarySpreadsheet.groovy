@@ -39,11 +39,13 @@ class GenerateLibrarySpreadsheet {
 
     def generateSpreadsheet() {
         ExcelPropertyFile modelLibraryExcelFile = getModelFile()
-        ExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
-        if (languageLibraryExcelFile == null)
-            createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
-        else
-            updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile)
+        if (modelLibraryExcelFile != null) {
+            ExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
+            if (languageLibraryExcelFile == null)
+                createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
+            else
+                updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile)
+        }
     }
 
    ExcelPropertyFile getModelFile() {
@@ -61,16 +63,6 @@ class GenerateLibrarySpreadsheet {
     }
 
     private updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile) {
-        /*
-         loop through english spreadsheet
-         if matching row, update the english and mark date changed
-         if no match, create row with english
-         end loop
-         loop through language spreadsheet
-         if no matching english row, delete it and log it
-         end loop
-         */
-
     }
 
 

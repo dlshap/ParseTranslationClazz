@@ -16,6 +16,7 @@ class LibrarySpreadsheetBuilder {
 
     def buildNewSpreadsheetFromModel(ExcelPropertyFile modelLibraryExcelFile) {
         while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
+            print "." // for impatient users
             ExcelPropertySheet modelPropertySheet = modelLibraryExcelFile.nextExcelPropertySheet()
             buildLanguageSheetFromModelSheet(modelPropertySheet)
         }
