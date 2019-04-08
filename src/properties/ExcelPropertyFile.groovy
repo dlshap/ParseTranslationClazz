@@ -1,6 +1,7 @@
 package properties
 
 import excelfilemanagement.ExcelFile
+import org.apache.poi.openxml4j.util.ZipSecureFile
 import org.apache.poi.ss.usermodel.Sheet
 
 class ExcelPropertyFile extends ExcelFile {
@@ -24,6 +25,7 @@ class ExcelPropertyFile extends ExcelFile {
     }
 
     static openFileUsingFileName(String fileName) {
+        ZipSecureFile.setMinInflateRatio(0);                    // avoid ZipBomb problem
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.openExcelFileUsingFileName(fileName)
         excelPropertyFile.file.exists() ? excelPropertyFile : null
