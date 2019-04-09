@@ -61,7 +61,7 @@ class GenerateLibrarySpreadsheet {
         librarySpreadsheetBuilder.buildNewSpreadsheetFromModel(modelLibraryExcelFile)
     }
 
-    private updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile) {
+    private updateLanguageLibraryExcelFileFromModel(ExcelPropertyFile modelLibraryExcelFile, ExcelPropertyFile languageLibraryExcelFile) {
         LibrarySpreadsheetUpdater librarySpreadsheetUpdater = new LibrarySpreadsheetUpdater(languageLibraryExcelFile)
         librarySpreadsheetUpdater.updateSpreadsheetFromModel(modelLibraryExcelFile)
     }
