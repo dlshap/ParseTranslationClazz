@@ -13,9 +13,23 @@ class LibrarySpreadsheetUpdater {
     }
 
     def updateSpreadsheetFromModel(ExcelPropertyFile modelLibraryExcelFile) {
-        while (origLibraryExcelFile.hasNextExcelPropertySheet()) {
-            ExcelPropertySheet nextSheet = origLibraryExcelFile.nextExcelPropertySheet()
-            print nextSheet.sheetName + ","
+        while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
+            ExcelPropertySheet modelSheet = modelLibraryExcelFile.nextExcelPropertySheet()
+            ExcelPropertySheet origSheet = origLibraryExcelFile.getExcelPropertySheet(modelSheet.sheetName)
+            if (origSheet == null) {
+                buildNewSheetFromModel(modelSheet)
+            } else {
+                updateNewSheetFromModelAndOrig(modelSheet, origSheet)
+            }
         }
     }
+
+    def buildNewSheetFromModel(ExcelPropertySheet modelSheet) {
+        println "New Sheet: ${modelSheet.sheetName}"
+    }
+
+    def updateNewSheetFromModelAndOrig(ExcelPropertySheet modelSheet, ExcelPropertySheet origSheet) {
+        println "Old Sheet: ${origSheet.sheetName}"
+    }
+
 }

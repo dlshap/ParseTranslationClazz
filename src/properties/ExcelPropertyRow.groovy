@@ -15,7 +15,7 @@ class ExcelPropertyRow {
         this.headerRowNames = headerRowNames
     }
 
-    def keysMatch(Map<String, String> matchKeyList) {
+    Boolean keysMatch(Map<String, String> matchKeyList) {
         def propertyMap = this.getPropertyMap()
         def match = true
         matchKeyList.each {
@@ -25,7 +25,7 @@ class ExcelPropertyRow {
         match
     }
 
-    def getPropertyMap() {
+    Map<String, String> getPropertyMap() {
         Map<String, String> propertyMap = ["row" : row.rowNum+1]
         headerRowNames.eachWithIndex{ String colName, int colNum ->
             Cell cell = row.getCell(colNum)
@@ -45,7 +45,7 @@ class ExcelPropertyRow {
         }
     }
 
-    def getColumnNumber(String key) {
+    Integer getColumnNumber(String key) {
         headerRowNames.indexOf(key)
     }
 
@@ -74,13 +74,4 @@ class ExcelPropertyRow {
         Cell cell = row.getCell(colNum)
         ExcelUtil.toStringWithOnlyIntegerNumerics(cell)
     }
-
-//    def putStyleMapIntoRow(Map<String, CellStyle> styleMap) {
-//        styleMap.each { key, value ->
-//            def colNum = getColumnNumber(key)
-//            if (colNum >= 0) {
-//                row.getCell(colNum).setCellStyle(value)
-//            }
-//        }
-//    }
 }

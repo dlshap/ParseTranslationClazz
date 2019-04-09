@@ -2,6 +2,7 @@ package excelfilemanagement
 
 import filemanagement.BaseFile
 import filemanagement.FileChooser
+import org.apache.poi.ss.usermodel.Sheet
 
 class ExcelFile extends BaseFile {
 
@@ -28,6 +29,10 @@ class ExcelFile extends BaseFile {
     def buildSheetIterator() {
         if (this.fileName != null)
             this.sheetIterator = workbook.sheetIterator()
+    }
+
+    Sheet getSheet(String sheetName) {
+        excelWorkbook.workbook.getSheet(sheetName)
     }
 
     def hasNextExcelPropertySheet() {

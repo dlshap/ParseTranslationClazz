@@ -205,9 +205,9 @@ class ExcelPropertySheet extends ExcelSheet {
         }
     }
 
-    ExcelPropertyRow getExcelPropertyRow(int rowNum) {
-        new ExcelPropertyRow(getRow(rowNum), headerRowNames)
-    }
+//    ExcelPropertyRow getExcelPropertyRow(int rowNum) {
+//        new ExcelPropertyRow(getRow(rowNum), headerRowNames)
+//    }
 
     ArrayList<String> getHeaderRowNames() {
         sheetProperties.headerRowNames
