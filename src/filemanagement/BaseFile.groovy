@@ -71,12 +71,3 @@ class BaseFile {
             file.delete()
     }
 }
-
-//    static createFile(String fileName, CreateFlag createFlag) {
-//        BaseFile baseFile = new BaseFile()
-//        baseFile.fileName = fileName
-//        baseFile.createOrOverwriteFile(createFlag)
-//        baseFile
-//    }
-
-

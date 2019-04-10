@@ -70,6 +70,14 @@ class ExcelFile extends BaseFile {
         excelWorkbook.workbook
     }
 
+    def close() {
+        excelWorkbook.close()
+    }
+
+    def write() {
+        excelWorkbook.write()
+    }
+
     def writeAndClose() {
         excelWorkbook.write()
         excelWorkbook.close()
