@@ -43,6 +43,7 @@ class GenerateLibrarySpreadsheet {
             ExcelPropertyFile oldLibraryExcelFile = getLibraryFile()
             if (oldLibraryExcelFile != null)
                 updateNewLanguageLibraryExcelFileFromOldFile(newLibraryExcelFile, oldLibraryExcelFile)
+            newLibraryExcelFile.writeAndClose()
         }
     }
 
@@ -56,8 +57,9 @@ class GenerateLibrarySpreadsheet {
     }
 
     def createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
-        LibrarySpreadsheetBuilder librarySpreadsheetBuilder = new LibrarySpreadsheetBuilder(path + "\\new\\" + foreignLangFileName)
-        librarySpreadsheetBuilder.buildNewSpreadsheetFromModel(modelLibraryExcelFile)
+        String newLibraryFileName = path + "\\new\\" + foreignLangFileName
+        LibrarySpreadsheetBuilder.buildNewSpreadsheetFromModel(newLibraryFileName, modelLibraryExcelFile)
+
     }
 
     private updateNewLanguageLibraryExcelFileFromOldFile(ExcelPropertyFile newLibraryExcelFile, ExcelPropertyFile oldLibraryExcelFile) {
