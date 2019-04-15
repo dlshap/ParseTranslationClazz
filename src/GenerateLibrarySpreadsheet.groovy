@@ -10,7 +10,7 @@ class GenerateLibrarySpreadsheet {
 
     LibraryArgs libraryArgs
     String path, language
-    String languageLibraryFileName
+    String oldLibraryFileName
 
     GenerateLibrarySpreadsheet(args) {
         start(args)
@@ -33,17 +33,17 @@ class GenerateLibrarySpreadsheet {
     def setupPathsAndNames() {
         language = libraryArgs.languageName
         path = libraryArgs.spreadsheetPath
-        languageLibraryFileName = path + "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
+        oldLibraryFileName = path + "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
     }
 
     def generateSpreadsheet() {
         ExcelPropertyFile modelLibraryExcelFile = getModelFile()
         if (modelLibraryExcelFile != null) {
-            ExcelPropertyFile languageLibraryExcelFile = getLibraryFile()
-            if (languageLibraryExcelFile == null)
+            ExcelPropertyFile oldLibraryExcelFile = getLibraryFile()
+            if (oldLibraryExcelFile == null)
                 createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
             else
-                updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, languageLibraryExcelFile)
+                updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, oldLibraryExcelFile)
         }
     }
 
@@ -53,11 +53,11 @@ class GenerateLibrarySpreadsheet {
     }
 
     ExcelPropertyFile getLibraryFile() {
-        ExcelPropertyFile.openFileUsingFileName(languageLibraryFileName)
+        ExcelPropertyFile.openFileUsingFileName(oldLibraryFileName)
     }
 
     def createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
-        LibrarySpreadsheetBuilder librarySpreadsheetBuilder = new LibrarySpreadsheetBuilder(languageLibraryFileName)
+        LibrarySpreadsheetBuilder librarySpreadsheetBuilder = new LibrarySpreadsheetBuilder(oldLibraryFileName)
         librarySpreadsheetBuilder.buildNewSpreadsheetFromModel(modelLibraryExcelFile)
     }
 

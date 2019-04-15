@@ -8,7 +8,7 @@ import properties.ExcelPropertySheet
 
 class LibrarySpreadsheetBuilder {
 
-    ExcelPropertyFile languageLibraryExcelFile
+    ExcelPropertyFile newLibraryExcelFile
 
     LibrarySpreadsheetBuilder() {
 
@@ -19,7 +19,7 @@ class LibrarySpreadsheetBuilder {
     }
 
     def createNewLibraryExcelFileFromFileName(String languageLibraryFileName) {
-        languageLibraryExcelFile = ExcelPropertyFile.createNewFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
+        newLibraryExcelFile = ExcelPropertyFile.createNewFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
     }
 
     def buildNewSpreadsheetFromModel(ExcelPropertyFile modelLibraryExcelFile) {
@@ -28,11 +28,11 @@ class LibrarySpreadsheetBuilder {
             buildLanguageSheetFromModelSheet(modelPropertySheet)
             print "." // for impatient users
         }
-        languageLibraryExcelFile.writeAndClose()
+        newLibraryExcelFile.writeAndClose()
     }
 
     def buildLanguageSheetFromModelSheet(ExcelPropertySheet modelPropertySheet) {
-        Workbook languageWorkbook = languageLibraryExcelFile.workbook
+        Workbook languageWorkbook = newLibraryExcelFile.workbook
         ExcelPropertySheet languagePropertySheet = ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(languageWorkbook, modelPropertySheet)
         buildDataRowsFromModel(languagePropertySheet, modelPropertySheet)
     }

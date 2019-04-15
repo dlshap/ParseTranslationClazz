@@ -1,15 +1,14 @@
 package libraryquestions
 
-import filemanagement.BaseFile
 import properties.ExcelPropertyFile
 import properties.ExcelPropertySheet
 
 class LibrarySpreadsheetUpdater extends LibrarySpreadsheetBuilder {
 
-    ExcelPropertyFile origLibraryExcelFile
+    ExcelPropertyFile oldLibraryExcelFile
 
     LibrarySpreadsheetUpdater(ExcelPropertyFile origLibraryExcelFile) {
-        this.origLibraryExcelFile = origLibraryExcelFile
+        this.oldLibraryExcelFile = origLibraryExcelFile
         String pathName = origLibraryExcelFile.file.getParent() + "\\"
         String newLibraryFileName = pathName + (origLibraryExcelFile.fileName).replace(")", ")_new")
         this.createNewLibraryExcelFileFromFileName(newLibraryFileName)
@@ -19,7 +18,7 @@ class LibrarySpreadsheetUpdater extends LibrarySpreadsheetBuilder {
 //        while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
 //            ExcelPropertySheet modelSheet = modelLibraryExcelFile.nextExcelPropertySheet()
 //            String sheetName = modelSheet.sheetName
-//            ExcelPropertySheet origSheet = origLibraryExcelFile.getExcelPropertySheet(sheetName)
+//            ExcelPropertySheet origSheet = oldLibraryExcelFile.getExcelPropertySheet(sheetName)
 //            if (origSheet == null) {
 //                buildLanguageSheetFromModelSheet(modelSheet)
 //            } else {
@@ -27,29 +26,29 @@ class LibrarySpreadsheetUpdater extends LibrarySpreadsheetBuilder {
 //            }
 //            print "." // for impatient users
 //        }
-        languageLibraryExcelFile.writeAndClose()
+        newLibraryExcelFile.writeAndClose()
         renameOldAndNewLibraryFiles()
     }
 
     private renameOldAndNewLibraryFiles() {
-        String pathName = origLibraryExcelFile.file.getParent() + "\\"
+        String pathName = oldLibraryExcelFile.file.getParent() + "\\"
         renameOrigFileToOld(pathName)
         renameNewFileToOrig(pathName)
     }
 
     private renameOrigFileToOld(String pathName) {
-        String origFileName = origLibraryExcelFile.fileName
+        String origFileName = oldLibraryExcelFile.fileName
         String oldFileName = origFileName.replace(")", ")_old")
         File oldFile = new File(pathName + oldFileName)
         if (oldFile.exists())
             oldFile.delete()
-        File origFile = new File(pathName + origFileName)
+        File origFile = new File(pathName + oldFileName)
         origFile.renameTo(pathName + oldFileName)
     }
 
     private renameNewFileToOrig(String pathName) {
-        String newFileName = languageLibraryExcelFile.fileName
-        String origFileName = origLibraryExcelFile.fileName
+        String newFileName = newLibraryExcelFile.fileName
+        String origFileName = oldLibraryExcelFile.fileName
         File newFile = new File(pathName + newFileName)
         File origFile = new File(pathName + origFileName)
         newFile.renameTo(origFile)
