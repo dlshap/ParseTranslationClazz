@@ -1,7 +1,6 @@
 package excelfilemanagement
 
 import filemanagement.BaseFile
-import filemanagement.FileChooser
 import org.apache.poi.ss.usermodel.Sheet
 
 class ExcelFile extends BaseFile {
@@ -19,14 +18,14 @@ class ExcelFile extends BaseFile {
 
     def initializeNewSpreadsheet() {
         createOutputWorkbookFromBaseFile()
-        buildSheetIterator()
+        resetSheetIterator()
     }
 
     private createOutputWorkbookFromBaseFile() {
         excelWorkbook = new ExcelWorkbookForOutput(file)
     }
 
-    def buildSheetIterator() {
+    def resetSheetIterator() {
         if (this.fileName != null)
             this.sheetIterator = workbook.sheetIterator()
     }
@@ -47,7 +46,7 @@ class ExcelFile extends BaseFile {
     def setupFile() {
         this.setFileName()
         this.setInputWorkbook()
-        this.buildSheetIterator()
+        this.resetSheetIterator()
     }
 
     def openExcelFileUsingFileName(String fileName) {

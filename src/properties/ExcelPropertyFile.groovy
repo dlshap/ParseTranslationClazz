@@ -35,10 +35,6 @@ class ExcelPropertyFile extends ExcelFile {
         ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(this.workbook, modelPropertySheet)
     }
 
-//    def createSheet(String sheetName) {
-//        this.workbook.createSheet(sheetName)
-//    }
-//
     def getPropertySheetWithHeaderLabelsInHeaderRow(String sheetName, int headerRowNum) {
         Sheet sheet = this.workbook.getSheet(sheetName)
         ExcelPropertySheet.createExcelPropertySheetFromAWorkbookSheet(this.workbook, sheet, headerRowNum)

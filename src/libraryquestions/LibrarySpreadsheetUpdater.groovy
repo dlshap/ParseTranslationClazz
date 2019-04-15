@@ -1,61 +1,63 @@
 package libraryquestions
 
 import properties.ExcelPropertyFile
+import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 
 class LibrarySpreadsheetUpdater extends LibrarySpreadsheetBuilder {
 
     ExcelPropertyFile oldLibraryExcelFile
 
-    LibrarySpreadsheetUpdater(ExcelPropertyFile origLibraryExcelFile) {
-        this.oldLibraryExcelFile = origLibraryExcelFile
-        String pathName = origLibraryExcelFile.file.getParent() + "\\"
-        String newLibraryFileName = pathName + (origLibraryExcelFile.fileName).replace(")", ")_new")
+    LibrarySpreadsheetUpdater(ExcelPropertyFile oldLibraryExcelFile) {
+        this.oldLibraryExcelFile = oldLibraryExcelFile
+        String pathName = oldLibraryExcelFile.file.getParent() + "\\"
+        String newLibraryFileName = pathName + "\\new\\" + oldLibraryExcelFile.fileName
         this.createNewLibraryExcelFileFromFileName(newLibraryFileName)
     }
 
     def updateSpreadsheetFromModel(ExcelPropertyFile modelLibraryExcelFile) {
-//        while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
-//            ExcelPropertySheet modelSheet = modelLibraryExcelFile.nextExcelPropertySheet()
-//            String sheetName = modelSheet.sheetName
-//            ExcelPropertySheet origSheet = oldLibraryExcelFile.getExcelPropertySheet(sheetName)
-//            if (origSheet == null) {
-//                buildLanguageSheetFromModelSheet(modelSheet)
-//            } else {
-//                updateNewSheetFromModelAndOrig(modelSheet, origSheet)
-//            }
-//            print "." // for impatient users
-//        }
+        while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
+            ExcelPropertySheet modelSheet = modelLibraryExcelFile.nextExcelPropertySheet()
+            String sheetName = modelSheet.sheetName
+            ExcelPropertySheet oldSheet = oldLibraryExcelFile.getExcelPropertySheet(sheetName)
+            if (oldSheet == null) {
+                buildNewSheetFromModelSheet(modelSheet)
+            } else {
+                buildNewSheetFromModelAndOrig(modelSheet, oldSheet)
+            }
+            print "." // for impatient users
+        }
         newLibraryExcelFile.writeAndClose()
-        renameOldAndNewLibraryFiles()
     }
 
-    private renameOldAndNewLibraryFiles() {
-        String pathName = oldLibraryExcelFile.file.getParent() + "\\"
-        renameOrigFileToOld(pathName)
-        renameNewFileToOrig(pathName)
+    def buildNewSheetFromModelAndOrig(ExcelPropertySheet modelSheet, ExcelPropertySheet oldSheet) {
+        while (modelSheet.hasNextExcelPropertyRow()) {
+            ExcelPropertyRow modelRow = modelSheet.nextExcelPropertyRow()
+            ExcelPropertyRow oldRow = getOldRowMatchingKeysFromModelRow(oldSheet, modelRow)
+            buildNewRowFromModelRowAndOldRow(modelRow, oldRow)
+        }
     }
 
-    private renameOrigFileToOld(String pathName) {
-        String origFileName = oldLibraryExcelFile.fileName
-        String oldFileName = origFileName.replace(")", ")_old")
-        File oldFile = new File(pathName + oldFileName)
-        if (oldFile.exists())
-            oldFile.delete()
-        File origFile = new File(pathName + oldFileName)
-        origFile.renameTo(pathName + oldFileName)
+    private getOldRowMatchingKeysFromModelRow(ExcelPropertySheet oldSheet, ExcelPropertyRow modelRow) {
+        Map<String, String> rowKeys = [:]
+        ["Question Identifier", "BOM Fields"].each { fieldName ->
+            rowKeys[fieldName] = modelRow.getValue(fieldName)
+        }
+        oldSheet.getFirstExcelPropertyRowMatchingKeys(rowKeys)
     }
 
-    private renameNewFileToOrig(String pathName) {
-        String newFileName = newLibraryExcelFile.fileName
-        String origFileName = oldLibraryExcelFile.fileName
-        File newFile = new File(pathName + newFileName)
-        File origFile = new File(pathName + origFileName)
-        newFile.renameTo(origFile)
+    private buildNewRowFromModelRowAndOldRow(ExcelPropertyRow modelRow, ExcelPropertyRow oldRow) {
+
     }
 
-    def updateNewSheetFromModelAndOrig(ExcelPropertySheet modelSheet, ExcelPropertySheet origSheet) {
-        buildLanguageSheetFromModelSheet(modelSheet)
-    }
+
+    // get model keys
+    // get old row matching model keys
+    // if nomatch, gen row from model row
+    // otherwise,
+    //      if translated field, use old value
+    //      otherwise
+    //          if model doesn't match old, mark date field
+    //          use model value
 
 }

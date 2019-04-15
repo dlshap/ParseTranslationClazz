@@ -38,7 +38,6 @@ class ExcelPropertySheet extends ExcelSheet {
         ArrayList<CellStyle> cellStyles = []
         Row modelRow = stylesSourceSheet.getRow(rowNum)
         for (int colNum = 0; colNum < modelRow.getLastCellNum(); colNum++) {
-//        modelRow.cellIterator().eachWithIndex { Cell modelCell, int colNum ->
             Cell modelCell = modelRow.getCell(colNum)
             String cellValue = modelCell.toString().trim()
             if ((onBlankCell == OnBlankCell.STOP) && ((cellValue == null) || (cellValue == "")))
@@ -204,10 +203,6 @@ class ExcelPropertySheet extends ExcelSheet {
             applyStylesToRow(dataCellStyles, rowNum)
         }
     }
-
-//    ExcelPropertyRow getExcelPropertyRow(int rowNum) {
-//        new ExcelPropertyRow(getRow(rowNum), headerRowNames)
-//    }
 
     ArrayList<String> getHeaderRowNames() {
         sheetProperties.headerRowNames

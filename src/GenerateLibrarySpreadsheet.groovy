@@ -10,7 +10,7 @@ class GenerateLibrarySpreadsheet {
 
     LibraryArgs libraryArgs
     String path, language
-    String oldLibraryFileName
+    String foreignLangFileName
 
     GenerateLibrarySpreadsheet(args) {
         start(args)
@@ -33,17 +33,16 @@ class GenerateLibrarySpreadsheet {
     def setupPathsAndNames() {
         language = libraryArgs.languageName
         path = libraryArgs.spreadsheetPath
-        oldLibraryFileName = path + "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
+        foreignLangFileName = "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
     }
 
     def generateSpreadsheet() {
         ExcelPropertyFile modelLibraryExcelFile = getModelFile()
         if (modelLibraryExcelFile != null) {
+            ExcelPropertyFile newLibraryExcelFile = createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
             ExcelPropertyFile oldLibraryExcelFile = getLibraryFile()
-            if (oldLibraryExcelFile == null)
-                createNewLanguageLibraryExcelFileUsingModel(modelLibraryExcelFile)
-            else
-                updateLanguageLibraryExcelFileFromModel(modelLibraryExcelFile, oldLibraryExcelFile)
+            if (oldLibraryExcelFile != null)
+                updateNewLanguageLibraryExcelFileFromOldFile(newLibraryExcelFile, oldLibraryExcelFile)
         }
     }
 
@@ -53,17 +52,18 @@ class GenerateLibrarySpreadsheet {
     }
 
     ExcelPropertyFile getLibraryFile() {
-        ExcelPropertyFile.openFileUsingFileName(oldLibraryFileName)
+        ExcelPropertyFile.openFileUsingFileName(path + foreignLangFileName)
     }
 
     def createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
-        LibrarySpreadsheetBuilder librarySpreadsheetBuilder = new LibrarySpreadsheetBuilder(oldLibraryFileName)
+        LibrarySpreadsheetBuilder librarySpreadsheetBuilder = new LibrarySpreadsheetBuilder(path + "\\new\\" + foreignLangFileName)
         librarySpreadsheetBuilder.buildNewSpreadsheetFromModel(modelLibraryExcelFile)
     }
 
-    private updateLanguageLibraryExcelFileFromModel(ExcelPropertyFile modelLibraryExcelFile, ExcelPropertyFile languageLibraryExcelFile) {
-        LibrarySpreadsheetUpdater librarySpreadsheetUpdater = new LibrarySpreadsheetUpdater(languageLibraryExcelFile)
-        librarySpreadsheetUpdater.updateSpreadsheetFromModel(modelLibraryExcelFile)
+    private updateNewLanguageLibraryExcelFileFromOldFile(ExcelPropertyFile newLibraryExcelFile, ExcelPropertyFile oldLibraryExcelFile) {
+//        newLibraryExcelFile.resetSheetIterator()
+//        while (newLibraryExcelFile.hasNextExcelPropertySheet())
+//            println newLibraryExcelFile.nextExcelPropertySheet().sheetName
     }
 
 

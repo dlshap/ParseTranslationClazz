@@ -11,27 +11,26 @@ class LibrarySpreadsheetBuilder {
     ExcelPropertyFile newLibraryExcelFile
 
     LibrarySpreadsheetBuilder() {
-
     }
 
-    LibrarySpreadsheetBuilder(String languageLibraryFileName) {
-        createNewLibraryExcelFileFromFileName(languageLibraryFileName)
+    LibrarySpreadsheetBuilder(String newLibraryExcelFileName) {
+        createNewLibraryExcelFileFromFileName(newLibraryExcelFileName)
     }
 
-    def createNewLibraryExcelFileFromFileName(String languageLibraryFileName) {
+    ExcelPropertyFile createNewLibraryExcelFileFromFileName(String languageLibraryFileName) {
         newLibraryExcelFile = ExcelPropertyFile.createNewFileFromFileName(languageLibraryFileName, BaseFile.CreateFlag.CREATE)
     }
 
     def buildNewSpreadsheetFromModel(ExcelPropertyFile modelLibraryExcelFile) {
         while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
             ExcelPropertySheet modelPropertySheet = modelLibraryExcelFile.nextExcelPropertySheet()
-            buildLanguageSheetFromModelSheet(modelPropertySheet)
+            buildNewSheetFromModelSheet(modelPropertySheet)
             print "." // for impatient users
         }
         newLibraryExcelFile.writeAndClose()
     }
 
-    def buildLanguageSheetFromModelSheet(ExcelPropertySheet modelPropertySheet) {
+    def buildNewSheetFromModelSheet(ExcelPropertySheet modelPropertySheet) {
         Workbook languageWorkbook = newLibraryExcelFile.workbook
         ExcelPropertySheet languagePropertySheet = ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(languageWorkbook, modelPropertySheet)
         buildDataRowsFromModel(languagePropertySheet, modelPropertySheet)
