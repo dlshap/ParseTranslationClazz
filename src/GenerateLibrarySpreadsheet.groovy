@@ -4,6 +4,7 @@ import libraryquestions.LibraryArgs
 import libraryquestions.LibrarySpreadsheetBuilder
 import libraryquestions.LibrarySpreadsheetUpdater
 import properties.ExcelPropertyFile
+import properties.ExcelPropertySheet
 
 class GenerateLibrarySpreadsheet {
     static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
@@ -63,9 +64,16 @@ class GenerateLibrarySpreadsheet {
     }
 
     private updateNewLanguageLibraryExcelFileFromOldFile(ExcelPropertyFile newLibraryExcelFile, ExcelPropertyFile oldLibraryExcelFile) {
-//        newLibraryExcelFile.resetSheetIterator()
-//        while (newLibraryExcelFile.hasNextExcelPropertySheet())
-//            println newLibraryExcelFile.nextExcelPropertySheet().sheetName
+        newLibraryExcelFile.resetSheetIterator()
+        while (newLibraryExcelFile.hasNextExcelPropertySheet()) {
+            ExcelPropertySheet newSheet = newLibraryExcelFile.nextExcelPropertySheet()
+            ExcelPropertySheet oldSheet = oldLibraryExcelFile.getExcelPropertySheet(newSheet.sheetName)
+            updateNewSheetFromOldSheet(newSheet, oldSheet)
+        }
+    }
+
+    private updateNewSheetFromOldSheet(ExcelPropertySheet newSheet, ExcelPropertySheet oldSheet) {
+        println newSheet.sheetName
     }
 
 
