@@ -1,63 +1,63 @@
 package libraryquestions
 
+import filemanagement.BaseFile
+import logging.Log
+import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 
-class LibrarySpreadsheetUpdater extends LibrarySpreadsheetBuilder {
+class LibrarySpreadsheetUpdater {
 
-    ExcelPropertyFile oldLibraryExcelFile
-
-    LibrarySpreadsheetUpdater(ExcelPropertyFile oldLibraryExcelFile) {
-        this.oldLibraryExcelFile = oldLibraryExcelFile
-        String pathName = oldLibraryExcelFile.file.getParent() + "\\"
-        String newLibraryFileName = pathName + "\\new\\" + oldLibraryExcelFile.fileName
-        this.createNewLibraryExcelFileFromFileName(newLibraryFileName)
-    }
-
-    def updateSpreadsheetFromModel(ExcelPropertyFile modelLibraryExcelFile) {
+    static buildNewSpreadsheetFromModel(String newFileName, ExcelPropertyFile modelLibraryExcelFile) {
+        ExcelPropertyFile newLibraryExcelFile = ExcelPropertyFile.createNewFileFromFileName(newFileName, BaseFile.CreateFlag.CREATE)
         while (modelLibraryExcelFile.hasNextExcelPropertySheet()) {
-            ExcelPropertySheet modelSheet = modelLibraryExcelFile.nextExcelPropertySheet()
-            String sheetName = modelSheet.sheetName
-            ExcelPropertySheet oldSheet = oldLibraryExcelFile.getExcelPropertySheet(sheetName)
-            if (oldSheet == null) {
-                buildNewSheetFromModelSheet(modelSheet)
-            } else {
-                buildNewSheetFromModelAndOrig(modelSheet, oldSheet)
-            }
+            ExcelPropertySheet modelPropertySheet = modelLibraryExcelFile.nextExcelPropertySheet()
+            buildNewSheetFromModelSheet(newLibraryExcelFile, modelPropertySheet)
             print "." // for impatient users
         }
-        newLibraryExcelFile.writeAndClose()
+        print "\n"
+        newLibraryExcelFile
     }
 
-    def buildNewSheetFromModelAndOrig(ExcelPropertySheet modelSheet, ExcelPropertySheet oldSheet) {
-        while (modelSheet.hasNextExcelPropertyRow()) {
-            ExcelPropertyRow modelRow = modelSheet.nextExcelPropertyRow()
-            ExcelPropertyRow oldRow = getOldRowMatchingKeysFromModelRow(oldSheet, modelRow)
-            buildNewRowFromModelRowAndOldRow(modelRow, oldRow)
+    private
+    static buildNewSheetFromModelSheet(ExcelPropertyFile newLibraryExcelFile, ExcelPropertySheet modelPropertySheet) {
+        Workbook languageWorkbook = newLibraryExcelFile.workbook
+        ExcelPropertySheet languagePropertySheet = ExcelPropertySheet.createExcelPropertySheetInWorkbookFromModelSheet(languageWorkbook, modelPropertySheet)
+        buildDataRowsFromModel(languagePropertySheet, modelPropertySheet)
+    }
+
+    private
+    static buildDataRowsFromModel(ExcelPropertySheet languagePropertySheet, ExcelPropertySheet modelPropertySheet) {
+        while (modelPropertySheet.hasNextExcelPropertyRow()) {
+            ExcelPropertyRow modelPropertyRow = modelPropertySheet.nextExcelPropertyRow()
+            languagePropertySheet.cloneExcelRow(modelPropertyRow.row.getRowNum(), modelPropertyRow)
         }
     }
 
-    private getOldRowMatchingKeysFromModelRow(ExcelPropertySheet oldSheet, ExcelPropertyRow modelRow) {
+    static ExcelPropertyRow getRowMatchingKeysFromModelRow(ExcelPropertySheet sheet, ExcelPropertyRow oldRow) {
+        Map<String, String> rowKeys = getRowKeys(oldRow)
+        sheet.getFirstExcelPropertyRowMatchingKeys(rowKeys)
+    }
+
+    static Map<String, String> getRowKeys(ExcelPropertyRow row) {
         Map<String, String> rowKeys = [:]
-        ["Question Identifier", "BOM Fields"].each { fieldName ->
-            rowKeys[fieldName] = modelRow.getValue(fieldName)
+        LibraryColumns.libraryKeyColumns.each { fieldName ->
+            rowKeys[fieldName] = row.getValue(fieldName)
         }
-        oldSheet.getFirstExcelPropertyRowMatchingKeys(rowKeys)
+        rowKeys
     }
 
-    private buildNewRowFromModelRowAndOldRow(ExcelPropertyRow modelRow, ExcelPropertyRow oldRow) {
-
+    static updateNewRowTranslationsFromOldRowForSheet(ExcelPropertyRow newRow, ExcelPropertyRow oldRow, String sheetName) {
+        def today = Calendar.getInstance().time
+        LibraryColumns.libraryTranslatedColumns.each { englishColumnName, translatedColumnName ->
+            newRow.setValue(translatedColumnName, oldRow.getValue(translatedColumnName))
+            String newEnglishName = (newRow.getValue(englishColumnName)).trim()
+            String oldEnglishName = (oldRow.getValue(englishColumnName)).trim()
+            if (!(newEnglishName.equals(oldEnglishName))) {
+                newRow.setValue("Date Changed", today)
+                Log.writeLine("updates", "$sheetName: English text changed for $englishColumnName from: $oldEnglishName to: $newEnglishName")
+            }
+        }
     }
-
-
-    // get model keys
-    // get old row matching model keys
-    // if nomatch, gen row from model row
-    // otherwise,
-    //      if translated field, use old value
-    //      otherwise
-    //          if model doesn't match old, mark date field
-    //          use model value
-
 }

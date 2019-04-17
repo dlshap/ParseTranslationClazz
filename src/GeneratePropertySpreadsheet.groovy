@@ -125,6 +125,7 @@ class GeneratePropertySpreadsheet {
     }
 
     def updateTranslationInRow(ExcelPropertySheet newPropertySheet, property, ExcelPropertyRow modelPropertyRow, int propIndex) {
+        def today = Calendar.getInstance().time
         ExcelPropertyRow newPropertyRow = newPropertySheet.cloneExcelPropertyRow(propIndex, modelPropertyRow)
         def oldEnglishValue = modelPropertyRow.getValue("English").trim()
         def newEnglishValue = property.getValue().trim()
@@ -132,7 +133,6 @@ class GeneratePropertySpreadsheet {
         if (oldEnglishValue != newEnglishValue) {
             Log.writeLine "updates", "Changing property ${property.getKey()}: Old: $oldEnglishValue New: $newEnglishValue "
             newPropertyRow.setValue("English", newEnglishValue)
-            def today = Calendar.getInstance().time
             newPropertyRow.setValue("Date Changed", today)
             newPropertyRow.setStyle("Date Changed", getDateStyle(newPropertySheet))
         }

@@ -9,6 +9,11 @@ class LibraryColumns {
             "Description Text" : "Description Text Translated"
     ]
 
+    static final libraryKeyColumns = [
+            "Question Identifier",
+            "BOM Fields"
+    ]
+
     static getLibraryTranslatedColumnName(String libraryColumnName) {
         libraryTranslatedColumns[libraryColumnName]
     }
