@@ -23,7 +23,7 @@ class LibraryPropertyFile extends ExcelPropertyFile {
 
     def chooseLibraryPropertyFile(prompt, filePath) {
         def startDir = new File(filePath)
-        def spreadsheetDirectory = startDir.getParent() + "\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\"
+        def spreadsheetDirectory = startDir.getPath() + "\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\"
         openExcelFileUsingChooser(prompt, spreadsheetDirectory)
     }
 
