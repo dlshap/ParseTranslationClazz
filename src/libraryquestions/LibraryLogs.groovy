@@ -5,7 +5,7 @@ import logging.Log
 
 class LibraryLogs {
     static openLogs(libraryArgs) {
-        def logsFilePath = libraryArgs.startFilePath + "logs\\\\"
+        def logsFilePath = libraryArgs.startFilePath + "\\DMT\\logs\\"
         Log.open logsFilePath + "log-library-translations.txt"
         Log.writeLine "Running on " + Dates.currentDateAndTime() + ":\r\n"
         Log.open "exceptions", logsFilePath + "log-library-exceptions.txt"
