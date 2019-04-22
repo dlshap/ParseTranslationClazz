@@ -50,11 +50,11 @@ class UpdateDMTClassFactories {
         libraryFactoryManager.classNames.each { className ->
             addClassNameToLogs(className)
             ExcelPropertySheet excelPropertySheet = libraryPropertyFile.getPropertySheetWithHeaderLabelsInHeaderRow(className, LIBRARYHEADERROW)
-            updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, excelPropertySheet)
+            updateLibraryFactoriesFromExcelSheet(libraryFactoryManager, excelPropertySheet)
         }
     }
 
-    static updateLibraryFactoriesFromNextExcelSheet(LibraryFactoryManager libraryFactoryManager, ExcelPropertySheet excelPropertySheet) {
+    static updateLibraryFactoriesFromExcelSheet(LibraryFactoryManager libraryFactoryManager, ExcelPropertySheet excelPropertySheet) {
         Translations translationsFromExcelSheet = Translations.createLibraryTranslationsFromExcelSheet(excelPropertySheet)
         LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelSheet(libraryFactoryManager, excelPropertySheet)
         updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelSheet)

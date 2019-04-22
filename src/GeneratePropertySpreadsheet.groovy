@@ -147,6 +147,7 @@ class GeneratePropertySpreadsheet {
     }
 
     def addNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
+        def today = Calendar.getInstance().time
         if ((property.getKey())[0] != "*")
             Log.writeLine "adds", "New property added: ${property.getKey()}"
         def propertyMap = [:]
@@ -155,6 +156,7 @@ class GeneratePropertySpreadsheet {
         def propertyValue = (property.getKey())[0] == "*" ? "" : property.getValue()
         propertyMap.put("Message Key", propertyId)
         propertyMap.put("English", propertyValue)
+        propertyMap.put("Date Changed", today)
         propertyMap.put(newPropertySheet.getLanguage(), "")
         newPropertySheet.addRow(propIndex, propertyMap)
     }
