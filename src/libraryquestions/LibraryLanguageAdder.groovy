@@ -19,7 +19,7 @@ class LibraryLanguageAdder {
     static buildRegexFromLanguage(String languageName) {
         languageLabel = LanguageLabels.getLanguageLabel(languageName)
         descRegex = /(?s)(.*?localizedAttributesMap.*?/ + languageLabel + /\s*:.*?)(\).*)/
-        addDescRegex = /(?s)(.*?localizedAttributesMap.*?)(\).*)/
+        addDescRegex = /(?s)(.*?localizedAttributesMap.*?\])(\).*?currentClazz.*)/
         localizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?/ + languageLabel + /\s*:.*)/
         addLocalizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?\])(\s*\].*)/
     }
