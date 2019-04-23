@@ -108,6 +108,13 @@ class ExcelPropertySheet extends ExcelSheet {
         excelPropertyRow
     }
 
+    ExcelPropertyRow getExcelPropertyRow(Integer rowNum) {
+        ExcelPropertyRow excelPropertyRow
+        Row row = getRow(rowNum)
+        excelPropertyRow = new ExcelPropertyRow(row, headerRowNames)
+        excelPropertyRow
+    }
+
     ArrayList<String> getAllRowsInSheet() {
         def allRows = []
         Iterator localRowIterator = sheet.rowIterator()
@@ -206,5 +213,13 @@ class ExcelPropertySheet extends ExcelSheet {
 
     ArrayList<String> getHeaderRowNames() {
         sheetProperties.headerRowNames
+    }
+
+    CellStyle getDateStyle() {
+        Workbook workbook = this.workbook
+        CellStyle dateCellStyle = workbook.createCellStyle()
+        short dateFormat = workbook.createDataFormat().getFormat("mm/dd/yyyy")
+        dateCellStyle.setDataFormat(dateFormat)
+        dateCellStyle
     }
 }
