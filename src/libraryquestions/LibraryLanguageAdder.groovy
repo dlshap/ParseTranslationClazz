@@ -4,13 +4,13 @@ import i18n.LanguageLabels
 
 class LibraryLanguageAdder {
 
-    static descRegex, addDescRegex
+    static findDescRegex, addDescRegex
     static localizationMapRegex, addLocalizationMapRegex
     static languageLabel
 
     static String addLanguage(String textBlock, String languageName) {
         buildRegexFromLanguage(languageName)
-        def textBlockWithNewLanguage = textBlock
+        String textBlockWithNewLanguage = textBlock
         textBlockWithNewLanguage = addLanguageToDescBlock(textBlockWithNewLanguage, languageName)
         textBlockWithNewLanguage = addLanguageToLocalizationMapBlock(textBlockWithNewLanguage, languageName)
         textBlockWithNewLanguage
@@ -18,27 +18,29 @@ class LibraryLanguageAdder {
 
     static buildRegexFromLanguage(String languageName) {
         languageLabel = LanguageLabels.getLanguageLabel(languageName)
-        descRegex = /(?s)(.*?localizedAttributesMap.*?/ + languageLabel + /\s*:.*?)(\).*)/
-        addDescRegex = /(?s)(.*?localizedAttributesMap.*?\])(\).*?currentClazz.*)/
+        findDescRegex = /(?s)(.*?localizedAttributesMap.*?/ + languageLabel + /\s*:.*?)(\).*)/
+        addDescRegex = /(?s)(.*?localizedAttributesMap.*?\])\s*(\]\s*\).*)/
         localizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?/ + languageLabel + /\s*:.*)/
         addLocalizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?\])(\s*\].*)/
     }
 
     static String addLanguageToDescBlock(String textBlock, String languageName) {
-        def textBlockWithNewLanguage = textBlock
-        if (!(textBlockContainsDescBlock(textBlockWithNewLanguage, languageName)))
+        String textBlockWithNewLanguage = textBlock
+        Boolean foundLanguage = textBlockContainsDescBlock(textBlockWithNewLanguage, languageName)
+        if (!foundLanguage) {
             textBlockWithNewLanguage = insertNewLanguageIntoDescBlock(textBlockWithNewLanguage, languageName)
+        }
         textBlockWithNewLanguage
     }
 
     static Boolean textBlockContainsDescBlock(String textBlock, String languageName) {
-        def textBlockWithNewLanguage = textBlock
-        def found = ((textBlockWithNewLanguage =~ descRegex).size() >= 1)
+        String textBlockWithNewLanguage = textBlock
+        Boolean found = ((textBlockWithNewLanguage =~ findDescRegex).size() >= 1)
         found
     }
 
     static String insertNewLanguageIntoDescBlock(String textBlock, String languageName) {
-        def textBlockWithNewLanguage = textBlock
+        String textBlockWithNewLanguage = textBlock
         def findInsertionPointForNewLanguage = textBlockWithNewLanguage =~ addDescRegex
         if (findInsertionPointForNewLanguage.size() >= 1) {
             textBlockWithNewLanguage = findInsertionPointForNewLanguage[0][1] +

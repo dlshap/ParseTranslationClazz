@@ -21,13 +21,13 @@ class LibraryQuestionTranslator {
         this.libraryQuestionRegexes = libraryQuestionFieldParser.libraryQuestionRegexes
     }
 
-    def replaceTextInLibraryTextBlockWithTranslatedValues(String textBlock, Translation translation) {
-        def translatedTextBlockForLanguage = LibraryLanguageAdder.addLanguage(textBlock, libraryQuestionFieldParser.languageName)
+    String replaceTextInLibraryTextBlockWithTranslatedValues(String textBlock, Translation translation) {
+        String translatedTextBlockForLanguage = LibraryLanguageAdder.addLanguage(textBlock, libraryQuestionFieldParser.languageName)
         translatedTextBlockForLanguage = translateEachTextBlockFieldFromTranslations(translatedTextBlockForLanguage, translation)
         translatedTextBlockForLanguage
         }
 
-    def translateEachTextBlockFieldFromTranslations(String textBlock, Translation translation) {
+    String translateEachTextBlockFieldFromTranslations(String textBlock, Translation translation) {
         /*
         for each map in fieldRegexList
             get fieldName

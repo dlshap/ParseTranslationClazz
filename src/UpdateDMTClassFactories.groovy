@@ -76,7 +76,7 @@ class UpdateDMTClassFactories {
         while (libraryFactory.hasNextLibraryTextBlock()) {
             LibraryTextBlock nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
             LibraryTranslator nextLibraryTranslator = new LibraryTranslator(nextLibraryTextBlock, translationsFromExcelSheet)
-            def nextTranslatedLibraryText = nextLibraryTranslator.getTranslatedLibraryText()
+            String nextTranslatedLibraryText = nextLibraryTranslator.getTranslatedLibraryText()
             libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedLibraryText)
         }
     }
