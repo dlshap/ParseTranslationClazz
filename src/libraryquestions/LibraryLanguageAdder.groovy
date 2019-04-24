@@ -21,7 +21,7 @@ class LibraryLanguageAdder {
         findDescRegex = /(?s)(.*?localizedAttributesMap.*?/ + languageLabel + /\s*:.*?)(\).*)/
         addDescRegex = /(?s)(.*?localizedAttributesMap.*?\])\s*(\]\s*\).*)/
         localizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?/ + languageLabel + /\s*:.*)/
-        addLocalizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?\])(\s*\].*)/
+        addLocalizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?\])\s*(\].*)/
     }
 
     static String addLanguageToDescBlock(String textBlock, String languageName) {
@@ -44,7 +44,7 @@ class LibraryLanguageAdder {
         def findInsertionPointForNewLanguage = textBlockWithNewLanguage =~ addDescRegex
         if (findInsertionPointForNewLanguage.size() >= 1) {
             textBlockWithNewLanguage = findInsertionPointForNewLanguage[0][1] +
-                    ",\n\t\t\t $languageLabel: [desc: ' ']\n" +
+                    ",\n\t\t\t $languageLabel: [desc: ' ']" +
                     findInsertionPointForNewLanguage[0][2]
         }
         textBlockWithNewLanguage
@@ -68,7 +68,7 @@ class LibraryLanguageAdder {
         def findInsertionPointForNewLanguage = textBlockWithNewLanguage =~ addLocalizationMapRegex
         if (findInsertionPointForNewLanguage.size() >= 1) {
             textBlockWithNewLanguage = findInsertionPointForNewLanguage[0][1] +
-                    ",\n\t\t\t $languageLabel: [txt: ' ',\n\t\t\t\t\ttitle: ' ',\n\t\t\t\t\thelpText: ' '\n\t\t\t\t]\n" +
+                    ",\n\t\t\t $languageLabel: [txt: ' ',\n\t\t\t\t\ttitle: ' ',\n\t\t\t\t\thelpText: ' '\n\t\t\t\t] " +
                     findInsertionPointForNewLanguage[0][2]
         }
         textBlockWithNewLanguage
