@@ -2,7 +2,7 @@ import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager
 import libraryquestions.LibraryLogs
-import libraryquestions.LibraryPropertyFile
+import libraryquestions.LibraryExcelPropertyFile
 import libraryquestions.LibraryTextBlock
 import libraryquestions.LibraryTranslator
 import logging.Log
@@ -29,36 +29,32 @@ class UpdateDMTClassFactories {
 
     def start(args) {
         def libraryArgs = new LibraryArgs(args)
-        getDefaultValuesIfArgsNull(libraryArgs)
         performTranslations(libraryArgs)
-    }
-
-    static getDefaultValuesIfArgsNull(LibraryArgs libraryArgs) {
-        if (libraryArgs.startFilePath == null) libraryArgs.startFilePath = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\"
-        if (libraryArgs.languageName == null) libraryArgs.languageName = "Japanese"
     }
 
     static performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
-        LibraryPropertyFile libraryPropertyFile = LibraryPropertyFile.openLibraryPropertyFileUsingChooser(
-                Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "${libraryArgs.languageName}"), libraryArgs)
+        def language = libraryArgs.languageName
+        def spreadsheetPath = libraryArgs.spreadsheetPath
+        LibraryExcelPropertyFile libraryPropertyFile = LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(
+                Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "$language"), spreadsheetPath)
         if (libraryPropertyFile != null) {
-            def libraryFactoryManager = new LibraryFactoryManager(libraryArgs)
+            def libraryFactoryManager = new LibraryFactoryManager(libraryArgs, libraryPropertyFile)
             updateLibraryFactoriesFromLibraryPropertyFile(libraryFactoryManager, libraryPropertyFile)
         }
         LibraryLogs.closeLogs()
     }
 
-    static updateLibraryFactoriesFromLibraryPropertyFile(LibraryFactoryManager libraryFactoryManager, LibraryPropertyFile libraryPropertyFile) {
-        Log.writeLine("Processing ${libraryPropertyFile.getClassNameCount()} classes: ${libraryPropertyFile.getClassNameList()}")
-        libraryPropertyFile.classNames.each { className ->
+    static updateLibraryFactoriesFromLibraryPropertyFile(LibraryFactoryManager libraryFactoryManager, LibraryExcelPropertyFile libraryPropertyFile) {
+        Log.writeLine("Processing ${libraryFactoryManager.getClassNameCount()} classes: ${libraryFactoryManager.getClassNameList()}")
+        libraryFactoryManager.classNames.each { className ->
             addClassNameToLogs(className)
             ExcelPropertySheet excelPropertySheet = libraryPropertyFile.getPropertySheetWithHeaderLabelsInHeaderRow(className, LIBRARYHEADERROW)
-            updateLibraryFactoriesFromNextExcelSheet(libraryFactoryManager, excelPropertySheet)
+            updateLibraryFactoriesFromExcelSheet(libraryFactoryManager, excelPropertySheet)
         }
     }
 
-    static updateLibraryFactoriesFromNextExcelSheet(LibraryFactoryManager libraryFactoryManager, ExcelPropertySheet excelPropertySheet) {
+    static updateLibraryFactoriesFromExcelSheet(LibraryFactoryManager libraryFactoryManager, ExcelPropertySheet excelPropertySheet) {
         Translations translationsFromExcelSheet = Translations.createLibraryTranslationsFromExcelSheet(excelPropertySheet)
         LibraryFactory libraryFactoryForExcelExport = getCorrespondingLibraryFactoryForExcelSheet(libraryFactoryManager, excelPropertySheet)
         updateLibraryFactoryFromTranslations(libraryFactoryForExcelExport, translationsFromExcelSheet)
@@ -80,7 +76,7 @@ class UpdateDMTClassFactories {
         while (libraryFactory.hasNextLibraryTextBlock()) {
             LibraryTextBlock nextLibraryTextBlock = libraryFactory.nextLibraryTextBlock()
             LibraryTranslator nextLibraryTranslator = new LibraryTranslator(nextLibraryTextBlock, translationsFromExcelSheet)
-            def nextTranslatedLibraryText = nextLibraryTranslator.getTranslatedLibraryText()
+            String nextTranslatedLibraryText = nextLibraryTranslator.getTranslatedLibraryText()
             libraryFactory.writeTextBlockToTranslatedFile(nextTranslatedLibraryText)
         }
     }

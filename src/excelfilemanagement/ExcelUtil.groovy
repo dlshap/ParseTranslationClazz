@@ -23,6 +23,10 @@ class ExcelUtil {
         cellStringValue
     }
 
+    static String toString(Cell cell) {
+        cell.toString().trim()
+    }
+
     /************************ untested: copySheets *****************************/
 
     static copySheets(Sheet newSheet, Sheet sheet) {

@@ -1,11 +1,12 @@
 package excelfilemanagement
 
 import filemanagement.BaseFile
-import filemanagement.FileChooser
+import org.apache.poi.ss.usermodel.Sheet
 
 class ExcelFile extends BaseFile {
 
     ExcelWorkbook excelWorkbook
+    Iterator sheetIterator
 
     ExcelFile() {
     }
@@ -15,16 +16,43 @@ class ExcelFile extends BaseFile {
         this.initializeNewSpreadsheet()
     }
 
-    static getExcelFileUsingChooser(prompt, path) {
-        ExcelFile excelFile = new ExcelFile()
-        excelFile.openExcelFileUsingChooser(prompt, path)
-        excelFile.file == null ? null : excelFile
+    def initializeNewSpreadsheet() {
+        createOutputWorkbookFromBaseFile()
+        resetSheetIterator()
+    }
+
+    private createOutputWorkbookFromBaseFile() {
+        excelWorkbook = new ExcelWorkbookForOutput(file)
+    }
+
+    def resetSheetIterator() {
+        if (this.fileName != null)
+            this.sheetIterator = workbook.sheetIterator()
+    }
+
+    Sheet getSheet(String sheetName) {
+        excelWorkbook.workbook.getSheet(sheetName)
+    }
+
+    def hasNextExcelPropertySheet() {
+        sheetIterator.hasNext()
     }
 
     def openExcelFileUsingChooser(String prompt, String path) {
         this.chooseFile(prompt, path)
+        this.setupFile()
+    }
+
+    def setupFile() {
         this.setFileName()
         this.setInputWorkbook()
+        this.resetSheetIterator()
+    }
+
+    def openExcelFileUsingFileName(String fileName) {
+        super.openFile(fileName)
+        if (this.file.exists())
+            this.setupFile()
     }
 
     private setFileName() {
@@ -37,21 +65,16 @@ class ExcelFile extends BaseFile {
             excelWorkbook = new ExcelWorkbookForInput(file)
     }
 
-    static ExcelFile createFile(fileName, createFlag) {
-        ExcelFile excelFile = new ExcelFile(fileName, createFlag)
-        excelFile
-    }
-
-    def initializeNewSpreadsheet() {
-        createOutputWorkbookFromBaseFile()
-    }
-
-    private createOutputWorkbookFromBaseFile() {
-        excelWorkbook = new ExcelWorkbookForOutput(file)
-    }
-
     def getWorkbook() {
         excelWorkbook.workbook
+    }
+
+    def close() {
+        excelWorkbook.close()
+    }
+
+    def write() {
+        excelWorkbook.write()
     }
 
     def writeAndClose() {

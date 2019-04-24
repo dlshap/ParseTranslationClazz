@@ -1,34 +1,36 @@
 package libraryquestions
 
 import useful.Args
+import useful.Config
 
 class LibraryArgs {
-    def startFilePath
-    def languageName
+    String configPath
+    String libraryFilePath
+    String spreadsheetPath
+    String languageName
     def fileNameForTestingSingleFile
-
-    def args = [:]
 
     LibraryArgs(args) {
         getValuesFromCommandLineArgs(args)
-        getDefaultValuesIfArgsNull()
-        appendSlashToStartFilePath()
+        setDefaultValuesIfArgsNull()
+        getConfigValues()
     }
 
     def getValuesFromCommandLineArgs(args) {
         def argsMap = new Args(args)
-        startFilePath = argsMap.get("path")
+        configPath = argsMap.get("path")
         languageName = argsMap.get("language")
         fileNameForTestingSingleFile = argsMap.get("file")
     }
 
-    def getDefaultValuesIfArgsNull() {
-        if (startFilePath == null) startFilePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+    def setDefaultValuesIfArgsNull() {
+        if (configPath == null) configPath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
         if (languageName == null) languageName = "Japanese"
     }
 
-    def appendSlashToStartFilePath() {
-        if (startFilePath[-1] != "\\")
-            startFilePath += "\\"
+    private getConfigValues() {
+        Config config = new Config(configPath)
+        spreadsheetPath = configPath + config.get("library.question.spreadsheet.relative.path")
+        libraryFilePath = configPath + config.get("library.question.files.relative.path")
     }
 }

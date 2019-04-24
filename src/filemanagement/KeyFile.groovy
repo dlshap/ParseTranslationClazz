@@ -4,11 +4,8 @@ package filemanagement
  * Created by s0041664 on 8/11/2017.
  */
 class KeyFile extends LineFile {
-    def keyMaps = []
-    def keyMapIterator
-
-    KeyFile() {
-    }
+    Map keyMap = [:]
+//    def keyMapIterator
 
     KeyFile(fileName) {
         super()
@@ -17,43 +14,55 @@ class KeyFile extends LineFile {
 
     def openFile(fileName) {
         super.openFile(fileName)
-        buildKeyMapList()
+        buildKeyMap()
     }
 
-    def buildKeyMapList() {
-        keyMaps = []
+    def buildKeyMap() {
         if (!(super.lines == null)) {
             for (int i = 0; i < super.lines.size; i++) {
-                def parsedLine = KeyPairParser.parseToMap(super.lines[i])
-                keyMaps << parsedLine
+                if ((super.lines[i]).contains("=")) {
+                    def parsedLine = KeyPairParser.parseToMap(super.lines[i])
+                    keyMap << parsedLine
+                }
             }
-            rewind()
         }
     }
 
-    def next() {
-        if (keyMapIterator.hasNext())
-            keyMapIterator.next()
-        else
-            null
-    }
-
-    def rewind() {
-        keyMapIterator = keyMaps.iterator()
-    }
-
-    def hasNext() {
-        if (keyMapIterator == null)
-            null
-        else
-            keyMapIterator.hasNext()
-    }
-
-    def getKeyMapSize() {
-        keyMaps.size()
-    }
-
-    def getKeyMaps() {
-        keyMaps
+    def get(String key) {
+        keyMap[key]
     }
 }
+
+
+// Todo: remove
+//    def next() {
+//        if (keyMapIterator.hasNext())
+//            keyMapIterator.next()
+//        else
+//            null
+//    }
+//
+//    def rewind() {
+//        keyMapIterator = keyMap.iterator()
+//    }
+//
+//    def hasNext() {
+//        if (keyMapIterator == null)
+//            null
+//        else
+//            keyMapIterator.hasNext()
+//    }
+//
+// ToDo: remove
+//    KeyFile() {
+//    }
+//
+// ToDo: remove
+// def getKeyMapSize() {
+//        keyMap.size()
+//    }
+//
+//    def getKeyMap() {
+//        keyMap
+//    }
+

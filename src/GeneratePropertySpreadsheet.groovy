@@ -4,6 +4,7 @@ import i18n.Messages
 import logging.Dates
 import logging.Log
 import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
@@ -64,13 +65,13 @@ class GeneratePropertySpreadsheet {
         def modelSpreadsheetPath = propertyArgs.get("path") + "Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
         def language = propertyArgs.get("language")
         def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "Master Properties", language)
-        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openExcelPropertyFileUsingChooser(prompt, modelSpreadsheetPath)
+        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openFileUsingChooser(prompt, modelSpreadsheetPath)
         modelExcelPropertyFile
     }
 
     ExcelPropertyFile createOutputExcelPropertyFile(ExcelPropertyFile modelExcelPropertyFile) {
         String outputFileName = buildOutputFileName(modelExcelPropertyFile)
-        ExcelPropertyFile outputExcelPropertyFile = ExcelPropertyFile.createNewSpreadsheetFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
+        ExcelPropertyFile outputExcelPropertyFile = ExcelPropertyFile.createNewFileFromFileName(outputFileName, BaseFile.CreateFlag.CREATE)
         outputExcelPropertyFile
     }
 
@@ -87,7 +88,7 @@ class GeneratePropertySpreadsheet {
     }
 
     def openTranslationLogsForSheet(String sheetName) {
-        def logsFilePath = path + "$sheetName\\logs\\"
+        def logsFilePath = path + "\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\logs\\"
         Log.open("adds", logsFilePath + "$sheetName log-property-adds.txt")
         Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
         Log.open("updates", logsFilePath + "$sheetName log-property-changes.txt")
@@ -112,7 +113,9 @@ class GeneratePropertySpreadsheet {
 
     def updateNewSheetFromPropertiesFileAndModel(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
         int propIndex = 1
+        print "\n"
         while (translationProperties.hasNext()) {
+            print "."
             def property = translationProperties.next()
             def propertyKey = property.getKey()
             ExcelPropertyRow modelPropertyRow = modelPropertySheet.getFirstExcelPropertyRowMatchingKeys(["Message Key": propertyKey])
@@ -122,9 +125,11 @@ class GeneratePropertySpreadsheet {
                 addNewRowFromTranslation(newPropertySheet, property, propIndex)
             propIndex++
         }
+        print "\n"
     }
 
     def updateTranslationInRow(ExcelPropertySheet newPropertySheet, property, ExcelPropertyRow modelPropertyRow, int propIndex) {
+        def today = Calendar.getInstance().time
         ExcelPropertyRow newPropertyRow = newPropertySheet.cloneExcelPropertyRow(propIndex, modelPropertyRow)
         def oldEnglishValue = modelPropertyRow.getValue("English").trim()
         def newEnglishValue = property.getValue().trim()
@@ -132,9 +137,8 @@ class GeneratePropertySpreadsheet {
         if (oldEnglishValue != newEnglishValue) {
             Log.writeLine "updates", "Changing property ${property.getKey()}: Old: $oldEnglishValue New: $newEnglishValue "
             newPropertyRow.setValue("English", newEnglishValue)
-            def today = Calendar.getInstance().time
             newPropertyRow.setValue("Date Changed", today)
-            newPropertyRow.setStyle("Date Changed", getDateStyle(newPropertySheet))
+            newPropertyRow.setStyle("Date Changed", newPropertySheet.getDateStyle())
         }
     }
 
@@ -147,9 +151,12 @@ class GeneratePropertySpreadsheet {
     }
 
     def addNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
-        if ((property.getKey())[0] != "*")
-            Log.writeLine "adds", "New property added: ${property.getKey()}"
+        def today = Calendar.getInstance().time
         def propertyMap = [:]
+        if ((property.getKey())[0] != "*") {
+            Log.writeLine "adds", "New property added: ${property.getKey()}"
+            propertyMap.put("Date Changed", today)
+        }
         propertyMap.put("Index", propIndex)
         def propertyId = (property.getKey())[0] == "*" ? property.getValue() : property.getKey()
         def propertyValue = (property.getKey())[0] == "*" ? "" : property.getValue()
@@ -157,6 +164,12 @@ class GeneratePropertySpreadsheet {
         propertyMap.put("English", propertyValue)
         propertyMap.put(newPropertySheet.getLanguage(), "")
         newPropertySheet.addRow(propIndex, propertyMap)
+        applyDateStyleToDateChangedCell(newPropertySheet, propIndex)
+    }
+
+    private applyDateStyleToDateChangedCell(ExcelPropertySheet excelPropertySheet, Integer rowNumber) {
+        ExcelPropertyRow excelPropertyRow = excelPropertySheet.getExcelPropertyRow(rowNumber)
+        excelPropertyRow.setStyle("Date Changed", excelPropertySheet.getDateStyle())
     }
 
     def logDeletedProperties(ExcelPropertySheet modelPropertySheet, TranslationProperties translationProperties) {

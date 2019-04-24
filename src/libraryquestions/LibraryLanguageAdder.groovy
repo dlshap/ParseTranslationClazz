@@ -4,13 +4,13 @@ import i18n.LanguageLabels
 
 class LibraryLanguageAdder {
 
-    static descRegex, addDescRegex
+    static findDescRegex, addDescRegex
     static localizationMapRegex, addLocalizationMapRegex
     static languageLabel
 
-    static addLanguage(String textBlock, String languageName) {
+    static String addLanguage(String textBlock, String languageName) {
         buildRegexFromLanguage(languageName)
-        def textBlockWithNewLanguage = textBlock
+        String textBlockWithNewLanguage = textBlock
         textBlockWithNewLanguage = addLanguageToDescBlock(textBlockWithNewLanguage, languageName)
         textBlockWithNewLanguage = addLanguageToLocalizationMapBlock(textBlockWithNewLanguage, languageName)
         textBlockWithNewLanguage
@@ -18,55 +18,57 @@ class LibraryLanguageAdder {
 
     static buildRegexFromLanguage(String languageName) {
         languageLabel = LanguageLabels.getLanguageLabel(languageName)
-        descRegex = /(?s)(.*?localizedAttributesMap.*?/ + languageLabel + /\s*:.*?)(\).*)/
-        addDescRegex = /(?s)(.*?localizedAttributesMap.*?)(\).*)/
+        findDescRegex = /(?s)(.*?localizedAttributesMap.*?/ + languageLabel + /\s*:.*?)(\).*)/
+        addDescRegex = /(?s)(.*?localizedAttributesMap.*?\])\s*(\]\s*\).*)/
         localizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?/ + languageLabel + /\s*:.*)/
-        addLocalizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?\])(\s*\].*)/
+        addLocalizationMapRegex = /(?s)(.*?(?:i18n|localizationMap|quests.push).*?\])\s*(\].*)/
     }
 
-    static addLanguageToDescBlock(String textBlock, String languageName) {
-        def textBlockWithNewLanguage = textBlock
-        if (!(textBlockContainsDescBlock(textBlockWithNewLanguage, languageName)))
+    static String addLanguageToDescBlock(String textBlock, String languageName) {
+        String textBlockWithNewLanguage = textBlock
+        Boolean foundLanguage = textBlockContainsDescBlock(textBlockWithNewLanguage, languageName)
+        if (!foundLanguage) {
             textBlockWithNewLanguage = insertNewLanguageIntoDescBlock(textBlockWithNewLanguage, languageName)
+        }
         textBlockWithNewLanguage
     }
 
-    static textBlockContainsDescBlock(String textBlock, String languageName) {
-        def textBlockWithNewLanguage = textBlock
-        def found = ((textBlockWithNewLanguage =~ descRegex).size() >= 1)
+    static Boolean textBlockContainsDescBlock(String textBlock, String languageName) {
+        String textBlockWithNewLanguage = textBlock
+        Boolean found = ((textBlockWithNewLanguage =~ findDescRegex).size() >= 1)
         found
     }
 
-    static insertNewLanguageIntoDescBlock(String textBlock, String languageName) {
-        def textBlockWithNewLanguage = textBlock
+    static String insertNewLanguageIntoDescBlock(String textBlock, String languageName) {
+        String textBlockWithNewLanguage = textBlock
         def findInsertionPointForNewLanguage = textBlockWithNewLanguage =~ addDescRegex
         if (findInsertionPointForNewLanguage.size() >= 1) {
             textBlockWithNewLanguage = findInsertionPointForNewLanguage[0][1] +
-                    ",\n\t\t\t $languageLabel: [desc: ' ']\n" +
+                    ",\n\t\t\t $languageLabel: [desc: ' ']" +
                     findInsertionPointForNewLanguage[0][2]
         }
         textBlockWithNewLanguage
     }
 
-    static addLanguageToLocalizationMapBlock(String textBlock, String languageName) {
+    static String addLanguageToLocalizationMapBlock(String textBlock, String languageName) {
         def textBlockWithNewLanguage = textBlock
         if (!(textBlockContainsLocalizationMapBlock(textBlockWithNewLanguage, languageName)))
             textBlockWithNewLanguage = insertNewLanguageIntoLocalizationMapBlock(textBlockWithNewLanguage, languageName)
         textBlockWithNewLanguage
     }
 
-    static textBlockContainsLocalizationMapBlock(String textBlock, String languageName) {
+    static Boolean textBlockContainsLocalizationMapBlock(String textBlock, String languageName) {
         def textBlockWithNewLanguage = textBlock
         def found = ((textBlockWithNewLanguage =~ localizationMapRegex).size() >= 1)
         found
     }
 
-    static insertNewLanguageIntoLocalizationMapBlock(String textBlock, String languageName) {
+    static String insertNewLanguageIntoLocalizationMapBlock(String textBlock, String languageName) {
         def textBlockWithNewLanguage = textBlock
         def findInsertionPointForNewLanguage = textBlockWithNewLanguage =~ addLocalizationMapRegex
         if (findInsertionPointForNewLanguage.size() >= 1) {
             textBlockWithNewLanguage = findInsertionPointForNewLanguage[0][1] +
-                    ",\n\t\t\t $languageLabel: [txt: ' ',\n\t\t\t\t\ttitle: ' ',\n\t\t\t\t\thelpText: ' '\n\t\t\t\t]\n" +
+                    ",\n\t\t\t $languageLabel: [txt: ' ',\n\t\t\t\t\ttitle: ' ',\n\t\t\t\t\thelpText: ' '\n\t\t\t\t] " +
                     findInsertionPointForNewLanguage[0][2]
         }
         textBlockWithNewLanguage

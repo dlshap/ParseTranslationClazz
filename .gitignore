@@ -9,6 +9,9 @@ ehthumbs.db
 out/
 .class
 
+#log files
+log-*.txt
+
 # Folder config file
 Desktop.ini
 
