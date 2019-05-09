@@ -1,6 +1,6 @@
 class RenameFiles {
 
-    def REALRUN = true
+    def REALRUN = false
 
     def REPLACE = false
 
