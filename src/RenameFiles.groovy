@@ -4,7 +4,7 @@ class RenameFiles {
 
     def REPLACE = false
 
-    def pathName = "C:\\Users\\s0041664\\Documents\\Projects\\Project Status\\Rules Status"
+    def pathName = "C:\\Users\\s0041664\\Documents\\Projects\\Project Status\\ADS Status"
 
     String path, oldname, newname
 
@@ -13,7 +13,7 @@ class RenameFiles {
     }
 
     def renameWithReplace() {
-        newname = oldname.replaceAll(/93-/, "94-")
+        newname = oldname.replaceAll(/EFSP/, "ADS")
     }
 
     def renameWithRegex() {

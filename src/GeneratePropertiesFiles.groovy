@@ -67,13 +67,14 @@ class GeneratePropertiesFiles {
     }
 
     def movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {
-        PropertyFile propertyFile = openPropertyFileForSheetName(excelPropertySheet.sheetName)
+        PropertyFile newPropertyFile = openNewPropertyFileForSheetName(excelPropertySheet.sheetName)
+
         while (excelPropertySheet.hasNextExcelPropertyRow()) {
-            writePropertyRowToPropertyFile(excelPropertySheet.nextExcelPropertyRow(), propertyFile)
+            writePropertyRowToPropertyFile(excelPropertySheet.nextExcelPropertyRow(), newPropertyFile)
         }
     }
 
-    def openPropertyFileForSheetName(String sheetName) {
+    def openNewPropertyFileForSheetName(String sheetName) {
         def propFilePath = startFilePath + "\\${sheetName}\\"
         def languageLabel = LanguageLabels.getPropertiesLabel(languageName)
         def fileName = "messages_${languageLabel}.properties"
