@@ -5,7 +5,6 @@ package filemanagement
  */
 class KeyFile extends LineFile {
     Map keyMap = [:]
-//    def keyMapIterator
 
     KeyFile(fileName) {
         super()

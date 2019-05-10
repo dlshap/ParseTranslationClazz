@@ -89,6 +89,7 @@ class GeneratePropertiesFiles {
             writePropertyRowToPropertyFile(excelPropertyRow, newPropertyFile)
             logPropertyAddOrChange(excelPropertyRow, oldPropertyFile)
         }
+        logPropertyDeletes(excelPropertySheet, oldPropertyFile)
     }
 
     PropertyFile openNewPropertyFileForSheetName(String sheetName) {
@@ -138,4 +139,7 @@ class GeneratePropertiesFiles {
             Log.writeLine("updates", "Changing $propertyId from $oldPropertyValue to $newPropertyValue")
     }
 
+    def logPropertyDeletes(ExcelPropertySheet excelPropertySheet, KeyFile oldPropertyFile) {
+        //TODO: Get property from old file, see if matching row in spreadsheet, and log if no match
+    }
 }
