@@ -1,8 +1,12 @@
+import filemanagement.KeyFile
 import i18n.LanguageLabels
+import logging.Dates
+import logging.Log
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import properties.PropertyFile
+import sun.awt.SunHints
 import useful.Args
 import i18n.Messages
 
@@ -62,19 +66,32 @@ class GeneratePropertiesFiles {
     def movePropertiesFromSpreadsheetsToPropertiesFiles(ExcelPropertyFile excelPropertyFile) {
         while (excelPropertyFile.hasNextExcelPropertySheet()) {
             ExcelPropertySheet excelPropertySheet = excelPropertyFile.nextExcelPropertySheet()
+            openTranslationLogsForSheet(excelPropertySheet.sheetName)
             movePropertiesFromSpreadsheetToPropertiesFile(excelPropertySheet)
         }
     }
 
+    def openTranslationLogsForSheet(String sheetName) {
+        def logsFilePath = startFilePath + "\\$sheetName\\logs\\"
+        Log.open("adds", logsFilePath + "$sheetName log-property-adds.txt")
+        Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open("updates", logsFilePath + "$sheetName log-property-changes.txt")
+        Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        Log.open("deletes", logsFilePath + "$sheetName log-property-deletes.txt")
+        Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+    }
+
     def movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {
         PropertyFile newPropertyFile = openNewPropertyFileForSheetName(excelPropertySheet.sheetName)
-
+        KeyFile oldPropertyFile = openOldPropertyFileForSheetName(excelPropertySheet.sheetName)
         while (excelPropertySheet.hasNextExcelPropertyRow()) {
-            writePropertyRowToPropertyFile(excelPropertySheet.nextExcelPropertyRow(), newPropertyFile)
+            ExcelPropertyRow excelPropertyRow = excelPropertySheet.nextExcelPropertyRow()
+            writePropertyRowToPropertyFile(excelPropertyRow, newPropertyFile)
+            logPropertyAddOrChange(excelPropertyRow, oldPropertyFile)
         }
     }
 
-    def openNewPropertyFileForSheetName(String sheetName) {
+    PropertyFile openNewPropertyFileForSheetName(String sheetName) {
         def propFilePath = startFilePath + "\\${sheetName}\\"
         def languageLabel = LanguageLabels.getPropertiesLabel(languageName)
         def fileName = "messages_${languageLabel}.properties"
@@ -82,17 +99,43 @@ class GeneratePropertiesFiles {
         propertyFile
     }
 
-    def writePropertyRowToPropertyFile(ExcelPropertyRow excelPropertyRow, PropertyFile propertyFile) {
-        String outLine
-        def propertyValueMap = excelPropertyRow.propertyMap
-        def propertyId = propertyValueMap.get("Message Key")
-        def propertyValue = propertyValueMap.get(languageName)
+    KeyFile openOldPropertyFileForSheetName(String sheetName) {
+        def propFilePath = startFilePath + "\\${sheetName}\\PropertyFiles\\"
+        def languageLabel = LanguageLabels.getPropertiesLabel(languageName)
+        def fileName = "messages_${languageLabel}.properties"
+        KeyFile propertyFile = new KeyFile(propFilePath + fileName)
+        propertyFile
+    }
 
+    def writePropertyRowToPropertyFile(ExcelPropertyRow excelPropertyRow, PropertyFile propertyFile) {
+        def propertyId = getRowId(excelPropertyRow)
+        def propertyValue = getRowValue(excelPropertyRow)
+        String outLine
         if ((propertyId != null) && (propertyId.trim() != "") && (propertyId[0] != "#"))
             outLine = "$propertyId=${propertyValue == null ? '' : propertyValue}"
         else
             outLine = "${propertyId == null ? '' : propertyId}"
-
         propertyFile.writeLine(outLine)
     }
+
+    String getRowId(ExcelPropertyRow excelPropertyRow) {
+        def propertyValueMap = excelPropertyRow.propertyMap
+        propertyValueMap.get("Message Key")
+    }
+
+    String getRowValue(ExcelPropertyRow excelPropertyRow) {
+        def propertyValueMap = excelPropertyRow.propertyMap
+        propertyValueMap.get(languageName)
+    }
+
+    def logPropertyAddOrChange(ExcelPropertyRow excelPropertyRow, KeyFile oldPropertyFile) {
+        def propertyId = getRowId(excelPropertyRow)
+        def oldPropertyValue = (oldPropertyFile.get(propertyId))
+        def newPropertyValue = getRowValue(excelPropertyRow)
+        if (oldPropertyValue == null && newPropertyValue.trim() != "")
+            Log.writeLine "adds", "Adding $propertyId=$newPropertyValue"
+        else if (!(oldPropertyValue.equals(newPropertyValue)) && newPropertyValue.trim() != "")
+            Log.writeLine("updates", "Changing $propertyId from $oldPropertyValue to $newPropertyValue")
+    }
+
 }

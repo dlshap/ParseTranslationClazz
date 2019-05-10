@@ -33,36 +33,3 @@ class KeyFile extends LineFile {
     }
 }
 
-
-// Todo: remove
-//    def next() {
-//        if (keyMapIterator.hasNext())
-//            keyMapIterator.next()
-//        else
-//            null
-//    }
-//
-//    def rewind() {
-//        keyMapIterator = keyMap.iterator()
-//    }
-//
-//    def hasNext() {
-//        if (keyMapIterator == null)
-//            null
-//        else
-//            keyMapIterator.hasNext()
-//    }
-//
-// ToDo: remove
-//    KeyFile() {
-//    }
-//
-// ToDo: remove
-// def getKeyMapSize() {
-//        keyMap.size()
-//    }
-//
-//    def getKeyMap() {
-//        keyMap
-//    }
-
