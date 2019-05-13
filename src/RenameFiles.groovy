@@ -4,7 +4,7 @@ class RenameFiles {
 
     def REPLACE = false
 
-    def pathName = "C:\\Users\\s0041664\\Documents\\Projects\\Project Status\\ADS Status"
+    def pathName = "C:\\Users\\s0041664\\Documents\\Projects\\Project Status\\Rules Status"
 
     String path, oldname, newname
 
@@ -17,12 +17,13 @@ class RenameFiles {
     }
 
     def renameWithRegex() {
-        def pat = /(.*? Sprint 19-\d)(\d)(.*?v\d.)(\d).*- Copy(\..*)/
+        def pat = /(.*? Sprint 19-)(\d\d)(.*?v\d.)(\d).*- Copy(\..*)/
         def matcher = oldname =~ pat
         if (matcher.size() == 1) {
             def fn = matcher[0]
             if (fn.size() >= 2) {
-                newname = "${fn[1]}${(sprintf("%01d", (fn[2]).toInteger() + 1))}${fn[3]}1${fn[5]}"
+                String sprintNumber = (sprintf("%02d", (fn[2]).toInteger() + 1))
+                newname = "${fn[1]}$sprintNumber${fn[3]}1${fn[5]}"
             }
         }
     }
