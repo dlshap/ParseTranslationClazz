@@ -66,6 +66,10 @@ class BaseFile {
         file == null ? null : file.getName()
     }
 
+    String getFullName() {
+        file == null ? null : this.fileName
+    }
+
     def delete() {
         if (file.length())
             file.delete()

@@ -6,7 +6,6 @@ import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 import properties.PropertyFile
-import sun.awt.SunHints
 import useful.Args
 import i18n.Messages
 
@@ -82,17 +81,17 @@ class GeneratePropertiesFiles {
     }
 
     def movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {
-        PropertyFile newPropertyFile = openNewPropertyFileForSheetName(excelPropertySheet.sheetName)
+        PropertyFile newPropertyFile = createNewPropertyFileForSheetName(excelPropertySheet.sheetName)
         KeyFile oldPropertyFile = openOldPropertyFileForSheetName(excelPropertySheet.sheetName)
         while (excelPropertySheet.hasNextExcelPropertyRow()) {
             ExcelPropertyRow excelPropertyRow = excelPropertySheet.nextExcelPropertyRow()
             writePropertyRowToPropertyFile(excelPropertyRow, newPropertyFile)
             logPropertyAddOrChange(excelPropertyRow, oldPropertyFile)
         }
-        logPropertyDeletes(excelPropertySheet, oldPropertyFile)
+        logOldFilePropertiesDeletedFromNewFile(oldPropertyFile, newPropertyFile)
     }
 
-    PropertyFile openNewPropertyFileForSheetName(String sheetName) {
+    PropertyFile createNewPropertyFileForSheetName(String sheetName) {
         def propFilePath = startFilePath + "\\${sheetName}\\"
         def languageLabel = LanguageLabels.getPropertiesLabel(languageName)
         def fileName = "messages_${languageLabel}.properties"
@@ -139,7 +138,12 @@ class GeneratePropertiesFiles {
             Log.writeLine("updates", "Changing $propertyId from $oldPropertyValue to $newPropertyValue")
     }
 
-    def logPropertyDeletes(ExcelPropertySheet excelPropertySheet, KeyFile oldPropertyFile) {
-        //TODO: Get property from old file, see if matching row in spreadsheet, and log if no match
+    def logOldFilePropertiesDeletedFromNewFile(KeyFile oldPropertyFile, PropertyFile newUnkeyedPropertyFile) {
+        def newPropertyFileName = newUnkeyedPropertyFile.fullName
+        KeyFile newPropertyFile = new KeyFile(newPropertyFileName)
+        oldPropertyFile.keyMap.each { oldKey, oldValue ->
+            if (newPropertyFile.keyMap.get(oldKey) == null)
+                Log.writeLine("deletes", "Deleted from old property file: $oldKey=$oldValue")
+        }
     }
 }
