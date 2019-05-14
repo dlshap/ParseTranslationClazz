@@ -98,10 +98,10 @@ class GeneratePropertySpreadsheet {
     }
 
     def movePropertiesIntoPropertySheetUsingModelSheet(ExcelPropertySheet newPropertySheet, ExcelPropertySheet modelPropertySheet) {
-        def propertyFileName = buildPropertyFileName(modelPropertySheet.sheetName)
+        String propertyFileName = buildPropertyFileName(modelPropertySheet.sheetName)
         PropertyFile propertyFile = PropertyFile.openPropertyFileFromFileName(propertyFileName)
         TranslationProperties translationProperties = propertyFile.translationProperties
-        def ignoreFileName = buildIgnoreFileName(modelPropertySheet.sheetName)
+        String ignoreFileName = buildIgnoreFileName(modelPropertySheet.sheetName)
         PropertyFile ignoreFile = PropertyFile.openPropertyFileFromFileName(ignoreFileName)
         TranslationProperties ignoreProperties = ignoreFile.translationProperties
         newPropertySheet.setLanguage(language)
@@ -128,8 +128,8 @@ class GeneratePropertySpreadsheet {
                     updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
                 else
                     addNewRowFromTranslation(newPropertySheet, property, propIndex)
+                print ((propIndex.mod(100) == 0) ? ".\n" : ".")    // for impatient users
                 propIndex++
-                print((propIndex.mod(100) == 0) ? ".\n" : ".")    // for impatient users
             }
         }
         print "\n"
