@@ -33,13 +33,14 @@ class TranslationProperties {
         propertyIterator = propertyMap.iterator()
     }
 
-    def get(keyName) {
+    String get(keyName) {
         propertyMap[keyName]
     }
 
-    def set(keyName, newValue) {
-        propertyMap[keyName] = newValue
-    }
+//    TODO: remove
+//    def set(keyName, newValue) {
+//        propertyMap[keyName] = newValue
+//    }
 
     def hasNext() {
         if (propertyIterator != null)

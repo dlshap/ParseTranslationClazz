@@ -98,32 +98,39 @@ class GeneratePropertySpreadsheet {
     }
 
     def movePropertiesIntoPropertySheetUsingModelSheet(ExcelPropertySheet newPropertySheet, ExcelPropertySheet modelPropertySheet) {
-        def propertyFileName = buildPropertyFileName(modelPropertySheet)
+        def propertyFileName = buildPropertyFileName(modelPropertySheet.sheetName)
         PropertyFile propertyFile = PropertyFile.openPropertyFileFromFileName(propertyFileName)
         TranslationProperties translationProperties = propertyFile.translationProperties
+        def ignoreFileName = buildIgnoreFileName(modelPropertySheet.sheetName)
+        PropertyFile ignoreFile = PropertyFile.openPropertyFileFromFileName(ignoreFileName)
+        TranslationProperties ignoreProperties = ignoreFile.translationProperties
         newPropertySheet.setLanguage(language)
-        updateNewSheetFromPropertiesFileAndModel(newPropertySheet, translationProperties, modelPropertySheet)
+        updateNewSheetFromPropertiesFileAndModelExceptIgnores(newPropertySheet, translationProperties, modelPropertySheet, ignoreProperties)
         logDeletedProperties(modelPropertySheet, translationProperties)
     }
 
-    def buildPropertyFileName(ExcelPropertySheet excelPropertySheet) {
-        def component = excelPropertySheet.sheetName
-        path + "\\$component\\PropertyFiles\\messages.properties"
+    def buildPropertyFileName(String sheetName) {
+        path + "\\$sheetName\\PropertyFiles\\messages.properties"
     }
 
-    def updateNewSheetFromPropertiesFileAndModel(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet) {
+    def buildIgnoreFileName(String sheetName) {
+        path + "\\$sheetName\\PropertyFiles\\ignore.messages.properties"
+    }
+
+    def updateNewSheetFromPropertiesFileAndModelExceptIgnores(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet, TranslationProperties ignoreProperties) {
         int propIndex = 1
-        print "\n"
         while (translationProperties.hasNext()) {
-            print "."
             def property = translationProperties.next()
             def propertyKey = property.getKey()
-            ExcelPropertyRow modelPropertyRow = modelPropertySheet.getFirstExcelPropertyRowMatchingKeys(["Message Key": propertyKey])
-            if (modelPropertyRow != null)
-                updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
-            else
-                addNewRowFromTranslation(newPropertySheet, property, propIndex)
-            propIndex++
+            if (ignoreProperties.get(propertyKey) == null) {
+                ExcelPropertyRow modelPropertyRow = modelPropertySheet.getFirstExcelPropertyRowMatchingKeys(["Message Key": propertyKey])
+                if (modelPropertyRow != null)
+                    updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
+                else
+                    addNewRowFromTranslation(newPropertySheet, property, propIndex)
+                propIndex++
+                print((propIndex.mod(100) == 0) ? ".\n" : ".")    // for impatient users
+            }
         }
         print "\n"
     }
