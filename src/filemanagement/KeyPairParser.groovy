@@ -7,8 +7,16 @@ import com.google.common.base.Splitter
  */
 
 class KeyPairParser {
-    static parseToMap(inText) {
+    static parseToMap(String inText) {
         // produces immutable map from any number of key-pairs in inText string
+
+        if (inText.count("=") > 1)
+            parseMultipleKeysToMap(inText)
+        else
+            parseSingleKeyToMap(inText)
+    }
+
+    static parseMultipleKeysToMap(String inText) {
 
         Map<String, String> result = Splitter.on(',')
                 .trimResults()
@@ -20,7 +28,13 @@ class KeyPairParser {
         result
     }
 
-    static parseSingleKeyValue(inText) {
-        inText.split('=')
+    static parseSingleKeyToMap(inText) {
+
+        Map<String, String> result = [:]
+        def keyValue = Splitter.on("=")
+                .trimResults()
+                .split(inText);
+        result.put(keyValue[0], keyValue[1])
+        result
     }
 }
