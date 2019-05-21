@@ -19,6 +19,26 @@ class GenerateLibrarySpreadsheet {
     }
 
     static main(args) {
+        if (allLanguages(args))
+            runForAllLanguages(args)
+        else
+            runForOneLanguage(args)
+    }
+
+    static boolean allLanguages(args) {
+        def checkForLanguage = new LibraryArgs(args)
+        checkForLanguage.languageName.toLowerCase() == "all"
+    }
+
+    static runForAllLanguages(args) {
+        ArrayList<String> languageList = LanguageLabels.getLanguageList()
+        languageList.each {
+            if (it != "English")
+                new GenerateLibrarySpreadsheet(["language=$it"])
+        }
+    }
+
+    static runForOneLanguage(args) {
         new GenerateLibrarySpreadsheet(args)
     }
 

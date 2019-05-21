@@ -25,7 +25,7 @@ class LibraryArgs {
 
     def setDefaultValuesIfArgsNull() {
         if (configPath == null) configPath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-        if (languageName == null) languageName = "Japanese"
+        if (languageName == null) languageName = "all"
     }
 
     private getConfigValues() {
