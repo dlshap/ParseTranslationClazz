@@ -9,11 +9,10 @@ import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 
 class GenerateLibrarySpreadsheet {
-    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     LibraryArgs libraryArgs
     String path, language
-    String foreignLangFileName
+    String foreignLangFileName, masterLangFileName
 
     GenerateLibrarySpreadsheet(args) {
         start(args)
@@ -37,16 +36,18 @@ class GenerateLibrarySpreadsheet {
     def setupPathsAndNames() {
         language = libraryArgs.languageName
         path = libraryArgs.spreadsheetPath
-        foreignLangFileName = "QuestionAnswerLibrary (${libraryArgs.languageName}).xlsx"
+        foreignLangFileName = "QuestionAnswerLibrary (${libraryArgs.languageName})"
+        masterLangFileName = "QuestionAnswerLibrary (English)"
     }
 
     def openTranslationLogs() {
         def logsFilePath = path + "\\logs\\"
-        Log.open("adds", logsFilePath + "log-property-adds.txt")
+        println "Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
+        Log.open("adds", logsFilePath + "$language-log-property-adds.txt")
         Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("updates", logsFilePath + "log-property-changes.txt")
+        Log.open("updates", logsFilePath + "$language-log-property-changes.txt")
         Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("deletes", logsFilePath + "log-property-deletes.txt")
+        Log.open("deletes", logsFilePath + "$language-log-property-deletes.txt")
         Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
@@ -62,16 +63,15 @@ class GenerateLibrarySpreadsheet {
     }
 
     ExcelPropertyFile getModelFile() {
-        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "master", language)
-        ExcelPropertyFile.openFileUsingChooser(prompt, libraryArgs.spreadsheetPath)
+        ExcelPropertyFile.openFileUsingFileName(path + masterLangFileName + ".xlsx")
     }
 
     ExcelPropertyFile getLibraryFile() {
-        ExcelPropertyFile.openFileUsingFileName(path + foreignLangFileName)
+        ExcelPropertyFile.openFileUsingFileName(path + foreignLangFileName + ".xlsx")
     }
 
     def createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
-        String newLibraryFileName = path + "\\new\\" + foreignLangFileName
+        String newLibraryFileName = path + "\\new\\" + foreignLangFileName + "_new.xlsx"
         LibrarySpreadsheetUpdater.buildNewSpreadsheetFromModel(newLibraryFileName, modelLibraryExcelFile)
     }
 

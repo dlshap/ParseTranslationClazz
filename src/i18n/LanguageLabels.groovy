@@ -29,7 +29,7 @@ class LanguageLabels {
     }
 
     static getLanguageList() {
-        libraryLanguageLabels.collect {it.key}
+        libraryLanguageLabels.collect { it.key }
     }
 
     static isLanguageInList(String language) {
