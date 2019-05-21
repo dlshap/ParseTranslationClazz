@@ -45,12 +45,13 @@ class GenerateLibrarySpreadsheet {
     def start(args) {
         libraryArgs = new LibraryArgs(args)
         setupPathsAndNames()
-        openTranslationLogs()
         if (!(LanguageLabels.isLanguageInList(language)))
         //todo: change to exception
             println "ERROR: \"$language\" is not in language list"
-        else
+        else {
+            openTranslationLogs()
             generateSpreadsheet()
+        }
     }
 
     def setupPathsAndNames() {
@@ -63,11 +64,11 @@ class GenerateLibrarySpreadsheet {
     def openTranslationLogs() {
         def logsFilePath = path + "\\logs\\"
         println "Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
-        Log.open("adds", logsFilePath + "$language-log-property-adds.txt")
+        Log.open("adds", logsFilePath + "$language-log-library-adds.txt")
         Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("updates", logsFilePath + "$language-log-property-changes.txt")
+        Log.open("updates", logsFilePath + "$language-log-library-changes.txt")
         Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("deletes", logsFilePath + "$language-log-property-deletes.txt")
+        Log.open("deletes", logsFilePath + "$language-log-library-deletes.txt")
         Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
