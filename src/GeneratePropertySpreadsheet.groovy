@@ -62,10 +62,12 @@ class GeneratePropertySpreadsheet {
     }
 
     ExcelPropertyFile chooseModelPropertySpreadsheet() {
-        def modelSpreadsheetPath = path + "Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
+        def modelSpreadsheetPath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\"
         def language = propertyArgs.get("language")
-        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "Master Properties", language)
-        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openFileUsingChooser(prompt, modelSpreadsheetPath)
+        def modelFileName = modelSpreadsheetPath + "DMT-DE Properties Translations ($language).xlsx"
+//        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "Master Properties", language)
+//        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openFileUsingChooser(prompt, modelSpreadsheetPath)
+        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openFileUsingFileName(modelFileName)
         modelExcelPropertyFile
     }
 
@@ -76,8 +78,8 @@ class GeneratePropertySpreadsheet {
     }
 
     String buildOutputFileName(ExcelPropertyFile modelFile) {
-        def outputPath = path + "\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\"
-        def outputFileName = outputPath + "\\new\\DMT-DE Properties Translations ($language)_new.xlsx"
+        def outputPath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\new\\"
+        def outputFileName = outputPath + "DMT-DE Properties Translations ($language)_new.xlsx"
         outputFileName
     }
 
@@ -88,7 +90,7 @@ class GeneratePropertySpreadsheet {
     }
 
     def openTranslationLogsForSheet(String sheetName) {
-        def logsFilePath = path + "\\Spreadsheets\\PropertySpreadsheets\\DMTDE\\logs\\"
+        def logsFilePath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\logs\\"
         Log.open("adds", logsFilePath + "$sheetName log-property-adds.txt")
         Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
         Log.open("updates", logsFilePath + "$sheetName log-property-changes.txt")

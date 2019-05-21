@@ -33,8 +33,10 @@ class GenerateLibrarySpreadsheet {
     static runForAllLanguages(args) {
         ArrayList<String> languageList = LanguageLabels.getLanguageList()
         languageList.each {
-            if (it != "English")
+            if (it != "English") {
+                println "Processing $it library spreadsheet"
                 new GenerateLibrarySpreadsheet(["language=$it"])
+            }
         }
     }
 
