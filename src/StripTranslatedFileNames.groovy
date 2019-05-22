@@ -4,6 +4,8 @@ import logging.Log
 
 class StripTranslatedFileNames {
 
+    static boolean test = false
+
     static main(args) {
         def pathName = getFilePath(args)
         // pick library folder (translated files)
@@ -35,13 +37,17 @@ class StripTranslatedFileNames {
 
     static stripTranslatedFromFileNames(changeLibrary) {
         def list = new File(changeLibrary)
-        list.eachFileMatch(~/.*_new.xlsx/) {
+        list.eachFileMatch(~/.*_new.*/) {
             def newName = it.getPath().replaceAll(~/_new/, "")
-            def result = it.renameTo(new File(newName))
-            if (result)
-                Log.writeLine("changed name of $it \r\nto: $newName")
-            else
-                Log.writeLine("exceptions", "could not change name of $it \r\nto: $newName")
+            if (test)
+                println newName
+            else {
+                def result = it.renameTo(new File(newName))
+                if (result)
+                    Log.writeLine("changed name of $it \r\nto: $newName")
+                else
+                    Log.writeLine("exceptions", "could not change name of $it \r\nto: $newName")
+            }
         }
     }
 }
