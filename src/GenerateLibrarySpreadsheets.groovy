@@ -1,5 +1,4 @@
 import i18n.LanguageLabels
-import i18n.Messages
 import libraryquestions.LibraryArgs
 import libraryquestions.LibrarySpreadsheetUpdater
 import logging.Dates
@@ -8,13 +7,13 @@ import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
 
-class GenerateLibrarySpreadsheet {
+class GenerateLibrarySpreadsheets {
 
     LibraryArgs libraryArgs
     String path, language
     String foreignLangFileName, masterLangFileName
 
-    GenerateLibrarySpreadsheet(args) {
+    GenerateLibrarySpreadsheets(args) {
         start(args)
     }
 
@@ -35,13 +34,13 @@ class GenerateLibrarySpreadsheet {
         languageList.each {
             if (it != "English") {
                 println "Processing $it library spreadsheet"
-                new GenerateLibrarySpreadsheet(["language=$it"])
+                new GenerateLibrarySpreadsheets(["language=$it"])
             }
         }
     }
 
     static runForOneLanguage(args) {
-        new GenerateLibrarySpreadsheet(args)
+        new GenerateLibrarySpreadsheets(args)
     }
 
     def start(args) {
