@@ -57,7 +57,7 @@ class GeneratePropertiesFiles {
 
     private ExcelPropertyFile choosePropertiesSpreadsheet() {
         def prompt = Messages.getString(SPREADSHEET_PROMPT, "message properties", language)
-        def excelPath = path + "\\Spreadsheets\\DMTPropertyspreadsheets\\"
+        def excelPath = path + "\\Spreadsheets\\DMTDEPropertyspreadsheets\\"
         ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openFileUsingChooser(prompt, excelPath)
         excelPropertyFile
     }
@@ -109,12 +109,17 @@ class GeneratePropertiesFiles {
 
     private writePropertyRowToPropertyFile(ExcelPropertyRow excelPropertyRow, PropertyFile propertyFile) {
         def propertyId = getRowId(excelPropertyRow)
-        def propertyValue = getRowValue(excelPropertyRow)
+        def propertyValue = getRowTranslatedValue(excelPropertyRow)
         String outLine
-        if ((propertyId != null) && (propertyId.trim() != "") && (propertyId[0] != "#"))
-            outLine = "$propertyId=${propertyValue == null ? '' : propertyValue}"
-        else
+        if ((propertyId != null) && (propertyId.trim() != "") && (propertyId[0] != "#")) {
+            if (propertyValue == null || propertyValue == "") {
+                propertyValue = getRowEnglishValue(excelPropertyRow) + " (needs translation)"
+                Log.writeLine "adds", "Adding $propertyId=$propertyValue"
+            }
+            outLine = "$propertyId=$propertyValue"
+        } else {
             outLine = "${propertyId == null ? '' : propertyId}"
+        }
         propertyFile.writeLine(outLine)
     }
 
@@ -123,15 +128,20 @@ class GeneratePropertiesFiles {
         propertyValueMap.get("Message Key")
     }
 
-    private String getRowValue(ExcelPropertyRow excelPropertyRow) {
+    private String getRowTranslatedValue(ExcelPropertyRow excelPropertyRow) {
         def propertyValueMap = excelPropertyRow.propertyMap
         propertyValueMap.get(language)
+    }
+
+    private String getRowEnglishValue(ExcelPropertyRow excelPropertyRow) {
+        def propertyValueMap = excelPropertyRow.propertyMap
+        propertyValueMap.get("English")
     }
 
     private logPropertyAddOrChange(ExcelPropertyRow excelPropertyRow, KeyFile oldPropertyFile) {
         def propertyId = getRowId(excelPropertyRow)
         def oldPropertyValue = (oldPropertyFile.get(propertyId))
-        def newPropertyValue = getRowValue(excelPropertyRow)
+        def newPropertyValue = getRowTranslatedValue(excelPropertyRow)
         if (oldPropertyValue == null && newPropertyValue.trim() != "")
             Log.writeLine "adds", "Adding $propertyId=$newPropertyValue"
         else if (!(oldPropertyValue.equals(newPropertyValue)) && newPropertyValue.trim() != "")
@@ -142,8 +152,9 @@ class GeneratePropertiesFiles {
         def newPropertyFileName = newUnkeyedPropertyFile.fullName
         KeyFile newPropertyFile = new KeyFile(newPropertyFileName)
         oldPropertyFile.keyMap.each { oldKey, oldValue ->
-            if (newPropertyFile.keyMap.get(oldKey) == null)
+            if (newPropertyFile.keyMap.get(oldKey) == null) {
                 Log.writeLine("deletes", "Deleted from old property file: $oldKey=$oldValue")
+            }
         }
     }
 }
