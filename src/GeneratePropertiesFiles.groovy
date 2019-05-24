@@ -72,11 +72,11 @@ class GeneratePropertiesFiles {
 
     private openTranslationLogsForSheet(String sheetName) {
         def logsFilePath = path + "\\$sheetName\\logs\\"
-        Log.open("adds", logsFilePath + "$sheetName log-property-adds.txt")
+        Log.open("adds", logsFilePath + "log-$sheetName $language property-adds.txt")
         Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("updates", logsFilePath + "$sheetName log-property-changes.txt")
+        Log.open("updates", logsFilePath + "log-$sheetName $language property-changes.txt")
         Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("deletes", logsFilePath + "$sheetName log-property-deletes.txt")
+        Log.open("deletes", logsFilePath + "log-$sheetName $language property-deletes.txt")
         Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
