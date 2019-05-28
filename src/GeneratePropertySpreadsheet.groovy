@@ -6,6 +6,7 @@ import i18n.LanguageLabels
 import i18n.Messages
 import logging.Dates
 import logging.Log
+import logging.LogUtils
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
@@ -85,19 +86,10 @@ class GeneratePropertySpreadsheet {
     }
 
     ExcelPropertySheet createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
-        openTranslationLogsForSheet(modelPropertySheet.sheetName)
+        def logPath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\logs\\"
+        LogUtils.OpenLogs(logPath, modelPropertySheet.sheetName)
         ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
         outputPropertySheet
-    }
-
-    def openTranslationLogsForSheet(String sheetName) {
-        def logsFilePath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\logs\\"
-        Log.open("adds", logsFilePath + "$sheetName log-property-adds.txt")
-        Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("updates", logsFilePath + "$sheetName log-property-changes.txt")
-        Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("deletes", logsFilePath + "$sheetName log-property-deletes.txt")
-        Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     def movePropertiesIntoPropertySheetUsingModelSheet(ExcelPropertySheet newPropertySheet, ExcelPropertySheet modelPropertySheet) {

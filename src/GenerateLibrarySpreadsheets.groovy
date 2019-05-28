@@ -3,6 +3,7 @@ import libraryquestions.LibraryArgs
 import libraryquestions.LibrarySpreadsheetUpdater
 import logging.Dates
 import logging.Log
+import logging.LogUtils
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
@@ -50,7 +51,8 @@ class GenerateLibrarySpreadsheets {
         //todo: change to exception
             println "ERROR: \"$language\" is not in language list"
         else {
-            openTranslationLogs()
+            println "Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
+            LogUtils.OpenLogs(path + "\\logs\\", language)
             generateSpreadsheet()
         }
     }
@@ -60,17 +62,6 @@ class GenerateLibrarySpreadsheets {
         path = libraryArgs.spreadsheetPath
         foreignLangFileName = "QuestionAnswerLibrary (${libraryArgs.languageName})"
         masterLangFileName = "QuestionAnswerLibrary (English)"
-    }
-
-    def openTranslationLogs() {
-        def logsFilePath = path + "\\logs\\"
-        println "Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
-        Log.open("adds", logsFilePath + "$language-log-library-adds.txt")
-        Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("updates", logsFilePath + "$language-log-library-changes.txt")
-        Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("deletes", logsFilePath + "$language-log-library-deletes.txt")
-        Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
     }
 
     def generateSpreadsheet() {
