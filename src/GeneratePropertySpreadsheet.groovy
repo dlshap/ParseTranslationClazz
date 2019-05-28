@@ -109,7 +109,7 @@ class GeneratePropertySpreadsheet {
         ArrayList<String> ignoreProperties = ignoreFile.ignoreList
         newPropertySheet.setLanguage(language)
         updateNewSheetFromPropertiesFileAndModelExceptIgnores(newPropertySheet, translationProperties, modelPropertySheet, ignoreProperties)
-        logDeletedProperties(modelPropertySheet, translationProperties)
+        logDeletedProperties(modelPropertySheet, newPropertySheet)
     }
 
     def buildPropertyFileName(String sheetName) {
@@ -131,7 +131,7 @@ class GeneratePropertySpreadsheet {
                     updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
                 else
                     addNewRowFromTranslation(newPropertySheet, property, propIndex)
-                print ((propIndex.mod(100) == 0) ? ".\n" : ".")    // for impatient users
+                print((propIndex.mod(100) == 0) ? ".\n" : ".")    // for impatient users
                 propIndex++
             }
         }
@@ -174,13 +174,16 @@ class GeneratePropertySpreadsheet {
         excelPropertyRow.setStyle("Date Changed", excelPropertySheet.getDateStyle())
     }
 
-    def logDeletedProperties(ExcelPropertySheet modelPropertySheet, TranslationProperties translationProperties) {
+    def logDeletedProperties(ExcelPropertySheet modelPropertySheet, ExcelPropertySheet newPropertySheet) {
         modelPropertySheet.resetRows()
         while (modelPropertySheet.hasNextExcelPropertyRow()) {
             ExcelPropertyRow modelRow = modelPropertySheet.nextExcelPropertyRow()
             String propertyKey = modelRow.getValue("Message Key")
-            if (propertyKey != null && propertyKey != "" && propertyKey[0] != "#" && translationProperties.get(propertyKey) == null) {
-                Log.writeLine("deletes", "Removed property: $propertyKey:${modelRow.getValue("English")}")
+            if (propertyKey != null && propertyKey != "" && propertyKey[0] != "#") {
+                ExcelPropertyRow newRow = newPropertySheet.getFirstExcelPropertyRowMatchingKeys(["Message Key": propertyKey])
+                if (newRow == null) {
+                    Log.writeLine("deletes", "Removed property: $propertyKey = ${modelRow.getValue("$language")}")
+                }
             }
         }
     }

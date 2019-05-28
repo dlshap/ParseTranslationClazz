@@ -74,7 +74,6 @@ class ExcelPropertySheet extends ExcelSheet {
 
     private cloneStylesToHeaderRowFromPropertySheet(ExcelPropertySheet modelPropertySheet) {
         int modelHeaderRowNum = modelPropertySheet.headerRowNum
-//        ArrayList<String> modelHeaderRowNames = modelPropertySheet.headerRowNames
         ArrayList<CellStyle> headerRowStyles = cloneStylesFromSheetWithStyles(modelPropertySheet, modelHeaderRowNum, OnBlankCell.STOP)
         applyStylesToRow(headerRowStyles, modelHeaderRowNum)
     }
