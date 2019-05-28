@@ -52,7 +52,7 @@ class GenerateLibrarySpreadsheets {
             println "ERROR: \"$language\" is not in language list"
         else {
             println "Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
-            LogUtils.OpenLogs(path + "\\logs\\", language)
+            LogUtils.OpenLogs(path + "\\logs\\", "$language-library")
             generateSpreadsheet()
         }
     }

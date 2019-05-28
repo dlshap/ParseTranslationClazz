@@ -2,6 +2,7 @@ import filemanagement.KeyFile
 import i18n.LanguageLabels
 import logging.Dates
 import logging.Log
+import logging.LogUtils
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
@@ -51,8 +52,9 @@ class GeneratePropertiesFiles {
 
     private generateTranslationsFromSpreadsheetToPropertiesFiles() {
         ExcelPropertyFile excelPropertyFile = choosePropertiesSpreadsheet()
-        if (excelPropertyFile != null)
+        if (excelPropertyFile != null) {
             movePropertiesFromSpreadsheetsToPropertiesFiles(excelPropertyFile)
+        }
     }
 
     private ExcelPropertyFile choosePropertiesSpreadsheet() {
@@ -72,12 +74,7 @@ class GeneratePropertiesFiles {
 
     private openTranslationLogsForSheet(String sheetName) {
         def logsFilePath = path + "\\$sheetName\\logs\\"
-        Log.open("adds", logsFilePath + "log-$sheetName $language property-adds.txt")
-        Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("updates", logsFilePath + "log-$sheetName $language property-changes.txt")
-        Log.writeLine "updates", "Running on " + Dates.currentDateAndTime() + ":\r\n"
-        Log.open("deletes", logsFilePath + "log-$sheetName $language property-deletes.txt")
-        Log.writeLine "deletes", "Running on " + Dates.currentDateAndTime() + ":\r\n"
+        LogUtils.OpenLogs(logsFilePath, "$language-$sheetName-property")
     }
 
     private movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {

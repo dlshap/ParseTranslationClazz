@@ -87,7 +87,7 @@ class GeneratePropertySpreadsheet {
 
     ExcelPropertySheet createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
         def logPath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\logs\\"
-        LogUtils.OpenLogs(logPath, modelPropertySheet.sheetName)
+        LogUtils.OpenLogs(logPath, "${modelPropertySheet.sheetName}-properties")
         ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
         outputPropertySheet
     }
