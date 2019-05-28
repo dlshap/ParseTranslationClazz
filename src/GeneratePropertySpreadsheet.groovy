@@ -152,14 +152,6 @@ class GeneratePropertySpreadsheet {
         }
     }
 
-//    CellStyle getDateStyle(ExcelPropertySheet excelPropertySheet) {
-//        Workbook workbook = excelPropertySheet.workbook
-//        CellStyle dateCellStyle = workbook.createCellStyle()
-//        short dateFormat = workbook.createDataFormat().getFormat("mm/dd/yyyy")
-//        dateCellStyle.setDataFormat(dateFormat)
-//        dateCellStyle
-//    }
-
     def addNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
         def today = Calendar.getInstance().time
         def propertyMap = [:]
