@@ -1,4 +1,7 @@
 import filemanagement.BaseFile
+import filemanagement.IgnoreFile
+import filemanagement.KeyPairParser
+import filemanagement.LineFile
 import i18n.LanguageLabels
 import i18n.Messages
 import logging.Dates
@@ -102,8 +105,8 @@ class GeneratePropertySpreadsheet {
         PropertyFile propertyFile = PropertyFile.openPropertyFileFromFileName(propertyFileName)
         TranslationProperties translationProperties = propertyFile.translationProperties
         String ignoreFileName = buildIgnoreFileName(modelPropertySheet.sheetName)
-        PropertyFile ignoreFile = PropertyFile.openPropertyFileFromFileName(ignoreFileName)
-        TranslationProperties ignoreProperties = ignoreFile.translationProperties
+        IgnoreFile ignoreFile = new IgnoreFile(ignoreFileName)
+        ArrayList<String> ignoreProperties = ignoreFile.ignoreList
         newPropertySheet.setLanguage(language)
         updateNewSheetFromPropertiesFileAndModelExceptIgnores(newPropertySheet, translationProperties, modelPropertySheet, ignoreProperties)
         logDeletedProperties(modelPropertySheet, translationProperties)
@@ -117,12 +120,12 @@ class GeneratePropertySpreadsheet {
         path + "\\$sheetName\\PropertyFiles\\ignore.messages.properties"
     }
 
-    def updateNewSheetFromPropertiesFileAndModelExceptIgnores(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet, TranslationProperties ignoreProperties) {
+    def updateNewSheetFromPropertiesFileAndModelExceptIgnores(ExcelPropertySheet newPropertySheet, TranslationProperties translationProperties, ExcelPropertySheet modelPropertySheet, ArrayList<String> ignoreProperties) {
         int propIndex = 1
         while (translationProperties.hasNext()) {
             def property = translationProperties.next()
             def propertyKey = property.getKey()
-            if (ignoreProperties.get(propertyKey) == null) {
+            if (!(ignoreProperties.contains(propertyKey))) {
                 ExcelPropertyRow modelPropertyRow = modelPropertySheet.getFirstExcelPropertyRowMatchingKeys(["Message Key": propertyKey])
                 if (modelPropertyRow != null)
                     updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
