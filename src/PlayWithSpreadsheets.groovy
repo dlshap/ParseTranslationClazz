@@ -30,7 +30,7 @@ class PlayWithSpreadsheets {
             propertyArgs.set("language", "Japanese")
 
         if (propertyArgs.get("path") == null)
-            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\")
+            propertyArgs.set("path", "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\")
     }
 
     def generateSpreadsheet() {

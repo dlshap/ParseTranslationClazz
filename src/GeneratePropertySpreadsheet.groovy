@@ -15,7 +15,7 @@ import useful.Args
 
 class GeneratePropertySpreadsheet {
 
-    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
+//    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     Args propertyArgs
     String language, path       // args
@@ -43,7 +43,7 @@ class GeneratePropertySpreadsheet {
             language = "All"
         path = propertyArgs.get("path")
         if (path == null)
-            path = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\"
+            path = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\"
     }
 
     def generateSpreadsheet() {
@@ -64,9 +64,7 @@ class GeneratePropertySpreadsheet {
     ExcelPropertyFile chooseModelPropertySpreadsheet() {
         def modelSpreadsheetPath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\"
         def language = propertyArgs.get("language")
-        def modelFileName = modelSpreadsheetPath + "DMT-DE Properties Translations ($language).xlsx"
-//        def prompt = Messages.getString(MODEL_SPREADSHEET_PROMPT, "Master Properties", language)
-//        ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openFileUsingChooser(prompt, modelSpreadsheetPath)
+        def modelFileName = modelSpreadsheetPath + "DMT-DE Properties translations ($language).xlsx"
         ExcelPropertyFile modelExcelPropertyFile = ExcelPropertyFile.openFileUsingFileName(modelFileName)
         modelExcelPropertyFile
     }
@@ -79,7 +77,7 @@ class GeneratePropertySpreadsheet {
 
     String buildOutputFileName(ExcelPropertyFile modelFile) {
         def outputPath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\new\\"
-        def outputFileName = outputPath + "DMT-DE Properties Translations ($language)_new.xlsx"
+        def outputFileName = outputPath + "DMT-DE Properties translations ($language)_new.xlsx"
         outputFileName
     }
 
@@ -151,13 +149,13 @@ class GeneratePropertySpreadsheet {
         }
     }
 
-    CellStyle getDateStyle(ExcelPropertySheet excelPropertySheet) {
-        Workbook workbook = excelPropertySheet.workbook
-        CellStyle dateCellStyle = workbook.createCellStyle()
-        short dateFormat = workbook.createDataFormat().getFormat("mm/dd/yyyy")
-        dateCellStyle.setDataFormat(dateFormat)
-        dateCellStyle
-    }
+//    CellStyle getDateStyle(ExcelPropertySheet excelPropertySheet) {
+//        Workbook workbook = excelPropertySheet.workbook
+//        CellStyle dateCellStyle = workbook.createCellStyle()
+//        short dateFormat = workbook.createDataFormat().getFormat("mm/dd/yyyy")
+//        dateCellStyle.setDataFormat(dateFormat)
+//        dateCellStyle
+//    }
 
     def addNewRowFromTranslation(ExcelPropertySheet newPropertySheet, property, int propIndex) {
         def today = Calendar.getInstance().time

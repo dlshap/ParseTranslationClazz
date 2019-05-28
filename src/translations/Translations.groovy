@@ -6,7 +6,7 @@ import properties.ExcelPropertySheet
  * Created by s0041664 on 8/15/2017.
  */
 class Translations {
-    // Translations: collection of Translation objects imported from Translation Spreadsheet export file
+    // translations: collection of Translation objects imported from Translation Spreadsheet export file
     ArrayList<Translation> translations = []
     Iterator translationIterator
 
