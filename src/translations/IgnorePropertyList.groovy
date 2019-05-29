@@ -8,7 +8,7 @@ class IgnorePropertyList {
     private ignorePropertyMsgList
     def ignorePropertyList
 
-    def IgnorePropertyList(filename) {
+    IgnorePropertyList(filename) {
         ignorePropertyMsgFile = new TextFile(filename)
         buildIgnorePropertyList()
     }

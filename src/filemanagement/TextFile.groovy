@@ -7,11 +7,11 @@ class TextFile extends BaseFile {
 
     def fileText
 
-    def TextFile(fileName) {
+    TextFile(fileName) {
         super(fileName)
     }
 
-    def TextFile(fileName, CreateFlag create) {
+    TextFile(fileName, CreateFlag create) {
         super(fileName, create)
     }
 

@@ -25,7 +25,7 @@ class ExcelPropertyFile extends ExcelFile {
     }
 
     static openFileUsingFileName(String fileName) {
-        ZipSecureFile.setMinInflateRatio(0);                    // avoid ZipBomb problem
+        ZipSecureFile.setMinInflateRatio(0)                    // avoid ZipBomb problem
         ExcelPropertyFile excelPropertyFile = new ExcelPropertyFile()
         excelPropertyFile.openExcelFileUsingFileName(fileName)
         excelPropertyFile.file.exists() ? excelPropertyFile : null

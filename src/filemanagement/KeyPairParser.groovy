@@ -24,7 +24,7 @@ class KeyPairParser {
                 Splitter.on('=')
                         .limit(2)
                         .trimResults())
-                .split(inText);
+                .split(inText)
         result
     }
 
@@ -33,7 +33,7 @@ class KeyPairParser {
         Map<String, String> result = [:]
         def keyValue = Splitter.on("=")
                 .trimResults()
-                .split(inText);
+                .split(inText)
         result.put(keyValue[0], keyValue[1])
         result
     }

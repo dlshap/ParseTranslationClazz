@@ -3,7 +3,7 @@ package translations
 class TranslationFieldKeys {
     def keys = [:]
 
-    def TranslationFieldKeys(keyMap) {
+    TranslationFieldKeys(keyMap) {
         this.keys = keyMap
     }
 
