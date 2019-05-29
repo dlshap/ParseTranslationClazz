@@ -3,7 +3,7 @@ package logging
 class LogUtils {
 
     static def startUtil(String name, String path) {
-        Log.open("app", path + "$name-util-log.txt")
+        Log.open("app", path + "logs\\$name-util-log.txt")
         Log.writeLine("app", "Starting $name utility at ${Dates.currentDateAndTime()}:\r\n")
     }
 

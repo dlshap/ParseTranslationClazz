@@ -34,7 +34,7 @@ class UpdateDMTClassFactories {
 
     static performTranslations(LibraryArgs libraryArgs) {
         LibraryLogs.openLogs(libraryArgs)
-        def language = libraryArgs.languageName
+        def language = libraryArgs.language
         def spreadsheetPath = libraryArgs.spreadsheetPath
         LibraryExcelPropertyFile libraryPropertyFile = LibraryExcelPropertyFile.openLibraryPropertyFileUsingChooser(
                 Messages.getString(SPREADSHEET_PROMPT, "Library Factory", "$language"), spreadsheetPath)

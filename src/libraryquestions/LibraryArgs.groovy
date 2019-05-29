@@ -4,10 +4,10 @@ import useful.Args
 import useful.Config
 
 class LibraryArgs {
-    String configPath
+    String basePath
     String libraryFilePath
     String spreadsheetPath
-    String languageName
+    String language
     def fileNameForTestingSingleFile
 
     LibraryArgs(args) {
@@ -18,19 +18,19 @@ class LibraryArgs {
 
     def getValuesFromCommandLineArgs(args) {
         def argsMap = new Args(args)
-        configPath = argsMap.get("path")
-        languageName = argsMap.get("language")
+        basePath = argsMap.get("path")
+        language = argsMap.get("language")
         fileNameForTestingSingleFile = argsMap.get("file")
     }
 
     def setDefaultValuesIfArgsNull() {
-        if (configPath == null) configPath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-        if (languageName == null) languageName = "all"
+        if (basePath == null) basePath = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+        if (language == null) language = "all"
     }
 
     private getConfigValues() {
-        Config config = new Config(configPath)
-        spreadsheetPath = configPath + config.get("library.question.spreadsheet.relative.path")
-        libraryFilePath = configPath + config.get("library.question.files.relative.path")
+        Config config = new Config(basePath)
+        spreadsheetPath = basePath + config.get("library.question.spreadsheet.relative.path")
+        libraryFilePath = basePath + config.get("library.question.files.relative.path")
     }
 }

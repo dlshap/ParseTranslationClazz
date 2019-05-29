@@ -11,7 +11,7 @@ class LibraryFactoryManager {
     LibraryQuestionFieldParser libraryQuestionFieldFinder  /* singleton for a given language */
 
     LibraryFactoryManager(LibraryArgs libraryArgs, LibraryExcelPropertyFile libraryExcelPropertyFile) {
-        translationLanguage = libraryArgs.languageName
+        translationLanguage = libraryArgs.language
         loadClassNamesFromSheets(libraryArgs, libraryExcelPropertyFile)
         createLibraryQuestionFieldFinder(translationLanguage)
         buildLibraryFactoryFilePaths(libraryArgs)

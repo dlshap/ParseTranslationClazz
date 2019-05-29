@@ -44,7 +44,7 @@ class PlayWithSpreadsheets {
     }
 
 //        ZipSecureFile.setMinInflateRatio(0);
-//        ExcelPropertyFile fromFile = ExcelPropertyFile.openFileUsingChooser("Pick a spreadsheet", propertyArgs.get("path"))
+//        ExcelPropertyFile fromFile = ExcelPropertyFile.openFileUsingChooser("Pick a spreadsheet", propertyArgs.get("spreadsheetPath"))
 //        if (fromFile != null) {
 //            while (fromFile.hasNextExcelPropertySheet()) {
 //                ExcelPropertySheet modelPropertySheet = fromFile.nextExcelPropertySheet()
