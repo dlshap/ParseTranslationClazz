@@ -1,7 +1,6 @@
 import i18n.LanguageLabels
 import libraryquestions.LibraryArgs
 import libraryquestions.LibrarySpreadsheetUpdater
-import logging.Dates
 import logging.Log
 import logging.LogUtils
 import properties.ExcelPropertyFile
@@ -48,11 +47,10 @@ class GenerateLibrarySpreadsheets {
         libraryArgs = new LibraryArgs(args)
         setupPathsAndNames()
         if (!(LanguageLabels.isLanguageInList(language)))
-        //todo: change to exception
             println "ERROR: \"$language\" is not in language list"
         else {
             println "Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
-            LogUtils.OpenLogs(path + "\\logs\\", "$language-library")
+            LogUtils.openLogs(path + "\\logs\\", "$language-library")
             generateSpreadsheet()
         }
     }

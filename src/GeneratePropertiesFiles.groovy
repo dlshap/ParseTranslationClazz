@@ -1,6 +1,5 @@
 import filemanagement.KeyFile
 import i18n.LanguageLabels
-import logging.Dates
 import logging.Log
 import logging.LogUtils
 import properties.ExcelPropertyFile
@@ -74,7 +73,7 @@ class GeneratePropertiesFiles {
 
     private openTranslationLogsForSheet(String sheetName) {
         def logsFilePath = path + "\\$sheetName\\logs\\"
-        LogUtils.OpenLogs(logsFilePath, "$language-$sheetName-property")
+        LogUtils.openLogs(logsFilePath, "$language-$sheetName-property")
     }
 
     private movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {

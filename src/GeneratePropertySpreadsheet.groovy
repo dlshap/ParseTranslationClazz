@@ -1,15 +1,8 @@
 import filemanagement.BaseFile
 import filemanagement.IgnoreFile
-import filemanagement.KeyPairParser
-import filemanagement.LineFile
 import i18n.LanguageLabels
-import i18n.Messages
-import logging.Dates
 import logging.Log
 import logging.LogUtils
-import org.apache.poi.ss.usermodel.CellStyle
-import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.ss.usermodel.Workbook
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
@@ -18,8 +11,6 @@ import translations.TranslationProperties
 import useful.Args
 
 class GeneratePropertySpreadsheet {
-
-//    static final MODEL_SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     Args propertyArgs
     String language, path       // args
@@ -35,8 +26,9 @@ class GeneratePropertySpreadsheet {
     def start(args) {
         propertyArgs = new Args(args)
         setDefaultArgs()
+        LogUtils.startUtil(this.getClass().name, path)
         if (!(LanguageLabels.isLanguageInList(language)))
-            println "ERROR: \"$language\" is not in language list"
+            Log.writeLine"app", "ERROR: \"$language\" is not in language list"
         else
             generateSpreadsheet()
     }
@@ -87,7 +79,7 @@ class GeneratePropertySpreadsheet {
 
     ExcelPropertySheet createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
         def logPath = path + "\\Spreadsheets\\DMTDEPropertySpreadsheets\\logs\\"
-        LogUtils.OpenLogs(logPath, "${modelPropertySheet.sheetName}-properties")
+        LogUtils.openLogs(logPath, "${modelPropertySheet.sheetName}-properties")
         ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
         outputPropertySheet
     }

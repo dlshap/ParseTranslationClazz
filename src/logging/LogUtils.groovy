@@ -2,7 +2,12 @@ package logging
 
 class LogUtils {
 
-    static def OpenLogs(String logPath, String logName) {
+    static def startUtil(String name, String path) {
+        Log.open("app", path + "$name-util-log.txt")
+        Log.writeLine("app", "Starting $name utility at ${Dates.currentDateAndTime()}:\r\n")
+    }
+
+    static def openLogs(String logPath, String logName) {
         def logsFilePath = logPath
         Log.open("adds", logsFilePath + "$logName-adds-log.txt")
         Log.writeLine "adds", "Running on " + Dates.currentDateAndTime() + ":\r\n"
