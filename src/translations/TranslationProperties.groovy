@@ -37,11 +37,6 @@ class TranslationProperties {
         propertyMap[keyName]
     }
 
-//    TODO: remove
-//    def set(keyName, newValue) {
-//        propertyMap[keyName] = newValue
-//    }
-
     def hasNext() {
         if (propertyIterator != null)
             propertyIterator.hasNext()
