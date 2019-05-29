@@ -54,7 +54,7 @@ class LibrarySpreadsheetUpdater {
             newRow.setValue(translatedColumnName, oldRow.getValue(translatedColumnName))
             String newEnglishName = (newRow.getValue(englishColumnName)).trim()
             String oldEnglishName = (oldRow.getValue(englishColumnName)).trim()
-            if (!(newEnglishName.equals(oldEnglishName))) {
+            if (!(newEnglishName == oldEnglishName)) {
                 newRow.setValue("Date Changed", today)
                 Log.writeLine("updates", "$sheetName: English text changed for $englishColumnName from: $oldEnglishName to: $newEnglishName")
             }

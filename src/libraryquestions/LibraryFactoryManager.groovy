@@ -24,7 +24,7 @@ class LibraryFactoryManager {
         classNames = libraryExcelPropertyFile.workbook.sheetIterator().collect() { it.sheetName }
         classNames.removeAll() { it.contains("Table of Contents") }
         if (fileNameForTestingSingleFile != null)
-            classNames.removeAll() { (!(it.equals(fileNameForTestingSingleFile))) }
+            classNames.removeAll() { (!(it == fileNameForTestingSingleFile)) }
     }
 
     def getClassNameList() {

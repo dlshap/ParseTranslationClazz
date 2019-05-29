@@ -1,0 +1,42 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="AssertWithinFinallyBlock" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="AssignmentInConditional" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="BigDecimalInstantiation" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="BitwiseOperatorInConditional" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="BooleanGetBoolean" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="BrokenNullCheck" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="BrokenOddnessCheck" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ClassForName" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ComparisonOfTwoConstants" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ComparisonWithSelf" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ConstantAssertExpression" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ConstantIfExpression" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ConstantTernaryExpression" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="DeadCode" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="DoubleNegative" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="DuplicateCaseStatement" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="DuplicateMapKey" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="DuplicateSetValue" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptyCatchBlock" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptyElseBlock" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptyForStatement" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptyIfStatement" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptyInstanceInitializer" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptyStaticInitializer" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptySwitchStatement" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EmptyWhileStatement" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EqualsAndHashCode" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="EqualsOverloaded" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ExplicitGarbageCollection" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ForLoopShouldBeWhileLoop" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="HardCodedWindowsFileSeparator" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="HardCodedWindowsRootDirectory" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="IntegerGetInteger" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="MultipleUnaryOperators" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="RandomDoubleCoercedToZero" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="RemoveAllOnSelf" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ThrowExceptionFromFinallyBlock" enabled="true" level="WARNING" enabled_by_default="true" />
+  </profile>
+</component>

@@ -20,7 +20,7 @@ class StripTranslatedFileNames {
     static getFilePath(args) {
         String fp //filepath
         if (args.size() == 0)
-            fp = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\translations\\"
+            fp = "C:\\Users\\s0041664\\Documents\\Projects\\DMT-DE\\Project Work\\Translations\\Spreadsheets\\DMTQuestionLibrarySpreadsheets\\new"
         else {
             fp = args[0]
             if (fp[-1] != "\\") fp += "\\"

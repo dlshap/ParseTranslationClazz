@@ -7,7 +7,7 @@ class FileDirectoryMgr {
 
     def filePath = ""
 
-    def FileDirectoryMgr(filePath) {
+    FileDirectoryMgr(filePath) {
         this.filePath = filePath
     }
 

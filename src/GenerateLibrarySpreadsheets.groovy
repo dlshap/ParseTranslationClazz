@@ -47,9 +47,9 @@ class GenerateLibrarySpreadsheets {
         libraryArgs = new LibraryArgs(args)
         setupPathsAndNames()
         if (!(LanguageLabels.isLanguageInList(language)))
-            println "ERROR: \"$language\" is not in language list"
+            Log.writeLine "app","ERROR: \"$language\" is not in language list"
         else {
-            println "Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
+            Log.writeLine"app","Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
             LogUtils.openLogs(path + "\\logs\\", "$language-library")
             generateSpreadsheet()
         }
@@ -86,7 +86,7 @@ class GenerateLibrarySpreadsheets {
         LibrarySpreadsheetUpdater.buildNewSpreadsheetFromModel(newLibraryFileName, modelLibraryExcelFile)
     }
 
-    def updateNewLanguageLibraryExcelFileFromOldFile(ExcelPropertyFile newLibraryExcelFile, ExcelPropertyFile oldLibraryExcelFile) {
+    static def updateNewLanguageLibraryExcelFileFromOldFile(ExcelPropertyFile newLibraryExcelFile, ExcelPropertyFile oldLibraryExcelFile) {
         newLibraryExcelFile.resetSheetIterator()
         while (newLibraryExcelFile.hasNextExcelPropertySheet()) {
             ExcelPropertySheet newSheet = newLibraryExcelFile.nextExcelPropertySheet()
@@ -96,7 +96,7 @@ class GenerateLibrarySpreadsheets {
         }
     }
 
-    def updateNewSheetFromOldSheet(ExcelPropertySheet newSheet, ExcelPropertySheet oldSheet) {
+    static def updateNewSheetFromOldSheet(ExcelPropertySheet newSheet, ExcelPropertySheet oldSheet) {
         while (oldSheet.hasNextExcelPropertyRow()) {
             ExcelPropertyRow oldRow = oldSheet.nextExcelPropertyRow()
             ExcelPropertyRow newRow = LibrarySpreadsheetUpdater.getRowMatchingKeysFromModelRow(newSheet, oldRow)
@@ -108,7 +108,7 @@ class GenerateLibrarySpreadsheets {
         }
     }
 
-    def logAddedRowsInNewSheetNotInOldSheet(ExcelPropertySheet newSheet, ExcelPropertySheet oldSheet) {
+    static def logAddedRowsInNewSheetNotInOldSheet(ExcelPropertySheet newSheet, ExcelPropertySheet oldSheet) {
         while (newSheet.hasNextExcelPropertyRow()) {
             ExcelPropertyRow newRow = newSheet.nextExcelPropertyRow()
             if (LibrarySpreadsheetUpdater.getRowMatchingKeysFromModelRow(oldSheet, newRow) == null) {

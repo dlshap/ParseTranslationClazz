@@ -115,7 +115,7 @@ class GeneratePropertySpreadsheet {
                     updateTranslationInRow(newPropertySheet, property, modelPropertyRow, propIndex)
                 else
                     addNewRowFromTranslation(newPropertySheet, property, propIndex)
-                print((propIndex.mod(100) == 0) ? ".\n" : ".")    // for impatient users
+                print((propIndex % 100 == 0) ? ".\n" : ".")    // for impatient users
                 propIndex++
             }
         }

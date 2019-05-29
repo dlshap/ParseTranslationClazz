@@ -6,9 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 class ExcelWorkbookForOutput extends ExcelWorkbook {
 
     ExcelWorkbookForOutput(file) {
-        try {
-            workbookStream = new FileOutputStream(file)
-        } catch (FileNotFoundException) {}
+        workbookStream = new FileOutputStream(file)
         def fileExtension = file.name.substring(file.name.indexOf("."))
         if (fileExtension == ".xlsx")
             workbook = new XSSFWorkbook()

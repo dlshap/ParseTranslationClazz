@@ -140,7 +140,7 @@ class GeneratePropertiesFiles {
         def newPropertyValue = getRowTranslatedValue(excelPropertyRow)
         if (oldPropertyValue == null && newPropertyValue.trim() != "")
             Log.writeLine "adds", "Adding $propertyId=$newPropertyValue"
-        else if (!(oldPropertyValue.equals(newPropertyValue)) && newPropertyValue.trim() != "")
+        else if (!(oldPropertyValue == newPropertyValue) && newPropertyValue.trim() != "")
             Log.writeLine("updates", "Changing $propertyId from $oldPropertyValue to $newPropertyValue")
     }
 
