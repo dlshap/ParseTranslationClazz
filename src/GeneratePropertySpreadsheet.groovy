@@ -6,25 +6,25 @@ import logging.LogUtils
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
+import properties.PropertyArgs
 import properties.PropertyFile
 import translations.TranslationProperties
-import useful.Args
 
 class GeneratePropertySpreadsheet {
 
-    Args propertyArgs
+    PropertyArgs propertyArgs
     String language, path       // args
-
-    GeneratePropertySpreadsheet(args) {
-        start(args)
-    }
 
     static main(args) {
         new GeneratePropertySpreadsheet(args)
     }
 
+    GeneratePropertySpreadsheet(args) {
+        start(args)
+    }
+
     def start(args) {
-        propertyArgs = new Args(args)
+        propertyArgs = new PropertyArgs(args)
         setDefaultArgs()
         LogUtils.startUtil(this.getClass().name, path)
         if (!(LanguageLabels.isLanguageInList(language)))
