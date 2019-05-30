@@ -26,8 +26,9 @@ class GeneratePropertyFiles {
 
     private start(args) {
         propertyArgs = new PropertyArgs(args)
+        LogUtils.startLogging(this.getClass().name, propertyArgs.basePath)
         if (!(LanguageLabels.isLanguageInList(this.propertyArgs.language))) {
-            Log.writeLine "app", "ERROR: \"${this.propertyArgs.language}\" is not in language list"
+            Log.writeLine "ERROR: \"${this.propertyArgs.language}\" is not in language list"
         } else {
             generateTranslationsFromSpreadsheetToPropertiesFiles()
         }
@@ -56,7 +57,7 @@ class GeneratePropertyFiles {
     }
 
     private openTranslationLogsForSheet(String sheetName) {
-        Log.writeLine "app", "Building ${propertyArgs.language} worksheet: $sheetName..."
+        Log.writeLine "Building ${propertyArgs.language} worksheet: $sheetName..."
         def logsFilePath = propertyArgs.basePath + "\\$sheetName\\logs\\"
         LogUtils.openLogs(logsFilePath, "${propertyArgs.language}-$sheetName-property")
     }

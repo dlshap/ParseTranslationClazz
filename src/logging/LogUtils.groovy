@@ -3,8 +3,8 @@ package logging
 class LogUtils {
 
     static def startLogging(String name, String path) {
-        Log.open("app", path + "logs\\$name-util-log.txt")
-        Log.writeLine("app", "Starting $name utility at ${Dates.currentDateAndTime()}:\r\n")
+        Log.open path + "logs\\$name-log.txt"
+        Log.writeLine"Starting $name utility at ${Dates.currentDateAndTime()}:\r\n"
     }
 
     static def openLogs(String logPath, String logName) {

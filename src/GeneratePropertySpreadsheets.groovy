@@ -27,19 +27,19 @@ class GeneratePropertySpreadsheets {
     }
 
     private def runForAllLanguages() {
-        Log.writeLine"app", "Running for all languages..."
+        Log.writeLine "Running for all languages..."
         ArrayList<String> languageList = LanguageLabels.getLanguageList()
         languageList.each {
             if (it != "English") {
                 propertyArgs.language = it
-                Log.writeLine "app", "Running for language: ${propertyArgs.language}..."
+                Log.writeLine  "Running for language: ${propertyArgs.language}..."
                 new GeneratePropertySpreadsheet(propertyArgs)
             }
         }
     }
 
     private def runForOneLanguage() {
-        Log.writeLine "app", "Running for language: ${propertyArgs.language}..."
+        Log.writeLine  "Running for language: ${propertyArgs.language}..."
         new GeneratePropertySpreadsheet(propertyArgs)
     }
 }

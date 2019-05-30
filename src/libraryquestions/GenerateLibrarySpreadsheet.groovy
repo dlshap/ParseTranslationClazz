@@ -17,9 +17,9 @@ class GenerateLibrarySpreadsheet {
         this.libraryArgs = libraryArgs
         setupPathsAndNames()
         if (!(LanguageLabels.isLanguageInList(language)))
-            Log.writeLine "app","ERROR: \"$language\" is not in language list"
+            Log.writeLine"ERROR: \"$language\" is not in language list"
         else {
-            Log.writeLine"app","Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
+            Log.writeLine"Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
             LogUtils.openLogs(path + "\\logs\\", "$language-library")
             generateSpreadsheet()
         }
