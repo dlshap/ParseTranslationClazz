@@ -5,49 +5,57 @@ import logging.LogUtils
 import properties.ExcelPropertyFile
 import properties.ExcelPropertyRow
 import properties.ExcelPropertySheet
+import properties.PropertyArgs
 import properties.PropertyFile
-import useful.Args
 import i18n.Messages
 
 /**
  * Created by s0041664 on 8/25/2017.
  */
 
-class GeneratePropertiesFiles {
+class GeneratePropertyFiles {
 
-    private String path        // "root" filepath
-    private String language         // language for this translation
+//    private String path        // "root" filepath
+//    private String language         // language for this translation
+    private PropertyArgs propertyArgs
 
     static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     static main(args) {
-        new GeneratePropertiesFiles(args)
+        new GeneratePropertyFiles(args)
     }
 
-    GeneratePropertiesFiles(args) {
+    GeneratePropertyFiles(args) {
         start(args)
     }
 
     private start(args) {
-        buildArgsAndParameters(args)
-        generateTranslationsFromSpreadsheetToPropertiesFiles()
+        propertyArgs = new PropertyArgs(args)
+//        buildArgsAndParameters(args)
+        if (!(LanguageLabels.isLanguageInList(this.propertyArgs.language))) {
+            Log.writeLine "app", "ERROR: \"${this.propertyArgs.language}\" is not in language list"
+        } else {
+            generateTranslationsFromSpreadsheetToPropertiesFiles()
+        }
+
+
     }
 
-    private buildArgsAndParameters(args) {
-        getArgValues(args)
-        getDefaultValuesIfArgsNull()
-    }
-
-    private getArgValues(args) {
-        def argsMap = new Args(args)
-        language = argsMap.get("language")
-        path = argsMap.get("path")
-    }
-
-    def getDefaultValuesIfArgsNull() {
-        if (path == null) path = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-        if (language == null) language = "Japanese"
-    }
+//    private buildArgsAndParameters(args) {
+//        getArgValues(args)
+//        getDefaultValuesIfArgsNull()
+//    }
+//
+//    private getArgValues(args) {
+//        def argsMap = new Args(args)
+//        language = argsMap.get("language")
+//        path = argsMap.get("path")
+//    }
+//
+//    def getDefaultValuesIfArgsNull() {
+//        if (path == null) path = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
+//        if (language == null) language = "Japanese"
+//    }
 
     private generateTranslationsFromSpreadsheetToPropertiesFiles() {
         ExcelPropertyFile excelPropertyFile = choosePropertiesSpreadsheet()
@@ -57,8 +65,8 @@ class GeneratePropertiesFiles {
     }
 
     private ExcelPropertyFile choosePropertiesSpreadsheet() {
-        def prompt = Messages.getString(SPREADSHEET_PROMPT, "message properties", language)
-        def excelPath = path + "\\Spreadsheets\\DMTDEPropertyspreadsheets\\"
+        def prompt = Messages.getString(SPREADSHEET_PROMPT, "message properties", propertyArgs.language)
+        def excelPath = propertyArgs.spreadsheetPath
         ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openFileUsingChooser(prompt, excelPath)
         excelPropertyFile
     }
@@ -72,8 +80,8 @@ class GeneratePropertiesFiles {
     }
 
     private openTranslationLogsForSheet(String sheetName) {
-        def logsFilePath = path + "\\$sheetName\\logs\\"
-        LogUtils.openLogs(logsFilePath, "$language-$sheetName-property")
+        def logsFilePath = propertyArgs.basePath + "\\$sheetName\\logs\\"
+        LogUtils.openLogs(logsFilePath, "${propertyArgs.language}-$sheetName-property")
     }
 
     private movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {
@@ -88,16 +96,16 @@ class GeneratePropertiesFiles {
     }
 
     private PropertyFile createNewPropertyFileForSheetName(String sheetName) {
-        def propFilePath = path + "\\${sheetName}\\PropertyFiles\\new\\"
-        def languageLabel = LanguageLabels.getPropertiesLabel(language)
+        def propFilePath = propertyArgs.propertyFilePath + "\\${sheetName}\\PropertyFiles\\new\\"
+        def languageLabel = LanguageLabels.getPropertiesLabel(propertyArgs.language)
         def fileName = "messages_${languageLabel}_new.properties"
         PropertyFile propertyFile = PropertyFile.createNewTranslationPropertyFileFromFileName(propFilePath + fileName)
         propertyFile
     }
 
     private KeyFile openOldPropertyFileForSheetName(String sheetName) {
-        def propFilePath = path + "\\${sheetName}\\PropertyFiles\\"
-        def languageLabel = LanguageLabels.getPropertiesLabel(language)
+        def propFilePath = propertyArgs.propertyFilePath + "\\${sheetName}\\PropertyFiles\\"
+        def languageLabel = LanguageLabels.getPropertiesLabel(propertyArgs.language)
         def fileName = "messages_${languageLabel}.properties"
         KeyFile propertyFile = new KeyFile(propFilePath + fileName)
         propertyFile
@@ -126,7 +134,7 @@ class GeneratePropertiesFiles {
 
     private String getRowTranslatedValue(ExcelPropertyRow excelPropertyRow) {
         def propertyValueMap = excelPropertyRow.propertyMap
-        propertyValueMap.get(language)
+        propertyValueMap.get(propertyArgs.language)
     }
 
     private String getRowEnglishValue(ExcelPropertyRow excelPropertyRow) {

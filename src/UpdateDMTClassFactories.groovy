@@ -16,15 +16,14 @@ import i18n.Messages
 class UpdateDMTClassFactories {
 
     static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
-//    static final LIBRARYHEADERROW = 4
     static final LIBRARYHEADERROW = 0
-
-    UpdateDMTClassFactories(args) {
-        start(args)
-    }
 
     static main(args) {
         new UpdateDMTClassFactories(args)
+    }
+
+    UpdateDMTClassFactories(args) {
+        start(args)
     }
 
     def start(args) {

@@ -17,7 +17,7 @@ class GenerateLibrarySpreadsheets {
 
     def start(args) {
         libraryArgs = new LibraryArgs(args)
-        LogUtils.startUtil(this.getClass().name, libraryArgs.basePath)
+        LogUtils.startLogging(this.getClass().name, libraryArgs.basePath)
         if (libraryArgs.language.toLowerCase() == "all") {
             runForAllLanguages()
         } else {
