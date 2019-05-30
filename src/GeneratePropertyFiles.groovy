@@ -15,11 +15,7 @@ import i18n.Messages
 
 class GeneratePropertyFiles {
 
-//    private String path        // "root" filepath
-//    private String language         // language for this translation
     private PropertyArgs propertyArgs
-
-    static final SPREADSHEET_PROMPT = "prompt.for.translation.spreadsheet.for"
 
     static main(args) {
         new GeneratePropertyFiles(args)
@@ -31,31 +27,12 @@ class GeneratePropertyFiles {
 
     private start(args) {
         propertyArgs = new PropertyArgs(args)
-//        buildArgsAndParameters(args)
         if (!(LanguageLabels.isLanguageInList(this.propertyArgs.language))) {
             Log.writeLine "app", "ERROR: \"${this.propertyArgs.language}\" is not in language list"
         } else {
             generateTranslationsFromSpreadsheetToPropertiesFiles()
         }
-
-
     }
-
-//    private buildArgsAndParameters(args) {
-//        getArgValues(args)
-//        getDefaultValuesIfArgsNull()
-//    }
-//
-//    private getArgValues(args) {
-//        def argsMap = new Args(args)
-//        language = argsMap.get("language")
-//        path = argsMap.get("path")
-//    }
-//
-//    def getDefaultValuesIfArgsNull() {
-//        if (path == null) path = "C:\\\\Users\\\\s0041664\\\\Documents\\\\Projects\\\\DMT-DE\\\\Project Work\\\\translations\\\\"
-//        if (language == null) language = "Japanese"
-//    }
 
     private generateTranslationsFromSpreadsheetToPropertiesFiles() {
         ExcelPropertyFile excelPropertyFile = choosePropertiesSpreadsheet()
@@ -65,9 +42,9 @@ class GeneratePropertyFiles {
     }
 
     private ExcelPropertyFile choosePropertiesSpreadsheet() {
-        def prompt = Messages.getString(SPREADSHEET_PROMPT, "message properties", propertyArgs.language)
         def excelPath = propertyArgs.spreadsheetPath
-        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openFileUsingChooser(prompt, excelPath)
+        def excelPropertyFileName = "DMT-DE Properties Translations (${propertyArgs.language}).xlsx"
+        ExcelPropertyFile excelPropertyFile = ExcelPropertyFile.openFileUsingFileName(excelPath + excelPropertyFileName)
         excelPropertyFile
     }
 
@@ -80,6 +57,7 @@ class GeneratePropertyFiles {
     }
 
     private openTranslationLogsForSheet(String sheetName) {
+        Log.writeLine "app", "Building ${propertyArgs.language} worksheet: $sheetName..."
         def logsFilePath = propertyArgs.basePath + "\\$sheetName\\logs\\"
         LogUtils.openLogs(logsFilePath, "${propertyArgs.language}-$sheetName-property")
     }
