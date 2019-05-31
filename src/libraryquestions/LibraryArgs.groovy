@@ -4,8 +4,9 @@ import excelfilemanagement.SpreadsheetArgs
 
 class LibraryArgs extends SpreadsheetArgs{
 
-    String libraryFilePath
+    String libraryFactoryPath
     String librarySpreadsheetLogPath
+    String libraryFactoryLogPath
 
     LibraryArgs(args) {
         super(args)
@@ -13,8 +14,9 @@ class LibraryArgs extends SpreadsheetArgs{
 
     def getConfigValues() {
         super.getConfigValues()
-        libraryFilePath = basePath + config.get("library.question.files.relative.path")
-        spreadsheetPath = basePath + config.get("library.question.spreadsheet.relative.path")
-        librarySpreadsheetLogPath = basePath + config.get("library.question.spreadsheet.log.relative.path")
+        spreadsheetPath = basePath + config.get("library.spreadsheet.relative.path")
+        libraryFactoryPath = basePath + config.get("library.factory.relative.path")
+        librarySpreadsheetLogPath = basePath + config.get("library.spreadsheet.log.relative.path")
+        libraryFactoryLogPath = basePath + config.get("library.factory.log.relative.path")
     }
 }

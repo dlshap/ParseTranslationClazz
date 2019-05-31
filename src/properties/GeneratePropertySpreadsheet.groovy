@@ -14,9 +14,7 @@ class GeneratePropertySpreadsheet {
 
     GeneratePropertySpreadsheet(propertyArgs) {
         this.propertyArgs = propertyArgs
-        if (!(LanguageLabels.isLanguageInList(this.propertyArgs.language))) {
-            Log.writeLine  "ERROR: \"${this.propertyArgs.language}\" is not in language list"
-        } else {
+        if (LanguageLabels.isLanguageInList(this.propertyArgs.language)) {
             generateSpreadsheet()
         }
     }

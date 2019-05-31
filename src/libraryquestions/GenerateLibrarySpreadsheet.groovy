@@ -15,11 +15,9 @@ class GenerateLibrarySpreadsheet {
     GenerateLibrarySpreadsheet(LibraryArgs libraryArgs) {
         this.libraryArgs = libraryArgs
         setupPathsAndNames()
-        if (!(LanguageLabels.isLanguageInList(libraryArgs.language)))
-            Log.writeLine"ERROR: \"${libraryArgs.language}\" is not in language list"
-        else {
-            Log.writeLine"Building ${libraryArgs.language} spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
+        if (LanguageLabels.isLanguageInList(this.libraryArgs.language)) {
             LogUtils.openLogs(libraryArgs.librarySpreadsheetLogPath, "${libraryArgs.language}-library-spreadsheet")
+            Log.writeLine "Generating ${libraryArgs.language} library question spreadsheet..."
             generateSpreadsheet()
         }
     }

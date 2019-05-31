@@ -29,9 +29,7 @@ class GeneratePropertyFile {
     private start(args) {
         propertyArgs = new PropertyArgs(args)
         LogUtils.startLogging(this.getClass().name, propertyArgs.basePath)
-        if (!(LanguageLabels.isLanguageInList(this.propertyArgs.language))) {
-            Log.writeLine "ERROR: \"${this.propertyArgs.language}\" is not in language list"
-        } else {
+        if (LanguageLabels.isLanguageInList(this.propertyArgs.language)) {
             generateTranslationsFromSpreadsheetToPropertiesFiles()
         }
     }

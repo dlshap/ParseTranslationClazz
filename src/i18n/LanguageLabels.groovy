@@ -1,5 +1,6 @@
 package i18n
 
+import logging.Log
 import org.apache.commons.collections4.MapIterator
 
 class LanguageLabels {
@@ -31,11 +32,17 @@ class LanguageLabels {
         propertiesFileLabels.get(languageName)
     }
 
-    static ArrayList <String> getLanguageList() {
+    static ArrayList<String> getLanguageList() {
         libraryLanguageLabels.collect { it.key }
     }
 
     static isLanguageInList(String language) {
-        propertiesFileLabels.get(language) != null
+        boolean result = false
+        if (propertiesFileLabels.get(language) != null) {
+            result = true
+        } else {
+            Log.writeLine "ERROR: \"$language\" is not in language list"
+        }
+        result
     }
 }
