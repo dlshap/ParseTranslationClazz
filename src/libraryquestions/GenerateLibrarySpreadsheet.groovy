@@ -10,24 +10,21 @@ import properties.ExcelPropertySheet
 class GenerateLibrarySpreadsheet {
 
     LibraryArgs libraryArgs
-    String path, language
     String foreignLangFileName, masterLangFileName
 
     GenerateLibrarySpreadsheet(LibraryArgs libraryArgs) {
         this.libraryArgs = libraryArgs
         setupPathsAndNames()
-        if (!(LanguageLabels.isLanguageInList(language)))
-            Log.writeLine"ERROR: \"$language\" is not in language list"
+        if (!(LanguageLabels.isLanguageInList(libraryArgs.language)))
+            Log.writeLine"ERROR: \"${libraryArgs.language}\" is not in language list"
         else {
-            Log.writeLine"Building $language spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
-            LogUtils.openLogs(path + "\\logs\\", "$language-library")
+            Log.writeLine"Building ${libraryArgs.language} spreadsheet from '${masterLangFileName}.xlsx' and '${foreignLangFileName}.xlsx'"
+            LogUtils.openLogs(libraryArgs.librarySpreadsheetLogPath, "${libraryArgs.language}-library-spreadsheet")
             generateSpreadsheet()
         }
     }
 
     def setupPathsAndNames() {
-        language = libraryArgs.language
-        path = libraryArgs.spreadsheetPath
         foreignLangFileName = "QuestionAnswerLibrary (${libraryArgs.language})"
         masterLangFileName = "QuestionAnswerLibrary (English)"
     }
@@ -44,15 +41,15 @@ class GenerateLibrarySpreadsheet {
     }
 
     ExcelPropertyFile getModelFile() {
-        ExcelPropertyFile.openFileUsingFileName(path + masterLangFileName + ".xlsx")
+        ExcelPropertyFile.openFileUsingFileName(libraryArgs.spreadsheetPath + masterLangFileName + ".xlsx")
     }
 
     ExcelPropertyFile getLibraryFile() {
-        ExcelPropertyFile.openFileUsingFileName(path + foreignLangFileName + ".xlsx")
+        ExcelPropertyFile.openFileUsingFileName(libraryArgs.spreadsheetPath + foreignLangFileName + ".xlsx")
     }
 
     def createNewLanguageLibraryExcelFileUsingModel(ExcelPropertyFile modelLibraryExcelFile) {
-        String newLibraryFileName = path + "\\new\\" + foreignLangFileName + "_new.xlsx"
+        String newLibraryFileName = libraryArgs.spreadsheetPath + "\\new\\" + foreignLangFileName + "_new.xlsx"
         LibrarySpreadsheetUpdater.buildNewSpreadsheetFromModel(newLibraryFileName, modelLibraryExcelFile)
     }
 
