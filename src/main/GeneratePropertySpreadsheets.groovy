@@ -1,3 +1,5 @@
+package main
+
 import i18n.LanguageLabels
 import logging.Log
 import logging.LogUtils

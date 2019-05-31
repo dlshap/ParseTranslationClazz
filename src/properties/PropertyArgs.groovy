@@ -5,6 +5,8 @@ import excelfilemanagement.SpreadsheetArgs
 class PropertyArgs extends SpreadsheetArgs{
 
     String propertyFilePath
+    String propertySpreadsheetLogPath
+    String propertyFileLogPath
 
     PropertyArgs(args) {
         super(args)
@@ -12,7 +14,9 @@ class PropertyArgs extends SpreadsheetArgs{
 
     def getConfigValues() {
         super.getConfigValues()
+        spreadsheetPath = basePath + config.get("property.spreadsheet.relative.path")
+        propertySpreadsheetLogPath = basePath + config.get("property.spreadsheet.log.relative.path")
+        propertyFileLogPath = basePath + config.get("property.file.log.relative.path")
         propertyFilePath = basePath
-        spreadsheetPath = basePath + config.get("properties.spreadsheet.relative.path")
     }
 }

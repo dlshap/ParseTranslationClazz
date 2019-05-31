@@ -1,3 +1,5 @@
+package main
+
 import filemanagement.KeyFile
 import i18n.LanguageLabels
 import logging.Log
@@ -12,15 +14,15 @@ import properties.PropertyFile
  * Created by s0041664 on 8/25/2017.
  */
 
-class GeneratePropertyFiles {
+class GeneratePropertyFile {
 
     private PropertyArgs propertyArgs
 
     static main(args) {
-        new GeneratePropertyFiles(args)
+        new GeneratePropertyFile(args)
     }
 
-    GeneratePropertyFiles(args) {
+    GeneratePropertyFile(args) {
         start(args)
     }
 
@@ -57,9 +59,10 @@ class GeneratePropertyFiles {
     }
 
     private openTranslationLogsForSheet(String sheetName) {
-        Log.writeLine "Building ${propertyArgs.language} worksheet: $sheetName..."
-        def logsFilePath = propertyArgs.basePath + "\\$sheetName\\logs\\"
-        LogUtils.openLogs(logsFilePath, "${propertyArgs.language}-$sheetName-property")
+        Log.writeLine "Building ${propertyArgs.language} properties file from worksheet: $sheetName..."
+//        def logsFilePath = propertyArgs.basePath + "\\$sheetName\\logs\\"
+        LogUtils.openLogs(propertyArgs.propertyFileLogPath, "${propertyArgs.language}-$sheetName-property")
+//        LogUtils.openLogs(logsFilePath, "${propertyArgs.language}-$sheetName-property")
     }
 
     private movePropertiesFromSpreadsheetToPropertiesFile(ExcelPropertySheet excelPropertySheet) {

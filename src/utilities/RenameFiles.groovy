@@ -1,3 +1,5 @@
+package utilities
+
 class RenameFiles {
 
     def REALRUN = false

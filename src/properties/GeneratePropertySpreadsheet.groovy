@@ -56,8 +56,7 @@ class GeneratePropertySpreadsheet {
     }
 
     private ExcelPropertySheet createPropertySheetFromPropertiesFileUsingModel(ExcelPropertyFile outputExcelPropertyFile, ExcelPropertySheet modelPropertySheet) {
-        def logPath = propertyArgs.spreadsheetPath + "\\logs\\"
-        LogUtils.openLogs(logPath, "${modelPropertySheet.sheetName}-properties")
+        LogUtils.openLogs(propertyArgs.propertySpreadsheetLogPath, "${propertyArgs.language}-${modelPropertySheet.sheetName}-Excel-properties")
         ExcelPropertySheet outputPropertySheet = outputExcelPropertyFile.createNewExcelPropertySheetFromModel(modelPropertySheet)
         outputPropertySheet
     }

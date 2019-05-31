@@ -1,3 +1,5 @@
+package utilities
+
 import filemanagement.TextFile
 import filemanagement.FileChooser
 

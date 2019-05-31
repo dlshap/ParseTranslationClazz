@@ -1,3 +1,5 @@
+package main
+
 import libraryquestions.LibraryArgs
 import libraryquestions.LibraryFactory
 import libraryquestions.LibraryFactoryManager

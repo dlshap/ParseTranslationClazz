@@ -1,3 +1,5 @@
+package main
+
 import i18n.LanguageLabels
 import libraryquestions.GenerateLibrarySpreadsheet
 import libraryquestions.LibraryArgs
